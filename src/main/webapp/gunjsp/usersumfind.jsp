@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.springboot.user.model.vo.User"%>
+    pageEncoding="UTF-8" import="com.kh.hope.user.model.vo.User"%>
 <%
 	User idfind = (User) session.getAttribute("idfind");
 	String errorMsg = (String) request.getAttribute("errorMsg");

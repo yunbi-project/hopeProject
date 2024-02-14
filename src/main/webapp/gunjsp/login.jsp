@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.kh.springboot.user.model.vo.User"%>
+    pageEncoding="UTF-8" import="com.kh.hope.user.model.vo.User"%>
 <%
 	User idfind = (User) session.getAttribute("idfind");
 %>
@@ -22,10 +22,10 @@
           <h1 class="login">회원가입</h1>
           <div class="social-links">  
             <div>
-              <a href="/springboot/oauth2/authorization/google"><img src="./resources/style/img/socialLogin/google2.png"></a>
+              <a href="/hope/oauth2/authorization/google"><img src="./resources/style/img/socialLogin/google2.png"></a>
             </div>
             <div>
-              <a href="/springboot/oauth2/authorization/naver "><img src="./resources/style/img/socialLogin/naver1.png"></a>
+              <a href="/hope/oauth2/authorization/naver "><img src="./resources/style/img/socialLogin/naver1.png"></a>
             </div>
           </div>
           
@@ -87,10 +87,10 @@
           <h1 class="login">로그인</h1>
           <div class="social-links">
             <div>
-              <a href="/springboot/oauth2/authorization/google"><img src="./resources/style/img/socialLogin/google2.png"></a>
+              <a href="/hope/oauth2/authorization/google"><img src="./resources/style/img/socialLogin/google2.png"></a>
             </div> 
             <div>
-              <a href="/springboot/oauth2/authorization/naver"><img src="./resources/style/img/socialLogin/naver1.png"></a>
+              <a href="/hope/oauth2/authorization/naver"><img src="./resources/style/img/socialLogin/naver1.png"></a>
             </div>
           </div>
           
