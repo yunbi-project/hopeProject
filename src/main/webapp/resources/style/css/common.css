@@ -1,0 +1,240 @@
+@font-face {
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+*{
+  box-sizing: border-box;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit; /* Inherit the default text color */
+}
+
+
+body{
+  margin: 0 auto;  /* 가운데 정렬 */
+  max-width: 1500px; /* 최대 너비 설정 */
+  min-width: 1500px;
+}
+
+.common {
+  text-align: center;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.h_header {
+  display: flex; /* 요소들을 가로로 나열 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+  justify-content: space-between; /* 요소들을 가로로 최대한 분산 배치 */
+  background-color: #f8f9fa;
+  border-bottom: 2px solid rgb(210, 208, 208);
+  max-width: 1500px;
+  height: 100px;
+}
+
+.h_headerLogo img {
+  margin-left: 50px;
+  width: 150px; /* 로고 이미지 크기 조정 */
+}
+
+.h_headerSelect div {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.h_headerSelect div > a > div {
+  font-family: 'NanumSquareNeo-Variable';
+  padding: 0; /* Add padding to div elements */
+  height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 130px;
+  padding-right: 40px;
+  padding-left: 40px;
+  cursor: pointer;
+
+  transition: border-bottom 0.3s ease; 
+}
+
+.h_headerSelect div > a> div:hover{
+  color:#7fa924;
+}
+
+.h_headerSelect div > a> div, .h_headerMenu ul > ul {
+  padding: 0;
+  height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  width: 160px;
+  padding-right: 30px;
+  padding-left: 30px;
+  cursor: pointer;
+  position: relative;
+}
+
+.h_headerSelect div > a> div::before {
+  content: ''; /* Add content to the pseudo element */
+  position: absolute; /* Position the pseudo element absolutely */
+  bottom: 0; /* Align the pseudo element to the bottom */
+  left: 0; /* Start the pseudo element from the left */
+  width: 0; /* Initially set the width to 0 */
+  height: 1px; /* Set the height of the border */
+  background-color: #ABC138; /* Set the color of the border */
+  transition: width 0.7s ease; /* Apply transition to width property */
+}
+
+.h_headerSelect div > a> div:hover::before{
+  width: 100%; 
+}
+.h_headerMenu:hover ul > ul::before {
+  width: 0; /* Decrease the width to 0 when .h_headerMenu is hovered */
+}
+
+
+
+.h_headerLogin,
+.h_headerLogout {
+  margin-right: 20px;
+  font-family: 'NanumSquareNeo-Variable';
+}
+
+.h_headerLogin ul,
+.h_headerLogout ul {
+  display: flex; /* 요소들을 가로로 나열 */
+  list-style: none;
+  padding: 0;
+}
+
+.h_headerLogin ul li,
+.h_headerLogout ul li {
+  margin-right: 20px; /* 각 요소 사이의 간격 조정 */
+  font-size: 15px;
+  cursor: pointer;
+}
+
+
+/* 소식 */
+.h_headerMenu{
+  font-family: 'NanumSquareNeo-Variable';
+  opacity:.9;
+  display: none;
+  width: 1500px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(238, 245, 238);
+  padding: 20px 0; /* 위아래 padding 추가 */
+  z-index: 20; /* 다른 요소 위에 표시 */
+
+}
+
+
+
+
+.h_headerMenu_1{
+  width: 210px;
+  list-style: none;
+}
+
+.h_headerMenu_2{
+  list-style: none;
+  text-align: left;
+  border-right: 1px solid #575656; /* 오른쪽에 선 추가 */
+  padding-right: 150px; /* 오른쪽 padding 추가 */
+}
+
+.h_headerMenu_2 li{
+  margin-top: 20px;
+ 
+}
+
+
+/* 사진 */
+.h_headerMenu_3{
+  list-style: none;
+}
+
+.h_headerMenu_3 li a img{
+  width: 100px;
+  margin-right: 150px;
+}
+
+/* 소식 메뉴 표시 및 숨김 */
+.h_headerSelect ul li:nth-last-child(2):hover ~ .h_headerMenu {
+  display: flex; /* 호버 시 메뉴가 나타남 */
+}
+
+
+
+/* ------------- footer ----------------- */
+/* footer CSS */
+.h_footers {
+  font-family: 'NanumSquareNeo-Variable';
+  margin-top: 100px;
+  display: flex;
+  background-color: rgb(214, 214, 214);
+  text-align: left;
+  padding: 30px;
+}
+
+.h_footer{
+  display: flex;
+  flex-direction: column;
+  font-size:13px;
+  padding-left: 180px;
+}
+
+.h_footer_img{
+  display: flex;
+  align-items: flex-end;
+  text-align: right;
+  width: 370px;
+  justify-content: flex-end
+}
+
+.h_footer_img img{
+  width: 35px;
+  margin-left: 20px;
+  
+}
+
+.h_footer div{
+  margin-bottom: 10px;
+}
+
+.h_footer_end span,
+.h_footer_frist2 span,
+.h_footer_middle span{
+  margin-right: 25px;
+}
+
+.h_footer_frist1 span{
+  margin-right: 10px;
+  color: #575656;
+}
+
+.h_footer_frist2 span,
+.h_footer_middle span{
+  color: #575656;
+}
+
+.h_footer_end span{
+  color:rgb(5, 11, 39);
+}

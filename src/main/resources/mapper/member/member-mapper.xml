@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="member">
+
+		
+		<!-- ==========================로그인======================================= -->
+		<!-- parameterType은 매개변수 타입을 지정한다. sql 쿼리에 전달되는 매개변수의 자료형을 나타낸다. -->
+		<!-- resultType은 sql문의 결과 타입을 지정한다. sql 쿼리의 실행결과로 에상되는 데이터의 자료형을 나타낸다. -->
+		
+		<select id="loginUser" parameterType="string" resultType="User">
+ 		SELECT *
+ 		FROM USERS
+ 		WHERE EMAIL = #{email}
+ 			AND STATUS='Y'
+ 			 AND LOGIN_TYPE = '1'
+ 		</select>
+ 		
+ 	
+		<insert id="insertUser" parameterType="user">
+ 		INSERT INTO USERS (USERNO, EMAIL, PASSWORD, PHONE, USERNAME, LOGIN_TYPE, STATUS, ROLE)
+		VALUES (SEQ_USER_NO.NEXTVAL, #{email}, #{password}, #{phone}, #{userName}, '1', 'Y', 'B')
+ 		</insert>
+ 		
+ 		
+ 		<select id="idCheck" parameterType="string" resultType="int">
+ 		SELECT COUNT(*)
+ 		FROM USERS
+ 		WHERE EMAIL = #{email}
+ 			AND STATUS='Y'
+ 		</select>
+ 		
+ 		<select id="idfind" parameterType="User" resultType="User">
+		    SELECT * FROM USERS
+		    WHERE USERNAME = #{userName} AND PHONE = #{phone}
+		</select>
+		
+		<select id="pwdfind" parameterType="User" resultType="User">
+			SELECT * FROM USERS
+			WHERE EMAIL = #{email} AND PHONE = #{phone}
+		</select>
+		
+		<insert id="repassword" parameterType="user">
+			UPDATE USERS
+			  SET PASSWORD = #{password}
+			 WHERE EMAIL = #{email}
+		 </insert>
+		 
+		 
+		 
+		 
+		 <!-- ========================== 소셜로그인 ============================= -->
+		 
+		 <resultMap id="userResultMap" type="MemberEntity">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="role" column="role"/>
+    </resultMap>
+				
+	<select id="findByUsername" resultMap="userResultMap">
+        SELECT * FROM USERS
+         WHERE PROVIDERID = #{providerid}
+        	
+    </select> 
+    
+    <insert id="save" parameterType="MemberEntity">
+        INSERT INTO USERS (USERNO, USERNAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID) VALUES (SEQ_USER_NO.NEXTVAL,#{username}, #{email}, #{role}, #{loginType}, #{providerid})
+    </insert>
+    
+    
+    <update id="update" parameterType="MemberEntity">
+        UPDATE USERS 
+        SET USERNAME = #{username},
+            EMAIL = #{email}
+        WHERE USERNAME = #{username} AND
+        		EMAIL = #{email}
+    </update>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+</mapper>
