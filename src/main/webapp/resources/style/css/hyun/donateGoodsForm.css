@@ -1,0 +1,176 @@
+/* 물품 기부 신청 제목 타이틀 */
+.donateGoodFormBorder{
+    border: 4px solid #ABC138;
+    width: 200px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}
+
+/* 문의 유형, 기업명, 담당자명 ... */
+.donateGoodForm_List{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-right: 100px;
+}
+
+.donateGoodForm_List p{
+    font-weight: bold;
+    font-size: 18px;
+    margin: 20px;
+}
+
+/* 모든 폼 왼쪽 여백 정렬 */
+.donateGoodForm{
+    margin-left: 350px;
+    display: flex;
+}
+
+/* 라디오 버튼 컨테이너 스타일 */
+.radio-container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* 라디오 버튼 숨김 */
+.radio-container input {
+    display: none;
+}
+
+/* 네모칸 디자인 */
+.checkmark {
+    width: 200px;
+    height: 60px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    top: 5px;
+    background-color: aliceblue;
+    font-size: 15px;
+    border: 3px solid #ABc138;
+    border-radius: 5px;
+}
+
+/* 클릭 시 배경색 변경 */
+.radio-container input:checked + .checkmark {
+    background-color: #abc138;
+}
+
+
+/* 마지막 라디오 버튼의 margin-right를 0으로 설정 */
+.radio-container:last-child {
+    margin-left: 0;
+}
+
+.donateGoodForm_List_1{
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* input 타입 */
+.donateGoodInput{
+    width: 450px;
+    margin: 10px 0px 10px 0px;
+    height: 40px;
+}
+
+/* input button 타입 */
+.donateGoodBtn{
+    margin: 10px 0px 10px 0px;
+    height: 40px;
+    width: 95px;
+    background-color: aliceblue;
+    border: 1px solid rgb(201, 207, 213);
+    transition: background-color 0.3s ease; 
+}
+
+.donateGoodBtn:hover{
+    background-color: #ABc138;
+}
+
+/* 기부물품종류 리스트 */
+.donateGoodRadio_List{
+    display: flex;
+    font-size: 15px;
+    flex-direction: column;
+}
+
+.donateGoodRadio_List p{
+    margin-top: 20px;
+}
+
+/* 라디오버튼 스타일 효과 */
+label {
+    font-size: 13px;
+    line-height: 2rem;
+    padding: 0.2em 0.4em;
+  }
+  
+  [type="radio"],
+  span {
+    vertical-align: middle;
+  }
+
+  [type="radio"] {
+    vertical-align: middle;
+    appearance: none;
+  }
+
+  [type="radio"] {
+    vertical-align: middle;
+    appearance: none;
+    border: max(2px, 0.1em) solid gray;
+    border-radius: 50%;
+    width: 1.25em;
+    height: 1.25em;
+  }
+
+  [type="radio"]:checked {
+    border: 0.4em solid tomato;
+  }
+
+  [type="radio"]:focus-visible {
+    outline: max(2px, 0.1em) dotted tomato;
+    outline-offset: max(2px, 0.1em);
+  }
+
+  [type="radio"]:hover {
+    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+    cursor: pointer;
+  }
+  
+  [type="radio"]:hover + span {
+    cursor: pointer;
+  }
+
+
+  [type="radio"]:disabled {
+    background-color: lightgray;
+    box-shadow: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  [type="radio"]:disabled + span {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  [type="radio"] {
+    vertical-align: middle;
+    appearance: none;
+    border: max(2px, 0.1em) solid gray;
+    border-radius: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    transition: border 0.5s ease-in-out;
+  }
+
+
+.donateGoodSelect{
+    width: 450px;
+    margin: 10px 0px 10px 0px;
+    height: 40px;
+}
