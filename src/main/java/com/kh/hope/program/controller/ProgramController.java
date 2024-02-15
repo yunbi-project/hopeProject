@@ -6,45 +6,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import com.kh.hope.program.model.service.programService;
+import com.kh.hope.program.model.service.ProgramService;
 import com.kh.hope.program.model.vo.Program;
 
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Controller
 public class ProgramController {
 	
 	@Autowired
-	private programService service;
+	private ProgramService service;
 	
-	@GetMapping("/program/programList")
-	public List<Program> selectProgramList(
-			Model model,
-			HttpServletResponse res
-			){
+	@GetMapping("/program/list")
+	public String selectProgramList(
+			Model model) {
 		List<Program> list = service.selectProgramList();
-		System.out.println(list);
 		model.addAttribute("list", list);
-		return list;
+		System.out.println(list);
+		return "/program/programList";
 	}
 	
-//	@GetMapping("/programDetail")
-//	public String selectProgramDetail(
-////			@PathVariable int programNo
-//			) {
-////		Program program = service.selectProgramDetail(programNo);
-////		ResponseEntity<Program> res = null;
-////		
-////		if(program == null) {
-////			res = ResponseEntity.notFound().build();
-////		}else {
-////			res = ResponseEntity.ok().body(program);
-////		}
-////		return res;
-//		return "programDetail";
+	@GetMapping("/program/insert")
+	public String insertProgram() {
+		return "/program/programForm";
+	}
+//	
+//	@PostMapping("/program/insert")
+//	public String insertProgram(@RequestBody Program p) {
+////		int result = service.insertProgram(p);
+//		
+//		if(result >0) {
+//			System.out.println("메뉴 등록 성공");
+//		}else {
+//			System.out.println("메뉴 등록 실패");
+//		}
+//		return "/program/programForm";
 //	}
-
 }

@@ -31,6 +31,7 @@ body{
 }
 
 
+
 .h_header {
   display: flex; /* 요소들을 가로로 나열 */
   align-items: center; /* 세로 방향 가운데 정렬 */
@@ -43,7 +44,7 @@ body{
 
 .h_headerLogo img {
   margin-left: 50px;
-  width: 150px; /* 로고 이미지 크기 조정 */
+  width: 180px; /* 로고 이미지 크기 조정 */
 }
 
 .h_headerSelect div {
@@ -93,7 +94,7 @@ body{
   bottom: 0; /* Align the pseudo element to the bottom */
   left: 0; /* Start the pseudo element from the left */
   width: 0; /* Initially set the width to 0 */
-  height: 1px; /* Set the height of the border */
+  height: 2px; /* Set the height of the border */
   background-color: #ABC138; /* Set the color of the border */
   transition: width 0.7s ease; /* Apply transition to width property */
 }
@@ -134,6 +135,7 @@ body{
   opacity:.9;
   display: none;
   width: 1500px;
+  height: 200px;
   position: absolute;
   display: flex;
   flex-direction: row;
@@ -165,6 +167,10 @@ body{
  
 }
 
+.h_headerMenu_2 li:hover{
+  cursor: pointer;
+}
+
 
 /* 사진 */
 .h_headerMenu_3{
@@ -174,6 +180,10 @@ body{
 .h_headerMenu_3 li a img{
   width: 100px;
   margin-right: 150px;
+}
+
+.h_headerMenu_3 li a img{
+	cursor : pointer;
 }
 
 /* 소식 메뉴 표시 및 숨김 */
@@ -238,3 +248,4 @@ body{
 .h_footer_end span{
   color:rgb(5, 11, 39);
 }
+
