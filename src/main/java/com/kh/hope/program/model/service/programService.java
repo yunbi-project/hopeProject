@@ -9,7 +9,7 @@ import com.kh.hope.program.dao.ProgramDao;
 import com.kh.hope.program.model.vo.Program;
 
 @Repository
-public class programService {
+public class ProgramService {
 
 	@Autowired
 	private ProgramDao dao;

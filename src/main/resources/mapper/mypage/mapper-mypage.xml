@@ -1,0 +1,14 @@
+
+	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypageMapperr">
+	
+	<select id="mypageList" resultType="mypage">
+		SELECT PUSER_NAME, PRODUCT_AMOUNT, PRODUCT_DATE, CATEGORY_NAME 
+		FROM DONATE_PRODUCT
+		JOIN PRODUCT_CATEGORY USING (CATEGORY_NO)
+	</select>
+	
+	
+	
+</mapper>

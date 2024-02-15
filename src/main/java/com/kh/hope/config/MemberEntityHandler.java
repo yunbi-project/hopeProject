@@ -22,7 +22,7 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
 	//  이 메서드는 PreparedStatement에 MemberEntity 객체의 속성을 설정하는 데 사용된다.
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, MemberEntity memberEntity, JdbcType jdbcType) throws SQLException {
-        preparedStatement.setString(i, memberEntity.getUsername());
+        preparedStatement.setString(i, memberEntity.getUserName());
         preparedStatement.setString(i + 1, memberEntity.getEmail());
         preparedStatement.setString(i + 2, memberEntity.getRole());
     }
@@ -32,7 +32,7 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
     public MemberEntity getNullableResult(ResultSet resultSet, String s) throws SQLException {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(resultSet.getLong("id"));
-        memberEntity.setUsername(resultSet.getString("username"));
+        memberEntity.setUserName(resultSet.getString("userName"));
         memberEntity.setEmail(resultSet.getString("email"));
         memberEntity.setRole(resultSet.getString("role"));
         return memberEntity;
@@ -42,7 +42,7 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
     public MemberEntity getNullableResult(ResultSet resultSet, int i) throws SQLException {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(resultSet.getLong("id"));
-        memberEntity.setUsername(resultSet.getString("username"));
+        memberEntity.setUserName(resultSet.getString("userName"));
         memberEntity.setEmail(resultSet.getString("email"));
         memberEntity.setRole(resultSet.getString("role"));
         return memberEntity;
@@ -52,7 +52,7 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
     public MemberEntity getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(callableStatement.getLong("id"));
-        memberEntity.setUsername(callableStatement.getString("username"));
+        memberEntity.setUserName(callableStatement.getString("userName"));
         memberEntity.setEmail(callableStatement.getString("email"));
         memberEntity.setRole(callableStatement.getString("role"));
         return memberEntity;

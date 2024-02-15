@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class MemberEntity { // 소셜로그인 
 	
 	private Long id;
-	private String username;
+	private String userName;
 	private String email;
 	private String role;
 	private String loginType;

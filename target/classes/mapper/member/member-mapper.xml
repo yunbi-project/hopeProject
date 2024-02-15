@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
+
+
 <mapper namespace="member">
 
 		
@@ -18,8 +20,8 @@
  		
  	
 		<insert id="insertUser" parameterType="user">
- 		INSERT INTO USERS (USERNO, EMAIL, PASSWORD, PHONE, USERNAME, LOGIN_TYPE, STATUS, ROLE)
-		VALUES (SEQ_USER_NO.NEXTVAL, #{email}, #{password}, #{phone}, #{userName}, '1', 'Y', 'B')
+ 		INSERT INTO USERS (USER_NO, EMAIL, PASSWORD, PHONE, USER_NAME, LOGIN_TYPE, STATUS, ROLE)
+		VALUES (SEQ_USERSNO.NEXTVAL, #{email}, #{password}, #{phone}, #{userName}, '1', 'Y', 'B')
  		</insert>
  		
  		
@@ -32,7 +34,7 @@
  		
  		<select id="idfind" parameterType="User" resultType="User">
 		    SELECT * FROM USERS
-		    WHERE USERNAME = #{userName} AND PHONE = #{phone}
+		    WHERE USER_NAME = #{userName} AND PHONE = #{phone}
 		</select>
 		
 		<select id="pwdfind" parameterType="User" resultType="User">
@@ -53,7 +55,7 @@
 		 
 		 <resultMap id="userResultMap" type="MemberEntity">
         <id property="id" column="id"/>
-        <result property="username" column="username"/>
+        <result property="userName" column="user_name"/>
         <result property="email" column="email"/>
         <result property="role" column="role"/>
     </resultMap>
@@ -65,15 +67,15 @@
     </select> 
     
     <insert id="save" parameterType="MemberEntity">
-        INSERT INTO USERS (USERNO, USERNAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID) VALUES (SEQ_USER_NO.NEXTVAL,#{username}, #{email}, #{role}, #{loginType}, #{providerid})
+        INSERT INTO USERS (USER_NO, USER_NAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID) VALUES (SEQ_USERSNO.NEXTVAL,#{userName}, #{email}, #{role}, #{loginType}, #{providerid})
     </insert>
     
     
     <update id="update" parameterType="MemberEntity">
         UPDATE USERS 
-        SET USERNAME = #{username},
+        SET USER_NAME = #{userName},
             EMAIL = #{email}
-        WHERE USERNAME = #{username} AND
+        WHERE USER_NAME = #{userName} AND
         		EMAIL = #{email}
     </update>
 		

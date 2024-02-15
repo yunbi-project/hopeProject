@@ -59,9 +59,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
            
         }
         
-        String username = oAuth2Response.getName();
+        String userName = oAuth2Response.getName();
         String providerid = oAuth2Response.getName()+" "+oAuth2Response.getProviderId();
-        System.out.println("test" + username);
+        System.out.println("test" + userName);
         
         
         
@@ -71,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // 조회된 MemberEntity가 없으면 새로운 사용자로 등록합니다.
         if(existData == null) { // 처음 로그인한경우 insert
-            member.setUsername(oAuth2Response.getName());
+            member.setUserName(oAuth2Response.getName());
             member.setEmail(oAuth2Response.getEmail());
             member.setRole(role); // 사용자 역할 설정
             member.setProviderid(providerid);
@@ -79,7 +79,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberEntityMapperDao.save(member); // 사용자 엔티티 저장
             
         } else { // 이미 로그인을 진행한 경우 update
-            existData.setUsername(username);
+            existData.setUserName(userName);
             existData.setEmail(oAuth2Response.getEmail());
             existData.setLoginType(member.getLoginType()); // 로그인 타입 설정
             memberEntityMapperDao.update(existData); // 사용자 엔티티 업데이트
