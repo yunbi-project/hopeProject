@@ -182,8 +182,11 @@ label {
 	width : 300px;
 	height: 50px;
 	margin-left: 50px;
+	border-radius: 10px;
 	background-color: aliceblue;
 	border: 1px solid rgb(193, 189, 222);
+	transition: background-color 0.5s ease, border-color 0.5s ease; /* 색상 변화를 느리게 설정 */
+	font-weight: bold;
 }
 
 
