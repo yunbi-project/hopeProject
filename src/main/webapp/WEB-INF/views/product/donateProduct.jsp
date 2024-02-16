@@ -167,12 +167,14 @@
 		        // donateProductForm.jsp로 값 전달
 		        $.ajax({
 		            type: "POST",
-		            url: "productFrom.bo", // donateProductForm.jsp의 경로에 맞게 수정하세요.
+		            url: "productForm.bo", // donateProductForm.jsp의 경로에 맞게 수정하세요.
 		            data: { donateType: donateType }, // 전달할 데이터
 		            success: function(response) {
 		                // 성공적으로 값을 전달한 후의 처리
 		                console.log("데이터 전달 성공");
-		                // 추가적인 처리나 페이지 이동 등을 여기에 작성할 수 있습니다.
+		                
+		             	// 페이지 이동
+		                window.location.href = "product/donateProductForm";
 		            },
 		            error: function() {
 		                // 오류 발생 시 처리

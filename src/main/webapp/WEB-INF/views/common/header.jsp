@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,7 @@
                 <div>
                     <a href=""><div id="h_home">홈</div></a>
                     <a href=""><div id="h_support">후원모집</div></a>
-                    <a href="${pageContext.request.contextPath}/product"><div id="h_donate">물품기부</div></a>
+                    <a href="${contextPath}/product"><div id="h_donate">물품기부</div></a>
                     <a href=""><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
                     <a href=""><div id="h_news" class="hoverToShowMenu_news">소식</div></a>
                 </div>
@@ -34,9 +35,9 @@
 					<!-- 로그인 하지 않을 경우 -->
 					<div class='h_headerLogin'>
 					    <ul>
-					        <li><a href="${pageContext.request.contextPath}/login">로그인</a></li>
+					        <li><a href="${contextPath}/login">로그인</a></li>
 							<li> | </li>
-							<li><a href="${pageContext.request.contextPath}/login">회원가입</a></li>
+							<li><a href="${contextPath}/login">회원가입</a></li>
 				        </ul>
 				    </div>
 				</c:when>
@@ -49,7 +50,7 @@
 		                 <ul> 
 		                     <li><a>로그아웃</a></li> 
 		                     <li> | </li>
-		                     <li><a href="${pageContext.request.contextPath}/myPage}">마이페이지</a></li> 
+		                     <li><a href="${contextPath}/myPage}">마이페이지</a></li> 
 		                     <li> | </li> 
 		                     <li><a><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
 		                 </ul> 
