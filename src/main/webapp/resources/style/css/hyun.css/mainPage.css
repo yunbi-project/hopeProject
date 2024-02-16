@@ -10,6 +10,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
   position:relative;
   color:#000000;
   text-shadow:rgba(0,0,0,0.1) 2px 2px 0px;  
+  z-index: 20; /* 다른 요소 위에 표시 */
 }
 
 #slider-wrap{

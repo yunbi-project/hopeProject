@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -158,6 +157,31 @@
     </main>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	
+	<script>
+		$(document).ready(function() {
+		    $(".h_donationGood_article_btn").click(function() {
+		        // 선택된 라디오 버튼의 값을 가져오기
+		        var donateType = $("input[name='donateGood']:checked").val();
+	
+		        // donateProductForm.jsp로 값 전달
+		        $.ajax({
+		            type: "POST",
+		            url: "productFrom.bo", // donateProductForm.jsp의 경로에 맞게 수정하세요.
+		            data: { donateType: donateType }, // 전달할 데이터
+		            success: function(response) {
+		                // 성공적으로 값을 전달한 후의 처리
+		                console.log("데이터 전달 성공");
+		                // 추가적인 처리나 페이지 이동 등을 여기에 작성할 수 있습니다.
+		            },
+		            error: function() {
+		                // 오류 발생 시 처리
+		                console.log("데이터 전달 실패");
+		            }
+		        });
+		    });
+		});
+	</script>
     
 </body>
 </html>
