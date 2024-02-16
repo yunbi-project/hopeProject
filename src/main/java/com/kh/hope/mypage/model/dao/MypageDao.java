@@ -14,9 +14,15 @@ public class MypageDao {
 	@Autowired
 	private SqlSession session;
 	
-	public List<Mypage> selectMypageList() {
-		return session.selectList("mypageMapper.mypageList");
+	public List<Mypage> selectMypageDonateList() {
+		return session.selectList("mypageMapper.mypageDonateList");
 	}
+
+	public List<Mypage> selectMypageBookmarkList() {
+		return session.selectList("mypageMapper.mypageBookmarkList");
+	}
+
+	
 
 	
 }
