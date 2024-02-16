@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.hope.user.model.service.UserService;
 import com.kh.hope.user.model.vo.User;
@@ -51,7 +52,8 @@ public class LoginController {
 			User user,
 			HttpSession session,
 			Model model, 
-			ModelAndView mv){
+			ModelAndView mv,
+			RedirectAttributes redirectAttributes){
 		
 		String email = user.getEmail();
 		User loginUser = userService.loginUser(email);
@@ -62,16 +64,12 @@ public class LoginController {
 		
 		// 세션로그인 비밀번호 확인 및 로그인 타입이 세션로그인인지 확인하는 절차. passwordEncoder 단방향 암호화
 		if(loginUser != null && passwordEncoder.matches(user.getPassword(), loginUser.getPassword()) && user.getLoginType().equals("1")) {
-			model.addAttribute("loginUser",loginUser); // 리퀘스트 스코프에 세션에 담아줌
-			System.out.println("로그인성공");
-			
-			mv.setViewName("redirect:" + "/");
+			model.addAttribute("loginUser",loginUser); // 리퀘스트 스코프에 세션에 담아줌			
+			mv.setViewName("redirect:/");
 			
 		}else {
-			System.out.println("로그인실패");
-			mv.addObject("errorMsg","로그인 실패");
+			redirectAttributes.addFlashAttribute("errorMsg", "회원정보를 정확히 입력해주세요"); 
 			mv.setViewName("redirect:" + "/login");
-			
 		}
 		return mv;
 		
@@ -96,7 +94,7 @@ public class LoginController {
 			session.setAttribute("alertMsg", "회원가입성공");
 			url = "redirect:" + "/login";
 		}else {
-		model.addAttribute("errorMsg","회원가입실패");
+			model.addAttribute("errorMsg","회원가입실패");
 		}
 		return url;
 	}
@@ -104,26 +102,12 @@ public class LoginController {
 	@ResponseBody // 비동기 요청시 필요
 	@GetMapping("/idcheck")			// 아이디 유효성 검사
 	public String idCheck(String email) {
-	    // 유효성 검사
-	    if (!isValidEmail(email)) {
-	        return "INVALID_EMAIL";
-	    }
+	
 
 	    int result = userService.idCheck(email);
 	    return result + "";
 	}
 
-	// 이메일 유효성 검사 메서드
-	private boolean isValidEmail(String email) {
-	    // 이메일이 null이거나 공백인 경우 유효하지 않음
-	    if (email == null || email.isBlank()) {
-	        return false;
-	    }
-
-	    // 정규 표현식을 사용하여 이메일 형식을 검증
-	    String regex = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$";
-	    return email.matches(regex);
-	}
 	
 	@GetMapping("/idfind")
 	public String idfind() {

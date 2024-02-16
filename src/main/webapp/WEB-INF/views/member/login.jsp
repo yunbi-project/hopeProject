@@ -12,7 +12,19 @@
       <link rel="stylesheet" href="././resources/style/css/gunwook.css/login.css">
       <script>
     var contextPath = '<%= request.getContextPath() %>';
-</script>
+	</script>
+	
+	<script>
+        // 오류 메시지 확인 및 알림창 표시
+        function displayErrorMessage() {
+            var errorMsg = "${errorMsg}";
+            if (errorMsg) {
+                alert(errorMsg);
+            }
+        }
+        // 페이지 로드 시 실행
+        window.onload = displayErrorMessage;
+    </script>
 </head>
 
 <body>
@@ -46,7 +58,7 @@
 
         // 유효성 검사
         if (!isValidEmail(email)) {
-            alert("특수문자는 제외하고 입력해주세요.");
+            alert("특수문자 제외! 도메인명 작성");
             return;
         }
 
@@ -77,6 +89,7 @@
 
         // 정규 표현식을 사용하여 이메일 형식을 검증
         var regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+        /* 예) example@example.com  */
         return regex.test(email);
     }
 </script>

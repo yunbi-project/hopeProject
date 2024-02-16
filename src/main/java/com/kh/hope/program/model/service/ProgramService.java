@@ -21,5 +21,4 @@ public class ProgramService {
 	public Program selectProgramDetail(int programNo) {
 		return dao.selectProgramDetail(programNo);
 	}
-
 }
