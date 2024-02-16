@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="programMapper">
+<mapper namespace="program">
 	
 
 	<select id="selectProgramList" resultType="program">
@@ -11,12 +11,9 @@
 	
 	<insert id="insertProgram" parameterType="program">
 		INSERT INTO PROGRAM
-			(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE,
-			ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION, PROGRAM_CAPACITY,
-			PROGRAM_ENROLL_END_DATE, PROGRAM_CONTENT, STATUS)
+			(PROGRAM_NO, USER_NO, PROGRAM_NAME)
 		VALUES 
-			(SEQ_PROGRAMNO.NEXTVAL, #{userNo}, #{programName}, TO_DATE(#{programActivityStartDate}, 'YYYY-MM-DD'),
-			TO_DATE(#{programActivityEndDate}, 'YYYY-MM-DD'), #{activityType}, #{activityTime}, #{activityDays}, 'Sample Location', 10, TO_DATE(#{programEn}, 'YYYY-MM-DD'), #{content}, 'Y');
+			(SEQ_PROGRAMNO.NEXTVAL, '2', #{programName})
 	</insert>
 	
 </mapper>

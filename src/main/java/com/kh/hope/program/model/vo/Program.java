@@ -16,14 +16,14 @@ public class Program {
 	private int programNo; 
 	private int userNo;
 	private String programName;
-	private Date programActivityStartDate;
-	private Date programActivityEndDate;
+	private String programActivityStartDate;
+	private String programActivityEndDate;
 	private String activityType;
 	private String activityTime;
 	private String activityDays;
 	private String activityLocation;
 	private int programCapacity;
-	private Date programEnrollEndDate;
+	private String programEnrollEndDate;
 	private String content;
 	private String status;
 }
