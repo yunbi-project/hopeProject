@@ -22,4 +22,8 @@ public class ProgramDao {
 		return session.selectOne("program.selectProgramDetail", programNo);
 	}
 
+	public int insertProgram(Program program) {
+		return session.insert("program.insertProgram", program);
+	}
+
 }

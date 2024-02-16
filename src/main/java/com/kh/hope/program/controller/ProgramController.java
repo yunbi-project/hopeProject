@@ -27,20 +27,28 @@ public class ProgramController {
 		return "/program/programList";
 	}
 	
+	// 프로그램 만들기
 	@GetMapping("/program/insert")
 	public String insertProgram() {
-		return "/program/programForm";
+		return "program/programForm";
 	}
-//	
-//	@PostMapping("/program/insert")
-//	public String insertProgram(@RequestBody Program p) {
-////		int result = service.insertProgram(p);
-//		
-//		if(result >0) {
-//			System.out.println("메뉴 등록 성공");
-//		}else {
-//			System.out.println("메뉴 등록 실패");
-//		}
-//		return "/program/programForm";
-//	}
+	
+	@PostMapping("/program/insert")
+	public String insertProgram(Program program) {
+		
+		System.out.println(program.getProgramName());
+		int result = service.insertProgram(program);
+		
+		String url = "";
+		
+		if(result > 0) {
+			System.out.println("메뉴 등록 성공");
+			url = "program/programForm";
+			
+		}else {
+			System.out.println("메뉴 등록 실패");
+		}
+		return url;	
+	}
+
 }
