@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="../resources/js/yunbi.js/yProgramDonate.js"></script>
 <link rel="stylesheet" href="../resources/style/css/yunbi.css/yProgramDonate.css">
+<link rel="stylesheet" href="../resources/style/css/common.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
@@ -18,65 +21,59 @@
         </article>
     </section>
 <section>
-                <div class="y_program_detail">
+                <form action="${contextPath}/program/insert" method="post" class="y_program_detail">
                     <table class="y_table">
                         <tr>
                             <td>제목</td>
-                            <td><input class="donateInput" type="text" placeholder="제목을 입력하세요"></td>
+                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요"></td>
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
-                            <td>시작일 : <input class="donateInput" type="date"> - 종료일 : <input class="donateInput" type="date"></td>
+                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date"></td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
                             <td>
-                            	<form method="post" action="insert" name="pinsert">
-                            		<select name="time" class="donateInput y_c">
+                            		<select name="activityTime" class="donateInput y_c">
                             			<option value="오전">오전</option>
                             			<option value="오후">오후</option>
                             		</select>
-                            	</form>
                             </td>
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input class="donateInput" type="date">까지</td>
+                            <td><input name="programEnrollEndDate" class="donateInput" type="date">까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
                             <td>
-                            	<form action="#">
-                            		<select name="days" class="donateInput y_c">
+                            		<select name="activityDays" class="donateInput y_c">
                             			<option value="평일">평일</option>
                             			<option value="주말">주말</option>
                             		</select>
-                            	</form>
                             </td>
                         </tr>
-                        <tr>
+                       <!--  <tr>
                             <td>모집 인원</td>
-                            <td><input class="donateInput" type="text" placeholder="숫자만 입력해주세요"></td>
-                        </tr>
+                            <td><input name="programCapacity" class="donateInput" type="number" placeholder="숫자만 입력해주세요"></td>
+                        </tr> -->
                         <tr>
                             <td>봉사 장소</td>
-                            <td><input class="donateInput" type="text" placeholder="시/도를 포함해주세요"></td>
+                            <td><input name="activityLocation" class="donateInput" type="text" placeholder="시/도를 포함해주세요"></td>
                         </tr>
                         <tr>
                             <td>봉사 유형</td>
                             <td>
-                            	<form action="#">
-                            		<select name="type" class="donateInput y_c">
+                            		<select name="activityType" class="donateInput y_c">
                             			<option value="정기">정기</option>
                             			<option value="일시">일시</option>
                             		</select>
-                            	</form>
                             </td>
                         </tr>
                         <tr>
                             <td>내용</td>
              				<td>
-             				 	<textarea id="summernote"></textarea></td>
+             				 	<textarea id="summernote" name="content"></textarea></td>
                         </tr>
                         <tr>
                             <td>첨부파일</td>
@@ -84,10 +81,10 @@
                         </tr>
                     </table>
                     <div class="y_donate_back_btn">
-                        <button class="y_program_btn1">작성</button>
+                        <button class="y_program_btn1" type="submit">작성</button>
                         <button class="y_donate_back_btn1">목록</button>
                     </div>
-                </div>
+                </form>
             </section>
             <script>
 				        $(document).ready(function() {
@@ -102,43 +99,10 @@
 				            });
 				        });
 				
-				    </script>
-				    <script >
-            	$(".y_program_btn1").submit( e => {
-            		e.preventDefault();
-            		
-            		//j쿼리로 선택한 태그
-            		const $frm = $(e.target);
-            		
-            		const restaurant = $frm.find("[name=restaurant]").val();
-            		const name = $frm.find("[name=name]").val();
-            		const price = $frm.find("[name=price]").val();
-            		const type = $frm.find("[name=type]:checked").val();
-            		const taste = $frm.find("[name=taste]:checked").val();
-            		
-            		const menu = {
-            				restaurant,	name, price, type, taste
-            		};
-            		
-            		$.ajax({
-            			url : '${contextPath}/program/insert',
-            			data : JSON.stringify(p),
-            			contentType : "application/json; charset=UTF-8",
-            			method : "post",
-            			success : function (data) {
-            				console.log(data)
-            			},
-            			error : console.log,
-            			complete(){
-            				//에러든 성공이든 실행됨
-            				e.target.reset();
-            			}
-            		})
-            	})
-            </script>
+			</script>
      <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
-<script src="../resources/summernote/js/summernote-lite.js"></script>
-<script src="../resources/summernote/js/lang/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="../resources/summernote/summernote-lite.css">
+<script src="./resources/summernote/js/summernote-lite.js"></script>
+<script src="./resources/summernote/js/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="./resources/summernote/summernote-lite.css">
 </html>
