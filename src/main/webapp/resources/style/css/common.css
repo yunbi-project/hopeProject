@@ -119,6 +119,7 @@ body{
   display: flex; /* 요소들을 가로로 나열 */
   list-style: none;
   padding: 0;
+  
 }
 
 .h_headerLogin ul li,
@@ -126,6 +127,7 @@ body{
   margin-right: 20px; /* 각 요소 사이의 간격 조정 */
   font-size: 15px;
   cursor: pointer;
+  margin-bottom: 8px;
 }
 
 
@@ -143,7 +145,7 @@ body{
   align-items: center;
   background-color: rgb(238, 245, 238);
   padding: 20px 0; /* 위아래 padding 추가 */
-  z-index: 20; /* 다른 요소 위에 표시 */
+  z-index: 23; /* 다른 요소 위에 표시 */
 
 }
 

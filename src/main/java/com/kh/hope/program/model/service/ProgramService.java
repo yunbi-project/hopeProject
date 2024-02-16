@@ -21,9 +21,4 @@ public class ProgramService {
 	public Program selectProgramDetail(int programNo) {
 		return dao.selectProgramDetail(programNo);
 	}
-
-	public int insertProgram(Program program) {
-		return dao.insertProgram(program);
-	}
-
 }
