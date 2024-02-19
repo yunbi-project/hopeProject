@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value = "${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,10 +34,10 @@
                     <div>
                         <div class="Sn-component-1" >                         
                             <div class="Sn-chip-1">
-                                <div class="Sn-text-1">글쓰기</div>
+                                <div class="Sn-text-1" onclic="window.location.href='${contextPath}/board/insert/N'">글쓰기</div>
                             </div>
                             <div class="Sn-chip-2" >
-                                <div class="Sn-text-2"  onclick="window.location.href='${contextPath}/board/Q">
+                                <div class="Sn-text-2"  onclick="window.location.href='${contextPath}/board/Q'">
                                     자주묻는질문</div>
                             </div>
                         </div>
@@ -65,7 +66,7 @@
                             <tr>
                                 <td>${b.boardNo}</td>
                                 <td>${b.boardTitle}</td>
-                                <td>${b.userNo}</td>
+                                <td>${b.userName}</td>
                                 <td>${b.createDate}</td>
                                 <td>${b.count}</td>                               
                             </tr>                    
@@ -79,30 +80,44 @@
                     </table>
                 </div>          
                
-                
+                <c:if test="${not empty param.condition}">
+                	<c:set var="url" value="&condition=${param.condition}&keyword=${param.keyword}"/>
+                </c:if>
                 <div id="pagingArea">           
-                    <ul class="pagination">            	
+                    <ul class="pagination">
+                    	<c:if test="${pi.currentPage ne 1}">            	
                         <li class="page-item">
-                            <a class="page-link">Previous</a>
-                        </li>           	
+                            <a class="page-link" href="?currentPage=${pi.currentPage-1}${url}">Previous</a>
+                        </li>
+                        </c:if>
+                        <c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">           	
                         <li class="page-item">
-                            <a class="page-link">1</a>
-                            <a class="page-link">2</a>
-                            <a class="page-link">3</a>
-                        </li>             
+                            <a class="page-link" href="?currentPage=${p}${url}">${p}</a>
+                           
+                        </li>
+                        </c:forEach> 
+                        <c:if test="${pi.currentPage ne pi.maxPage}">            
                         <li class="page-item">
-                            <a class="page-link">Next</a>
+                            <a class="page-link" href="?currentPage=${pi.currentPage+1}${url}">Next</a>
                         </li>           
+                        </c:if>
                     </ul>
                 </div>
+                 <form class="search-form" method="get" action="N">
                 <div class="archive-search">
-                    <form class="search-form" action="/archives/category/notice">
-                                    <div class="Sn-btn">
-                            <input type="text" class="archive-search-text input-md width-280px" name="search-text" placeholder="제목 또는 내용 검색을 입력하세요">
+				               
+                          
+                          <div class="Sn-btn">
+		                          <select class="custom-select" name="condition">
+							        	<option value="writer" ${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+							        	<option value="title" ${param.condition eq 'title'? 'selected':'' }>제목</option>
+							        			
+							        </select>
+                            <input type="text" class="archive-search-text input-md width-280px" name="keyword" value="${param.keyword}" placeholder="제목 또는 내용 검색을 입력하세요">
                             <input type="submit" class="green" value="검색">
-                        </div>
-                    </form>
+                        </div>                
                 </div>
+                    </form>
             </div>
         </div>
     </div>

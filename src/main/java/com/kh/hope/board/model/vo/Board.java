@@ -22,5 +22,7 @@ public class Board {
 	private int userNo;
 	private int faqType;
 	private String boardTypeNo;
+	private String userName;
+	
 	
 }
