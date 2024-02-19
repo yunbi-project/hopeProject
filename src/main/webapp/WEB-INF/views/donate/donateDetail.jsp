@@ -5,8 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>기부하기 상세보기</title>
-<link rel="stylesheet" href="./resources/style/css/yunbi.css/yProgramDonate.css">
-<script src="./resources/js/yunbi.js/yProgramDonate.js"></script>
+<link rel="stylesheet" href="../resources/style/css/yunbi.css/yProgramDonate.css">
+<link rel="stylesheet" href="../resources/style/css/common.css">
+<script src="../resources/js/yunbi.js/yProgramDonate.js"></script>
+<script src="../resources/js/common/header.js"></script>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
@@ -72,7 +74,7 @@
                     </div>
                 </div>
                 <div class="y_donate_back_btn">
-                <button class="y_donate_back_btn1" href="donateList">목록</button> 
+                <button class="y_donate_back_btn1" href="${contextPath}/donate/list">목록</button> 
                 </div>   
             </section>
             <jsp:include page="../common/footer.jsp"></jsp:include>
