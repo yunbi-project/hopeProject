@@ -1,11 +1,15 @@
 package com.kh.hope.product.model.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.hope.product.model.service.ProductService;
@@ -47,21 +51,9 @@ public class ProductController {
         return "redirect:/product/donateProductForm";
     }
     
-    @PostMapping("/insertProduct.bo")
+    @PostMapping("/product/donateProductForm")
     public String insertProduct(
     		Product p,
-    		@RequestParam String productType,
-    		@RequestParam String businessName,
-    		@RequestParam String puserName,
-    		@RequestParam int phone,
-    		@RequestParam String email,
-    		@RequestParam String productWay,
-    		@RequestParam String productAmount,
-    		@RequestParam String receipt,
-    		@RequestParam String businessNum,
-    		@RequestParam String residentNum,
-    		@RequestParam int categoryNo,
-    		@RequestParam String inquiryContent,
     		Model model,
 			HttpSession session) {
     	
@@ -69,36 +61,52 @@ public class ProductController {
     	
     	log.info("Product : {}", p);
     	
-    	p.setProductType(productType);
-    	p.setBusinessName(businessName);
-    	p.setPuserName(puserName);
-    	p.setPhone(phone);
-    	p.setEmail(email);
-    	p.setProductWay(productWay);
-    	p.setProductAmount(productAmount);
-    	p.setReceipt(receipt);
-    	p.setBusinessNum(businessNum);
-    	p.setResidentNum(residentNum);
-    	p.setResidentNum(residentNum);
-    	p.setCategoryNo(categoryNo);
-    	p.setInquiryContent(inquiryContent);
-    	
+
     	int result = productService.insertProduct(p);
     	
     	
     	String url = "";
     	if(result > 0) {
     		session.setAttribute("alertMsg", "물품 기부가 성공적으로 신청되었습니다.");
-    		url = "redirect:/product/donateProduct";
+    		System.out.println("물품 등록 성공");
+    		url = "product/donateProductResult";
     		
     	}else {
     		model.addAttribute("errorMsg", "물품 기부 신청에 실패하였습니다.");
-    		url = "redirect:/";
+    		System.out.println("물품 등록 실패");
+    		
     	}
-    	
     	
     	return url;
     }
+    
+    
+//    휴대폰 전화번호 인증
+    @PostMapping("/sendSMS1.do") //jsp 페이지 넘긴 mapping 값
+    @ResponseBody    
+        public String sendSMS(String phone) {
+     
+            Random rand  = new Random(); //랜덤숫자 생성하기 !!
+            String numStr = "";
+            for(int i=0; i<4; i++) {
+                String ran = Integer.toString(rand.nextInt(10));
+                numStr+=ran;
+            }
+            
+            
+            productService.certifiedPhoneNumber(phone, numStr); //휴대폰 api 쪽으로 가기 !!
+
+             
+              return numStr;
+        }
+    
+    
+//  물품기부 신청 후, 물품기부 번호 확인
+	@GetMapping("/product/donateProductResult")
+	public String donateProductResult() {
+		
+		return "product/donateProductResult";
+	}
     
 
 }
