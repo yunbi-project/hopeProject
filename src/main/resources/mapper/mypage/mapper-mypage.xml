@@ -10,7 +10,7 @@
 	</select>
 	
 	<select id="mypageProgramList" resultType="mypage">
-		SELECT PUSER_NAME, PRODUCT_AMOUNT, PRODUCT_DATE, CATEGORY_NAME 
+		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE
 		FROM DONATE_PRODUCT
 		JOIN PRODUCT_CATEGORY USING (CATEGORY_NO)
 	</select>
@@ -23,6 +23,11 @@
 		WHERE U.USER_NO = '2'
 	</select>
 	
+	
+<!-- 	<update id=""> -->
+<!-- 		UPDATE  -->
+<!-- 		SET STATUE = 'N' -->
+<!-- 	</update> -->
 	
 
 
