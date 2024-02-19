@@ -20,8 +20,8 @@
  		
  	
 		<insert id="insertUser" parameterType="user">
- 		INSERT INTO USERS (USER_NO, EMAIL, PASSWORD, PHONE, USER_NAME, LOGIN_TYPE, STATUS, ROLE)
-		VALUES (SEQ_USERSNO.NEXTVAL, #{email}, #{password}, #{phone}, #{userName}, '1', 'Y', 'B')
+ 		INSERT INTO USERS (USER_NO, EMAIL, PASSWORD, PHONE, USER_NAME, LOGIN_TYPE, STATUS, ROLE, ADDRESS)
+		VALUES (SEQ_USERSNO.NEXTVAL, #{email}, #{password}, #{phone}, #{userName}, '1', 'Y', 'B', #{address})
  		</insert>
  		
  		

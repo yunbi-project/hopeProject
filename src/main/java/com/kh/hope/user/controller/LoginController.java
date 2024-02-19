@@ -1,5 +1,7 @@
 package com.kh.hope.user.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -79,14 +82,20 @@ public class LoginController {
 	@PostMapping("singup.me")		// 회원가입
 	public String insertUser(
 			User user, 
+			@RequestParam("postcode") String postcode,
+			@RequestParam("address") String address,
+			@RequestParam("detailAddress") String detailAddress,
 			Model model,
 			HttpSession session
 			) {
-		// 암호화 작업 해야함
-		// String encPwd = bCryptPasswordEncoder.encode(m.getPassword());
-		// m.setUserPassword(encPwd);
+	
+		// 암호화 
 		String encPwd = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encPwd);
+		
+		// api로부터 받아온 정보 합쳐서 address에 추가.
+		String total =  address +  "," + postcode +  "," + detailAddress;
+		user.setAddress(total);
 		
 		int result = userService.insertUser(user);
 		
@@ -144,6 +153,26 @@ public class LoginController {
 		return "member/usersumfind";
 		}
 	}
+	
+//  휴대폰 전화번호 인증
+  @PostMapping("/idcheck.me") //jsp 페이지 넘긴 mapping 값
+  @ResponseBody    
+      public String sendSMS(String phone) {
+   
+          Random rand  = new Random(); //랜덤숫자 생성하기 !!
+          String numStr = "";
+          for(int i=0; i<4; i++) {
+              String ran = Integer.toString(rand.nextInt(10));
+              numStr+=ran;
+          }
+          
+          
+          userService.certifiedPhoneNumber(phone, numStr); //휴대폰 api 쪽으로 가기 !!
+
+           
+            return numStr;
+      }
+  
 	
 	@PostMapping("pwdfind.me") // 비밀번호 찾기
 	public String pwdfind(
@@ -214,7 +243,7 @@ public class LoginController {
 		session.invalidate();
 		status.setComplete(); // @SessionAttribute , model session scope 이관된 데이터 비워줘야함
 		
-		return "redirect/"; // 메인페이지 이동
+		return "redirect:/"; // 메인페이지 이동
 	}
 }
 

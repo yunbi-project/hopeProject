@@ -102,7 +102,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             session.setAttribute("loginUser", existData);
             
             MemberEntity loginUser = (MemberEntity) session.getAttribute("loginUser");
-            System.out.println( "else : " + loginUser.getUserName());
         }
 
         // CustomOAuth2User 객체를 생성하여 반환합니다.

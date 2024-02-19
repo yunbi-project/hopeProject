@@ -71,7 +71,8 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="number"] {
             width: calc(100% - 22px);
             padding: 10px;
             margin-bottom: 20px;
@@ -82,7 +83,8 @@
         }
 
         input[type="text"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        input[type="number"]:focus {
             border-color: #82f5b2;
         }
 
@@ -95,6 +97,9 @@
 </head>
 
 <body>
+		<% if (errorMsg != null) { %>
+                    alert("<%= errorMsg %>");
+                <% } %>
 
     <div class="container">
    		
@@ -103,18 +108,79 @@
         <!-- 비밀번호 찾기 버튼 -->
         <button type="button" id="showFindPasswordForm">비밀번호 찾기</button>
 
-		<% if (errorMsg != null) { %>
-                    alert("<%= errorMsg %>");
-                <% } %>
+		
         <!-- 아이디 찾기 폼 -->
         <form id="findIdForm" action="<%=request.getContextPath() %>/idfind.me" method="post"> <!-- 로그인 폼 -->
             <label for="name">이름:</label>
             <input type="text" id="name" name="userName" required><br>
             <label for="phone">휴대폰 번호:</label>
-            <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required placeholder="010-1234-5678"><br>
+            
+            
+			<!-- 휴대폰 번호 입력 -->
+            <input type="number"  name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required>
+            <!-- 인증번호  -->
+            <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
+            
+            <input type="text" style="width: 350px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 6자리 입력" required>
+	        <input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
+	                
             <button type="submit" id="findIdBtn" style="background-color: #82f5b2; color: #fff;">아이디 찾기</button>
             <div id="findIdError" class="error"></div>
         </form>
+        
+        <!-- 아이디 찾기 휴대폰번호 인증 -->
+         <script>
+    $(document).ready(function() {
+
+		//휴대폰 번호 인증
+		var code2 = "";
+		$("#donateGoodBtn").click(function(){
+		    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+		    var phoneNumber = $("#phone").val();
+		    $.ajax({
+		        type:"POST", // post 형식으로 발송
+		        url:"/hope/idcheck.me", // controller 위치
+		        data: {phone:phoneNumber}, // 전송할 ㅔ이터값
+		        cache : false,
+		        success:function(data){
+		            if(data == "error"){ //실패시 
+		                alert("휴대폰 번호가 올바르지 않습니다.")
+		            }else{            //성공시        
+		                alert("휴대폰 전송이  됨.")
+		                code2 = data; // 성공하면 데이터저장
+		            }
+		        }
+		        
+		    });
+		});
+	    // 신청하기 버튼 클릭 시
+	    $(".productBtn").click(function() {
+	        // 입력한 인증번호를 가져옵니다.
+	        var certificationNumber = $("#certificationNumber").val();
+
+	        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
+	        if (certificationNumber !== code2) {
+	            // 인증번호가 일치하지 않는 경우
+	            alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+	            return false; // 전송을 중지합니다.
+	        } else {
+	            // 인증번호가 일치하는 경우
+	            return true; // 폼을 제출합니다.
+	        }
+	    });
+		 
+		 
+		 
+		//휴대폰 인증번호 대조
+		$("#certificationNumberBtn").click(function(){
+		    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 ㅣ교함
+		         alert('인증성공')
+		    }else{
+		        alert('인증실패')
+		    }
+		});
+    });
+    </script>
         
 
         <!-- 비밀번호 찾기 폼 -->
@@ -122,7 +188,7 @@
             <label for="email">이메일:</label>
             <input type="text" id="userId" name="email" required><br>
             <label for="phone">휴대폰 번호:</label>
-            <input type="text" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required placeholder="010-1234-5678"><br>
+            <input type="text" id="phone" name="phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" required placeholder="'-'빼고 숫자만 입력"><br>
             <button type="submit" id="findPasswordBtn" style="background-color: #82f5b2; color: #fff;">비밀번호 찾기</button>
             <div id="findPasswordError" class="error"></div>
         </form>
