@@ -11,23 +11,26 @@
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	
 	<div class="d-div-wrapper">
 		<div class="top-bar">
-			<div class="rectangle"></div>
-			<div class="title">기부,봉사활동, 즐겨찾기 내역 마이페이지</div>
+			<div class="title">마이페이지</div>
 		</div>
 
 		<div class="section">
-			<div class="avatar"></div>
+			<div class="avatar">
+			<img class="frame" src="resources/images/mypage/profile.png" />
+			</div>
 			<div class="container">
-				<div class="text-wrapper">임도원</div>
-				<div class="selection"></div>
+				<div class="text-wrapper">${userName } 임도원</div>		
+				<div class="edit-profile" onclick="redirectToEditPage()">내정보 변경</div>
 			</div>
 		</div>
 
 		<div class="navigation-wrapper">
 			<div class="navigation">
-				<div class="tab" id="donation-tab">기부</div>
+				<div class="tab" id="donation-tab">기부활동</div>
 				<div class="divider">|</div>
 				<div class="tab" id="volunteer-tab">봉사활동</div>
 				<div class="divider">|</div>
@@ -47,7 +50,7 @@
 					<div class="article">
 						<div class="image-container">
 							<div class="frame">
-								<div class="icon">💸</div>
+								<div class="icon">📦</div>
 							</div>
 						</div>
 						<div class="frame-2">
@@ -74,6 +77,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -97,6 +101,7 @@
 			<div class="title-4">봉사활동</div>
 
 			<div class="list">
+				<c:forEach var="program" items="${programlist}">
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -105,11 +110,13 @@
 							</div>
 						</div>
 						<div class="frame-2">
-							<div class="title-3">2021년 10월 15일</div>
-							<div class="subtitle">XXX 활동</div>
+							<p class="title-3">${program.programActivityStartDate} ~ ${program.programActivityEndDate}</p>
+							<div class="subtitle">${program.programName}</div>
 						</div>
 					</div>
 				</div>
+				</c:forEach>
+				
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -123,6 +130,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="row">
 					<div class="article">
 
@@ -131,13 +139,13 @@
 								<div class="icon-2">🤝</div>
 							</div>
 						</div>
-
 						<div class="frame-2">
-							<div class="title-3">2020년 12월 05일</div>
+							<p class="title-3">2020년 12월 05일</p>
 							<div class="subtitle">XXX 활동</div>
 						</div>
 					</div>
 				</div>
+				
 			</div>
 
 
@@ -195,7 +203,6 @@
 							<button class="heartBtn" onclick="addLike()">
 								<i class=" xi-heart-o xi-2x"></i>
 							</button>
-							<button class="statusBtn" >상태</button>
 						</div>
 					</div>
 				</div>
@@ -251,7 +258,8 @@
 					<div class="num">></div>
 				</div>
 			</div>
-
+		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		
 		<script src="resources/js/dowon.js/mypage.js"></script>
 </body>
 </html>

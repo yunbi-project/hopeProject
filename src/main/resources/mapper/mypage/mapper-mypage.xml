@@ -11,8 +11,10 @@
 	
 	<select id="mypageProgramList" resultType="mypage">
 		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE
-		FROM DONATE_PRODUCT
-		JOIN PRODUCT_CATEGORY USING (CATEGORY_NO)
+		FROM PROGRAM P 
+		JOIN REQUEST R ON (R.PROGRAM_NO = P.PROGRAM_NO)
+		JOIN USERS U ON (U.USER_NO = R.USER_NO)
+		WHERE U.USER_NO = '3'
 	</select>
 	
 	<select id="mypageBookmarkList" resultType="mypage">
@@ -20,7 +22,7 @@
 		FROM LIKES L
 		JOIN USERS U ON (U.USER_NO = L.USER_NO)
 		JOIN PROGRAM P ON (L.PROGRAM_NO = P.PROGRAM_NO)
-		WHERE U.USER_NO = '2'
+		WHERE U.USER_NO = '3'
 	</select>
 	
 	
@@ -29,6 +31,14 @@
 <!-- 		SET STATUE = 'N' -->
 <!-- 	</update> -->
 	
+	
+	<update id="editprofile">
+		UPDATE USERS SET
+		USER_NAME = #{userName},
+		PHONE = #{phone},
+		ADDRESS = #{address}
+		WHERE USER_NO = #{userNo}
+	</update>
 
 
 

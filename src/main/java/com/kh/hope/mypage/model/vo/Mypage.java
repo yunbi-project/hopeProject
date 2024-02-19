@@ -18,8 +18,6 @@ public class Mypage {
 	private String categoryName;
 	
 	// 봉사활동 (program)
-	
-	
 	// 즐겨찾기 (bookmark)
 	private String programName;
 	private Date programActivityStartDate;
