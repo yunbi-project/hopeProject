@@ -2,16 +2,17 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" href="./resources/style/css/hyun.css/donateProduct.css">
+    <link rel="stylesheet" href="${contextPath}/resources/style/css/hyun.css/donateProduct.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="./resources/js/hyun.js/donateProduct.js"></script>
+    <script src="${contextPath}/resources/js/hyun.js/donateProduct.js"></script>
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -66,15 +67,15 @@
         </div>
         <section class="donateGoodList" style="text-align: center;">
             <div class="donateGoods">
-                <img class="donateGood_images" src="./resources/style/img/product/생리대.png">
-                <img class="donateGood_images" src="./resources/style/img/product/의류_잡화.png">
-                <img class="donateGood_images" src="./resources/style/img/product/화장품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/생활용품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/가전제품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/유아용품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/건강기능식품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/위생용품.png">
-                <img class="donateGood_images" src="./resources/style/img/product/기타.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/생리대.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/의류_잡화.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/화장품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/생활용품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/가전제품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/유아용품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/건강기능식품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/위생용품.png">
+                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/기타.png">
             </div>
             <div class="donateGoodSelect">
                 <ul style="margin:0%;">
@@ -154,6 +155,7 @@
         </section>
 
         <button class="h_donationGood_article_btn" >물품 기부 신청하기</button>
+        <button class="">물품 기부 내역 수정하기</button>
     </main>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

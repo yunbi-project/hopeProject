@@ -7,11 +7,11 @@
 		INSERT INTO DONATE_PRODUCT(
 		PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
 		BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
-		BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT
+		BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT, RECEIVE_DELIVERY
 		)
 		VALUES(
-		SEQ_DOPRONO.CURRVAL, productType, puserName, businessName, phone, email, productWay,
-		productAmount, receipt, businessNum, residentNum, 'Y', SYSDATE, categoryNo, inquiryContent
+		SEQ_DOPRONO.NEXTVAL, #{productType}, #{puserName}, #{businessName}, #{phone}, #{email}, #{productWay},
+		#{productAmount}, #{receipt}, #{businessNum}, #{residentNum}, 'Y', SYSDATE, #{categoryNo}, #{inquiryContent}, 'N'
 		)
 	</insert>
 

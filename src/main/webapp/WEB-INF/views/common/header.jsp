@@ -22,10 +22,10 @@
             </div>
             <div class='h_headerSelect'>
                 <div>
-                    <a href="${contextPath }"><div id="h_home">홈</div></a>
-                    <a href=""><div id="h_support">후원모집</div></a>
+                    <a href="${contextPath}"><div id="h_home">홈</div></a>
+                    <a href="${contextPath}/donate/list"><div id="h_support">후원모집</div></a>
                     <a href="${contextPath}/product"><div id="h_donate">물품기부</div></a>
-                    <a href=""><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
+                    <a href="${contextPath}/program/list"><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
                     <a href=""><div id="h_news" class="hoverToShowMenu_news">소식</div></a>
                 </div>
             </div>
@@ -48,9 +48,9 @@
 		                     <li>${loginUser.userName} 회원님 환영합니다<img style="width: 17px;" src="https://cdn-icons-png.flaticon.com/128/2338/2338389.png"></li>
 		                 </ul>
 		                 <ul> 
-		                     <li><a>로그아웃</a></li> 
+		                     <li><a href="/logout.me">로그아웃</a></li> 
 		                     <li> | </li>
-		                     <li><a href="${contextPath}/myPage}">마이페이지</a></li> 
+		                     <li><a href="${contextPath}/mypage">마이페이지</a></li> 
 		                     <li> | </li> 
 		                     <li><a><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
 		                 </ul> 
@@ -84,8 +84,7 @@
                 <li>도움이 가장 필요한 곳에 후원자님의 사랑을 전달합니다.</li>
             </ul>
             <ul class='h_headerMenu_2'>
-                <li><a>봉사활동 지원하기</a></li>
-                <li><a>헌혈 게시판</a></li>
+                <li><a href="${contextPath}/program/list">봉사활동 지원하기</a></li>
             </ul>
             <ul class='h_headerMenu_3'>
                 <li>

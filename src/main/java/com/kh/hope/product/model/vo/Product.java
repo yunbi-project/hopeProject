@@ -17,7 +17,7 @@ public class Product {
 	private String productType;
 	private String puserName;
 	private String businessName;
-	private int phone;
+	private String phone;
 	private String email;
 	private String productWay;
 	private String productAmount;
@@ -28,5 +28,5 @@ public class Product {
 	private Date productDate;
 	private int categoryNo;  // cateygoryName, categoryNo 같이 저장
 	private String inquiryContent;
-
+	private String receiveDelivery;
 }
