@@ -18,7 +18,7 @@
     <header class="common">
         <div class='h_header'>
             <div class="h_headerLogo">
-                <img class="h_logo_img" src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png' >
+                <img class="h_logo_img" src='${contextPath }/resources/style/img/mainPage/HOPE_loglass="h_logo_img"rc='${contextPath}/resourc
             </div>
             <div class='h_headerSelect'>
                 <div>

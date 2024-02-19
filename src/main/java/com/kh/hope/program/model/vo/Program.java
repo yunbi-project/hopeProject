@@ -1,7 +1,5 @@
 package com.kh.hope.program.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +20,8 @@ public class Program {
 	private String activityTime;
 	private String activityDays;
 	private String activityLocation;
-	private int programCapacity;
+	private String programCapacity;
 	private String programEnrollEndDate;
-	private String content;
+	private String programContent;
 	private String status;
 }

@@ -53,10 +53,10 @@
                             		</select>
                             </td>
                         </tr>
-                       <!--  <tr>
+                        <tr>
                             <td>모집 인원</td>
-                            <td><input name="programCapacity" class="donateInput" type="number" placeholder="숫자만 입력해주세요"></td>
-                        </tr> -->
+                            <td><input name="programCapacity" class="donateInput" type="text" placeholder="숫자만 입력해주세요"></td>
+                        </tr>
                         <tr>
                             <td>봉사 장소</td>
                             <td><input name="activityLocation" class="donateInput" type="text" placeholder="시/도를 포함해주세요"></td>
@@ -73,7 +73,7 @@
                         <tr>
                             <td>내용</td>
              				<td>
-             				 	<textarea id="summernote" name="content"></textarea></td>
+             				 	<textarea id="summernote" name="programContent"></textarea></td>
                         </tr>
                         <tr>
                             <td>첨부파일</td>
@@ -82,7 +82,7 @@
                     </table>
                     <div class="y_donate_back_btn">
                         <button class="y_program_btn1" type="submit">작성</button>
-                        <button class="y_donate_back_btn1">목록</button>
+                        <button class="y_donate_back_btn1" href="${contextPath}/program/list">목록</button>
                     </div>
                 </form>
             </section>
