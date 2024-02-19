@@ -17,5 +17,8 @@ public interface UserService {
 
 	int repassword(String password, String email);
 
+	void certifiedPhoneNumber(String phone, String numStr);
+
+
 
 }

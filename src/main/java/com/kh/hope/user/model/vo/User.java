@@ -22,4 +22,5 @@ public class User {
 	private String status;
 	private String role;
 	private String confirmPassword;
+	private String address;
 }

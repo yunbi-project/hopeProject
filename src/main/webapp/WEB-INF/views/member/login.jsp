@@ -25,32 +25,53 @@
         // 페이지 로드 시 실행
         window.onload = displayErrorMessage;
     </script>
+    
+     <!-- 주소 api -->
+     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
 <body>
-  <div class="wrapper">
+<div class="wrapper">
     <div class="container">
       <div class="sign-up-container">
-       
-          <h1 class="login">회원가입</h1>
-          <div class="social-links">  
-            <div>
-              <a href="/hope/oauth2/authorization/google"><img src="././resources/style/img/socialLogin/google2.png"></a>
-            </div>
-            <div>
-              <a href="/hope/oauth2/authorization/naver "><img src="././resources/style/img/socialLogin/naver1.png"></a>
-            </div>
+        <h1 class="login">회원가입</h1>
+        <div class="social-links">  
+          <div>
+            <a href="/hope/oauth2/authorization/google"><img src="././resources/style/img/socialLogin/google2.png"></a>
           </div>
-          
-          <form action="<%=request.getContextPath() %>/singup.me" method="post"> <!-- 회원가입 폼 -->
+          <div>
+            <a href="/hope/oauth2/authorization/naver "><img src="././resources/style/img/socialLogin/naver1.png"></a>
+          </div>
+        </div>
+        <form action="<%=request.getContextPath() %>/singup.me" method="post"> <!-- 회원가입 폼 -->
           <input type="hidden" name="loginType" value="1"> <!-- loginType값 세션로그인 1 넘겨줌 -->
-          <input type="email" id="email" name="email" placeholder="이메일 ">
-          <button type="button" id="idcheck" onclick="idCheck();">이메일중복체크</button>
-          <input type="password" name="password" placeholder="비밀번호 ">
-          <input type="text" name="phone" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder=" 휴대폰 번호 = 010-1234-5678">
-          <input type="text" name="userName" placeholder="이름 ">
+          <div class="input-group">
+            <input type="email" id="email" name="email" style="margin-left: 12px" placeholder="이메일" required>
+            <button type="button" id="idcheck" class="singupbutton" onclick="idCheck()">이메일중복체크</button>
+          </div>
+          <input type="password" name="password" placeholder="비밀번호" required>
+          <input type="text" name="phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" placeholder="휴대폰 번호 = -빼고 입력해주세요" required>
+          <input type="text" name="userName" placeholder="이름" required>
+          <!-- 주소 입력 부분 -->
+          <input type="text" id="postcode" name="postcode" placeholder="우편번호" required>
+          <button id="openAddressPopup" type="button" class="form_btn" style="background-color: #4CAF50; color: #ffffff;" onclick="execDaumPostcode()">우편번호 찾기</button>
+          <input type="text" id="address" name="address" placeholder="주소"><br>
+          <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required><br>
           <button class="form_btn">회원가입</button>
         </form>
+    
+
+    <script>
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById('address').value = data.address;
+                    document.getElementById('detailAddress').focus();
+                }
+            }).open();
+        }
+    </script>
         
         <script>
     function idCheck() {
@@ -79,6 +100,7 @@
             }
         });
     }
+    
 
     // 이메일 유효성 검사 함수
     function isValidEmail(email) {
@@ -110,8 +132,8 @@
           
           
           <form action="<%=request.getContextPath() %>/login.me" method="post"> <!-- 로그인 폼 -->
-          <input type="text" name="email" placeholder="email 입력">
-          <input type="password" name="password" placeholder="Password 입력">
+          <input type="text" name="email" placeholder="email 입력" required>
+          <input type="password" name="password" placeholder="Password 입력" required>
           <input type="hidden" name="loginType" value="1">
           <button type="submit" class="form_btn">로그인</button>
           
