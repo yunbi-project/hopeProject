@@ -18,11 +18,11 @@
     <header class="common">
         <div class='h_header'>
             <div class="h_headerLogo">
-                <img class="h_logo_img" src='${contextPath }/resources/style/img/mainPage/HOPE_logo.png' >
+                <img class="h_logo_img" src='${contextPath }/resources/style/img/mainPage/HOPE_loglass="h_logo_img"rc='${contextPath}/resourc
             </div>
             <div class='h_headerSelect'>
                 <div>
-                    <a href=""><div id="h_home">홈</div></a>
+                    <a href="${contextPath }"><div id="h_home">홈</div></a>
                     <a href=""><div id="h_support">후원모집</div></a>
                     <a href="${contextPath}/product"><div id="h_donate">물품기부</div></a>
                     <a href=""><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
@@ -65,7 +65,8 @@
                 <li>행복한 변화와 이야기를 전해드립니다.</li>
             </ul>
             <ul class='h_headerMenu_2'>
-                <li><a>커뮤니티(나눔후기/자유게시판)</a></li>
+                <li><a>나눔후기 게시판</a></li>
+                <li><a>자유 게시판</a></li>
                 <li><a>공지사항</a></li>
                 <li><a>자주 묻는 질문 FAQ</a></li>
             </ul>

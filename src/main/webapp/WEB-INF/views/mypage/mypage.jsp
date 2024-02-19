@@ -41,6 +41,8 @@
 			<div class="title-4">기부활동</div>
 
 			<div class="list">
+			
+				<c:forEach var="donate" items="${donatelist}">
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -48,14 +50,14 @@
 								<div class="icon">💸</div>
 							</div>
 						</div>
-				<c:forEach var="m" items="${list}">
 						<div class="frame-2">
-							<div class="title-3">${m.productDate}</div>
-							<div class="subtitle">${m.productAmount}</div>
+							<div class="title-3">날짜 : ${donate.productDate}</div>
+							<div class="subtitle">제품 종류 : ${donate.categoryName}</div>
+							<div class="subtitle">수량 : ${donate.productAmount}</div>
 						</div>
-				</c:forEach>							
 					</div>
 				</div>
+				</c:forEach>							
 				
 				<div class="row">
 					<div class="article">
@@ -66,6 +68,8 @@
 						</div>
 						<div class="frame-2">
 							<div class="title-3">2021년 07월 28일</div>
+							<div class="subtitle">후원 금액: 500,000원</div>
+							<div class="subtitle">후원 금액: 500,000원</div>
 							<div class="subtitle">후원 금액: 500,000원</div>
 						</div>
 					</div>
@@ -146,6 +150,8 @@
 
 			<div class="title-4">즐겨찾기</div>
 			<div class="list">
+			
+				<c:forEach var="bookmark" items="${bookmarklist}">
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -156,10 +162,10 @@
 							</div>
 						</div>
 						<div class="frame-2">
-							<p class="title-3">
-								모집기한<br />2021년 10월 15일 ~ 2021년 10월 30일
-							</p>
-							<div class="subtitle">즐겨찾기한 활동 제목</div>
+							<div class="title-3">
+								모집기한<br />${bookmark.programActivityStartDate} ~ ${bookmark.programActivityEndDate}
+							</div>
+							<div class="subtitle">즐겨찾기한 활동 제목 : ${bookmark.programName}</div>
 						</div>
 						<div>
 							<button class="heartBtn" onclick="addLike()">
@@ -168,6 +174,8 @@
 						</div>
 					</div>
 				</div>
+				</c:forEach>
+				
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -187,6 +195,7 @@
 							<button class="heartBtn" onclick="addLike()">
 								<i class=" xi-heart-o xi-2x"></i>
 							</button>
+							<button class="statusBtn" >상태</button>
 						</div>
 					</div>
 				</div>

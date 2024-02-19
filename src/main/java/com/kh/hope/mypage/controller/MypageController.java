@@ -19,13 +19,18 @@ public class MypageController {
 	@GetMapping("/mypage")
 	public String mypageList(
 			Model model
-			
 			) {
-		List<Mypage> list = mypageService.selectMypageList();
-		model.addAttribute("list",list);
-		System.out.println(list);
-		return "/member/mypage";
+		List<Mypage> donatelist = mypageService.selectMypageDonateList();
+		System.out.println(donatelist);
+		model.addAttribute("donatelist",donatelist);
+		
+		List<Mypage> bookmarklist = mypageService.selectMypageBookmarkList();
+		System.out.println(bookmarklist);
+		model.addAttribute("bookmarklist",bookmarklist);
+		
+		return "mypage/mypage";
 	}
+	
 	
 	
 }

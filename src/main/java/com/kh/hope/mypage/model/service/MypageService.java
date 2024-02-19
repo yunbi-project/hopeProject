@@ -14,9 +14,17 @@ public class MypageService {
 	@Autowired
 	private MypageDao mypageDao;
 
-	public List<Mypage> selectMypageList() {
-		return mypageDao.selectMypageList();
+	public List<Mypage> selectMypageDonateList() {
+		return mypageDao.selectMypageDonateList();
 	}
+	
+	public List<Mypage> selectMypageBookmarkList() {
+		return mypageDao.selectMypageBookmarkList();
+	}
+	
+	
+
+	
 	
 	
 }

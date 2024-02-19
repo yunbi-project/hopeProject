@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -64,7 +65,7 @@ public class LoginController {
 		
 		// 세션로그인 비밀번호 확인 및 로그인 타입이 세션로그인인지 확인하는 절차. passwordEncoder 단방향 암호화
 		if(loginUser != null && passwordEncoder.matches(user.getPassword(), loginUser.getPassword()) && user.getLoginType().equals("1")) {
-			model.addAttribute("loginUser",loginUser); // 리퀘스트 스코프에 세션에 담아줌			
+			model.addAttribute("loginUser",loginUser); // 리퀘스트 스코프에 세션에 담아줌	
 			mv.setViewName("redirect:/");
 			
 		}else {
@@ -206,6 +207,14 @@ public class LoginController {
 	        session.setAttribute("errorMsg", "비밀번호 변경 실패");
 	        return "redirect:/gunjsp/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
 	    }
+	}
+	@GetMapping("logout.me")	// 로그아웃
+	public String logoutMember(HttpSession session, SessionStatus status) {
+		
+		session.invalidate();
+		status.setComplete(); // @SessionAttribute , model session scope 이관된 데이터 비워줘야함
+		
+		return "redirect/"; // 메인페이지 이동
 	}
 }
 
