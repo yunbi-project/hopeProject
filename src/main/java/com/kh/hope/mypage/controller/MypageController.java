@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.kh.hope.mypage.model.service.MypageService;
+import com.kh.hope.mypage.model.vo.Editprofile;
 import com.kh.hope.mypage.model.vo.Mypage;
 
 @Controller
@@ -28,7 +29,22 @@ public class MypageController {
 		System.out.println(bookmarklist);
 		model.addAttribute("bookmarklist",bookmarklist);
 		
+		List<Mypage> programlist = mypageService.selectMypageProgramList();
+		System.out.println(programlist);
+		model.addAttribute("programlist",programlist);
+		
 		return "mypage/mypage";
+	}
+	
+	@GetMapping("/editprofile")
+	public String editprofileList(
+			Model model
+			) {
+		List<Editprofile> editprofilelist = mypageService.selectEditProfileList();
+		System.out.println(editprofilelist);
+		model.addAttribute("editprofilelist",editprofilelist);
+		
+		return "editprofile/editprofile";
 	}
 	
 	
