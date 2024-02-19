@@ -4,16 +4,57 @@
 	
 
 	<select id="selectProgramList" resultType="program">
-		SELECT PROGRAM_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE,
-			PROGRAM_ACTIVITY_END_DATE, ACTIVITY_DAYS, ACTIVITY_TIME, ACTIVITY_LOCATION FROM PROGRAM
+		SELECT PROGRAM_NO, PROGRAM_NAME, 
+		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
+				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
+				ACTIVITY_DAYS, ACTIVITY_TIME, ACTIVITY_LOCATION FROM PROGRAM
 		WHERE STATUS = 'Y'
+		order by 1 desc
 	</select>
 	
 	<insert id="insertProgram" parameterType="program">
 		INSERT INTO PROGRAM
-			(PROGRAM_NO, USER_NO, PROGRAM_NAME)
+			(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE,
+			ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION,
+			PROGRAM_CAPACITY,
+			PROGRAM_ENROLL_END_DATE,
+			PROGRAM_CONTENT,
+			STATUS)
 		VALUES 
-			(SEQ_PROGRAMNO.NEXTVAL, '2', #{programName})
+			(SEQ_PROGRAMNO.NEXTVAL, '2', #{programName}, #{programActivityStartDate}, #{programActivityEndDate},
+			#{activityType}, #{activityTime}, #{activityDays}, #{activityLocation}, 
+			#{programCapacity}, #{programEnrollEndDate}, #{content}, 'Y' )
 	</insert>
 	
+	<select id="detailProgram" resultType="program">
+		SELECT PROGRAM_NO, USER_NO, PROGRAM_NAME, 
+				TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
+				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE, 
+				ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION, PROGRAM_CAPACITY, 
+				TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ENROLL_END_DATE, 
+		PROGRAM_CONTENT
+			FROM PROGRAM
+			WHERE PROGRAM_NO = #{programNo}
+	</select>
+	
+	<insert id="requestProgram" parameterType="request">
+		INSERT INTO REQUEST 
+		(REQUEST_NO, REQUEST_DATE, STATUS, USER_NO, PROGRAM_NO)
+		VALUES (
+			SEQ_REQNO.nextval, SYSDATE, DEFAULT, '2', #{programNo}
+		)
+	</insert>
+	
+	<select id="isLikeExists" resultType="likes">
+		SELECT PROGRAM_NO, USER_NO FROM LIKES
+		WHERE PROGRAM_NO = #{programNo}
+		AND USER_NO = '2'
+	</select>
+	<insert id="programLike" parameterType="likes">
+		INSERT INTO LIKES VALUES (
+    		#{programNo},'2')
+	</insert>
+	<select id = "requestCount" resultType="int">
+		select count(*) from request where program_no = #{programNo}
+	</select>
 </mapper>

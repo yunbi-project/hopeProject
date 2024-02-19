@@ -71,7 +71,7 @@
                         <h1 class="y_h1">봉사하기</h1>
                         <div class="y_activeOnly_area">
                             <p>진행중인 활동만</p>
-                            <img src="../resources/images/donate/check-circle.svg"  onclick="toggleIng();" class="y_image_activityOnly no"/>
+                            <img src="../../resources/style/img/yunbi/check-circle.svg"  onclick="toggleIng();" class="y_image_activityOnly no"/>
                         </div>
                         <table class="y_list_table">
                             <thead>
@@ -88,7 +88,7 @@
                             <tbody>
                
                             <c:forEach var="p" items="${list}" >
-                                <tr>
+                                <tr onclick="move(${p.programNo})">
                                     <td>${p.programNo} </td>
                                     <td>${p.programName } </td>
                                     <td>${p.programActivityStartDate } ~ ${p.programActivityEndDate }</td>
@@ -98,9 +98,13 @@
                                     <td>활동중</td>
                                 </tr>
                              </c:forEach>
-                              
                             </tbody>
                         </table>
+				<script>
+					function move(programNo){
+						location.href="${contextPath}/program/detail/"+programNo
+					}
+				</script>
             </section>
      <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>

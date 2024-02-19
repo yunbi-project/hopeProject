@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- css -->
-    <link rel="stylesheet" href="./resources/style/css/common.css">
+    <link rel="stylesheet" href="${contextPath }/resources/style/css/common.css">
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="./resources/js/common/header.js"></script>
+    <script src="${contextPath }/resources/js/common/header.js"></script>
 </head>
 <body>
     <header class="common">
         <div class='h_header'>
             <div class="h_headerLogo">
-                <img class="h_logo_img" src='./resources/style/img/mainPage/HOPE_logo.png' >
+                <img class="h_logo_img" src='${contextPath }/resources/style/img/mainPage/HOPE_logo.png' >
             </div>
             <div class='h_headerSelect'>
                 <div>
