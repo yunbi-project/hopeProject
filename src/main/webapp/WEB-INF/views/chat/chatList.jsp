@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,31 +111,39 @@
 <div class="content">
     <h2>채팅방목록</h2>
     <table>
-        <thead>
-            <tr>
-                <th>방번호</th>
-                <th>채팅방 제목(주제)</th>
-                <th>개설자</th>
-                <th>참여인수</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="4">존재하는 채팅방이 없습니다.</td>
-            </tr>
-            <tr>
-                <td>방번호</td>
-                <td>
-                    채팅방 제목
-                    <c:if test="${!empty loginUser}">
-                        <button>참여</button>
-                    </c:if>
-                </td>
-                <td>개설자</td>
-                <td>참여인수</td>
-            </tr>
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th>방번호</th>
+            <th>채팅방 제목(주제)</th>
+            <th>개설자</th>
+            <th>참여인수</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:choose>
+            <c:when test="${empty list}">
+                <tr>
+                    <td colspan="4">존재하는 채팅방이 없습니다.</td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                <c:forEach items="${list}" var="chat">
+                    <tr>
+                        <td>${chat.chatNo}</td>
+                        <td>
+                            ${chat.chatTitle}
+                            <c:if test='${!empty loginUser }'>
+                                <button onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'">참여</button>
+                            </c:if>
+                        </td>
+                        <td>${chat.userName}</td>
+                        <td>${chat.cnt}</td>
+                    </tr>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
+    </tbody>
+</table>
 
     <div class="btn-area">
         <button onclick="toggleModal()" class="btn btn-danger">채팅방 만들기</button>
@@ -148,10 +157,11 @@
                 <h4 class="modal-title">채팅방 만들기</h4>
                 <span class="close" onclick="toggleModal()">&times;</span>
             </div>
-            <form action="${contextPath}/chat/openChatRoom" method="post">
+            
+            <form action=<%=request.getContextPath() %>/chat/openChatRoom method="post">
                 <div class="modal-body">
-                    <label for="title" class="mr-sm-2">제목</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="채팅방 제목" id="chatRoomTitle" name="title">
+                    <label  for="title" class="mr-sm-2" >제목</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="채팅방 제목" id="chatRoomTitle" name="chatTitle">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">만들기</button>

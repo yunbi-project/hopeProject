@@ -23,4 +23,7 @@ public class User {
 	private String role;
 	private String confirmPassword;
 	private String address;
+	
+	private Long id;
+	private String providerid;
 }

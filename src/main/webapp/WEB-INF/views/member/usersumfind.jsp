@@ -33,7 +33,7 @@
         }
 
         button {
-            padding: 15px 30px;
+            padding: 10px 20px;
             margin: 10px;
             font-size: 16px;
             border: none;
@@ -54,7 +54,7 @@
 
         #findIdBtn:hover,
         #findPasswordBtn:hover {
-            background-color: #82f5b2;
+            background-color: #4CAF50;
         }
 
         #findIdForm,
@@ -73,7 +73,7 @@
         input[type="text"],
         input[type="password"],
         input[type="number"] {
-            width: calc(100% - 22px);
+            width: 300px;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
@@ -85,7 +85,7 @@
         input[type="text"]:focus,
         input[type="password"]:focus,
         input[type="number"]:focus {
-            border-color: #82f5b2;
+            border-color: #4CAF50;
         }
 
         .error {
@@ -93,38 +93,47 @@
             margin-top: 10px;
             font-size: 16px;
         }
+
+        .donateGoodBtn1 {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #abe138;
+            color: #fff;
+        }
     </style>
 </head>
 
-<body>
-		<% if (errorMsg != null) { %>
-                    alert("<%= errorMsg %>");
-                <% } %>
 
+<body>
+		
     <div class="container">
-   		
         <!-- 아이디 찾기 버튼 -->
-        <button type="button" id="showFindIdForm" style="background-color: #82f5b2; color: #fff;">아이디 찾기</button>
+        <button type="button" id="showFindIdForm">아이디 찾기</button>
         <!-- 비밀번호 찾기 버튼 -->
         <button type="button" id="showFindPasswordForm">비밀번호 찾기</button>
 
-		
         <!-- 아이디 찾기 폼 -->
-        <form id="findIdForm" action="<%=request.getContextPath() %>/idfind.me" method="post"> <!-- 로그인 폼 -->
+        <form id="findIdForm" action="<%=request.getContextPath() %>/idfind.me" method="post">
+            <!-- 로그인 폼 -->
             <label for="name">이름:</label>
-            <input type="text" id="name" name="userName" required><br>
+            <input type="text" id="name" name="userName"  style="margin-right: 20px" required><br>
             <label for="phone">휴대폰 번호:</label>
-            
-            
-			<!-- 휴대폰 번호 입력 -->
-            <input type="number"  name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required>
-            <!-- 인증번호  -->
-            <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
-            
-            <input type="text" style="width: 350px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 6자리 입력" required>
-	        <input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
-	                
-            <button type="submit" id="findIdBtn" style="background-color: #82f5b2; color: #fff;">아이디 찾기</button>
+
+            <!-- 휴대폰 번호 입력 -->
+            <input type="number" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력"  style="margin-left: 50px" required>
+            <!-- 인증번호 -->
+            <input type="button" class="donateGoodBtn"  value="인증요청">
+
+            <input type="text" style="width: 200px;" id="certificationNumber" class="donateGoodInput"
+                placeholder="인증번호 6자리 입력" style="margin-left: 130px" required>
+            <input type="button" id="certificationNumberBtn" class="donateGoodBtn1" style="margin-left: 0px"  value="인증 확인">
+
+            <button type="submit" id="findIdBtn">아이디 찾기</button>
             <div id="findIdError" class="error"></div>
         </form>
         

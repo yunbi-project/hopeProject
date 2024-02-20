@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+
+<mapper namespace="chatMapper">
+
+<!-- 채팅방 목록 -->
+<select id="selectChatRoomList" resultType="chat">
+		SELECT
+		    CHAT_NO,
+		    CHAT_TITLE,
+		    USER_NAME,
+		    (SELECT COUNT(*) FROM CHAT_JOIN CRJ WHERE CRJ.CHAT_NO = CR.CHAT_NO) AS CNT
+		FROM CHAT CR
+		JOIN USERS USING(USER_NO)
+		WHERE CR.STATUS = 'Y'
+		ORDER BY CHAT_NO DESC
+	</select>
+
+	<!-- 웹소켓에서 보낸 insert 메세지 -->
+	<insert id="insertMessage" parameterType="chatMessage">
+		INSERT INTO CHAT_MESSAGE
+		VALUES (
+			SEQ_CMNO.NEXTVAL ,
+			#{message},
+			SYSDATE,
+			#{chatNo},
+			#{userNo}
+		)
+	</insert>
+	
+	<!-- 채팅방 생성 -->
+	<insert id="openChatRoom" parameterType="chat" useGeneratedKeys="true">
+	
+		INSERT INTO CHAT VALUES
+		(SEQ_CHATNO.NEXTVAL, #{chatTitle} , 'Y' , #{userNo})
+		
+		<selectKey keyProperty="chatNo" resultType="int" order="AFTER">
+			SELECT SEQ_CHATNO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<!-- 채팅방 참여여부 확인 -->
+	<select id="joinCheck" parameterType="chatJoin" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM CHAT_JOIN
+		WHERE CHAT_NO = #{chatNo} AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- 채팅방 참여하기 -->
+	<insert id="joinChatRoom" parameterType="chatJoin">
+		INSERT INTO CHAT_JOIN
+		VALUES(#{userNo}, #{chatNo})
+	</insert>
+	
+	<!-- 채팅방 메세지 조회 -->
+	<select id="selectChatMessage" parameterType="int" resultType="chatMessage">
+		SELECT
+			MESSAGE,
+			TO_CHAR(CREATE_DATE , 'YYYY-MM-DD') CREATE_DATE,
+			USER_NAME,
+			USER_NO,
+			CM_NO
+		FROM CHAT_MESSAGE
+		JOIN USERS USING(USER_NO)
+		WHERE CHAT_NO = #{chatNo}
+		ORDER BY CM_NO
+	</select>
+	
+	
+
+
+
+
+</mapper>

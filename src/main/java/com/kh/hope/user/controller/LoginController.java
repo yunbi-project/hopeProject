@@ -72,6 +72,7 @@ public class LoginController {
 			mv.setViewName("redirect:/");
 			
 		}else {
+			
 			redirectAttributes.addFlashAttribute("errorMsg", "회원정보를 정확히 입력해주세요"); 
 			mv.setViewName("redirect:" + "/login");
 		}
@@ -195,9 +196,9 @@ public class LoginController {
 			session.setAttribute("pwdemail", email);
 			return "member/repassword";		// 후에 repassword.jsp 리다이렉트
 		}else {
-		model.addAttribute("errorMsg","아이디 찾기 실패");
-//		return "member/errorPage";
-		return "member/usersumfind";
+
+		return "member/errorPage";
+
 		}
 	
 	}
@@ -212,7 +213,7 @@ public class LoginController {
 	    String email = (String) session.getAttribute("pwdemail");
 	    
 	    if (email == null) { // 세션에 이메일이 없을 경우 처리
-	        return "redirect:/gunjsp/pwdfind.jsp"; // 비밀번호 찾기 페이지로 리다이렉트
+	        return "redirect:/member/usersumfind.jsp"; // 비밀번호 찾기 페이지로 리다이렉트
 	    }
 	    
 	    String password1 = user.getPassword();
@@ -222,7 +223,7 @@ public class LoginController {
 	        session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
 	        
 	        System.out.println("패스워드가 일치하지 않습니다.");
-	        return "redirect:/gunjsp/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
+	        return "redirect:/member/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
 	    }
 	    
 	    String password = passwordEncoder.encode(password1);
@@ -234,7 +235,7 @@ public class LoginController {
 	    } else {
 	        // 비밀번호 변경 실패 시 처리
 	        session.setAttribute("errorMsg", "비밀번호 변경 실패");
-	        return "redirect:/gunjsp/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
+	        return "redirect:/main/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
 	    }
 	}
 	@GetMapping("logout.me")	// 로그아웃
