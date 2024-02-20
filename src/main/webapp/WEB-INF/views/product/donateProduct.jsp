@@ -128,6 +128,94 @@
 
         </section>
         
+        <!-- 모달 -->
+	    <section id="myModal" class="modal">
+	    	<div class="modal-content">
+		    	<!-- 모달 내용 -->
+		        <span class="close" id="closeModal">&times;</span>
+		        <div class="tip">
+		        	<img style="width:50px" src="https://cdn-icons-png.flaticon.com/128/4201/4201973.png">
+		          	<span>물품 기부 내역을 수정하기 위해서는 물품기부번호가 필요합니다.</span>
+		        </div>
+		        <div class="tip1">
+		        	<span>※ 물품 기부 번호 조회의 경우, 배송완료 되지 않은 건에 대해서만 조회됩니다.</span>
+		        </div>
+		        
+		        <article class="donateModalForm">
+			        <div class="donateModifyTitle">
+			        	<div id="productNoCheck">물품 기부 번호 조회</div>
+			        	<div id="productModify">물품 기부 수정 정보 입력</div>
+			        </div>
+			        
+			        <div id="donateNoCheck" class="donateNoCheck">
+			        	<span>전화번호 입력 *</span><br>
+			        	<input type="text" name="phone" id="donateNoPhone" class="phoneInput" placeholder="-빼고 전화번호 입력">
+			        	<input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
+			        	<input type="text" id="certificationNumber" class="phoneInput" placeholder="인증번호 4자리 입력" required>
+	                	<input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
+			        	<button type="button" id="viewBtn" class="productBtn">조회하기</button>
+			        </div>
+			        
+			        <!-- 물품기부번호 조회 결과 -->
+			        
+<!-- 			        <div class="donateNoCheckResult" style="display:none"> -->
+<%-- 			        	<c:forEach var="pro" items="${product}" > --%>
+<%-- 			        		${pro} --%>
+<%-- 				        	<c:choose> --%>
+<%-- 				        		<c:when test="${pro eq null}"> --%>
+<!-- 		 			        		<span>조회된 물품기부번호가 없습니다.</span> -->
+<%-- 		 			        	</c:when> --%>
+<%-- 		 			        	<c:otherwise> --%>
+<!-- 									<div class="donateResult"> -->
+<!-- 										<div class="donateResult_content"> -->
+<!-- 											<span style="color:red; font-weight:bold;">물품기부번호</span> -->
+<!-- 											<span>문의유형</span> -->
+<!-- 											<span>이름</span> -->
+<!-- 											<span>기부물품</span> -->
+<!-- 											<span>배송방법</span> -->
+<!-- 										</div> -->
+										
+<!-- 										<div style="border: 1px solid #D8D8D8;"></div> -->
+										
+<!-- 										<div class="donateResult_db"> -->
+<%-- 												<span style="color:red; font-weight:bold;">${pro.productNo}번</span> --%>
+<%-- 												<span>${pro.productType} 후원</span> --%>
+<%-- 												<span>${pro.puserName}</span> --%>
+<%-- 												<span>${pro.categoryNo }</span> --%>
+<%-- 												<span>${pro.productWay }</span> --%>
+<!-- 										</div> -->
+<!-- 									</div> -->
+<%-- 								</c:otherwise> --%>
+<%-- 							</c:choose> --%>
+<%-- 						</c:forEach> --%>
+<!-- 			        </div> -->
+			        
+			        <div id="donateModifyForm" class="donateModifyForm">
+				        <div>
+				        	<span>물품기부번호 입력 *</span>
+				        	<input type="text"  class="donateInput" name="productNo" placeholder="물품기부번호 입력">
+				        </div>
+				        
+				        <div>
+			        		<span>이름 입력 *</span>
+			        		<input type="text" class="donateInput" name="puserName" placeholder="이름 입력">
+			        	</div>
+				        
+				        <div>
+				        	<span>전화번호 입력 *</span>
+				        	<input type="text" name="phone" id="modifyPhone" class="phoneInput" placeholder="-빼고 전화번호 입력">
+				        	<input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
+				        	<input type="text" id="certificationNumber" class="phoneInput" placeholder="인증번호 4자리 입력" required>
+				        	<input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
+			        	</div>
+			        	
+						<input type="button" class="resetFilters" value="필터해제" onclick="resetFilters()"></button></a>
+			        	<a href=""><button type="button" id="modifyBtn" class="productBtn">수정하기</button></a>
+			        </div>
+		        </article>
+	      	</div>
+	    </section>
+        
         <!-- 기부 방법 -->
         <section>
             <h1 ><img class="donateGoodNumber" src="https://cdn-icons-png.flaticon.com/128/3097/3097290.png">기부 방법</h1>
@@ -155,7 +243,7 @@
         </section>
 
         <button class="h_donationGood_article_btn" >물품 기부 신청하기</button>
-        <button class="">물품 기부 내역 수정하기</button>
+        <button class="h_donationGood_article_btn1" id="openModal">물품 기부 내역 수정하기</button>
     </main>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
@@ -169,7 +257,7 @@
 		        // donateProductForm.jsp로 값 전달
 		        $.ajax({
 		            type: "POST",
-		            url: "product.bo", // donateProductForm.jsp의 경로에 맞게 수정하세요.
+		            url: "product.bo",
 		            data: { donateType: donateType }, // 전달할 데이터
 		            success: function(response) {
 		                // 성공적으로 값을 전달한 후의 처리
@@ -184,6 +272,106 @@
 		            }
 		        });
 		    });
+		    
+		    $("#viewBtn").click(function(){
+		        var phone = $("#donateNoPhone").val();
+		        
+		        $.ajax({
+		            type:"POST",
+		            url: "productNoCheck.bo",
+		            data: {phone : phone},
+		            success : function(response){
+		                console.log("물품기부번호 조회 성공");
+		                $("#donateNoCheck").hide();
+		                $(".donateNoCheckResult").show();
+		                
+		                // 여기에 성공 시 실행할 코드를 추가합니다.
+		                $(".donateNoCheckResult").empty(); // 이전 결과를 지우고 다시 채워넣는다
+		                $.each(response, function(index, pro) {
+		                    if(pro === null) {
+		                        $(".donateNoCheckResult").append("<span>조회된 물품기부번호가 없습니다.</span>");
+		                    } else {
+		                        var resultDiv = "<div class='donateResult'>" +
+		                                            "<div class='donateResult_content'>" +
+		                                                "<span style='color:red; font-weight:bold;'>물품기부번호</span>" +
+		                                                "<span>문의유형</span>" +
+		                                                "<span>이름</span>" +
+		                                                "<span>기부물품</span>" +
+		                                                "<span>배송방법</span>" +
+		                                            "</div>" +
+		                                            "<div style='border: 1px solid #D8D8D8;'></div>" +
+		                                            "<div class='donateResult_db'>" +
+		                                                "<span style='color:red; font-weight:bold;'>" + pro.productNo + "번</span>" +
+		                                                "<span>" + pro.productType + " 후원</span>" +
+		                                                "<span>" + pro.puserName + "</span>" +
+		                                                "<span>" + pro.categoryNo + "</span>" +
+		                                                "<span>" + pro.productWay + "</span>" +
+		                                            "</div>" +
+		                                        "</div>";
+		                        $(".donateNoCheckResult").append(resultDiv);
+		                    }
+		                });
+		            },
+		            error:function() {
+		                console.log("물품기부번호 조회 실패");
+		            }
+		        });
+		    });
+		    
+		    
+			//휴대폰 번호 인증
+// 			var code2 = "";
+// 			$("#donateGoodBtn").click(function(){
+// 			    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+// 			    var phoneNumber = $("#phone").val();
+// 			    $.ajax({
+// 			        type:"POST", // post 형식으로 발송
+// 			        url:"/hope/sendSMS1.do", // controller 위치
+// 			        data: {phone:phoneNumber}, // 전송할 ㅔ이터값
+// 			        cache : false,
+// 			        success:function(data){
+// 			            if(data == "error"){ //실패시 
+// 			                alert("휴대폰 번호가 올바르지 않습니다.")
+// 			            }else{            //성공시        
+// 			                alert("휴대폰 전송이  됨.")
+// 			                code2 = data; // 성공하면 데이터저장
+// 			            }
+// 			        }
+// 			    });
+// 			});
+			 
+			 
+// 			var result = false;
+			
+// 			//휴대폰 인증번호 대조
+// 			$("#certificationNumberBtn").click(function(){
+// 			    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
+// 			         alert('인증성공')
+// 			    	result = true;
+// 			    }else{
+// 			        alert('인증실패')
+// 			        result = false;
+// 			    }
+// 			});
+			
+// 		    // 신청하기 버튼 클릭 시
+// 		    $(".productBtn").click(function() {
+// 		        // 입력한 인증번호를 가져옵니다.
+// 		        var certificationNumber = $("#certificationNumber").val();
+
+// 		        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
+// 		        if (certificationNumber !== code2) {
+// 		            // 인증번호가 일치하지 않는 경우
+// 		            alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+// 		            return false; // 전송을 중지합니다.
+// 		        } else {
+// 		            // 인증번호가 일치하는 경우
+// 		            return true; // 폼을 제출합니다.
+// 		        }
+// 		    });
+
+
+			
 		});
 	</script>
     

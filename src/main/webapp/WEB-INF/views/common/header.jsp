@@ -26,7 +26,7 @@
                     <a href="${contextPath}/donate/list"><div id="h_support">후원모집</div></a>
                     <a href="${contextPath}/product"><div id="h_donate">물품기부</div></a>
                     <a href="${contextPath}/program/list"><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
-                    <a href=""><div id="h_news" class="hoverToShowMenu_news">소식</div></a>
+                    <a href="${contextPath}/board/R"><div id="h_news" class="hoverToShowMenu_news">소식</div></a>
                 </div>
             </div>
 			
@@ -52,23 +52,23 @@
 		                     <li> | </li>
 		                     <li><a href="${contextPath}/mypage">마이페이지</a></li> 
 		                     <li> | </li> 
-		                     <li><a><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
+		                     <li><a href="http://localhost:8005/hope/chat/chatList"><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
 		                 </ul> 
 		           </div> 
 		        </c:otherwise>
 			</c:choose>
 
         </div>
-        <div class='h_headerMenu headerMenu_news' hidden>
+        <div class='h_headerMenu headerMenu_news' style="display:none">
             <ul class='h_headerMenu_1'>
                 <h4>소식</h4>
                 <li>행복한 변화와 이야기를 전해드립니다.</li>
             </ul>
-            <ul class='h_headerMenu_2' >
-                <li><a>나눔후기 게시판</a></li>
-                <li><a>자유 게시판</a></li>
-                <li><a>공지사항</a></li>
-                <li><a>자주 묻는 질문 FAQ</a></li>
+            <ul id="headerNews" class='h_headerMenu_2' >
+                <li><a href="${contextPath}/board/R">나눔후기 게시판</a></li>
+                <li><a href="${contextPath}/board/C">자유 게시판</a></li>
+                <li><a href="${contextPath}/board/N">공지사항</a></li>
+                <li><a href="${contextPath}/board/Q">자주 묻는 질문 FAQ</a></li>
             </ul>
             <ul class='h_headerMenu_3'>
                 <li>
@@ -78,13 +78,14 @@
                 </li>
             </ul>
         </div>
-        <div class='h_headerMenu headerMenu_activity' hidden>
+        <div class='h_headerMenu headerMenu_activity' style="display:none">
             <ul class='h_headerMenu_1'>
                 <h4>활동</h4>
                 <li>도움이 가장 필요한 곳에 후원자님의 사랑을 전달합니다.</li>
             </ul>
             <ul class='h_headerMenu_2'>
                 <li><a href="${contextPath}/program/list">봉사활동 지원하기</a></li>
+                <li><a href="">활동보고서</a></li>
             </ul>
             <ul class='h_headerMenu_3'>
                 <li>
@@ -95,6 +96,7 @@
             </ul>
         </div>
     </header>
+    
 
 </body>
 </html>

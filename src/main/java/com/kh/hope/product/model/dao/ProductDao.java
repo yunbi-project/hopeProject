@@ -1,5 +1,7 @@
 package com.kh.hope.product.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,17 @@ public class ProductDao {
 //  물품기부 신청
 	public int insertProduct(Product p) {
 		return session.insert("productMapper.insertProduct", p);
+	}
+
+//  물품기부 번호
+	public int selectProductNo() {
+		return session.selectOne("productMapper.selectProductNo");
+	}
+
+
+//	물품 기부 리스트 조회
+	public List<Product> selectProductNoCheck(String phone) {
+		return session.selectList("productMapper.selectProductNoCheck" , phone );
 	}
 	
 

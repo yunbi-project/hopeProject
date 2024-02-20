@@ -45,11 +45,11 @@
 			        <c:when test="${donateType eq '개인'}">
 			       		<div style="margin: 0px 0px 10px 0px;">
 				            <label class="radio-container">
-				                <input name="productType" id="personalItems" type="radio" value="G" checked>
+				                <input name="productType" id="personalItems" type="radio" value="개인" checked>
 				                <span class="checkmark">개인물품후원</span>
 				            </label>
 				            <label class="radio-container">
-				                <input name="productType" id="businessItems" type="radio" value="B">
+				                <input name="productType" id="businessItems" type="radio" value="기업">
 				                <span class="checkmark">기업물품후원</span>
 				            </label>
 			            </div>
@@ -57,11 +57,11 @@
 			        <c:otherwise>
 			        	<div style="margin: 0px 0px 10px 0px;">
 				            <label class="radio-container">
-				                <input name="productType" id="personalItems" type="radio" value="G">
+				                <input name="productType" id="personalItems" type="radio" value="개인">
 				                <span class="checkmark">개인물품후원</span>
 				            </label>
 				            <label class="radio-container">
-				                <input name="productType" id="businessItems" type="radio" value="B" checked>
+				                <input name="productType" id="businessItems" type="radio" value="기업" checked>
 				                <span class="checkmark">기업물품후원</span>
 				            </label>
 			            </div>
@@ -82,7 +82,7 @@
                     <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
                 </div>
                 <div>
-	                <input type="text" style="width: 350px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 6자리 입력" required>
+	                <input type="text" style="width: 350px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 4자리 입력" required>
 	                <input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
                 </div>
 
@@ -110,9 +110,9 @@
                 <!-- 기부방법 -->
                 <p style="font-size: 15px;">희망의 조각은 기부금으로 운영되는 단체로 더 많은 이웃을 돕기 위해 기부자 부담으로 물품을 발송해 주시기 바랍니다.</p>
                 <select class="donateGoodSelect" required name="productWay">
-                    <option value="P" selected>택배발송</option>
-                    <option value="B">용달발송</option>
-                    <option value="V">방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
+                    <option value="택배" selected>택배발송</option>
+                    <option value="용달">용달발송</option>
+                    <option value="방문">방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
                 </select>
 
                 <!-- 기부금영수증 발급 여부 -->
@@ -144,11 +144,11 @@
         $('input[name="productType"]').on('change', function() {
             var selectedValue = $(this).val();
 
-            if (selectedValue === 'G') {
+            if (selectedValue === '개인') {
                 // 개인물품후원 선택 시
                 $('#h_companyName, #h_businessNumberInput, #h_businessNameInput, #h_residentNumerInput, #h_businessNumber, #h_residentNumer').hide();
                 $('#h_name, #h_nameInput').show();
-            } else if (selectedValue === 'B') {
+            } else if (selectedValue === '기업') {
                 // 기업물품후원 선택 시
                 $('#h_residentNumerInput, #h_residentNumer, #h_businessNumberInput').hide();
                 $('#h_companyName, #h_businessNameInput').show();
@@ -162,8 +162,8 @@
         $('input[name="receipt"]').change(function() {
             var isReceiptY = $(this).val() === 'Y';
             var isReceiptN = $(this).val() === 'N';
-            var isPersonal = $('input[name="productType"]:checked').val() === 'G';
-            var isCompany = $('input[name="productType"]:checked').val() === 'B';
+            var isPersonal = $('input[name="productType"]:checked').val() === '개인';
+            var isCompany = $('input[name="productType"]:checked').val() === '기업';
 
             if (isReceiptY && isPersonal) {
                 $('#h_residentNumer, #h_residentNumerInput').show();
