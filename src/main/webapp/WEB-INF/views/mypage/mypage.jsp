@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	
+
 	<div class="d-div-wrapper">
 		<div class="top-bar">
 			<div class="title">마이페이지</div>
@@ -20,11 +21,12 @@
 
 		<div class="section">
 			<div class="avatar">
-			<img class="frame" src="resources/images/mypage/profile.png" />
+				<img class="frame" src="resources/images/mypage/profile.png" />
 			</div>
 			<div class="container">
-				<div class="text-wrapper">${userName } 임도원</div>		
-				<div class="edit-profile" onclick="redirectToEditPage()">내정보 변경</div>
+				<div class="text-wrapper">${loginUser.userName }</div>
+				<div class="edit-profile" onclick="redirectToEditPage()">내정보
+					변경</div>
 			</div>
 		</div>
 
@@ -44,24 +46,24 @@
 			<div class="title-4">기부활동</div>
 
 			<div class="list">
-			
+
 				<c:forEach var="donate" items="${donatelist}">
-				<div class="row">
-					<div class="article">
-						<div class="image-container">
-							<div class="frame">
-								<div class="icon">📦</div>
+					<div class="row">
+						<div class="article">
+							<div class="image-container">
+								<div class="frame">
+									<div class="icon">📦</div>
+								</div>
+							</div>
+							<div class="frame-2">
+								<div class="title-3">날짜 : ${donate.productDate}</div>
+								<div class="subtitle">제품 종류 : ${donate.categoryName}</div>
+								<div class="subtitle">수량 : ${donate.productAmount}</div>
 							</div>
 						</div>
-						<div class="frame-2">
-							<div class="title-3">날짜 : ${donate.productDate}</div>
-							<div class="subtitle">제품 종류 : ${donate.categoryName}</div>
-							<div class="subtitle">수량 : ${donate.productAmount}</div>
-						</div>
 					</div>
-				</div>
-				</c:forEach>							
-				
+				</c:forEach>
+
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -77,7 +79,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -102,21 +104,22 @@
 
 			<div class="list">
 				<c:forEach var="program" items="${programlist}">
-				<div class="row">
-					<div class="article">
-						<div class="image-container">
-							<div class="frame">
-								<div class="icon-2">🤝</div>
+					<div class="row">
+						<div class="article">
+							<div class="image-container">
+								<div class="frame">
+									<div class="icon-2">🤝</div>
+								</div>
+							</div>
+							<div class="frame-2">
+								<p class="title-3">${program.programActivityStartDate}~
+									${program.programActivityEndDate}</p>
+								<div class="subtitle">${program.programName}</div>
 							</div>
 						</div>
-						<div class="frame-2">
-							<p class="title-3">${program.programActivityStartDate} ~ ${program.programActivityEndDate}</p>
-							<div class="subtitle">${program.programName}</div>
-						</div>
 					</div>
-				</div>
 				</c:forEach>
-				
+
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -130,7 +133,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="row">
 					<div class="article">
 
@@ -145,7 +148,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 
 
@@ -158,32 +161,34 @@
 
 			<div class="title-4">즐겨찾기</div>
 			<div class="list">
-			
+
 				<c:forEach var="bookmark" items="${bookmarklist}">
-				<div class="row">
-					<div class="article">
-						<div class="image-container">
-							<div class="frame">
-								<div class="overlap-group">
-									<div class="icon-2">💛</div>
+					<div class="row">
+						<div class="article">
+							<div class="image-container">
+								<div class="frame">
+									<div class="overlap-group">
+										<div class="icon-2">💛</div>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="frame-2">
-							<div class="title-3">
-								모집기한<br />${bookmark.programActivityStartDate} ~ ${bookmark.programActivityEndDate}
+							<div class="frame-2">
+								<div class="title-3">
+									모집기한<br />${bookmark.programActivityStartDate} ~
+									${bookmark.programActivityEndDate}
+								</div>
+								<div class="subtitle">즐겨찾기한 활동 제목 :
+									${bookmark.programName}</div>
 							</div>
-							<div class="subtitle">즐겨찾기한 활동 제목 : ${bookmark.programName}</div>
-						</div>
-						<div>
-							<button class="heartBtn" onclick="addLike()">
-								<i class=" xi-heart-o xi-2x"></i>
-							</button>
+							<div>
+								<button class="heartBtn" onclick="addLike()">
+									<i class=" xi-heart-o xi-2x"></i>
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
 				</c:forEach>
-				
+
 				<div class="row">
 					<div class="article">
 						<div class="image-container">
@@ -235,31 +240,31 @@
 
 
 		</div>
-			<div class="component">
-				<div class="page">
-					<div class="num"><</div>
-				</div>
-				<div class="page">
-					<div class="num">1</div>
-				</div>
-				<div class="page">
-					<div class="num">2</div>
-				</div>
-				<div class="page">
-					<div class="num">3</div>
-				</div>
-				<div class="page">
-					<div class="num">4</div>
-				</div>
-				<div class="page">
-					<div class="num">5</div>
-				</div>
-				<div class="page">
-					<div class="num">></div>
-				</div>
+		<div class="component">
+			<div class="page">
+				<div class="num"><</div>
 			</div>
+			<div class="page">
+				<div class="num">1</div>
+			</div>
+			<div class="page">
+				<div class="num">2</div>
+			</div>
+			<div class="page">
+				<div class="num">3</div>
+			</div>
+			<div class="page">
+				<div class="num">4</div>
+			</div>
+			<div class="page">
+				<div class="num">5</div>
+			</div>
+			<div class="page">
+				<div class="num">></div>
+			</div>
+		</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-		
+
 		<script src="resources/js/dowon.js/mypage.js"></script>
 </body>
 </html>

@@ -20,15 +20,23 @@ body {
     margin-bottom: 5px;
     font-weight: bold;
   }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
+  #name, #phone{
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
   }
+  
+  #postcode, #address, #detailAddress{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
   input[type="submit"] {
     background-color: #4caf50;
     color: white;
@@ -38,5 +46,17 @@ body {
     cursor: pointer;
   }
   input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  #openAddressPopup {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #openAddressPopup:hover {
     background-color: #45a049;
   }
