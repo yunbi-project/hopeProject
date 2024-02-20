@@ -1,21 +1,31 @@
 package com.kh.hope.board.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.hope.board.model.service.BoardService;
 import com.kh.hope.board.model.vo.Board;
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +37,9 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	/*각 페이지 리스트조회*/
+	private static String realPath = "C:/ProjectFinal/hope/src/main/webapp/resources/uploadfiles";
+	
+	/*각 페이지 리스트조회*
 	/*공지사항*/
 	@GetMapping("/N")
 	public String NoticeList(
@@ -48,6 +60,15 @@ public class BoardController {
 		System.out.println(list);
 		return "board/SnoticeList";
 	}
+	/*공지사항 등록*/
+	@GetMapping("/insert/N")
+	public String noticeInsert(Model m) {
+//		List<Board> list = service.noticeInsert();
+//		m.addAttribute("list", list);		
+		return "board/SnoticeInsert";
+	}
+	
+
 	/*자주묻는질문*/
 	@GetMapping("/Q")
 	public String faqList(Model m) {
