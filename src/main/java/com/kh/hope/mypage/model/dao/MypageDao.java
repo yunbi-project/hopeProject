@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.hope.mypage.model.vo.Editprofile;
 import com.kh.hope.mypage.model.vo.Mypage;
 
 @Repository
@@ -27,9 +26,7 @@ public class MypageDao {
 		return session.selectList("mypageMapper.mypageProgramList");
 	}
 
-	public List<Editprofile> selectEditProfileList() {
-		return session.selectList("mypageMapper.editprofileList");
-	}
+	
 
 	
 

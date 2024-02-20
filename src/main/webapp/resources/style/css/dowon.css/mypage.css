@@ -1,4 +1,6 @@
-  
+*{
+	font-family: 'NanumSquareNeo-Variable';
+}  
   .d-div-wrapper {
     display: flex;
     flex-direction: column;
@@ -36,7 +38,6 @@
   
   .d-div-wrapper .title {
     flex: 1;
-    font-family: "Roboto-Medium", Helvetica;
     font-weight: 500;
     font-size: 28px;
     line-height: 36px;
@@ -83,7 +84,6 @@
   .d-div-wrapper .text-wrapper {
     align-self: stretch;
     margin-top: -1px;
-    font-family: "Roboto-Bold", Helvetica;
     font-weight: 700;
     font-size: 24px;
     line-height: 32px;
@@ -180,7 +180,6 @@
     width: 196px;
     height: 48px;
     margin-top: -1px;
-    font-family: "Roboto-Bold", Helvetica;
     font-weight: 700;
     font-size: 40px;
     line-height: 48px;
@@ -249,7 +248,6 @@
     height: 100px;
     top: -1px;
     left: 0;
-    font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     color: #000000;
     font-size: 62.5px;
@@ -278,7 +276,6 @@
     position: relative;
     align-self: stretch;
     margin-top: -1px;
-    font-family: "Roboto-Medium", Helvetica;
     font-weight: 500;
     color: #000000;
     font-size: 20px;
@@ -289,7 +286,6 @@
   .d-div-wrapper .subtitle {
     position: relative;
     align-self: stretch;
-    font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     color: #000000;
     font-size: 16px;
@@ -313,7 +309,6 @@
     width: 24px;
     top: 5px;
     left: 4px;
-    font-family: "SF Pro Text-Bold", Helvetica;
     font-weight: 700;
     color: #000000;
     font-size: 14px;
@@ -343,7 +338,6 @@
     width: 232px;
     height: 48px;
     margin-top: -1px;
-    font-family: "Roboto-Bold", Helvetica;
     font-weight: 700;
     font-size: 40px;
     line-height: 48px;
@@ -378,7 +372,6 @@
     font-size: 62.5px;
     line-height: 100px;
     -webkit-line-clamp: 1;
-    font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     text-align: center;
     letter-spacing: 0;
@@ -423,7 +416,6 @@
     font-size: 16px;
     line-height: 24px;
     -webkit-line-clamp: 1;
-    font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     text-align: center;
     letter-spacing: 0;
@@ -443,7 +435,6 @@
     font-size: 16px;
     line-height: 24px;
     -webkit-line-clamp: 0;
-    font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     text-align: center;
     letter-spacing: 0;

@@ -73,5 +73,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function redirectToEditPage() {
         // 내정보 변경 페이지로 이동
-        window.location.href = '내정보 변경 페이지 url 넣어야 함';
+        window.location.href = '/hope/editprofile';
     }
