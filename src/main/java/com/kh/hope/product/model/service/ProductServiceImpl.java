@@ -1,6 +1,7 @@
 package com.kh.hope.product.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,18 @@ public class ProductServiceImpl implements ProductService{
             System.out.println(e.getMessage());
             System.out.println(e.getCode());
         }
+	}
+
+//	물품기부 번호 조회
+	@Override
+	public int selectProductNo() {
+		return productDao.selectProductNo();
+	}
+
+//	물품기부번호 조회 리스트
+	@Override
+	public List<Product> selectProductNoCheck(String phone) {
+		return productDao.selectProductNoCheck(phone);
 	}
 
 }

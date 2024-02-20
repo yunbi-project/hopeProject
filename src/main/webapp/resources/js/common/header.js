@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    $('.h_headerMenu').hide();
 
     // 소식 hover 이벤트
     $('.hoverToShowMenu_news').hover(function () {
@@ -36,9 +35,11 @@ $(document).ready(function () {
 
 
     // 후원모집 클릭하면 아래 하단 유지
-    // $('#h_support').click(function(){
-    //     $(this).css('border-bottom', '2px solid #ABC138');
-    //     $('#h_home').css('border-bottom', 'none');
-    // });
+//     $('#h_support').click(function(){
+//         $(this).css('border-bottom', '2px solid #ABC138');
+//         $('#h_home').css('border-bottom', 'none');
+//     });
+    
+    
 
 });

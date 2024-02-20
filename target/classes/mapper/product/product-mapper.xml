@@ -14,6 +14,26 @@
 		#{productAmount}, #{receipt}, #{businessNum}, #{residentNum}, 'Y', SYSDATE, #{categoryNo}, #{inquiryContent}, 'N'
 		)
 	</insert>
+	
+	<select id="selectProductNo" resultType="int">
+		SELECT PRODUCT_NO
+		FROM (
+		    SELECT PRODUCT_NO
+		    FROM DONATE_PRODUCT
+		    ORDER BY PRODUCT_NO DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+	<select id="selectProductNoCheck" resultType="product">
+		SELECT 
+			PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
+			BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
+			BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT, RECEIVE_DELIVERY
+		FROM DONATE_PRODUCT
+		WHERE PHONE = #{phone}
+	</select>
 
 	
 </mapper>
