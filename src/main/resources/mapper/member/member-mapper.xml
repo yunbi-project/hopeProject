@@ -53,7 +53,7 @@
 		 
 		 <!-- ========================== 소셜로그인 ============================= -->
 		 
-		 <resultMap id="userResultMap" type="MemberEntity">
+		 <resultMap id="userResultMap" type="user">
         <id property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="email" column="email"/>
@@ -66,12 +66,12 @@
         	
     </select> 
     
-    <insert id="save" parameterType="MemberEntity">
+    <insert id="save" parameterType="user">
         INSERT INTO USERS (USER_NO, USER_NAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID) VALUES (SEQ_USERSNO.NEXTVAL,#{userName}, #{email}, #{role}, #{loginType}, #{providerid})
     </insert>
     
     
-    <update id="update" parameterType="MemberEntity">
+    <update id="update" parameterType="user">
         UPDATE USERS 
         SET USER_NAME = #{userName},
             EMAIL = #{email}

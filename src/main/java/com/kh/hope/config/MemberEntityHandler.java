@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
-import com.kh.hope.member.model.vo.MemberEntity;
+//import com.kh.hope.member.model.vo.MemberEntity;
+import com.kh.hope.user.model.vo.User;
 
 
 /** 
@@ -17,11 +18,11 @@ import com.kh.hope.member.model.vo.MemberEntity;
  * BaseTyHandler를 상속하여 MemberEntity 객체를 데이터베이스에 저장하거나 결과를 읽을 수 있도록 지원한다.
  * 
  * */
-public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
+public class MemberEntityHandler extends BaseTypeHandler<User> {
 
 	//  이 메서드는 PreparedStatement에 MemberEntity 객체의 속성을 설정하는 데 사용된다.
     @Override
-    public void setNonNullParameter(PreparedStatement preparedStatement, int i, MemberEntity memberEntity, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement preparedStatement, int i, User memberEntity, JdbcType jdbcType) throws SQLException {
         preparedStatement.setString(i, memberEntity.getUserName());
         preparedStatement.setString(i + 1, memberEntity.getEmail());
         preparedStatement.setString(i + 2, memberEntity.getRole());
@@ -29,8 +30,8 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
 
     // 이 메서드는 ResultSet이나 CallableStatement에서 MemberEntity 객체를 가져오는 데 사용된다
     @Override
-    public MemberEntity getNullableResult(ResultSet resultSet, String s) throws SQLException {
-        MemberEntity memberEntity = new MemberEntity();
+    public User getNullableResult(ResultSet resultSet, String s) throws SQLException {
+    	User memberEntity = new User();
         memberEntity.setId(resultSet.getLong("id"));
         memberEntity.setUserName(resultSet.getString("userName"));
         memberEntity.setEmail(resultSet.getString("email"));
@@ -39,8 +40,8 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
     }
 
     @Override
-    public MemberEntity getNullableResult(ResultSet resultSet, int i) throws SQLException {
-        MemberEntity memberEntity = new MemberEntity();
+    public User getNullableResult(ResultSet resultSet, int i) throws SQLException {
+    	User memberEntity = new User();
         memberEntity.setId(resultSet.getLong("id"));
         memberEntity.setUserName(resultSet.getString("userName"));
         memberEntity.setEmail(resultSet.getString("email"));
@@ -49,8 +50,8 @@ public class MemberEntityHandler extends BaseTypeHandler<MemberEntity> {
     }
 
     @Override
-    public MemberEntity getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
-        MemberEntity memberEntity = new MemberEntity();
+    public User getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
+    	User memberEntity = new User();
         memberEntity.setId(callableStatement.getLong("id"));
         memberEntity.setUserName(callableStatement.getString("userName"));
         memberEntity.setEmail(callableStatement.getString("email"));

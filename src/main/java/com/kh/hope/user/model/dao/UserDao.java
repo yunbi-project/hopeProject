@@ -4,7 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.hope.member.model.vo.MemberEntity;
+//import com.kh.hope.member.model.vo.MemberEntity;
 import com.kh.hope.user.model.vo.User;
 
 
@@ -63,18 +63,18 @@ public class UserDao {
 	
 	//------------------------------ 소셜로그인 -------------------------------------------------
 
-	public MemberEntity findByUsername(String providerid) { // 회원이 존재하는지 여부확인
+	public User findByUsername(String providerid) { // 회원이 존재하는지 여부확인
 
 		return session.selectOne("member.findByUsername", providerid);
 	}
 
-	public void save(MemberEntity member) {	// 처음 소셜 로그인
+	public void save(User member) {	// 처음 소셜 로그인
 		session.insert("member.save", member);
 		
 	}
 
 
-	public void update(MemberEntity existData) { // 이미 로그인한 소셜로그인 업데이트
+	public void update(User existData) { // 이미 로그인한 소셜로그인 업데이트
 		session.update("member.update", existData);
 		
 	}

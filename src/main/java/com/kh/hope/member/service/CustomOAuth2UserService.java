@@ -12,8 +12,9 @@ import com.kh.hope.member.dto.CustomOAuth2User;
 import com.kh.hope.member.dto.GoogleResponse;
 import com.kh.hope.member.dto.NaverResponse;
 import com.kh.hope.member.dto.OAuth2Response;
-import com.kh.hope.member.model.vo.MemberEntity;
+//import com.kh.hope.member.model.vo.MemberEntity;
 import com.kh.hope.user.model.dao.UserDao;
+import com.kh.hope.user.model.vo.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -53,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         
 
         
-        MemberEntity member = new MemberEntity(); // 사용자 엔티티 객체 생성
+        User member = new User(); // 사용자 엔티티 객체 생성
 
         // registrationId에 따라 OAuth2Response를 설정
         if(registrationId.equals("naver")) {
@@ -76,7 +77,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         
         
         // username으로 MemberEntity를 조회합니다.
-        MemberEntity existData = memberEntityMapperDao.findByUsername(providerid);
+        User existData = memberEntityMapperDao.findByUsername(providerid);
         String role = "B";
 
         // 조회된 MemberEntity가 없으면 새로운 사용자로 등록합니다.
@@ -91,7 +92,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             
            
          // loginUser 객체 선언 이후에 세션에서 가져와야 합니다.
-            MemberEntity loginUser = (MemberEntity) session.getAttribute("loginUser");
+            User loginUser = (User) session.getAttribute("loginUser");
             
         } else { // 이미 로그인을 진행한 경우 update
             existData.setUserName(userName);
@@ -101,7 +102,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             
             session.setAttribute("loginUser", existData);
             
-            MemberEntity loginUser = (MemberEntity) session.getAttribute("loginUser");
+            User loginUser = (User) session.getAttribute("loginUser");
         }
 
         // CustomOAuth2User 객체를 생성하여 반환합니다.
