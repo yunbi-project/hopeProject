@@ -77,12 +77,25 @@ section {
 
 .y_list_box>progress {
 	width: 100%;
+}
 
+@keyframes fillAnimation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.progress {
+	animation: fillAnimation 2s ease-out;
 }
 
 #progress {
   appearance: none;
 }
+
 
 #progress::-webkit-progress-bar {
   background: #eee;
@@ -123,7 +136,6 @@ section {
 
 .y_donate_detail_bottom {
 	display: flex;
-	height: 1100px;
 }
 
 .y_donate_detail_img, .y_donate_detail_info, .y_donate_detail_content,
@@ -183,6 +195,11 @@ section {
 	padding: 0;
 }
 
+.empty{
+	text-align:center;
+	padding : 20px;
+	white-space: pre-line;
+}
 /* 프로그램 디테일 페이지*/
 
 .y_program_detail {
