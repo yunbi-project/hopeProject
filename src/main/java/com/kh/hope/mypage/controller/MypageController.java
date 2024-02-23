@@ -6,11 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.hope.mypage.model.service.MypageService;
 import com.kh.hope.mypage.model.vo.Mypage;
+import com.kh.hope.user.model.vo.User;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
+@SessionAttributes({"loginUser"})
 public class MypageController {
 	
 	@Autowired
@@ -18,22 +26,59 @@ public class MypageController {
 	
 	@GetMapping("/mypage")
 	public String mypageList(
+			HttpSession session,
 			Model model
 			) {
-		List<Mypage> donatelist = mypageService.selectMypageDonateList();
-		System.out.println(donatelist);
-		model.addAttribute("donatelist",donatelist);
 		
-		List<Mypage> bookmarklist = mypageService.selectMypageBookmarkList();
-		System.out.println(bookmarklist);
-		model.addAttribute("bookmarklist",bookmarklist);
+		User loginUser= (User)session.getAttribute("loginUser");
 		
-		List<Mypage> programlist = mypageService.selectMypageProgramList();
-		System.out.println(programlist);
-		model.addAttribute("programlist",programlist);
-		
-		return "mypage/mypage";
+		if(loginUser == null) {
+			session.setAttribute("alertMsg", "로그인을 해주세요.");
+			return "redirect:/";
+		}else {
+			
+			int userNo = loginUser.getUserNo();
+			
+			List<Mypage> donatelistp = mypageService.selectMypageDonateListP(userNo);
+			System.out.println(donatelistp);
+			model.addAttribute("donatelistp",donatelistp);
+			
+			List<Mypage> donatelistm = mypageService.selectMypageDonateListM(userNo);
+			System.out.println(donatelistm);
+			model.addAttribute("donatelistm",donatelistm);
+			
+			List<Mypage> bookmarklist = mypageService.selectMypageBookmarkList(userNo);
+			System.out.println(bookmarklist);
+			model.addAttribute("bookmarklist",bookmarklist);
+			
+			List<Mypage> programlist = mypageService.selectMypageProgramList(userNo);
+			System.out.println(programlist);
+			model.addAttribute("programlist",programlist);
+			
+			return "mypage/mypage";
+		}
 	}
+	
+	@PostMapping("/mypage")
+	@ResponseBody
+	public String deleteBookmark(@RequestParam("programNo") int programNo, HttpSession session) {
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        return "redirect:/"; // 로그인되지 않은 경우 처리
+	    }
+	    
+	    int userNo = loginUser.getUserNo();
+	    System.out.println(programNo + userNo);
+
+	    boolean deleted = mypageService.deleteBookmark(userNo, programNo);
+	    if (deleted) {
+	        return "success"; // 삭제 성공
+	    } else {
+	        return "failed"; // 삭제 실패
+	    }
+	}
+	
+	
 	
 	
 	
