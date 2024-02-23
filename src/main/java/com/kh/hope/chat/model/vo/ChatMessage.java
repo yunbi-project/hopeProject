@@ -14,6 +14,7 @@ public class ChatMessage {
 	private int userNo;	   // 회원번호
 	
 	private String userName;	// 회원 이름
+	private String chatTitle;
 	
 
 }

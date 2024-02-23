@@ -68,6 +68,39 @@ public class ChatServiceImpl implements ChatService{
 		return list;
 		
 	}
+
+	@Override
+	public void deleteUserChat(ChatJoin join) {
+
+		int result = chatDao.deleteUserChat(join);
+		
+		if(result > 0) {
+			result = chatDao.joinDeleteChat(join);
+		}
+		
+	}
+	
+	// 관리자가 삭제해야해서 채팅방삭제 지웠음.
+
+//	@Override
+//	public void deleteChatRoom(ChatJoin join) {
+//
+//		// 채팅방 나가기 -> chatJoin 테이블에서 delete문 수행
+//		int result = chatDao.deleteChatRoom(join);
+//		
+//		// 현재 채팅방 인원이 0명인경우 -> chat 테이블에서 status값 업데이트
+//		if(result > 0) { // 성공적으로 방을 나갔다.
+//			
+//			// 현재 채팅방 인원이 몇명인지 확인
+//			int cnt = chatDao.countChatRommUser(join);
+//			
+//		if(cnt == 0) {
+//			
+//			// 내가 마지막으로 나간경우 chat 테이블에서 Status 상태값을 변경 UPDATE
+//			result = chatDao.closeChatRoom(join);
+//		}
+//		}
+	
 }
 
 

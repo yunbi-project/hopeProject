@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -19,7 +20,8 @@ import com.kh.hope.chat.model.vo.ChatMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ChatWebsocket extends TextWebSocketHandler{
+@Component
+public class ChatWebsocketHandler extends TextWebSocketHandler{ // 웹소켓 핸들러
 	
 	// TextWebSocketHandler : 웹소켓을 위한 메소드를 지원하는 인터페이스이고 , 
 	// 웹소켓 핸들러 인터페이스를 구현한 클래스이며 문자열을 다룰대 사용한다.
@@ -27,22 +29,24 @@ public class ChatWebsocket extends TextWebSocketHandler{
 	@Autowired
 	private ChatService chatService;
 	/**
-	 <웹소켓 보관>
-	 채팅은 멀티스레드 환경이다. => 동기화처리 신경써야한다.
-	 HashSet은 동기화 처리가 구현이 안되어있다.
-	 그래서 동기화 처리 해주는 메소드를 불러온다. synchronizedSet
+	 <웹소켓>
+	 채팅은 멀티스레드 환경임으로 동기화 처리를 해줘야한다.
+	 
+	 그래서 동기화 처리 해주는 메소드를 불러온다 => synchronizedSet
 	 synchronizedSet : 동기화된 set를 반환해주는 메소드. 멀티스레드환경에서 하나의 컬렉션요소에 여러 스레드가 동시에 접근하게 되면 충돌이
-	 살생할 수 있으므로 동기화 처리를 진행함.
+	 발생할 수 있으므로 동기화 처리를 진행함.
 	 * 
 	 * */
 	
 	private Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<WebSocketSession>());
+	// sessions 라는 변수에 세션을 담아두기 위한 공간이다.
 	
-	// 클라이언트와 웹소켓 연결이 완료된 이후, 통신할 준비가 되면 실행하는 함수
+	// 사용자가 웹소켓 서버에 접속하게 되면 동작하는 메소드이다.
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// 매개변수로 전달받은 WebSocketSession : 웹소켓에 접속요청을 한 "클라이언트의" 세션
-		log.info("session ?? {}" + session.getId()); // 세션 Id 보관
+		// 웹소켓에 접속요청을 한 "클라이언트의" 세션
+		log.info("session  {}" + session.getId()); // 고유한 웹소켓 세션 ID
+		
 		
 		sessions.add(session);
 	}
@@ -54,11 +58,9 @@ public class ChatWebsocket extends TextWebSocketHandler{
 		
 		// payload : 전송되는 데이터 담겨있는 필드(JSON 객체로 전달받음)
 		log.info("전달된 메세지는 뭐냐?{}" , message.getPayload());
-		System.out.println(message.getPayload());
 		
 		// JackSon 라이브러리 : Java에서 json 다루기 위한 라이브러리
-		// JackSon-databind : objectMapper를 이용해서 JSON 형태로 넘어온 데이터를
-		// 특정 VO 필드에 맞게 자동으로 매핑시켜줌.
+		// objectMapper를 이용해서 JSON 형태로 넘어온 데이터를 ChatMessage VO 필드에 맞게 자동으로 매핑시켜줌.
 		ObjectMapper objectMapper = new ObjectMapper();
 		ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
 		

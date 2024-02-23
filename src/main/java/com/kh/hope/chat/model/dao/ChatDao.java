@@ -47,4 +47,12 @@ public class ChatDao {
 	public int joinCheck(ChatJoin join) {
 		return session.selectOne("chatMapper.joinCheck", join);
 	}
+
+	public int deleteUserChat(ChatJoin join) {
+		return session.delete("chatMapper.deleteUserChat", join);
+	}
+
+	public int joinDeleteChat(ChatJoin join) {
+		return session.delete("chatMapper.joinDeleteChat" , join);
+	}
 }
