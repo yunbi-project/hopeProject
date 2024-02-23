@@ -59,7 +59,7 @@ public class ProgramController {
 			program.setUserNo(loginUser.getUserNo());		
 			return "program/programForm";
 		}else {
-			session.setAttribute("errorMessage", "로그인 후 이거 왜 안되냐고 ");
+			session.setAttribute("errorMeslsage", "로그인 후 이거 왜 안되냐고 ");
 			return "redirect:/program/list";
 		}
 	}
