@@ -38,7 +38,7 @@
 					<c:forEach items="${list}" var="d">
 						<div class="y_list_box" onclick="detail(${d.donateNo})">
 							<img src='../resources/style/img/sample1.png'
-								class="y_list_image"></img> <span>${d.donateTitle}</span>
+								class="y_list_image"  onclick="detail(${d.donateNo})"></img> <span>${d.donateTitle}</span>
 							<progress value="${d.donateProgress }" min="0" max="100"
 								id="progress"></progress>
 							<span>${d.DDay}</span> <span class="y_floatRight">
@@ -48,6 +48,44 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
+		<c:if test="${not empty param.condition}">
+						<c:set var="url"
+							value="&condition=${param.condition}&keyword=${param.keyword}" />
+					</c:if>
+					<div id="pagingArea">
+						<ul class="pagination">
+							<c:if test="${pi.currentPage ne 1}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
+							</c:if>
+							<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${p}${url}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
+							</c:if>
+						</ul>
+					</div>
+					<form class="search-form" method="get" action="${contextPath}/donate/list">
+						<div class="archive-search">
+							<div class="Sn-btn">
+								<select class="custom-select" name="condition">
+									<option value="content"
+										${param.condition eq 'content'? 'selected':'' }>내용</option>
+									<option value="title"
+										${param.condition eq 'title'? 'selected':'' }>제목</option>
+									<option value="writer"
+										${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+
+								</select> <input type="text"
+									class="archive-search-text input-md width-280px" name="keyword"
+									value="${param.keyword}" placeholder="제목 또는 내용 검색을 입력하세요">
+								<input type="submit" class="green" value="검색">
+							</div>
+						</div>
+					</form>
 		<script>
 			function detail(donateNo){
 				location.href="${contextPath}/donate/detail/"+donateNo

@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="program">
-	
 
-	<select id="selectProgramList" resultType="program">
-		SELECT PROGRAM_NO, PROGRAM_NAME, 
+	<select id="selectListCount" resultType="int">
+	    SELECT COUNT(*)
+		FROM PROGRAM P
+		LEFT JOIN USERS USING (USER_NO)
+		WHERE P.STATUS='Y'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition.equals('title')">
+					PROGRAM_NAME LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
+		<if test="active_type !='' and keyword!=null">
+					AND ACTIVITY_TYPE = #{activityType}
+		</if>
+		<if test="active_location!=null and active_location!=''">
+					AND ACTIVITY_LOCATION LIKE '%${activityLocation}%'
+		</if>
+		<if test="active_time !='' and active_time !=null">
+					AND ACTIVITY_TIME = #{activityDays}
+		</if>
+		<if test="active_days !='' and active_time !=null">
+					AND ACTIVITY_DAYS = #{activityDays}
+		</if>
+	</select>
+
+	<select id="selectProgramList" parameterType="hashmap" resultType="program">
+		SELECT PROGRAM_NO, PROGRAM_NAME, ACTIVITY_TYPE,
 		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
 				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
 				ACTIVITY_DAYS, ACTIVITY_TIME, ACTIVITY_LOCATION FROM PROGRAM
 		WHERE STATUS = 'Y'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition.equals('title')">
+					PROGRAM_NAME LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
 		order by 1 desc
 	</select>
 	
@@ -21,9 +61,9 @@
 			PROGRAM_CONTENT,
 			STATUS)
 		VALUES 
-			(SEQ_PROGRAMNO.NEXTVAL, '2', #{programName}, #{programActivityStartDate}, #{programActivityEndDate},
+			(SEQ_PROGRAMNO.NEXTVAL, #{userNo}, #{programName}, #{programActivityStartDate}, #{programActivityEndDate},
 			#{activityType}, #{activityTime}, #{activityDays}, #{activityLocation}, 
-			#{programCapacity}, #{programEnrollEndDate}, #{content}, 'Y' )
+			#{programCapacity}, #{programEnrollEndDate}, #{programContent}, 'Y' )
 	</insert>
 	
 	<select id="detailProgram" resultType="program">

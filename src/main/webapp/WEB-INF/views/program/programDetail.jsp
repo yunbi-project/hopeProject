@@ -76,7 +76,7 @@
 
 				function requestProgram() {
 					let r = {
-						userNo : '${loginUser.userNo}',
+// 						userNo : '${loginUser.userNo}',
 						programNo : '${programNo}'
 					};
 					$.ajax({

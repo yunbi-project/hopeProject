@@ -1,20 +1,28 @@
 package com.kh.hope.donate.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.hope.common.Template.model.vo.Pagenation;
+import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.donate.model.service.DonateService;
 import com.kh.hope.donate.model.vo.CurrentUser;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.service.PaymentService;
-import com.kh.hope.payment.model.vo.PaymentData;
+import com.kh.hope.payment.model.vo.KakaoPayReadyResponse;
+//import com.kh.hope.payment.model.service.PaymentService;
+import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.user.model.service.UserService;
-import com.kh.hope.user.model.vo.User;
 
 @Controller
 public class DonateController {
@@ -25,24 +33,33 @@ public class DonateController {
 	private PaymentService paymentService;
 	
 	@GetMapping("/donate/list")
-	public String donateList(Model model) {
-		List<Donate> list = service.donateList();
+	public String donateList(Model model,
+			@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam Map<String,Object> map) {
+		
+		int listCount = service.selectListCount(map);
+		int pageLimit = 10;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagenation.getPageInfo(listCount,currentPage,pageLimit,boardLimit);
+		
+		List<Donate> list = service.donateList(pi, map);
 		
 		model.addAttribute("list", list);
-		System.out.println(list);
+		model.addAttribute("pi",pi);
+		model.addAttribute("param",map);
+		System.out.println();
 		return "donate/donateList";
 	}
 	
 	@GetMapping("/donate/detail/{donateNo}")
 	public String donateDetail(@PathVariable int donateNo, Model model ) {
+		
+		List<CurrentUser> currentUser = service.selectCurrentUser(donateNo);
 		Donate donate = service.donateDetail(donateNo);
 		
-		if(donate != null) {
-		List<CurrentUser> currentUser = service.selectCurrentUser(donateNo);
-		
-		model.addAttribute("donate", donate);
 		model.addAttribute("currentUser",currentUser);
-		}
+		model.addAttribute("donate", donate);
 		
 //		User user = this.userService.loginUser("qq@gmail.com");
 //		int paymentId = (int)System.currentTimeMillis();
@@ -70,6 +87,21 @@ public class DonateController {
 //		model.addAttribute("paymentData", paymentData);
 		
 		return "donate/donateDetail";
+	}
+	
+	@GetMapping("/donate/insert/{donateNo}")
+	public String donateInsert(@PathVariable int donateNo, Model model) {
+		PaymentInfo p = service.getPayment(donateNo);
+		model.addAttribute("p", p);
+		return "donate/donateForm";
+	}
+	
+	@PostMapping("/donate/insert/{donateNo}")
+	public String saveObject(@PathVariable int donateNo, @ModelAttribute("paymentInfo") PaymentInfo paymentInfo, Model model){
+		int payment = service.save(paymentInfo);
+//			KakaoPayReadyResponse ready = paymentService.kakaoPayReadyResponse(paymentInfo);		
+//			model.addAttribute("tid", ready.getTid());
+		return "redirect:/donate/list";
 	}
 	
 }

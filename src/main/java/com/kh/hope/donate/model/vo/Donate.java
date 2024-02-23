@@ -21,6 +21,7 @@ public class Donate {
 	private int donateProgress;
 	private int userCount;
 	private int userNo; //회원번호
+	private String userName;
 	private String status; //상태
 	
 //	private String donateFoundation; //후원담당재단

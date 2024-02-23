@@ -2,18 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="donate">
 
-	<select id="donateList" resultType="donate">
+	<select id="selectListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM DONATE_BOARD D
+		LEFT JOIN USERS USING (USER_NO)
+		WHERE
+		D.STATUS='Y'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition.equals('title')">
+					DONATE_TITLE LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>
+				<when test="condition.equals('content')">
+					DONATE_CONTENT LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>	
+			</choose>
+		</if>
+	</select>
+
+	<select id="donateList" parameterType="hashmap" resultType="donate">
 		SELECT
-		B.DONATE_NO d,
-		B.DONATE_TITLE,
+		B.DONATE_NO donateNo,
+		B.DONATE_TITLE donateTitle,
 		CASE
-		WHEN TRUNC(SYSDATE) =
+		WHEN
+		TRUNC(SYSDATE) =
 		TRUNC(B.DONATE_END_DATE) THEN 'D-DAY'
-		WHEN TRUNC(SYSDATE) <![CDATA[ < ]]>
+		WHEN
+		TRUNC(SYSDATE) <![CDATA[ < ]]>
 		TRUNC(B.DONATE_END_DATE) THEN 'D-' || (TRUNC(B.DONATE_END_DATE) -
-		TRUNC(SYSDATE)) || ' 남았어요'
+		TRUNC(SYSDATE))
 		ELSE 'D+' || (TRUNC(SYSDATE) -
-		TRUNC(B.DONATE_END_DATE)) || ' 지났어요'
+		TRUNC(B.DONATE_END_DATE))
 		END AS dDay,
 		B.DONATE_FOUNDATION,
 		NVL((SELECT
@@ -23,10 +47,22 @@
 		SUM(I.DONATE_AMOUNT) FROM DONATE_INFO I WHERE I.DONATE_NO =
 		B.DONATE_NO ) , 0)/B.DONATE_HOPE*100) donateProgress
 		FROM
-		(SELECT *
-		FROM
-		DONATE_BOARD
-		ORDER BY DONATE_NO DESC) B
+		(SELECT * FROM DONATE_BOARD
+            <if test="keyword != null and keyword != ''">
+                WHERE
+                <choose>
+                    <when test="condition.equals('title')">
+                        DONATE_TITLE LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>
+                    <when test="condition.equals('content')">
+                        DONATE_CONTENT LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>
+                    <when test="condition.equals('writer')">
+                        USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+                    </when>	
+                </choose>
+            </if>
+        ORDER BY DONATE_NO DESC) B
 	</select>
 
 	<select id="donateDetail" resultType="donate">
@@ -53,10 +89,12 @@
 		ELSE 'D+' || (TRUNC(SYSDATE) -
 		TRUNC(B.DONATE_END_DATE))
 		END AS dDay,
-		B.DONATE_CONTENT AS donateContent,
+		B.DONATE_CONTENT AS
+		donateContent,
 		B.DONATE_END_DATE
 		FROM DONATE_BOARD B
-		WHERE B.DONATE_NO = #{donateNo}
+		WHERE B.DONATE_NO =
+		#{donateNo}
 	</select>
 
 	<resultMap type="currentUser" id="currentUserResultMap">
@@ -67,12 +105,33 @@
 	</resultMap>
 
 	<select id="selectCurrentUser" resultMap="currentUserResultMap">
-		SELECT ROWNUM, i.DONATE_AMOUNT, i.OPTIONAL_TEXT, 
+		SELECT ROWNUM,
+		i.DONATE_AMOUNT, i.OPTIONAL_TEXT,
 		TO_CHAR(i.DONATE_DATE, 'YYYY"년" MM"월" DD"일"') as "DONATE_DATE"
 		FROM DONATE_BOARD D
-		LEFT JOIN DONATE_INFO I ON D.DONATE_NO = I.DONATE_NO
-		WHERE I.DONATE_NO = #{donateNo}
+		LEFT JOIN
+		DONATE_INFO I ON D.DONATE_NO = I.DONATE_NO
+		WHERE I.DONATE_NO =
+		#{donateNo}
 		ORDER BY I.USER_NO DESC
 	</select>
 
+	<select id="getPayment" resultType="paymentInfo">
+		select U.USER_NAME, U.PHONE,
+		U.EMAIL, B.DONATE_TITLE
+		FROM USERS U
+		JOIN DONATE_INFO I ON
+		(I.USER_NO=U.USER_NO)
+		JOIN DONATE_BOARD B ON (B.DONATE_NO = I.DONATE_NO)
+		WHERE U.USER_NO = '2'
+		AND I.DONATE_NO = #{donateNo}
+	</select>
+
+	<insert id="save">
+		insert into donate_info
+		(PAY_NO, DONATE_AMOUNT, PAY_TYPE, USER_NO, OPTIONAL_TEXT, DONATE_NO,
+		DONATE_DATE)
+		VALUES(SEQ_DOINFONO.NEXTVAL, #{donateAmount}, 'C', '2', #{optionalText}, #{donateNo}, SYSDATE)
+
+	</insert>
 </mapper>

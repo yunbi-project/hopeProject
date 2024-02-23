@@ -98,7 +98,15 @@
 				                placeholder: '최대 2048자까지 쓸 수 있습니다'
 				            });
 				        });
-				
+				        
+				        function alertMessage() {
+				        var alertMessage = "${alertMessage}";
+				        if(alertMessage !== "") {
+				            alert(alertMessage);
+				            // 또는 모달 창을 띄워 메시지를 보여줄 수도 있습니다.
+				        }
+				        }
+				        window.onload = alertMessage;
 			</script>
      <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>

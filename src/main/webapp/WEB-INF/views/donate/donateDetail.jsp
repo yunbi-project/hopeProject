@@ -41,7 +41,9 @@
 					<p>😎 ${donate.DDay} ${donate.donateEndDate  }</p>
 				</div>
 				<div class="y_donate_back_btn">
-					<button class="y_donate_back_btn1"><a href="${contextPath }/donate/payment">기부하기</a></button>
+					<button class="y_donate_back_btn1" onclick="move(${donate.donateNo})">
+						<a id="#btn-kakao-pay">기부하기</a>
+					</button>
 				</div>
 
 			</div>
@@ -69,11 +71,16 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
+			<script type="text/javascript">
+			function move(dno){
+				location.href="${contextPath}/donate/insert/"+dno
+			}
+			</script>
+
 		</div>
 		<div class="y_donate_back_btn">
 			<button class="y_donate_back_btn1">
 				<a href="${contextPath}/donate/list">목록</a>
-				<button onclick="requestPay()">결제하기</button>
 			</button>
 		</div>
 	</section>
