@@ -36,7 +36,7 @@
 							<div class="Sn-component-1">
 								<div class="Sn-chip-1">
 									<div class="Sn-text-1"
-										onclic="window.location.href='${contextPath}/board/insert/N'">글쓰기</div>
+										onclick="window.location.href='${contextPath}/board/insert/N'">글쓰기</div>
 								</div>
 								<div class="Sn-chip-2">
 									<div class="Sn-text-2"
@@ -66,7 +66,7 @@
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="b" items="${list}">
-											<tr>
+											<tr onclick="movePage(${b.boardNo})">
 												<td>${b.boardNo}</td>
 												<td>${b.boardTitle}</td>
 												<td>${b.userName}</td>
@@ -125,6 +125,11 @@
 			</div>
 		</div>
 	</main>
+	<script>
+		function movePage(bno){
+			location.href="${contextPath}/board/detail/N/"+bno
+		}
+	</script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

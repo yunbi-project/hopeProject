@@ -1,168 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
-<link rel="stylesheet" href="../resources/style/css/sangjun.css/SFAQList.css">
+<style>
+.note-editor.note-airframe .note-editing-area .note-editable {
+    background-color: transparent !important;
+}
+
+</style>
+<link rel="stylesheet"
+	href="${contextPath}/resources/style/css/sangjun.css/SnoticeDetail.css">
+	<link rel="stylesheet" href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
+	
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-  <main>
-   <div class="Sn-wrapper1">
-        <div class="Sn-wrapper2">
-            <div>
-                <div>
-                    <div>
-                        <div class="Sn-TextLabel" >공지사항</div>
-                    </div>
-                </div>
-            </div>
-            
-          
-            <header class="entry-header">
-                <h1 class="entry-title">
-                    [기한연장] 2024 아름다운함께서기 – 청년인턴십 6기 참여자 모집(~2/18)
-                </h1>
-                <div class="entry-meta">
-                  <div class="detail-date">등록일</div>
-                  <div class="detail-date-">2023.12.23</div>
-                  <div>조회수</div>
-                  <div>3</div>
-                </div>
-                <div class="entry-meta">
-                    <div class="detail-date">작성자</div>
-                    <div class="detail-date-">관리자</div>
-                  </div>                 
-            </header>
-            <div>
-                <div class="attachment">
-                    <div>첨부파일</div>
-                    <div> adsfkl;adf.jpg</div>
-                    
-                </div>
-            </div>
-       
-        <section class="entry-content">
-            <textarea class="detail-content" readonly="readonly">
-            오늘부터우리는
-                오늘부터우니르니아ㅣㄴ아다노아아니asdffffffffffffffffffff
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                f
-                
-                f
-                f
-                f
-                f
-                f
-                f
-                아
-                s
-                a
-                d
-                f
-                
-                f
-                f
-                f
-                ffffffffffffffffffffffffffffff로하아니아추아ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-            </textarea>
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+	<main>
+		<section>
+			<article class="h_boardTitle">
+				<h1>자원봉사</h1>
+				<p>자원봉사 함께 나아가는 더 나은 세상.</p>
+			</article>
+		</section>
+		<div class="Sn-wrapper1">
+			<div class="Sn-wrapper2">
+				<div>
+					<div>
+						<div>
+							<div class="Sn-TextLabel">공지사항</div>
+						</div>
+					</div>
+				</div>
 
-        </section>
-        <div class="reply-insert">           
-            <div class="comment-section">
-                <textarea class="form-control comment-input" name="replyContent" id="replyContent" rows="2" cols="55" style="resize: none; width: 100%;" placeholder="댓글을 입력하세요..."></textarea>
-                <button class="btn btn-secondary comment-button" onclick="insertReply();">등록하기</button>
-            </div>
-            <div class="comment-list">
-                <h3>댓글 (<span id="rcount">0</span>)</h3>
-                <table id="replyArea" class="table">
-                    
-                    <tbody>
-                        <!-- 여기에 동적으로 댓글이 추가될 예정입니다. -->
-                        <tr>
-                            <td>John Doe</td>
-                            <td>This is a comment.</td>
-                            <td>2024-02-15</td>
-                            <td><button>수정</button>
-                                <button>삭제</button>
-                            </td>
-                       </tr>
-                       <tr>
-                        <td>John Doe</td>
-                        <td>This is a comment.</td>
-                        <td>2024-02-15</td>
-                        <td><button>수정</button>
-                            <button>삭제</button>
-                        </td>
-                   </tr>
-                   <tr>
-                    <td>John Doe</td>
-                    <td>This is a comment.</td>
-                    <td>2024-02-15</td>
-                    <td><button>수정</button>
-                        <button>삭제</button>
-                    </td>
-               </tr>
-               <tr>
-                <td>John Doe</td>
-                <td>This is a comment.</td>
-                <td>2024-02-15</td>
-                <td><button>수정</button>
-                    <button>삭제</button>
-                </td>
-           </tr>    <tr>
-            <td>John Doe</td>
-            <td>This is a comment.</td>
-            <td>2024-02-15</td>
-            <td><button>수정</button>
-                <button>삭제</button>
-            </td>
-       </tr>
-       
-                    </tbody>
-                </table>
-            </div>
-               
-        </div>
-        <div class="btn-group">
-            <div class="login-detail-btn">                
-                <button class="delete-btn">삭제</button>
-                <button class="modify-btn">수정</button>                
-             </div>
-             <div class="detail-btn">                
-                <button class="list-btn">목록</button>                
-             </div>
 
-        </div>
-       </div>
-    </div>
- 
-  </main>
-  <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+				<header class="entry-header">
+					<h1 class="entry-title">${b.boardTitle}</h1>
+					<div class="entry-meta">
+						<div class="detail-date">등록일</div>
+						<div class="detail-date-">${b.createDate}</div>
+						 <div>조회수</div>
+						<div>${b.count }</div> 
+					</div>
+					<div class="entry-meta">
+						<div class="detail-date">작성자</div>
+						<div class="detail-date-">${b.userName}</div>
+					</div>
+				</header>
+				<div>
+					<div class="attachment">
+						<div>첨부파일</div>
+						<c:forEach var="i" begin="0" end="1">
+							<div>								
+								<a href="${contextPath}/board/fileDownload/${imgList[i].fileNo}">
+									${imgList[i].originName}
+								</a>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+
+				<section class="entry-content">
+					<textarea class="detail-content" id="summernote" style="background-color: transparent; border: none;"  readonly="readonly">${b.boardContent}</textarea>
+
+				</section>
+				
+				<div class="btn-group">
+					<div class="login-detail-btn">
+						<button class="delete-btn" onclick="">삭제</button>										
+						    <button class="modify-btn" onclick="window.location.href='${contextPath}/board/update/N/${b.boardNo}'">수정</button>					
+					</div>
+					<div class="detail-btn">
+						<button class="list-btn" onclick="window.location.href='${contextPath}/board/N'">목록</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</main>
+	
+	<script>
+	function stripHtmlTags(html) {
+	    let doc = new DOMParser().parseFromString(html, 'text/html');
+	    return doc.body.textContent || "";
+	}
+
+	$(document).ready(function() {
+	    var text = "${b.boardContent}";
+	    text = stripHtmlTags(text); // HTML 태그 제거
+
+	    // 썸머노트 초기화
+	    $('#summernote').summernote({
+	        toolbar: [], // 툴바 비활성화 (읽기 전용으로 설정)
+	        airMode: true, // 에어모드 활성화
+	        disableResizeEditor: true, // 에디터 크기 조절 비활성화
+	        focus: false, // 포커스 설정 (선택사항)
+	        codeview: false // 코드 보기 비활성화
+	    });
+
+	    // 썸머노트에 텍스트 삽입
+	    $('#summernote').summernote('code', text);
+
+	    // 에디터를 비활성화하여 사용자의 입력을 막습니다.
+	    $('#summernote').summernote('disable');
+	});
+
+
+
+	</script>
+	<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
+
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 </body>
 </html>

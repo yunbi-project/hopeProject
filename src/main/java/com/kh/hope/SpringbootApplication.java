@@ -2,6 +2,7 @@ package com.kh.hope;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /* 
  * SpringBootApplication 내부 어노테이션들
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 		 
  * 
  * */
+@EnableScheduling
 @SpringBootApplication
 public class SpringbootApplication {
 
