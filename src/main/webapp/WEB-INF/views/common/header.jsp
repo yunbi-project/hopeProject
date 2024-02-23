@@ -15,6 +15,12 @@
     <script src="${contextPath }/resources/js/common/header.js"></script>
 </head>
 <body>
+	<c:if test="${not empty alertMsg}">
+	    <script>
+	        alert("${alertMsg}");
+	    </script>
+	    <c:remove var="alertMsg" />
+	</c:if>
     <header class="common">
         <div class='h_header'>
             <div class="h_headerLogo">
@@ -48,7 +54,7 @@
 		                     <li>${loginUser.userName} 회원님 환영합니다<img style="width: 17px;" src="https://cdn-icons-png.flaticon.com/128/2338/2338389.png"></li>
 		                 </ul>
 		                 <ul> 
-		                     <li><a href="/logout.me">로그아웃</a></li> 
+		                     <li><a href="${contextPath}/logout.me">로그아웃</a></li> 
 		                     <li> | </li>
 		                     <li><a href="${contextPath}/mypage">마이페이지</a></li> 
 		                     <li> | </li> 

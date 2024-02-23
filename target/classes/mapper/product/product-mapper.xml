@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="productMapper">
+
+
+	<resultMap type="product" id="productRm">
+	    <id property="productNo" column="PRODUCT_NO"/>
+	    <result property="productType" column="PRODUCT_TYPE"/>
+	    <result property="puserName" column="PUSER_NAME"/>
+	    <result property="businessName" column="BUSINESS_NAME"/>
+	    <result property="phone" column="PHONE" />
+	    <result property="email" column="EMAIL" />
+	    <result property="productWay" column="PRODUCT_WAY" />
+	    <result property="productAmount" column="PRODUCT_AMOUNT" />
+	    <result property="receipt" column="RECEIPT" />
+	    <result property="businessNum" column="BUSINESS_NUM" />
+	    <result property="residentNum" column="RESIDENT_NUM" />
+	    <result property="categoryNo" column="CATEGORY_NO" />
+	    <result property="inquiryContent" column="INQUIRY_CONTENT" />
+	</resultMap>
 	
 	<!-- 물품기부 신청 -->
 	<insert id="insertProduct" parameterType="product">
@@ -15,6 +32,7 @@
 		)
 	</insert>
 	
+	<!-- 물품기부 신청 후, 물품기부 번호 확인 페이지 -->
 	<select id="selectProductNo" resultType="int">
 		SELECT PRODUCT_NO
 		FROM (
@@ -25,14 +43,56 @@
 		WHERE ROWNUM = 1
 	</select>
 	
-	
+	<!-- 물품 기부번호 조회 -->
 	<select id="selectProductNoCheck" resultType="product">
 		SELECT 
-			PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
-			BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
-			BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT, RECEIVE_DELIVERY
-		FROM DONATE_PRODUCT
+		    PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
+		    BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
+		    BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, D.CATEGORY_NO, INQUIRY_CONTENT, RECEIVE_DELIVERY, C.CATEGORY_NAME
+		FROM DONATE_PRODUCT D
+		INNER JOIN PRODUCT_CATEGORY C ON D.CATEGORY_NO = C.CATEGORY_NO
+		WHERE PHONE = #{phone} AND RECEIVE_DELIVERY = 'N' AND STATUS = 'Y'
+	</select>
+	
+	
+	<!-- 물품 기부 번호, 이름, 전화번호 -->
+	<select id="selectProductUpdateCheck" parameterType="product" resultMap="productRm">
+		SELECT
+			PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME, BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
+			BUSINESS_NUM, RESIDENT_NUM, D.CATEGORY_NO, INQUIRY_CONTENT
+		FROM DONATE_PRODUCT D
+		INNER JOIN PRODUCT_CATEGORY C ON D.CATEGORY_NO = C.CATEGORY_NO
 		WHERE PHONE = #{phone}
+		AND RECEIVE_DELIVERY = 'N'
+		AND PUSER_NAME = #{puserName}
+		AND PRODUCT_NO = #{productNo}
+		AND STATUS = 'Y'
+		AND RECEIVE_DELIVERY = 'N'
+	</select>
+	
+	<!-- 물품 기부 수정 -->
+	<update id="updateProduct" parameterType="product">
+		UPDATE DONATE_PRODUCT
+		SET PRODUCT_NO = #{productNo},
+			PRODUCT_TYPE = #{productType},
+			PUSER_NAME = #{puserName},
+			BUSINESS_NAME = #{businessName},
+			PHONE = #{phone},
+			EMAIL = #{email},
+			PRODUCT_WAY = #{productWay},
+			PRODUCT_AMOUNT = #{productAmount},
+			RECEIPT = #{receipt}, 
+			BUSINESS_NUM = #{businessNum},
+			RESIDENT_NUM = #{residentNum},
+			CATEGORY_NO = #{categoryNo},
+			INQUIRY_CONTENT = #{inquiryContent}
+		WHERE STATUS='Y' AND PRODUCT_NO = #{productNo}
+	</update>
+	
+	<!-- 물품 기부 폼 카테고리 리스트 -->
+	<select id="selectProductCategoryList" resultType="productCategory">
+		SELECT CATEGORY_NO, CATEGORY_NAME
+		FROM PRODUCT_CATEGORY
 	</select>
 
 	

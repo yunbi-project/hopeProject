@@ -29,4 +29,6 @@ public class Product {
 	private int categoryNo;  // cateygoryName, categoryNo 같이 저장
 	private String inquiryContent;
 	private String receiveDelivery;
+	
+	private String categoryName;
 }
