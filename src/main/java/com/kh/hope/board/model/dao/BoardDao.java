@@ -8,7 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.hope.attachment.model.vo.Attachment;
 import com.kh.hope.board.model.vo.Board;
+import com.kh.hope.board.model.vo.BoardExt;
+import com.kh.hope.board.model.vo.BoardType;
 import com.kh.hope.common.model.vo.PageInfo;
 
 @Repository
@@ -60,5 +63,65 @@ public class BoardDao {
 	public List<Board> faqList3() {
 		
 		return session.selectList("boardMapper.faqList3");
+	}
+
+	public int insertNotice(Board b) {
+		
+		return session.insert("boardMapper.insertNotice",b);
+	}
+
+	public int insertNoticeImgList(List<Attachment> imgList) {
+		
+		return session.insert("boardMapper.insertNoticeImgList",imgList);
+	}
+	/*공지사항 상세보기*/
+	public Board selectBoard(int boardNo) {
+		
+		return session.selectOne("boardMapper.selectBoard",boardNo);
+	}
+
+	public int increaseCount(int boardNo) {
+		// TODO Auto-generated method stub
+		return session.update("boardMapper.increaseCount",boardNo);
+	}
+
+	public List<Attachment> selectImgList(int boardNo) {
+		
+		return session.selectList("boardMapper.selectImgList",boardNo);
+	}
+
+	public Attachment selectImg(int fileNo) {
+		return session.selectOne("boardMapper.selectImg",fileNo);
+	}
+
+	public BoardExt selectUpdateBoard(int boardNo) {
+		
+		return session.selectOne("boardMapper.selectUpdateBoard",boardNo);
+	}
+
+	public int updateBoardInsert(Board b) {
+		return session.update("boardMapper.updateBoardInsert",b);
+	}
+
+	public int updateNoticeImg(Attachment at) {
+		return session.update("boardMapper.updateNoticeImg",at);
+	}
+
+	public int insertNoticeImg(Attachment at) {
+		return session.insert("boardMapper.insertNoticeImg",at);
+	}
+
+	public int deleteNoticeImg(String deleteList) {
+		return session.delete("boardMapper.deleteNoticeImg",deleteList);
+	}
+
+	public List<String> selectFileList() {
+		
+		return session.selectList("boardMapper.selectFileList");
+	}
+
+	public List<BoardType> selectBoardTypeList() {
+		
+		return session.selectList("boardMapper.selectBoardTypeList");
 	}
 }

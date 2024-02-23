@@ -51,11 +51,6 @@
 .Sn-form{
     margin-top: 50px;
 }
-.Sn-form-group.flex-container {
-    display: flex;
-   
-}
-
 .Sn-form-group input[type="text"] {
     width: calc(50% - 11px); /* 두 개의 입력 필드를 반씩 차지하도록 수정 */
     padding: 8px;
@@ -72,6 +67,20 @@
 }
 .Sn-input-user{
     margin-left: 50px;
+}
+.preview{
+	width:350px;
+	
+}
+.delete-image {
+    cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+    color: #888; /* x 표시의 색상을 회색으로 지정 */
+    font-size: 30px; /* x 표시의 크기를 조정 */
+    margin-left: 5px; /* x 표시와 다른 요소 사이의 여백을 추가 */
+}
+
+.delete-image:hover {
+    color: #f00; /* 마우스를 올렸을 때 x 표시의 색상을 빨간색으로 변경 */
 }
 
 .Sn-form-group textarea {
@@ -90,7 +99,6 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 
 
 .Sn-form-group textarea {

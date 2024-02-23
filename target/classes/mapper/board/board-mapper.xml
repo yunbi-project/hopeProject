@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="boardMapper">
+	<resultMap type="attachment" id="attachmentResultMap">
+		<id column="FILE_NO" property="fileNo"/>
+		<result column="ORIGIN_NAME" property="originName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="REF_FNO" property="refFno"/>
+		<result column="IMG_LEVEL" property="imgLevel"/>
+	</resultMap>
+	<resultMap type="boardExt" id="boardExtResultMap">
+		<id column = "BOARD_NO" property="boardNo"/>
+		<result column = "BOARD_Title" property="boardTitle"/>
+		<result column = "BOARD_CONTENT" property="boardContent"/>
+		<result column = "CREATE_DATE" property="createDate"/>
+		<result column = "USER_NO" property="userNo"/>
+		<result column = "USER_Name" property="userName"/>
+		<result column = "COUNT" property="count"/>
+		<result column = "MODIFY_DATE" property="modifyDate"/>
+		<result column = "FAQ_TYPE" property="faqType"/>
+		<result column = "BOARD_TYPE_NO" property="boardTypeNo"/>
+		
+		<collection property="imgList" resultMap="attachmentResultMap">
+		</collection>
+		
+	</resultMap>
+
 <!--공지사항리스트 -->
 	<select id="selectListCount" resultType="int">
 		SELECT COUNT(*)
@@ -40,7 +64,102 @@
 		</if>
 		ORDER BY BOARD_NO DESC
 	</select>
+	<!-- 공지사항등록 -->
+	<insert id="insertNotice" parameterType="board" useGeneratedKeys="true">
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			SELECT SEQ_BOARDNO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD
+		(BOARD_NO,BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE_NO,USER_NO)
+		VALUES
+		(#{boardNo},#{boardTitle},#{boardContent},'N',#{userNo})
+	</insert>
+	<insert id="insertNoticeImgList" parameterType="list">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,ORIGIN_NAME,CHANGE_NAME,REF_FNO,FILE_TYPE,IMG_LEVEL)
+		SELECT SEQ_ATTNO.NEXTVAL,C.*
+		FROM(
+			<foreach collection="list" item="attachment" separator="UNION ALL">
+				SELECT 
+				#{attachment.originName},
+				#{attachment.changeName},
+				#{attachment.refFno},
+				'B',
+				#{attachment.imgLevel}
+				FROM DUAL				
+			</foreach>
+		) C	
+	</insert>
+	<!-- 공지사항상세 -->
+	<select id="selectBoard" parameterType="int" resultType="board">
+		SELECT BOARD_NO,USER_NAME,BOARD_TITLE,BOARD_CONTENT,COUNT,CREATE_DATE
+		FROM BOARD B
+		LEFT JOIN USERS USING (USER_NO)
+		WHERE BOARD_NO =#{boardNo}
+		AND B.STATUS='Y'
+	</select>	
+	<update id="increaseCount" >
+		UPDATE BOARD
+		SET COUNT = COUNT+1
+		WHERE BOARD_NO =#{boardNo}
+	</update>
+	<select id="selectImgList" parameterType="int" resultType="attachment">
+		SELECT ORIGIN_NAME , FILE_NO
+		FROM ATTACHMENT
+		WHERE REF_FNO=#{boardNo}
+		ORDER BY IMG_LEVEL
+	</select>
 	
+	<select id="selectImg" parameterType="int" resultType="attachment">
+		SELECT ORIGIN_NAME , FILE_NO , CHANGE_NAME
+		FROM ATTACHMENT
+		WHERE FILE_NO=#{fileNo}
+		ORDER BY IMG_LEVEL
+	</select>
+	<!-- 공지사항 수정 -->
+	<select id="selectUpdateBoard" parameterType="int" resultMap="boardExtResultMap">
+		SELECT BOARD_NO,BOARD_TITLE,BOARD_CONTENT,COUNT,USER_NAME,B.CREATE_DATE,A.ORIGIN_NAME,A.CHANGE_NAME,FILE_NO,BOARD_TYPE_NO,IMG_LEVEL
+		FROM USERS
+		LEFT JOIN BOARD B USING (USER_NO)
+		LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_FNO)
+		WHERE BOARD_NO = #{boardNo}
+		AND B. STATUS = 'Y'
+	</select>
+	<update id="updateBoardInsert" parameterType="board">
+		UPDATE BOARD
+		SET BOARD_TITLE = #{boardTitle},
+		BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	<update id="updateNoticeImg" parameterType="attachment">
+		UPDATE ATTACHMENT
+		SET ORIGIN_NAME=#{originName},
+		CHANGE_NAME=#{changeName}
+		WHERE REF_FNO = #{refFno} AND IMG_LEVEL=#{imgLevel}
+	</update>
+	<insert id="insertNoticeImg" >
+		INSERT INTO ATTACHMENT
+		(FILE_NO,ORIGIN_NAME,CHANGE_NAME,REF_FNO,FILE_TYPE,IMG_LEVEL)
+		VALUES
+		(SEQ_ATTNO.NEXTVAL,#{originName},#{changeName},#{refFno},'B',#{imgLevel})
+	</insert>
+	<delete id="deleteNoticeImg" parameterType="string">
+		DELETE FROM ATTACHMENT
+		WHERE FILE_NO IN(${deleteList})
+	</delete>
+	
+	<select id="selectFileList" resultType="string">
+		SELECT
+		'/resources/images/board/'||BOARD_TYPE_NO||'/'||A.CHANGE_NAME
+		FROM BOARD
+		LEFT JOIN ATTACHMENT A ON (BOARD_NO = REF_FNO)
+		WHERE A.CHANGE_NAME IS NOT NULL
+	</select>
+	<select id="selectBoardTypeList" resultType="boardType">
+		SELECT *
+		FROM BOARD_TYPE
+		ORDER BY BOARD_TYPE_NO
+	</select>
 	<!-- 자주묻는질문 -->
 	<select id="faqList" resultType="board">
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, COUNT, USER_NO,CREATE_DATE
