@@ -1,5 +1,6 @@
 package com.kh.hope.product.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.hope.product.model.dao.ProductDao;
 import com.kh.hope.product.model.vo.Product;
+import com.kh.hope.product.model.vo.ProductCategory;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -63,6 +65,24 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> selectProductNoCheck(String phone) {
 		return productDao.selectProductNoCheck(phone);
+	}
+
+//	물품 기부 수정 체크
+	@Override
+	public Product selectProductUpdateCheck(Product pro) {
+		return productDao.selectProductUpdateCheck(pro);
+	}
+
+//	물품 기부 수정
+	@Override
+	public int updateProduct(Product pro) {
+		return productDao.updateProduct(pro);
+	}
+
+//	물품 기부 카테고리 리스트
+	@Override
+	public List<ProductCategory> selectProductCategoryList() {
+		return productDao.selectProductCategoryList();
 	}
 
 }

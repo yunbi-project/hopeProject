@@ -1,5 +1,6 @@
 package com.kh.hope.product.model.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.hope.product.model.service.ProductService;
 import com.kh.hope.product.model.vo.Product;
+import com.kh.hope.product.model.vo.ProductCategory;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@SessionAttributes({"donateType"})
+@SessionAttributes({"donateType", "product"})
 public class ProductController {
 	
 	@Autowired
@@ -33,7 +36,11 @@ public class ProductController {
 	
 	
 	@GetMapping("/product/donateProductForm")
-	public String prductForm() {
+	public String prductForm(Model model) {
+		
+		List<ProductCategory> list = productService.selectProductCategoryList();
+		
+		model.addAttribute("list", list);
 		
 		return "product/donateProductForm";
 	}
@@ -74,7 +81,7 @@ public class ProductController {
     	}else {
     		model.addAttribute("errorMsg", "물품 기부 신청에 실패하였습니다.");
     		System.out.println("물품 등록 실패");
-    		
+    		url = "redirect:/errorPage";
     	}
     	
     	return url;
@@ -97,31 +104,36 @@ public class ProductController {
         productService.certifiedPhoneNumber(phone, numStr); //휴대폰 api 쪽으로 가기 !!
 
          
-         return numStr;
+        return numStr;
     }
     
     
 //  물품기부 신청 후, 물품기부 번호 확인 페이지
-	@GetMapping("/product/donateProductResult")
-	public String selectProductNo(Model model) {
-		
-		int productNo = productService.selectProductNo();
-		
-		model.addAttribute("productNo", productNo);
-		System.out.println("productNo : " + productNo);
-		
-		return "product/donateProductResult";
-	}
+    @GetMapping("/product/donateProductResult")
+    public String selectProductNo(Model model) {
+        
+
+        
+        int productNo = productService.selectProductNo();
+        
+        model.addAttribute("productNo", productNo);
+        System.out.println("productNo : " + productNo);
+        
+
+        return "product/donateProductResult";
+    }
 
 //	물품 기부번호 리스트 조회
 	@PostMapping("/productNoCheck.bo")
 	@ResponseBody
 	public List<Product> selectProductNoCheck(
 			Model model,
+			HttpServletRequest request,
 			@RequestParam("phone") String phone
 			) {
 		
 		log.info("phone {}", phone);
+		
 		List<Product> product = productService.selectProductNoCheck(phone);
 		
 		model.addAttribute("product", product);
@@ -129,6 +141,86 @@ public class ProductController {
 		
 		return product;
 	}
+	
+	
+//	물품 기부 수정 폼
+	@GetMapping("/product/donateProductUpdate")
+	public String updateProductForm(
+			HttpServletRequest request,
+			Model model
+			) {
+		
+	    // 세션에서 특정 플래그가 설정되어 있는지 확인
+	    Boolean hasVisited = (Boolean) request.getSession().getAttribute("hasVisitedDonateProductUpdate");
+	    if (hasVisited != null && hasVisited) {
+	        // 플래그가 이미 설정되어 있으면 직접적인 URL 접근을 막기 위해 다른 페이지로 리다이렉트
+	        return "redirect:/errorPage"; // 적절한 리다이렉트 경로로 수정
+	    }
+	    
+	    // 플래그를 설정하여 다음에 직접적인 URL 접근을 막음
+	    request.getSession().setAttribute("hasVisitedDonateProductUpdate", true);
+	    
+	    
+	    List<ProductCategory> list = productService.selectProductCategoryList();
+		
+		model.addAttribute("list", list);
+	    
+		
+		return "product/donateProductUpdate";
+	}
+	
+//	물품 기부 수정 체크
+	@PostMapping("productUpdateCheck.bo")
+	public String selectProductUpdateCheck(
+			Model model,
+			HttpServletRequest request,
+			@RequestParam("phone") String phone,
+			@RequestParam("productNo") int productNo,
+			@RequestParam("puserName") String puserName
+			){
+		
+		Product pro = new Product(); // Product 객체 생성
+		
+		System.out.println(phone  + productNo + puserName);
+		
+		pro.setPhone(phone);
+		pro.setProductNo(productNo);
+		pro.setPuserName(puserName);
+		
+		
+		Product product = productService.selectProductUpdateCheck(pro);
+		
+		log.info("pro {}", product);
+		model.addAttribute("product", product);
+		
+		if(product != null) {
+			// 세션에서 플래그 제거
+		    request.getSession().removeAttribute("hasVisitedDonateProductUpdate");
+			
+			return "product/donateProductUpdate";
+		}
+		return "";
+	}
+	
+//	물품 기부 수정(update)
+	@PostMapping("/product/productUpdate")
+	public String updateProduct(
+			HttpServletRequest request,
+			Product pro,
+    		Model model,
+			HttpSession session) {
+		int result = productService.updateProduct(pro);
+	    
+	    if(result > 0) {
+    		session.setAttribute("alertMsg", "물품 기부가 성공적으로 수정되었습니다.");
+    		System.out.println("물품 수정 성공");
+    		return "redirect:/";
+	    }else {
+    		System.out.println("물품 수정 실패");
+    		return "redirect:/errorPage";
+	    }
+	}
+	
 
 
 }

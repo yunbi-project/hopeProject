@@ -10,4 +10,9 @@ public class HomeController {
 	public String home() {
 		return "mainPage";
 	}
+	
+	@GetMapping("/errorPage")
+	public String errorPage() {
+		return "common/errorPage";
+	}
 }

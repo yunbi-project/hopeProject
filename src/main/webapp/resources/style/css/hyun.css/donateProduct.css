@@ -426,7 +426,7 @@ li{
 }
 
 .productBtn:hover{
-	background-color: #ABc138;
+	background-color: #ABe138;
 }
 
 /* 수정 정보 입력  */
@@ -556,4 +556,8 @@ li{
 .donateResult_db span:nth-of-type(5){
 	width: 70px;
 	text-align:center;
+}
+
+.noShow{
+	padding: 30px;
 }

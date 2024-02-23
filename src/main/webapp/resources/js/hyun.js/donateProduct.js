@@ -64,7 +64,7 @@ $(document).ready(function(){
         // productModify 배경색 설정
         $("#productModify").css("background-color", "#ABe138");
 		$(".donateInput, .phoneInput").val("");
-		$("#donateNoCheckResult").hide();
+		$(".donateNoCheckResult").hide();
     });
 
     // productNoCheck 클릭 시 이벤트 처리
@@ -78,7 +78,7 @@ $(document).ready(function(){
         // productNoCheck 배경색 설정
         $("#productNoCheck").css("background-color", "#ABe138");
         $(".donateInput, .phoneInput").val("");
-        $("#donateNoCheckResult").hide();
+        $(".donateNoCheckResult").hide();
     });
       
   

@@ -67,15 +67,15 @@
         </div>
         <section class="donateGoodList" style="text-align: center;">
             <div class="donateGoods">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/생리대.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/의류_잡화.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/화장품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/생활용품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/가전제품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/유아용품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/건강기능식품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/위생용품.png">
-                <img class="donateGood_images" src="${contextPath }/resources/style/img/product/기타.png">
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/생리대.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/의류_잡화.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/화장품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/생활용품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/가전제품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/유아용품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/건강기능식품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/위생용품.png"></a>
+                <a href="${contextPath }/product/donateProductForm"><img class="donateGood_images" src="${contextPath }/resources/style/img/product/기타.png"></a>
             </div>
             <div class="donateGoodSelect">
                 <ul style="margin:0%;">
@@ -158,59 +158,31 @@
 			        
 			        <!-- 물품기부번호 조회 결과 -->
 			        
-<!-- 			        <div class="donateNoCheckResult" style="display:none"> -->
-<%-- 			        	<c:forEach var="pro" items="${product}" > --%>
-<%-- 			        		${pro} --%>
-<%-- 				        	<c:choose> --%>
-<%-- 				        		<c:when test="${pro eq null}"> --%>
-<!-- 		 			        		<span>조회된 물품기부번호가 없습니다.</span> -->
-<%-- 		 			        	</c:when> --%>
-<%-- 		 			        	<c:otherwise> --%>
-<!-- 									<div class="donateResult"> -->
-<!-- 										<div class="donateResult_content"> -->
-<!-- 											<span style="color:red; font-weight:bold;">물품기부번호</span> -->
-<!-- 											<span>문의유형</span> -->
-<!-- 											<span>이름</span> -->
-<!-- 											<span>기부물품</span> -->
-<!-- 											<span>배송방법</span> -->
-<!-- 										</div> -->
-										
-<!-- 										<div style="border: 1px solid #D8D8D8;"></div> -->
-										
-<!-- 										<div class="donateResult_db"> -->
-<%-- 												<span style="color:red; font-weight:bold;">${pro.productNo}번</span> --%>
-<%-- 												<span>${pro.productType} 후원</span> --%>
-<%-- 												<span>${pro.puserName}</span> --%>
-<%-- 												<span>${pro.categoryNo }</span> --%>
-<%-- 												<span>${pro.productWay }</span> --%>
-<!-- 										</div> -->
-<!-- 									</div> -->
-<%-- 								</c:otherwise> --%>
-<%-- 							</c:choose> --%>
-<%-- 						</c:forEach> --%>
-<!-- 			        </div> -->
+			        <div class="donateNoCheckResult" style="display:none">
+
+			        </div>
 			        
 			        <div id="donateModifyForm" class="donateModifyForm">
 				        <div>
 				        	<span>물품기부번호 입력 *</span>
-				        	<input type="text"  class="donateInput" name="productNo" placeholder="물품기부번호 입력">
+				        	<input type="text"  class="donateInput" id="productNo" name="productNo" placeholder="물품기부번호 입력">
 				        </div>
 				        
 				        <div>
 			        		<span>이름 입력 *</span>
-			        		<input type="text" class="donateInput" name="puserName" placeholder="이름 입력">
+			        		<input type="text" class="donateInput" id="puserName" name="puserName" placeholder="이름 입력">
 			        	</div>
 				        
 				        <div>
 				        	<span>전화번호 입력 *</span>
 				        	<input type="text" name="phone" id="modifyPhone" class="phoneInput" placeholder="-빼고 전화번호 입력">
-				        	<input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
-				        	<input type="text" id="certificationNumber" class="phoneInput" placeholder="인증번호 4자리 입력" required>
-				        	<input type="button" style="background-color:#abe138;" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인">
+				        	<input type="button" class="donateGoodBtn" id="donateGoodBtn1" value="인증요청">
+				        	<input type="text" id="certificationNumber1" class="phoneInput" placeholder="인증번호 4자리 입력" required>
+				        	<input type="button" style="background-color:#abe138;" id="certificationNumberBtn1" class="donateGoodBtn1" value="인증 확인">
 			        	</div>
 			        	
-						<input type="button" class="resetFilters" value="필터해제" onclick="resetFilters()"></button></a>
-			        	<a href=""><button type="button" id="modifyBtn" class="productBtn">수정하기</button></a>
+						<input type="button" class="resetFilters" value="필터해제" onclick="resetFilters()">
+			        	<button type="button" id="modifyBtn" class="productBtn">수정하기</button>
 			        </div>
 		        </article>
 	      	</div>
@@ -273,9 +245,92 @@
 		        });
 		    });
 		    
-		    $("#viewBtn").click(function(){
+		    
+		    
+		    
+			//휴대폰 번호 인증 물품기부번호 찾기
+			var code2 = "";
+			$("#donateGoodBtn").click(function(){
+			    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+			    var phoneNumber = $("#donateNoPhone").val();
+			    $.ajax({
+			        type:"POST", // post 형식으로 발송
+			        url:"/hope/sendSMS1.do", // controller 위치
+			        data: {phone:phoneNumber}, // 전송할 ㅔ이터값
+			        cache : false,
+			        success:function(data){
+			            if(data == "error"){ //실패시 
+			                alert("휴대폰 번호가 올바르지 않습니다.")
+			            }else{            //성공시        
+			                alert("휴대폰 전송이  됨.")
+			                code2 = data; // 성공하면 데이터저장
+			            }
+			        }
+			    });
+			});
+			
+			// 휴대폰 번호 인증 물품기부 수정하기
+			$("#donateGoodBtn1").click(function(){
+			    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+			    var phoneNumber = $("#modifyPhone").val();
+			    $.ajax({
+			        type:"POST", // post 형식으로 발송
+			        url:"/hope/sendSMS1.do", // controller 위치
+			        data: {phone:phoneNumber}, // 전송할 ㅔ이터값
+			        cache : false,
+			        success:function(data){
+			            if(data == "error"){ //실패시 
+			                alert("휴대폰 번호가 올바르지 않습니다.")
+			            }else{            //성공시        
+			                alert("휴대폰 전송이  됨.")
+			                code2 = data; // 성공하면 데이터저장
+			            }
+			        }
+			    });
+			});
+			 
+			
+			//휴대폰 인증번호 대조 (물품기부번호 찾기)
+			$("#certificationNumberBtn").click(function(){
+			    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
+			        alert('인증성공')
+			    }else{
+			        alert('인증실패')
+			    }
+			});
+			
+			//휴대폰 인증번호 대조 (물품기부 수정)
+			$("#certificationNumberBtn1").click(function(){
+			    if($("#certificationNumber1").val() == code2){ // 위에서 저장한값을 교함
+			        alert('인증성공')
+			    }else{
+			        alert('인증실패')
+			    }
+			});
+			
+			
+			// 조회하기 버튼 클릭시
+			$("#viewBtn").click(function(){
+				
 		        var phone = $("#donateNoPhone").val();
 		        
+		     	// 입력한 인증번호를 가져옵니다.
+		        var certificationNumber = $("#certificationNumber").val();
+		     	
+		     	// 인증번호 입력란이 비어있는지 확인합니다.
+		        if (!certificationNumber) {
+		            alert("인증번호를 입력해주세요.");
+		            return false; // 함수 종료
+		        }
+
+		        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
+		        if (certificationNumber != code2) {
+		            // 인증번호가 일치하지 않는 경우
+		            alert("인증번호 확인을 다시 해주세요.");
+		            return false; // 함수 종료
+		        } 
+		        
+		     	// 인증번호가 일치하는 경우에만 아래 코드 실행
 		        $.ajax({
 		            type:"POST",
 		            url: "productNoCheck.bo",
@@ -287,10 +342,10 @@
 		                
 		                // 여기에 성공 시 실행할 코드를 추가합니다.
 		                $(".donateNoCheckResult").empty(); // 이전 결과를 지우고 다시 채워넣는다
-		                $.each(response, function(index, pro) {
-		                    if(pro === null) {
-		                        $(".donateNoCheckResult").append("<span>조회된 물품기부번호가 없습니다.</span>");
-		                    } else {
+		                if(response.length === 0) {
+		                    $(".donateNoCheckResult").append("<span class='noShow'>조회된 물품기부번호가 없습니다.</span>");
+		                } else {
+		                    $.each(response, function(index, pro) {
 		                        var resultDiv = "<div class='donateResult'>" +
 		                                            "<div class='donateResult_content'>" +
 		                                                "<span style='color:red; font-weight:bold;'>물품기부번호</span>" +
@@ -304,76 +359,90 @@
 		                                                "<span style='color:red; font-weight:bold;'>" + pro.productNo + "번</span>" +
 		                                                "<span>" + pro.productType + " 후원</span>" +
 		                                                "<span>" + pro.puserName + "</span>" +
-		                                                "<span>" + pro.categoryNo + "</span>" +
+		                                                "<span>" + pro.categoryName + "</span>" +
 		                                                "<span>" + pro.productWay + "</span>" +
 		                                            "</div>" +
 		                                        "</div>";
 		                        $(".donateNoCheckResult").append(resultDiv);
-		                    }
-		                });
+		                    });
+		                }
 		            },
 		            error:function() {
 		                console.log("물품기부번호 조회 실패");
 		            }
 		        });
-		    });
-		    
-		    
-			//휴대폰 번호 인증
-// 			var code2 = "";
-// 			$("#donateGoodBtn").click(function(){
-// 			    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
-// 			    var phoneNumber = $("#phone").val();
-// 			    $.ajax({
-// 			        type:"POST", // post 형식으로 발송
-// 			        url:"/hope/sendSMS1.do", // controller 위치
-// 			        data: {phone:phoneNumber}, // 전송할 ㅔ이터값
-// 			        cache : false,
-// 			        success:function(data){
-// 			            if(data == "error"){ //실패시 
-// 			                alert("휴대폰 번호가 올바르지 않습니다.")
-// 			            }else{            //성공시        
-// 			                alert("휴대폰 전송이  됨.")
-// 			                code2 = data; // 성공하면 데이터저장
-// 			            }
-// 			        }
-// 			    });
-// 			});
-			 
-			 
-// 			var result = false;
+		    });	
 			
-// 			//휴대폰 인증번호 대조
-// 			$("#certificationNumberBtn").click(function(){
-// 			    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
-// 			         alert('인증성공')
-// 			    	result = true;
-// 			    }else{
-// 			        alert('인증실패')
-// 			        result = false;
-// 			    }
-// 			});
-			
-// 		    // 신청하기 버튼 클릭 시
-// 		    $(".productBtn").click(function() {
-// 		        // 입력한 인증번호를 가져옵니다.
-// 		        var certificationNumber = $("#certificationNumber").val();
+			// 수정하기 버튼 클릭 시 
+			$("#modifyBtn").click(function(){
+			    
+			    var phone = $("#modifyPhone").val();
+			    var productNo = $("#productNo").val();
+			    var puserName = $("#puserName").val();
+			    
+			    
+		     	// 입력한 인증번호를 가져옵니다.
+		        var certificationNumber = $("#certificationNumber1").val();
+		     	
+		     	// 인증번호 입력란이 비어있는지 확인합니다.
+		        if (!certificationNumber) {
+		            alert("인증번호를 입력해주세요.");
+		            return false; // 함수 종료
+		        }
 
-// 		        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
-// 		        if (certificationNumber !== code2) {
-// 		            // 인증번호가 일치하지 않는 경우
-// 		            alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
-// 		            return false; // 전송을 중지합니다.
-// 		        } else {
-// 		            // 인증번호가 일치하는 경우
-// 		            return true; // 폼을 제출합니다.
-// 		        }
-// 		    });
-
-
-			
+		        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
+		        if (certificationNumber != code2) {
+		            // 인증번호가 일치하지 않는 경우
+		            alert("인증번호 확인을 다시 해주세요.");
+		            return false; // 함수 종료
+		        } 
+			    
+			    
+			    if (!productNo.trim()) {
+			        alert("물품 기부 번호를 입력하세요.");
+			        return false; // 폼 제출 막기
+			    }
+			    
+			    if (!puserName.trim()) {
+			        alert("이름을 입력하세요.");
+			        return false; // 폼 제출 막기
+			    }
+			    
+			    // 필드값 유효한지 검증
+			    if (!phone.trim()) {
+			        alert("휴대폰 번호를 입력하세요.");
+			        return false; // 폼 제출 막기
+			    }
+			    
+			    
+			    $.ajax({
+			        type: "POST",
+			        url: "productUpdateCheck.bo",
+			        data: {
+			            phone: phone,
+			            productNo: productNo,
+			            puserName: puserName
+			        },
+			        success: function(response){
+			            console.log("데이터 전달 성공");
+			            
+			         	// 서버로부터 받은 응답을 검사하여 데이터가 없을 경우 처리
+			            if (response == null) {
+			                alert("일치하는 정보가 없습니다.");
+			            } else {
+			                // Ajax 요청이 성공한 후에 페이지 이동
+			                window.location.href = "product/donateProductUpdate";
+			            }
+			        },
+			        error: function() {
+			            // 오류 발생 시 처리
+			            alert("일치하는 정보가 없습니다.");
+			            console.log("데이터 전달 실패");
+			        }
+			    });
+			});
 		});
-	</script>
+   </script>
     
 </body>
 </html>

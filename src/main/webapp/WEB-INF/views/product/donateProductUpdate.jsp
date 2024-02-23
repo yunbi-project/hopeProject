@@ -1,28 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>    
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Insert title here</title>
 
-    <link rel="stylesheet" href="${contextPath }/resources/style/css/hyun.css/donateProductForm.css">
-    
-    
+	<link rel="stylesheet" href="${contextPath }/resources/style/css/hyun.css/donateProductForm.css">
 </head>
 <body>
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-    
-   
-    <main>
+	
+<main>
         <h2 style="text-align: center; margin-top: 70px; font-size: 25px;">물품 기부 신청</h2>
         <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
-        <form action="${contextPath}/product/donateProductForm" class="donateGoodForm" method="POST">
+        <form action="${contextPath }/product/productUpdate" class="donateGoodForm" method="POST">
             <div class="donateGoodForm_List">
                 <p>문의 유형*</p>
                 <p id="h_companyName" name="" hidden>기업명*</p>
@@ -37,12 +32,11 @@
                 <p id="h_residentNumer" hidden>주민등록번호*</p>
                 <p>기타문의 혹은<br> 요청사항</p>
             </div>
-            
             <div style="border: 1px solid #D8D8D8; margin-right: 50px;"></div>
 
             <div class="donateGoodForm_List_1">
 			    <c:choose>
-			        <c:when test="${donateType eq '개인'}">
+			        <c:when test="${product.productType eq '개인'}">
 			       		<div style="margin: 0px 0px 10px 0px;">
 				            <label class="radio-container">
 				                <input name="productType" id="personalItems" type="radio" value="개인" checked>
@@ -69,16 +63,18 @@
 			    </c:choose>
 
                 <!-- 기업 -->
-                <input type="text" id="h_businessNameInput" name="businessName" class="donateGoodInput" placeholder="기업명 입력" required>
+
+            	<input type="text" id="h_businessNameInput" name="businessName" class="donateGoodInput" value="${product.businessName}" placeholder="기업명 입력" required>
 
                 <!-- 개인 -->
-                <input type="text" id="h_nameInput" name="puserName" class="donateGoodInput" placeholder="이름 입력" required>
+                <input type="text" id="h_nameInput" name="puserName" class="donateGoodInput" placeholder="이름 입력" value="${product.puserName}" required>
 
 
 
                 <!-- 연락처 -->
                 <div>
-                    <input type="number" style="width: 350px;" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required>
+                    <input type="number" style="width: 350px;" name="phone" id="phone" class="donateGoodInput" 
+                    value="${product.phone}" placeholder="'-'빼고 숫자만 입력" required>
                     <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
                 </div>
                 <div>
@@ -87,7 +83,7 @@
                 </div>
 
                 <!-- 이메일 -->
-                <input type="email" class="donateGoodInput" name="email" placeholder="example@hope.co.kr" required>
+                <input type="email" class="donateGoodInput" value="${product.email }" name="email" placeholder="example@hope.co.kr" required>
 
                 <!-- 기부물품종류 -->
                 <div class="donateGoodRadio_List">
@@ -98,14 +94,14 @@
                 </div>
 
                 <!-- 기부물품 수량 -->
-                <input type="text" class="donateGoodInput" name="productAmount" placeholder="(예 : 의류 3천벌, 5대봉)" required>
+                <input type="text" class="donateGoodInput" name="productAmount" placeholder="(예 : 의류 3천벌, 5대봉)" value=${product.productAmount } required>
 
                 <!-- 기부방법 -->
                 <p style="font-size: 15px;">희망의 조각은 기부금으로 운영되는 단체로 더 많은 이웃을 돕기 위해 기부자 부담으로 물품을 발송해 주시기 바랍니다.</p>
                 <select class="donateGoodSelect" required name="productWay">
-                    <option value="택배" selected>택배발송</option>
-                    <option value="용달">용달발송</option>
-                    <option value="방문">방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
+                    <option value="택배" ${product.productWay == '택배' ? 'selected' : ''}>택배발송</option>
+                    <option value="용달" ${product.productWay == '용달' ? 'selected' : ''}>용달발송</option>
+                    <option value="방문" ${product.productWay == '방문' ? 'selected' : ''}>방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
                 </select>
 
                 <!-- 기부금영수증 발급 여부 -->
@@ -116,18 +112,21 @@
                 </div>
 
                 <!-- 사업자 번호 -->
-                <input type="text" id="h_businessNumberInput" name="businessNum" class="donateGoodInput" placeholder="사업자번호 입력" requried>
+                <input type="text" id="h_businessNumberInput" name="businessNum" class="donateGoodInput" placeholder="사업자번호 입력" value="${product.businessNum }" requried>
 
                 <!-- 주민등록번호 -->
-                <input type="text" id="h_residentNumerInput" name="residentNum" class="donateGoodInput" placeholder="주민등록번호 입력" requried>
+                <input type="text" id="h_residentNumerInput" name="residentNum" class="donateGoodInput" placeholder="주민등록번호 입력" value="${product.residentNum }" requried>
 
                 <!-- 기타문의 혹은 요청사항 -->
-                <input type="text" name="inquiryContent" style="width: 450px;  height: 150px; margin: 20px 0px 40px 0px;" >
-                <input type="submit" class="productBtn" value="신청하기">
+                <input type="text" name="inquiryContent" style="width: 450px;  height: 150px; margin: 20px 0px 40px 0px;" value="${product.inquiryContent }" >
+                <div style="display:flex;">
+	                <input type="submit" style="margin-right: 50px; width: 200px; margin-left:0px;" id="modifyBtn" class="productBtn" value="수정하기">
+		            <input type="button" style="margin-right: 50px; width: 200px; margin-left:0px;" id="exitBtn" class="productBtn" value="취소">
+                </div>
             </div>
+
         </form>
     </main>
-    
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
     
@@ -139,10 +138,12 @@
 
             if (selectedValue === '개인') {
                 // 개인물품후원 선택 시
+       			$('#h_businessNameInput').removeAttr('required');
                 $('#h_companyName, #h_businessNumberInput, #h_businessNameInput, #h_residentNumerInput, #h_businessNumber, #h_residentNumer').hide();
                 $('#h_name, #h_nameInput').show();
             } else if (selectedValue === '기업') {
                 // 기업물품후원 선택 시
+                $('#h_businessNameInput').attr('required', 'required');
                 $('#h_residentNumerInput, #h_residentNumer, #h_businessNumberInput').hide();
                 $('#h_companyName, #h_businessNameInput').show();
             }
@@ -182,15 +183,6 @@
             }
         });
 
-        // 개인, 기업 버튼이 변경될 때 실행되는 함수 모든 필드 값 초기화
-        $('input[name="productType"]').change(function() {
-            // 선택한 옵션을 초기화
-            $('input[name="categoryNo"]').prop('checked', false);
-            $('.donateGoodInput').val(''); // 모든 input 태그의 값을 초기화
-            $('.donateGoodSelect').val(''); // 셀렉트 박스의 선택 값을 초기화
-            $('input[name="receipt"]').prop('checked', false); // 기부금영수증 발급 여부 초기화
-            $('input[name="inquiryContent"]').val(''); // 기타문의내용 값 초기화
-        });
         
         
         // 휴대폰 인증하기
@@ -228,8 +220,8 @@
 		    }
 		});
 		
-	    // 신청하기 버튼 클릭 시
-	    $(".productBtn").click(function() {
+	    // 수정하기 버튼 클릭 시
+	    $("#modifyBtn").click(function() {
 	        // 입력한 인증번호를 가져옵니다.
 	        var certificationNumber = $("#certificationNumber").val();
 
@@ -244,9 +236,19 @@
 	        }
 	    });
 	    
+	    // 라디오 버튼 자동 체크되어있도록 설정
+		var productCategoryNo = "${product.categoryNo}"; // product.categoryNo 값 가져오기
+	    $('input[name="categoryNo"][value="' + productCategoryNo + '"]').prop('checked', true);
+		
+	    var productReceipt = "${product.receipt}"; // product.receipt 값 가져오기
+	    if (productReceipt === 'Y') {
+	        $('#h_receiptY').prop('checked', true);
+	    } else if (productReceipt === 'N') {
+	        $('#h_receiptN').prop('checked', true);
+	    }
+	    
     });
     </script>
-
-
+	
 </body>
 </html>
