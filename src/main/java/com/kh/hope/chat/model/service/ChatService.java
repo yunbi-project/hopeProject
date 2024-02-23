@@ -16,5 +16,10 @@ public interface ChatService {
 
 	List<ChatMessage> joinChatRoom(ChatJoin join);
 
+	void deleteUserChat(ChatJoin join);
+
+//	void deleteChatRoom(ChatJoin join);
+	// 관리자가 삭제해야함.
+
 
 }

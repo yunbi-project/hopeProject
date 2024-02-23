@@ -150,7 +150,6 @@ public class LoginController {
 		}else {
 		model.addAttribute("errorMsg","아이디 찾기 실패");
 		
-		System.out.println("아이디 찾기실패");
 		return "member/usersumfind";
 		}
 	}

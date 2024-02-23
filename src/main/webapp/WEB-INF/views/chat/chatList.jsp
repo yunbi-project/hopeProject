@@ -15,52 +15,59 @@
         background-color: #f5f5f5;
     }
     .content {
-        padding: 5% 10%;
-        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 30px;
+        width: 80%;
+        max-width: 800px;
+        background-color: #f0fff0;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     h2 {
         margin-bottom: 20px;
+        color: #333;
+        text-align: center;
     }
     table {
         width: 100%;
         border-collapse: collapse;
         border-radius: 8px;
-        overflow: hidden;
+        overflow: auto; /* 스크롤 처리 */
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
+        background-color: #f5fffa;
     }
     th, td {
         padding: 12px 15px;
         text-align: left;
+        border: 1px solid #bc8f8f;
     }
     th {
-        background-color: #007bff;
-        color: #fff;
+        background-color: #f5fffa;
+        color: black;
+        
     }
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-    .btn-primary {
-        background-color: #007bff;
+    .btn-area {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .btn-area button {
+        margin-right: 10px;
+        background-color: #d2b48c;
         color: #fff;
         border: none;
         border-radius: 4px;
         padding: 8px 16px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-    .btn-danger {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 8px 16px;
-        cursor: pointer;
-    }
-    .btn-danger:hover {
-        background-color: #c82333;
+    .btn-area button:hover {
+        background-color: #9acd32;
     }
     .modal {
         display: none;
@@ -104,41 +111,87 @@
         text-decoration: none;
         cursor: pointer;
     }
+    .form-control {
+        width: calc(100% - 40px);
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+    /* 참여와 삭제 버튼 */
+.btn-join, .btn-delete {
+    background-color: #9acd32;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-join:hover, .btn-delete:hover {
+    background-color: #00ff7f;
+}
+
+/* 뒤로가기 버튼 */
+.btn-back {
+    background-color: #d2b48c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #c82333;
+}
+   
 </style>
 </head>
 <body>
-	
+    
 <div class="content">
     <h2>채팅방목록</h2>
     <table>
     <thead>
         <tr>
-            <th>방번호</th>
+            <th style="display:none;">방번호</th>
             <th>채팅방 제목(주제)</th>
             <th>개설자</th>
             <th>참여인수</th>
+            <th>삭제</th>
         </tr>
     </thead>
     <tbody>
         <c:choose>
             <c:when test="${empty list}">
                 <tr>
-                    <td colspan="4">존재하는 채팅방이 없습니다.</td>
+                    <td colspan="5">존재하는 채팅방이 없습니다.</td>
                 </tr>
             </c:when>
             <c:otherwise>
                 <c:forEach items="${list}" var="chat">
-                    <tr>
-                        <td>${chat.chatNo}</td>
-                        <td>
-                            ${chat.chatTitle}
-                            <c:if test='${!empty loginUser }'>
-                                <button onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'">참여</button>
-                            </c:if>
-                        </td>
-                        <td>${chat.userName}</td>
-                        <td>${chat.cnt}</td>
-                    </tr>
+                    <c:if test="${chat.userNo eq loginUser.userNo}">
+                        <tr>
+                            <td style="display:none;">${chat.chatNo}</td>
+                            <td>
+                               ${chat.chatTitle}
+                            		<c:if test='${!empty loginUser }'>
+                 						<button class="btn btn-primary btn-join" id="btn-join"
+                 						onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" style="float: right;">참여</button>
+                 					</c:if>
+                 			</td>
+                            <td>${chat.userName}</td>
+                            <td>${chat.cnt}</td>
+                            <td>
+                                <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/user/exit" method="get">
+                                    <button class="btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:if>
                 </c:forEach>
             </c:otherwise>
         </c:choose>
@@ -147,6 +200,7 @@
 
     <div class="btn-area">
         <button onclick="toggleModal()" class="btn btn-danger">채팅방 만들기</button>
+        <button onclick="history.back()" class="btn btn-back">뒤로가기</button>
     </div>
 </div>
 
@@ -178,8 +232,6 @@
         modal.style.display = modal.style.display === "block" ? "none" : "block";
     }
 </script>
-
-
 
 </body>
 </html>

@@ -37,7 +37,7 @@ function sendMessage(){
         // 메세지 객체를 생성
         const chatMessage = {
             message : inputChatting.value,
-            chatRoomNo ,
+            chatNo ,
             userNo ,
             userName  
         };
@@ -105,5 +105,5 @@ function currentTime(){
 
 let exitBtn = document.querySelector("#exit-btn");
 exitBtn.onclick = function() {
-    location.href = `${contextPath}/chat/chatRoom/${chatRoomNo}/exit`;
+    location.href = `${contextPath}/chat/chat/${chatNo}/exit`;
 }

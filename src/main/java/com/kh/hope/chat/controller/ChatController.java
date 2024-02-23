@@ -30,23 +30,14 @@ public class ChatController {
 	@Autowired
 	private ChatService chatService;
 	
-	
-	// header에서 chat/chatRoomList
-	@GetMapping("/chatList") // 채팅방 목록 조회 
+	// 채팅방 목록 조회 
+	@GetMapping("/chatList") 
 	public String selectChatRoomList(Model model) {
 		
-	
 	// 1. db에서 채팅방 목록데이터 조회.
 	List<Chat> list = chatService.selectChatRoomList();
-	
-	
-	System.out.println(list);
-	// 2. 조회된 데이터를 model안에 추가
 	model.addAttribute("list",list);
-	
-	
-	// 3. view 페이지 포워딩
-	
+	log.info("list의 정보 {}" , list);
 	return "chat/chatList";
 
 	}
@@ -90,8 +81,6 @@ public class ChatController {
 		join.setChatNo(chatNo);
 		join.setUserNo(loginUser.getUserNo());
 		
-		System.out.println(join.getChatNo() );
-		System.out.println(join.getUserNo() );
 		
 		// 채팅내용 조회 후 model에 담아줄 예정
 		List<ChatMessage> list = chatService.joinChatRoom(join); 
@@ -101,7 +90,6 @@ public class ChatController {
 		if(list != null) {
 			model.addAttribute("list", list);
 			model.addAttribute("chatNo", chatNo); // 웹소켓이 활용하기 위해 담아줬다. session으로 이관
-			System.out.println("list" + list);
 			return "chat/chatRoom";
 		}else {
 			ra.addFlashAttribute("alertMsg" , "채팅방이 존재하지 않습니다.");
@@ -109,6 +97,51 @@ public class ChatController {
 		}
 	}	
 	
-
+	// 사용자가 접속중인 채팅방 나가기
+	@GetMapping("/{chatNo}/user/exit")
+	public String deleteUserChat(
+			@ModelAttribute("loginUser") User loginUser,
+			@PathVariable("chatNo") int chatNo,
+			ChatJoin join,
+			RedirectAttributes ra
+			) {
+		
+		join.setChatNo(chatNo);
+		join.setUserNo(loginUser.getUserNo());
+		
+		chatService.deleteUserChat(join);
+		ra.addAttribute("alertMsg", "채팅방이 삭제되었습니다.");
+		
+		return "redirect:/";
+	}
 	
+	/*
+	 * >
+            <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/user/exit" method="get">
+                <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+            </form>
+	 * */
+	
+	
+	
+	
+	// 관리자가 채팅방 삭제해야함.
+//	// 채팅방 삭제 	location.href = `${contextPath}/chat/${chatNo}/exit`;
+//	@GetMapping("/{chatNo}/exit")
+//	public String deleteChatRoom(
+//			@ModelAttribute("loginUser") User loginUser,
+//			@PathVariable("chatNo") int chatNo,
+//			ChatJoin join,
+//			RedirectAttributes ra
+//			) {
+//	
+//		join.setChatNo(chatNo);
+//		join.setUserNo(loginUser.getUserNo());
+//		
+//		chatService.deleteChatRoom(join);
+//		ra.addAttribute("alertMsg" , "채팅방이 삭제되었습니다.");
+//		
+//		return "redirect:/chat/chatList";
+//	}
+
 }
