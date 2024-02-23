@@ -9,4 +9,6 @@ public class ChatJoin {
 
 	private int userNo;		//회원번호
 	private int chatNo;		// 채팅방 번호
+	
+	private String status;
 }

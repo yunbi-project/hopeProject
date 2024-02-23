@@ -31,6 +31,8 @@
 </head>
 
 <body>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+	
 <div class="wrapper">
     <div class="container">
       <div class="sign-up-container">
@@ -159,6 +161,7 @@
       </div>
     </div>
   </div>
+  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
   <script type="text/javascript" src="././resources/js/gun.js/login.js"></script>
 </body>

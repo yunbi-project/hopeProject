@@ -20,7 +20,8 @@
         left: 50%;
         transform: translate(-50%, -50%);
         padding: 30px;
-        width: 80%;
+        width: 100%;
+        height: auto;
         max-width: 800px;
         background-color: #f0fff0;
         border-radius: 8px;
@@ -91,13 +92,17 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
     .modal-header, .modal-footer {
         border-bottom: 1px solid #ccc;
-        padding: 10px 0;
+        padding: 15px 0;
+        text-align: center;
     }
     .modal-title {
-        margin: 0;
+         margin: 0;
+            font-size: 20px;
+            color: #333;
     }
     .close {
         color: #aaa;
@@ -151,7 +156,7 @@
 </style>
 </head>
 <body>
-    
+    <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <div class="content">
     <h2>채팅방목록</h2>
     <table>
@@ -173,25 +178,26 @@
             </c:when>
             <c:otherwise>
                 <c:forEach items="${list}" var="chat">
-                    <c:if test="${chat.userNo eq loginUser.userNo}">
-                        <tr>
-                            <td style="display:none;">${chat.chatNo}</td>
-                            <td>
-                               ${chat.chatTitle}
-                            		<c:if test='${!empty loginUser }'>
-                 						<button class="btn btn-primary btn-join" id="btn-join"
-                 						onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" style="float: right;">참여</button>
-                 					</c:if>
-                 			</td>
-                            <td>${chat.userName}</td>
-                            <td>${chat.cnt}</td>
-                            <td>
-                                <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/user/exit" method="get">
-                                    <button class="btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:if>
+                    <c:forEach items="${join}" var="joinItem">
+                        <c:if test="${chat.chatNo eq joinItem.chatNo && loginUser.userNo eq joinItem.userNo && joinItem.status eq 'Y'}">
+                            <tr>
+                                <td style="display:none;">${chat.chatNo}</td>
+                                <td>
+                                    ${chat.chatTitle}
+                                    <c:if test='${!empty loginUser }'>
+                                        <button class="btn btn-primary btn-join" id="btn-join" onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" style="float: right;">참여</button>
+                                    </c:if>
+                                </td>
+                                <td>${chat.userName}</td>
+                                <td>${chat.cnt}  /  100</td>
+                                <td>
+                                    <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/exit" method="get">
+                                        <button class="btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                 </c:forEach>
             </c:otherwise>
         </c:choose>
@@ -212,14 +218,14 @@
                 <span class="close" onclick="toggleModal()">&times;</span>
             </div>
             
-            <form action=<%=request.getContextPath() %>/chat/openChatRoom method="post">
+            <form action="<%=request.getContextPath() %>/chat/openChatRoom" method="post">
                 <div class="modal-body">
                     <label  for="title" class="mr-sm-2" >제목</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" placeholder="채팅방 제목" id="chatRoomTitle" name="chatTitle">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">만들기</button>
-                    <button type="button" class="btn btn-danger" onclick="toggleModal()">취소</button>
+                    <button type="submit" class="btn btn-join">만들기</button>
+                    <button type="button" class="btn btn-join" onclick="toggleModal()">취소</button>
                 </div>
             </form>
         </div>

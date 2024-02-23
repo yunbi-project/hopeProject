@@ -52,6 +52,7 @@
 </head>
 <body>
 
+
 <div class="container">
     <h2>아이디 찾기 결과</h2>
     <div id="result">

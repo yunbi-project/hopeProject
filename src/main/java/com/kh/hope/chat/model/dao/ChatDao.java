@@ -24,6 +24,10 @@ public class ChatDao {
 		return session.selectList("chatMapper.selectChatRoomList");
 	}
 
+	public List<ChatJoin> selectJoinList() {
+		return session.selectList("chatMapper.selectJoinList");
+	}
+
 	public int openChatRoom(Chat c) {
 		
 		int result = session.insert("chatMapper.openChatRoom", c);
@@ -48,11 +52,12 @@ public class ChatDao {
 		return session.selectOne("chatMapper.joinCheck", join);
 	}
 
-	public int deleteUserChat(ChatJoin join) {
-		return session.delete("chatMapper.deleteUserChat", join);
-	}
+//	public int deleteUserChat(ChatJoin join) {
+//		return session.update("chatMapper.deleteUserChat", join);
+//	}
 
 	public int joinDeleteChat(ChatJoin join) {
-		return session.delete("chatMapper.joinDeleteChat" , join);
+		return session.update("chatMapper.joinDeleteChat" , join);
 	}
+
 }

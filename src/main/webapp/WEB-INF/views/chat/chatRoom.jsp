@@ -15,8 +15,8 @@
 <style>
     .chatting-area{
         margin :auto;
-        height : 600px;
-        width : 800px;
+        height : 1600px;
+        width : 1200px;
         margin-top : 50px;
         margin-bottom : 500px;
     }
@@ -87,24 +87,36 @@
         background-color: green;
         color: white;
     }
+    /* 제목 스타일링 */
+        .chatting-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 30px;
+            color: #333;
+        }
 </style>
 </head>
 <body>
 
+
 <div class="chatting-area">
 				<button id="back-btn">뒤로가기</button>
 			<div id="exit-area">
+
+			 <div class="chatting-title">${list[0].chatTitle}</div>
 				 
 				<!-- <button class="btn btn-outline-danger" id="exit-btn">채팅방 삭제</button> -->
 			</div>
 			<ul class="display-chatting">
 				<c:forEach items="${list}" var="msg">
+				
 					
 					<c:if test='${msg.userNo eq loginUser.userNo }'>
 					
 						<li class="myChat">
 							<span class="chatDate">${msg.createDate }</span>
 							<p class="chat">${msg.message }</p>
+							
 							
 					
 						</li>
@@ -126,6 +138,9 @@
 				<button id="send">보내기</button>
 			</div>
 		</div>
+		
+				 
+		
 		
 	
 	  

@@ -35,9 +35,18 @@ public class ChatController {
 	public String selectChatRoomList(Model model) {
 		
 	// 1. db에서 채팅방 목록데이터 조회.
+		
 	List<Chat> list = chatService.selectChatRoomList();
+	if(list != null) {
 	model.addAttribute("list",list);
 	log.info("list의 정보 {}" , list);
+	
+	List<ChatJoin> join = chatService.selectJoinList();
+	model.addAttribute("join",join);
+	log.info("join 정보 {}" , join);
+	} 
+	
+	
 	return "chat/chatList";
 
 	}
@@ -96,9 +105,8 @@ public class ChatController {
 			return "redirect:/chat/chatList";
 		}
 	}	
-	
 	// 사용자가 접속중인 채팅방 나가기
-	@GetMapping("/{chatNo}/user/exit")
+	@GetMapping("/{chatNo}/exit")
 	public String deleteUserChat(
 			@ModelAttribute("loginUser") User loginUser,
 			@PathVariable("chatNo") int chatNo,
