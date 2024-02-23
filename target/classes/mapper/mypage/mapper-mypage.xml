@@ -4,32 +4,46 @@
 <mapper namespace="mypageMapper">
 	
 	<!-- 기부활동 -->
-	<select id="mypageDonateList" resultType="mypage">
-		SELECT PUSER_NAME, PRODUCT_AMOUNT, PRODUCT_DATE, CATEGORY_NAME 
-		FROM DONATE_PRODUCT
-		JOIN PRODUCT_CATEGORY USING (CATEGORY_NO)
+	<select id="mypageDonateListP" parameterType="int" resultType="mypage">
+		SELECT PRODUCT_AMOUNT, PRODUCT_DATE, CATEGORY_NAME, PRODUCT_TYPE, PRODUCT_WAY, RECEIPT
+		FROM DONATE_PRODUCT DR
+		JOIN PRODUCT_CATEGORY PC ON (PC.CATEGORY_NO = DR.CATEGORY_NO)
+		JOIN USERS U ON (U.PHONE = DR.PHONE)
+		WHERE U.USER_NO = #{userNo}
+	</select>
+	
+	<select id="mypageDonateListM" parameterType="int" resultType="mypage">
+		SELECT PAY_NO, PAY_TYPE, DONATE_AMOUNT
+		FROM DONATE_INFO DI
+		JOIN USERS U ON (U.USER_NO = DI.USER_NO)
+		WHERE DI.USER_NO = #{userNo}
 	</select>
 	
 	<!-- 봉사활동 -->
-	<select id="mypageProgramList" resultType="mypage">
+	<select id="mypageProgramList" parameterType="int" resultType="mypage">
 		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE
 		FROM PROGRAM P 
 		JOIN REQUEST R ON (R.PROGRAM_NO = P.PROGRAM_NO)
 		JOIN USERS U ON (U.USER_NO = R.USER_NO)
-		WHERE U.USER_NO = '3'
+		WHERE R.USER_NO = #{userNo}
 	</select>
 	
 	<!-- 즐겨찾기 -->
-	<select id="mypageBookmarkList" resultType="mypage">
-		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE, USER_NAME
+	<select id="mypageBookmarkList" parameterType="int" resultType="mypage">
+		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE, P.PROGRAM_NO
 		FROM LIKES L
 		JOIN USERS U ON (U.USER_NO = L.USER_NO)
 		JOIN PROGRAM P ON (L.PROGRAM_NO = P.PROGRAM_NO)
-		WHERE U.USER_NO = '3'
+		WHERE L.USER_NO = #{userNo}
 	</select>
 	
+	<delete id="deleteBookmark">
+		DELETE 
+		FROM LIKES
+		WHERE USER_NO = #{userNo} AND PROGRAM_NO = #{programNo}
+	</delete>
 	
-	
+	<!-- 내 정보 변경 -->
 	<update id="updateProfile" parameterType="user">
 		UPDATE USERS SET
 		USER_NAME = #{userName},
