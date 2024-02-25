@@ -54,14 +54,16 @@ public class ChatServiceImpl implements ChatService{
 		 * 
 		 * 2. 참여하고 있지 않다면 참여 (INSERT)
 		 * */
+		System.out.println("join" + join);
 		
 		int result = chatDao.joinCheck(join);
-		
+		System.out.println("result " + result);
 
 		try {
 			if(result == 0) {
 			// 처음 참가한 사용자는 insert
 			result = chatDao.joinChatRoom(join);
+			System.out.println("result1: " + result);
 			}
 		}catch(Exception e) {
 			// 에러 발생
@@ -70,6 +72,7 @@ public class ChatServiceImpl implements ChatService{
 		if(result > 0) {
 			// 이미 참가했던 사용자는 메세지만 select
 			list = chatDao.selectChatMessage(join.getChatNo());
+			System.out.println("result2 : " + list);
 		}
 		return list;
 		

@@ -40,6 +40,7 @@ public class ChatDao {
 	}
 
 	public int joinChatRoom(ChatJoin join) {
+		System.out.println("joinChatRoom"+join);
 
 		return session.insert("chatMapper.joinChatRoom", join);
 	}

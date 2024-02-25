@@ -60,7 +60,7 @@
 	<!-- 채팅방 참여하기 -->
 	<insert id="joinChatRoom" parameterType="chatJoin">
 		INSERT INTO CHAT_JOIN
-		VALUES(#{userNo}, #{chatNo})
+		VALUES(#{userNo}, #{chatNo}, 'Y')
 	</insert>
 	
 	<!-- 채팅방 메세지 조회 -->
