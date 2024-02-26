@@ -1,0 +1,71 @@
+/* 회원 멤버 리스트 관리 */
+.memberList_table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.memberList_table th, .memberList_table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.memberList_table th {
+    background-color: #f2f2f2;
+}
+.memberList_table button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.memberList_table button:first-child {
+    background-color: #f44336;
+}
+
+.memberList_table tbody tr:hover {
+    background-color: #e5e5e5;
+}
+
+
+
+/* 탈퇴한 회원들만 보기 필터 스타일 */
+.secede input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.secede input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.secede input[type="checkbox"]:checked::before {
+    content: "\2713";
+    font-size: 16px;
+    color: #fff;
+    display: block;
+    text-align: center;
+    line-height: 20px;
+}
+
+/* 탈퇴한 회원들만 보기, 검색바 */
+.secede {
+    display: inline-block;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    margin-left: 68%;
+    margin-bottom: 20px;
+}
+
