@@ -32,17 +32,25 @@ public class ChatController {
 	
 	// 채팅방 목록 조회 
 	@GetMapping("/chatList") 
-	public String selectChatRoomList(Model model) {
+	public String selectChatRoomList(Model model, Chat c) {
 		
 	// 1. db에서 채팅방 목록데이터 조회.
 	List<Chat> list = chatService.selectChatRoomList();
+	if(list != null) {
 	model.addAttribute("list",list);
 	log.info("list의 정보 {}" , list);
+	
+	List<ChatJoin> join = chatService.selectJoinList();
+	model.addAttribute("join",join);
+	log.info("join 정보 {}" , join);
+	} 
+	
+	
 	return "chat/chatList";
 
 	}
 	
-	// 채팅방 만들기
+	// 채팅방 만들기 관리자가해야함.
 	@PostMapping("/openChatRoom")
 	public String openChatRoom(
 			Chat c,
@@ -82,6 +90,7 @@ public class ChatController {
 		join.setUserNo(loginUser.getUserNo());
 		
 		
+		System.out.println("join" + join);
 		// 채팅내용 조회 후 model에 담아줄 예정
 		List<ChatMessage> list = chatService.joinChatRoom(join); 
 		// 채팅방 참여(insert)후, 해당 채팅방의 채팅메시지 조회(select)
@@ -96,9 +105,8 @@ public class ChatController {
 			return "redirect:/chat/chatList";
 		}
 	}	
-	
 	// 사용자가 접속중인 채팅방 나가기
-	@GetMapping("/{chatNo}/user/exit")
+	@GetMapping("/{chatNo}/exit")
 	public String deleteUserChat(
 			@ModelAttribute("loginUser") User loginUser,
 			@PathVariable("chatNo") int chatNo,
@@ -112,7 +120,7 @@ public class ChatController {
 		chatService.deleteUserChat(join);
 		ra.addAttribute("alertMsg", "채팅방이 삭제되었습니다.");
 		
-		return "redirect:/";
+		return "redirect:/chat/chatList";
 	}
 	
 	/*

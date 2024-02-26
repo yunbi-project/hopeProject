@@ -18,6 +18,8 @@ public interface ChatService {
 
 	void deleteUserChat(ChatJoin join);
 
+	List<ChatJoin> selectJoinList();
+
 //	void deleteChatRoom(ChatJoin join);
 	// 관리자가 삭제해야함.
 

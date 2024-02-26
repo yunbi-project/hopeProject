@@ -14,28 +14,40 @@
   
 <style>
     .chatting-area{
-        margin :auto;
-        height : 600px;
-        width : 800px;
-        margin-top : 50px;
-        margin-bottom : 500px;
+         margin: auto;
+        width: 800px; /* 채팅방 너비 조정 */
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+       
+        overflow-y: auto; /* 세로 스크롤 추가 */
+        
+    }
+       .chatting-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+     .chatDate {
+        font-size: 8px;
+        color: #888;
     }
     #exit-area{
         text-align:right;
         margin-bottom : 10px;
     }
     .display-chatting {
-        width:70%;
-        height:550px;
-        border : 1px solid gold;
-        overflow: auto; /*스크롤 처럼*/
-        list-style:none;
-        padding: 10px 10px;
-        background : #f0fff0;
-        z-index: 1;
-        margin: auto;
-        /* background-image : url(${contextPath}/resources/main/chunsickbackground.png); */
-        background-position: center;
+        max-height: 600px; /* 채팅창 최대 높이 */
+        overflow-y: auto; /* 세로 스크롤 추가 */
+        height: 600px; /* 채팅방 높이 고정 */
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        list-style: none;
     }
     .img {
         width:100%;
@@ -55,7 +67,10 @@
         justify-content: center;
     }
     #inputChatting{
-        width: 52%;
+        width: calc(100% - 80px); /* 입력창 너비 조정 */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
         resize : none;
     }
     #send{
@@ -68,43 +83,51 @@
     .myChat > p {
         background-color : gold;
     }
-    .chatDate{
-        font-size : 10px;
-    }
      /* 뒤로가기 버튼 */
     #back-btn {
-        padding: 8px 15px;
+         padding: 8px 15px;
         background-color: transparent;
-        border: 2px solid dodgerblue;
+        border: 2px solid #007bff;
         border-radius: 5px;
-        color: dodgerblue;
+        color: #007bff;
         cursor: pointer;
-        text-align:right;
-        margin-bottom : 10px;
+        float: right;
     }
 
     #back-btn:hover {
         background-color: green;
         color: white;
     }
+    /* 제목 스타일링 */
+        .chatting-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 30px;
+            color: #333;
+        }
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <div class="chatting-area">
 				<button id="back-btn">뒤로가기</button>
 			<div id="exit-area">
+
+			 <div class="chatting-title">${list[0].chatTitle}</div>
 				 
 				<!-- <button class="btn btn-outline-danger" id="exit-btn">채팅방 삭제</button> -->
 			</div>
 			<ul class="display-chatting">
 				<c:forEach items="${list}" var="msg">
+				
 					
 					<c:if test='${msg.userNo eq loginUser.userNo }'>
 					
 						<li class="myChat">
 							<span class="chatDate">${msg.createDate }</span>
 							<p class="chat">${msg.message }</p>
+							
 							
 					
 						</li>
@@ -126,6 +149,9 @@
 				<button id="send">보내기</button>
 			</div>
 		</div>
+		
+				 
+		
 		
 	
 	  
@@ -213,7 +239,7 @@
 	    }
 	}
 
-	// 서버 웹소켓핸들러에서 클라이언트 소켓으로  메세지를 전달(send)하는 구문을 감지하는 이벤트핸들러
+	// 서버 웹소켓핸들러에서 클라이언트 소켓으로 메세지를 전달(send)하는 구문을 감지하는 이벤트핸들러
 	chattingSocket.onmessage = function(e) {
 	    
 		// 전달된 메세지는 e.data내부에 (JSON)형태로 보관
@@ -270,7 +296,7 @@
 	</script>
 	
 	<!-- <script type="text/javascript" src="./resources/js/gun.js/chat.js"></script> -->
-
+	  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
 </body>
 </html>

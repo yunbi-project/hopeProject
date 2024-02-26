@@ -31,6 +31,12 @@ public class ChatServiceImpl implements ChatService{
 	public List<Chat> selectChatRoomList() {
 		return chatDao.selectChatRoomList();
 	}
+	
+	
+	@Override
+	public List<ChatJoin> selectJoinList() {
+		return chatDao.selectJoinList();
+	}
 
 	@Override
 	public int openChatRomm(Chat c) {
@@ -48,14 +54,16 @@ public class ChatServiceImpl implements ChatService{
 		 * 
 		 * 2. 참여하고 있지 않다면 참여 (INSERT)
 		 * */
+		System.out.println("join" + join);
 		
 		int result = chatDao.joinCheck(join);
-		
+		System.out.println("result " + result);
 
 		try {
 			if(result == 0) {
 			// 처음 참가한 사용자는 insert
 			result = chatDao.joinChatRoom(join);
+			System.out.println("result1: " + result);
 			}
 		}catch(Exception e) {
 			// 에러 발생
@@ -64,6 +72,7 @@ public class ChatServiceImpl implements ChatService{
 		if(result > 0) {
 			// 이미 참가했던 사용자는 메세지만 select
 			list = chatDao.selectChatMessage(join.getChatNo());
+			System.out.println("result2 : " + list);
 		}
 		return list;
 		
@@ -72,13 +81,17 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public void deleteUserChat(ChatJoin join) {
 
-		int result = chatDao.deleteUserChat(join);
-		
-		if(result > 0) {
-			result = chatDao.joinDeleteChat(join);
+		  int result = chatDao.joinDeleteChat(join);
 		}
 		
 	}
+
+
+//
+//if(result > 0) {
+//int result = chatDao.deleteUserChat(join);
+// CHAT N으로 바꾸면 모든 사용자가 다 나가짐. 결국 관리자가 N으로 바꾸는 기능을 추가해야함.
+
 	
 	// 관리자가 삭제해야해서 채팅방삭제 지웠음.
 
@@ -101,6 +114,6 @@ public class ChatServiceImpl implements ChatService{
 //		}
 //		}
 	
-}
+
 
 

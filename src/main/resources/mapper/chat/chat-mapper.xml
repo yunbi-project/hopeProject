@@ -18,6 +18,11 @@
 		WHERE CR.STATUS = 'Y'
 		ORDER BY CHAT_NO DESC
 	</select>
+	
+	<select id="selectJoinList" resultType="chatJoin">
+		SELECT *
+	    FROM CHAT_JOIN
+	</select>
 
 	<!-- 웹소켓에서 보낸 insert 메세지 -->
 	<insert id="insertMessage" parameterType="chatMessage">
@@ -47,28 +52,34 @@
 		SELECT
 			COUNT(*)
 		FROM CHAT_JOIN
-		WHERE CHAT_NO = #{chatNo} AND USER_NO = #{userNo}
+		WHERE CHAT_NO = #{chatNo} 
+			AND USER_NO = #{userNo}
+			AND STATUS = 'Y'
 	</select>
 	
 	<!-- 채팅방 참여하기 -->
 	<insert id="joinChatRoom" parameterType="chatJoin">
 		INSERT INTO CHAT_JOIN
-		VALUES(#{userNo}, #{chatNo})
+		VALUES(#{userNo}, #{chatNo}, 'Y')
 	</insert>
 	
 	<!-- 채팅방 메세지 조회 -->
 	<select id="selectChatMessage" parameterType="int" resultType="chatMessage">
-		SELECT
-			MESSAGE,
-			TO_CHAR(CREATE_DATE, 'YYYY-MM-DD HH24:MI') CREATE_DATE,
-			USER_NAME,
-			USER_NO,
-			CM_NO
-		FROM CHAT_MESSAGE
-		JOIN USERS USING(USER_NO)
-		WHERE CHAT_NO = #{chatNo}
-		ORDER BY CM_NO
+	    SELECT
+	        CM.MESSAGE,
+	        TO_CHAR(CM.CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS CREATE_DATE,
+	        U.USER_NAME,
+	        U.USER_NO,
+	        CM.CM_NO,
+	        CH.CHAT_TITLE
+	    FROM CHAT_MESSAGE CM
+	    JOIN USERS U ON CM.USER_NO = U.USER_NO
+	    JOIN CHAT CH ON CM.CHAT_NO = CH.CHAT_NO
+	    WHERE CM.CHAT_NO = #{chatNo}
+	    ORDER BY CM.CM_NO
 	</select>
+	
+	<!-- CHAT은 관리자가 삭제해줘야함.  -->
 	
 	<update id="deleteUserChat" parameterType="chat">
 		UPDATE CHAT
@@ -78,11 +89,12 @@
 		 
 	</update>
 	
-	<delete id="joinDeleteChat" parameterType="chatJoin">
-		DELETE FROM CHAT_JOIN
+	<update id="joinDeleteChat" parameterType="chatJoin">
+		UPDATE CHAT_JOIN
+		SET STATUS = 'N'
 		WHERE USER_NO = #{userNo}
 		 AND CHAT_NO = #{chatNo}
-	</delete>
+	</update>
 	
 	
 

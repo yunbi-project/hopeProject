@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>채팅방목록</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -15,13 +16,9 @@
         background-color: #f5f5f5;
     }
     .content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative; 
         padding: 30px;
-        width: 80%;
-        max-width: 800px;
+        margin: 50px auto; 
         background-color: #f0fff0;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -30,24 +27,28 @@
         margin-bottom: 20px;
         color: #333;
         text-align: center;
+        font-size: 24px;
     }
     table {
         width: 100%;
         border-collapse: collapse;
         border-radius: 8px;
-        overflow: auto; /* 스크롤 처리 */
+        overflow: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         background-color: #f5fffa;
     }
     th, td {
-        padding: 12px 15px;
-        text-align: left;
+        padding: 12px 18px;
+        text-align: center;
         border: 1px solid #bc8f8f;
     }
     th {
         background-color: #f5fffa;
         color: black;
-        
+        font-size: 24px; 
+    }
+    td {
+        font-size: 20px;
     }
     tr:nth-child(even) {
         background-color: #f2f2f2;
@@ -91,13 +92,17 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
     .modal-header, .modal-footer {
         border-bottom: 1px solid #ccc;
-        padding: 10px 0;
+        padding: 15px 0;
+        text-align: center;
     }
     .modal-title {
-        margin: 0;
+         margin: 0;
+            font-size: 20px;
+            color: #333;
     }
     .close {
         color: #aaa;
@@ -118,50 +123,57 @@
         border: 1px solid #ccc;
         margin-bottom: 20px;
     }
+
     /* 참여와 삭제 버튼 */
-.btn-join, .btn-delete {
-    background-color: #9acd32;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    td:nth-child(5){
+        display:flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .btn-join, .btn-delete {
+        background-color: #9acd32;
+        color: #fff;
+        border: none;
+        border-radius: 7px;
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin: 0 5px;
+    }
 
-.btn-join:hover, .btn-delete:hover {
-    background-color: #00ff7f;
-}
+    .btn-join:hover, .btn-delete:hover {
+        background-color: #00ff7f;
+    }
 
-/* 뒤로가기 버튼 */
-.btn-back {
-    background-color: #d2b48c;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    /* 뒤로가기 버튼 */
+    .btn-back {
+        background-color: #d2b48c;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-.btn-back:hover {
-    background-color: #c82333;
-}
+    .btn-back:hover {
+        background-color: #c82333;
+    }
    
 </style>
 </head>
 <body>
-    
+    <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <div class="content">
     <h2>채팅방목록</h2>
     <table>
     <thead>
         <tr>
             <th style="display:none;">방번호</th>
-            <th>채팅방 제목(주제)</th>
             <th>개설자</th>
-            <th>참여인수</th>
-            <th>삭제</th>
+            <th style="min-width: 200px;">채팅방 제목(주제)</th> <!-- 길게 만들어줌 -->
+            <th style="width:100px;">참여인수</th>
+            <th style="width:180px;">삭제</th> <!-- 작게 만듦 -->
         </tr>
     </thead>
     <tbody>
@@ -173,32 +185,31 @@
             </c:when>
             <c:otherwise>
                 <c:forEach items="${list}" var="chat">
-                    <c:if test="${chat.userNo eq loginUser.userNo}">
-                        <tr>
-                            <td style="display:none;">${chat.chatNo}</td>
-                            <td>
-                               ${chat.chatTitle}
-                            		<c:if test='${!empty loginUser }'>
-                 						<button class="btn btn-primary btn-join" id="btn-join"
-                 						onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" style="float: right;">참여</button>
-                 					</c:if>
-                 			</td>
-                            <td>${chat.userName}</td>
-                            <td>${chat.cnt}</td>
-                            <td>
-                                <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/user/exit" method="get">
-                                    <button class="btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:if>
+                    <c:forEach items="${join}" var="joinItem">
+                        <c:if test="${chat.chatNo eq joinItem.chatNo && loginUser.userNo eq joinItem.userNo && joinItem.status eq 'Y'}">
+                            <tr>
+                                <td style="display:none;">${chat.chatNo}</td>
+                                <td>${chat.userName}</td>
+                                <td>${chat.chatTitle}</td>
+                                <td>${chat.cnt}  /  100</td>
+                                <td>
+                                    <c:if test='${!empty loginUser }'>
+                                        <button class="btn btn-primary btn-join" id="btn-join" onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" >입장</button>
+                                    </c:if> 
+                                    <form action="<%=request.getContextPath() %>/chat/${chat.chatNo}/exit" method="get">
+                                        <button class="btn-delete" type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                 </c:forEach>
             </c:otherwise>
         </c:choose>
     </tbody>
 </table>
 
-    <div class="btn-area">
+        <div class="btn-area">
         <button onclick="toggleModal()" class="btn btn-danger">채팅방 만들기</button>
         <button onclick="history.back()" class="btn btn-back">뒤로가기</button>
     </div>

@@ -54,6 +54,7 @@ public class UserDao {
 			user.setEmail(email);
 		return session.update("member.repassword", user);
 	}
+
 	
 	
 	
@@ -78,6 +79,8 @@ public class UserDao {
 		session.update("member.update", existData);
 		
 	}
+
+
 
 	
 }
