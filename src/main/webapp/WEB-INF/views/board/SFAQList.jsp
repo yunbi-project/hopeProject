@@ -25,7 +25,7 @@
                 <div>
                     <div>
                         <div>
-                            <div class="Sn-TextLabel" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</div>
+                            <div style="cursor:pointer;"class="Sn-TextLabel" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</div>
                         </div>
                     </div>
                 </div>

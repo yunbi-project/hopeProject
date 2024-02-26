@@ -20,16 +20,6 @@ public class BoardDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-//	public List<Board> noticeList() {
-//		
-//		return session.selectList("boardMapper.noticeList");
-//	}
-
-
-	public List<Board> storyList() {
-			return session.selectList("boardMapper.storyList");
-	}
-
 	/*공지사항리스트*/
 	public int selectListCount(Map<String, Object> map) {
 		
@@ -123,5 +113,47 @@ public class BoardDao {
 	public List<BoardType> selectBoardTypeList() {
 		
 		return session.selectList("boardMapper.selectBoardTypeList");
+	}
+
+	public void deleteAttachment(int fileNo) {
+		session.delete("boardMapper.deleteAttachment",fileNo);
+	}
+
+	public int deleteNotice(int boardNo) {
+		return session.update("boardMapper.deleteNotice",boardNo);
+	}
+
+	public int insertFaq(Board b) {
+		
+		return session.insert("boardMapper.insertFaq",b);
+	}
+	/*이야기리스트 */
+	public int selectStoryCount(Map<String, Object> map) {
+		
+		return session.selectOne("boardMapper.selectStoryCount",map);
+	}
+
+	public List<Board> storyList(PageInfo pi, Map<String, Object> map) {
+		int limit = pi.getBoardLimit();
+		int offset=(pi.getCurrentPage()-1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return session.selectList("boardMapper.storyList",map,rowBounds);
+	}
+
+	/*나눔후기 리스트*/
+	public int selectReviewCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return session.selectOne("boardMapper.selectReviewCount",map);
+	}
+
+	public List<Board> reviewList(PageInfo pi, Map<String, Object> map) {
+		int limit = pi.getBoardLimit();
+		int offset=(pi.getCurrentPage()-1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		
+		return session.selectList("boardMapper.reviewList",map,rowBounds);
 	}
 }

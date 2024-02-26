@@ -46,7 +46,7 @@
 		</if>
 	</select>
 	<select id="noticeList" parameterType="hashMap" resultType="board">
-		SELECT BOARD_NO, BOARD_TITLE, COUNT, USER_NAME, CREATE_DATE
+		SELECT BOARD_NO, BOARD_TITLE, COUNT, USER_NAME, CREATE_DATE, BOARD_TYPE_NO
 		FROM BOARD B
 		LEFT JOIN USERS USING (USER_NO)
 		WHERE BOARD_TYPE_NO = 'N'
@@ -72,7 +72,7 @@
 		INSERT INTO BOARD
 		(BOARD_NO,BOARD_TITLE,BOARD_CONTENT,BOARD_TYPE_NO,USER_NO)
 		VALUES
-		(#{boardNo},#{boardTitle},#{boardContent},'N',#{userNo})
+		(#{boardNo},#{boardTitle},#{boardContent},#{boardTypeNo},#{userNo})
 	</insert>
 	<insert id="insertNoticeImgList" parameterType="list">
 		INSERT INTO ATTACHMENT
@@ -92,7 +92,7 @@
 	</insert>
 	<!-- 공지사항상세 -->
 	<select id="selectBoard" parameterType="int" resultType="board">
-		SELECT BOARD_NO,USER_NAME,BOARD_TITLE,BOARD_CONTENT,COUNT,CREATE_DATE
+		SELECT BOARD_NO,USER_NAME,BOARD_TITLE,BOARD_CONTENT,COUNT,CREATE_DATE,BOARD_TYPE_NO
 		FROM BOARD B
 		LEFT JOIN USERS USING (USER_NO)
 		WHERE BOARD_NO =#{boardNo}
@@ -104,7 +104,7 @@
 		WHERE BOARD_NO =#{boardNo}
 	</update>
 	<select id="selectImgList" parameterType="int" resultType="attachment">
-		SELECT ORIGIN_NAME , FILE_NO
+		SELECT ORIGIN_NAME , FILE_NO, REF_FNO
 		FROM ATTACHMENT
 		WHERE REF_FNO=#{boardNo}
 		ORDER BY IMG_LEVEL
@@ -189,12 +189,111 @@
 		AND FAQ_TYPE =3
 		ORDER BY BOARD_NO DESC
 	</select>
-	
-	<select id="storyList" resultType="board">
-		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, COUNT, USER_NO,CREATE_DATE
-		FROM BOARD
+	<!-- 자주묻는질문 등록 -->
+	<insert id="insertFaq" parameterType="Board">
+    INSERT INTO BOARD 
+    (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, FAQ_TYPE, USER_NO,BOARD_TYPE_NO)
+    VALUES
+    (SEQ_BOARDNO.NEXTVAL, #{boardTitle}, #{boardContent},#{condition},#{userNo},'Q')
+	</insert>
+	<!-- 공지삭제 -->
+	<update id="deleteNotice" parameterType="int">
+		UPDATE BOARD
+		SET STATUS='N'
+		WHERE BOARD_NO=#{boardNo}
+	</update>
+	<delete id="deleteAttachment" parameterType="int">
+		DELETE FROM ATTACHMENT
+		WHERE FILE_NO =#{fileNo}
+	</delete>
+	<!-- 이야기리스트 -->
+	<select id="selectStoryCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD B
+		LEFT JOIN USERS USING (USER_NO)
+		WHERE B.STATUS='Y'
+		AND BOARD_TYPE_NO ='C'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					BOARD_TITLE LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
+	</select>
+	<!-- 자유게시판 리스트 -->
+	<select id="storyList" parameterType="hashMap" resultType="board">
+		SELECT BOARD_NO, BOARD_TITLE,BOARD_CONTENT, COUNT, USER_NAME, B.CREATE_DATE,A.FILE_NO,IMG_LEVEL,A.CHANGE_NAME
+		FROM USERS 
+		LEFT JOIN BOARD B USING (USER_NO)
+        LEFT JOIN ATTACHMENT A ON (B.BOARD_NO = REF_FNO)
 		WHERE BOARD_TYPE_NO = 'C'
+		AND B.STATUS='Y'
+		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					BOARD_TITLE LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
 		ORDER BY BOARD_NO DESC
 	</select>
+	
+	<!-- 나눔후기리스트 -->
+	<select id="selectReviewCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD B
+		LEFT JOIN USERS USING (USER_NO)
+		WHERE B.STATUS='Y'
+		AND BOARD_TYPE_NO ='R'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					BOARD_TITLE LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
+	</select>
+	<select id="reviewList" parameterType="hashMap" resultType="board">
+		SELECT BOARD_NO, BOARD_TITLE,BOARD_CONTENT, COUNT, USER_NAME, B.CREATE_DATE,A.FILE_NO,IMG_LEVEL,A.CHANGE_NAME
+		FROM USERS 
+		LEFT JOIN BOARD B USING (USER_NO)
+        LEFT JOIN ATTACHMENT A ON (B.BOARD_NO = REF_FNO)
+		WHERE BOARD_TYPE_NO = 'R'
+		AND B.STATUS='Y'
+		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					BOARD_TITLE LIKE '%${keyword}%'
+				</when>
+				<when test="condition.equals('writer')">
+					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>				
+			</choose>
+		</if>
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<!-- 댓글등록 -->
+	<insert id="insertReply" parameterType="reply">
+		INSERT INTO REPLY 
+		(REPLY_NO,REPLY_CONTENT,USER_NO,BOARD_NO)
+		VALUES (SEQ_REPLYNO.NEXTVAL,#{replyContent},#{userNo},#{boardNo})
+	</insert>
 	
 </mapper>

@@ -28,28 +28,29 @@
 		<div class="Sn-insert-wrapper">
 			<div class="Sn-insert-section">
 				<div class="Sn-insert-container">
-					<div class="Sn-TextLabel">공지사항 등록</div>
-				<form method="POST" action="${contextPath}/board/insert/${boardTypeNo}" id="insertform" enctype="multipart/form-data">
+					<div class="Sn-TextLabel">자주묻는질문등록</div>
+					<form method="POST" action="${contextPath}/board/insert/Q" id="insertform" enctype="multipart/form-data">
+						<c:if test="${not empty param.condition}">
+								<c:set var="url"
+									value="&condition=${param.condition}" />
+						</c:if>
+						<div class="Sf-btn">
+							<select class="custom-select" name="condition">
+									<option value="1"
+										>물품기부</option>
+									<option value="2"
+										>후원하기</option>
+									<option value="3"
+										>자원활동</option>
+									
+							</select>
+						</div>
+				
 					<div class="Sn-form">
+					
 						<div class="Sn-form-group">
 							<label for="title">제목</label> <input type="text" id="title" name="boardTitle"
 								class="Sn-input-title" placeholder="제목을 입력하세요" required>
-						</div>
-						<div class="Sn-form-group flex-container">
-							<label>작성자</label>
-							<div id="author" class="Sn-input-user">${loginUser.userName}</div>
-						</div>
-						<div class="Sn-form-group flex-container">
-							<label for="img1"class="file-upload-label">대표이미지</label>
-							<div class="file-preview">
-							<img class="preview" alt="대표이미지 미리보기">						
-							</div>
-							<input type="file" class="inputImage" id="img1" accept="images/*" name="upfiles">	
-													
-						</div>
-						<div class="Sn-form-group flex-container">
-							<label for="img2" class="file-upload-label">추가 파일</label>							
-							<input type="file" class="inputImage" id="img2" accept="images/*" name="upfiles">							
 						</div>
 						<div class="Sn-form-group">
 							<label for="boardContent">글내용</label>
@@ -60,7 +61,7 @@
 					
 					<div class="Sn-btn-group">
 						<button type="submit" class="Sn-insert-btn">등록</button>
-						<button type="reset" class="Sn-cancel-btn" onclick="window.location.href='${contextPath}/board/N'">취소</button>
+						<button type="reset" class="Sn-cancel-btn" onclick="window.location.href='${contextPath}/board/Q'">취소</button>
 					</div>
 				</form>
 				</div>
@@ -68,23 +69,6 @@
 		</div>
 
 		<script>
-		const inputImage = document.querySelectorAll('.inputImage');
-		const preview = document.querySelectorAll('.preview');
-		
-		inputImage.forEach(function(value,index){
-			value.addEventListener('change',function(){
-				if(this.files[0] != undefined){
-					const reader = new FileReader();
-					reader.readAsDataURL(this.files[0]);
-					reader.onload = function(e){
-						preview[index].setAttribute("src",e.target.result);
-					}
-				}else{
-					preview[index].removeAttribute("src");
-				}
-			})
-		})
-		
 		
         $(document).ready(function() {
 
