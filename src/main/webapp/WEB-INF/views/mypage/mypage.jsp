@@ -45,7 +45,7 @@
 
 		<div class="div-donation-content">
 
-			
+
 			<div class="title-2">
 				기부활동
 				<div class="radio_div">
@@ -63,6 +63,8 @@
 
 			<div class="list">
 
+
+				<!-- 물품 -->
 				<c:forEach var="donatep" items="${donatelistp}">
 					<div class="row">
 						<div class="article">
@@ -84,7 +86,8 @@
 						</div>
 					</div>
 				</c:forEach>
-				
+
+				<!-- 후원금 -->
 				<c:forEach var="donatem" items="${donatelistm}">
 					<div class="row">
 						<div class="article">
@@ -94,17 +97,17 @@
 								</div>
 							</div>
 							<div class="frame-2">
-								<div class="subtitle">날짜 : ${donatem.payNo}</div>
-								<div class="subtitle">제품 종류 : ${donatem.payType}</div>
-								<div class="subtitle">수량 : ${donatem.donateAmount}</div>
+								<div class="subtitle">결제번호 : ${donatem.payNo}</div>
+								<div class="subtitle">결제유형 : ${donatem.payType}</div>
+								<div class="subtitle">후원금액 : ${donatem.donateAmount}</div>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
-
 			</div>
-
 		</div>
+
+
 
 		<div class="div-volunteer-content">
 
@@ -171,6 +174,23 @@
 
 			</div>
 
+		</div>
+
+		<div id="pagingArea">
+			<ul class="pagination">
+				<c:if test="${pi.currentPage ne 1}">
+					<li class="page-item"><a class="page-link"
+						href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
+				</c:if>
+				<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+					<li class="page-item"><a class="page-link"
+						href="?currentPage=${p}${url}">${p}</a></li>
+				</c:forEach>
+				<c:if test="${pi.currentPage ne pi.maxPage}">
+					<li class="page-item"><a class="page-link"
+						href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
+				</c:if>
+			</ul>
 		</div>
 
 		<div class="component">
