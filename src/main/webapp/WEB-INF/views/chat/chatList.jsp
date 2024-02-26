@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>채팅방목록</title>
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -208,7 +209,7 @@
     </tbody>
 </table>
 
-    <div class="btn-area">
+        <div class="btn-area">
         <button onclick="toggleModal()" class="btn btn-danger">채팅방 만들기</button>
         <button onclick="history.back()" class="btn btn-back">뒤로가기</button>
     </div>
@@ -217,26 +218,31 @@
 <div id="chatModal" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
-        
             <div class="modal-header">
                 <h4 class="modal-title">채팅방 만들기</h4>
                 <span class="close" onclick="toggleModal()">&times;</span>
             </div>
-            <form action="<%=request.getContextPath() %>/chat/openChatRoom" method="post">
+            
+            <form action=<%=request.getContextPath() %>/chat/openChatRoom method="post">
                 <div class="modal-body">
-                    <label for="title" class="mr-sm-2">제목</label>
+                    <label  for="title" class="mr-sm-2" >제목</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" placeholder="채팅방 제목" id="chatRoomTitle" name="chatTitle">
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-join">만들기</button>
-                    <button type="button" class="btn btn-join" onclick="toggleModal()">취소</button>
+                    <button type="submit" class="btn btn-primary">만들기</button>
+                    <button type="button" class="btn btn-danger" onclick="toggleModal()">취소</button>
                 </div>
             </form>
         </div>
     </div>
-  
 </div>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+<script>
+    function toggleModal() {
+        var modal = document.getElementById("chatModal");
+        modal.style.display = modal.style.display === "block" ? "none" : "block";
+    }
+</script>
+
 </body>
 </html>

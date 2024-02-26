@@ -147,11 +147,13 @@ public class LoginController {
 			session.setAttribute("idfind", user1);
 			
 			return "member/useridfind";	// 아이디 찾으면 세션스코프에 저장 후 useridfind에 보여준다.
+			
 		}else {
 		model.addAttribute("errorMsg","아이디 찾기 실패");
 		
 		return "member/usersumfind";
 		}
+		
 	}
 	
 //  휴대폰 전화번호 인증
@@ -159,6 +161,7 @@ public class LoginController {
   @ResponseBody    
       public String sendSMS(String phone) {
    
+	  
           Random rand  = new Random(); //랜덤숫자 생성하기 !!
           String numStr = "";
           for(int i=0; i<4; i++) {

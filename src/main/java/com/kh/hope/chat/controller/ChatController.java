@@ -90,7 +90,7 @@ public class ChatController {
 		join.setUserNo(loginUser.getUserNo());
 		
 		
-		
+		System.out.println("join" + join);
 		// 채팅내용 조회 후 model에 담아줄 예정
 		List<ChatMessage> list = chatService.joinChatRoom(join); 
 		// 채팅방 참여(insert)후, 해당 채팅방의 채팅메시지 조회(select)
