@@ -33,7 +33,7 @@
 				<div>
 					<div>
 						<div>
-							<div class="Sn-TextLabel">공지사항</div>
+							<div class="Sn-TextLabel">나눔후기</div>
 						</div>
 					</div>
 				</div>
@@ -73,12 +73,12 @@
 				<div class="btn-group">
 					<div class="login-detail-btn">
 					
-						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>										
+						    <button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>										
 				
-						    <button class="modify-btn" onclick="window.location.href='${contextPath}/board/update/N/${b.boardNo}'">수정</button>					
+						    <button class="modify-btn" onclick="window.location.href='${contextPath}/board/update/${b.boardTypeNo}/${b.boardNo}'">수정</button>					
 					</div>
 					<div class="detail-btn">
-						<button class="list-btn" onclick="window.location.href='${contextPath}/board/N'">목록</button>
+						<button class="list-btn" onclick="window.location.href='${contextPath}/board/R'">목록</button>
 					</div>
 
 				</div>
@@ -88,11 +88,14 @@
 	</main>
 	
 	<script>
-	function deleteBoard(boardNo) {
-        var boardTypeNo = 'N'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
+	
+    function deleteBoard(boardNo) {
+        var boardTypeNo = 'C'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
         var url = '${contextPath}/board/delete/' + boardNo + '?boardTypeNo=' + boardTypeNo;
         window.location.href = url;
     }
+
+
 	function stripHtmlTags(html) {
 	    let doc = new DOMParser().parseFromString(html, 'text/html');
 	    return doc.body.textContent || "";

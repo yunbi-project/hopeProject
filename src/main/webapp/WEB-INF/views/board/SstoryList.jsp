@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value = "${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -25,7 +26,7 @@
                 <div>
                     <div>
                         <div>
-                            <div class="Sn-TextLabel">이야기</div>
+                            <div class="Sn-TextLabel">자유게시판</div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                     <div>
                         <div class="Sn-component-1" >                         
                             <div class="Sn-chip-1">
-                                <div class="Sn-text-1">글쓰기</div>
+                                <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/C'">글쓰기</div>
                             </div>
                             <div class="Sn-chip-2">
                                 <div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/R'">나눔후기</div>
@@ -54,51 +55,81 @@
                         </c:when>
                         <c:otherwise>
                         <c:forEach var="b" items="${list}">                    
-                        <div class="Ss-article">
+                        <div class="Ss-article" onclick="movePage(${b.boardNo})">
                             <div class="Ss-image-container">
-                                <div class="Ss-image"><img src="../resources/images/board/HOPE_logo.png"></div>
+                            <c:choose>    
+                            <c:when test="${not empty b.changeName}">                        
+                                <div class="Ss-image"><img src="<c:url value='/resources/images/board/C/${b.changeName}'/>"></div>
+                            </c:when>
+                            <c:otherwise>
+                            	<div class="Ss-image"><img src="<c:url value='/resources/images/board/storydefault.png'/>"></div>
+                            </c:otherwise>
+                            </c:choose>
                             </div>
                             <div class="Ss-frame">
-                                <div class="Ss-title">${b.boardTitle}</div>
-                                <div class="Ss-subtitle">${b.boardContent}</div>                               
+                                <div class="Ss-title"  style="line-height: 1.5;" id="storytitle">${fn:substring(b.boardTitle, 0, 13)}${fn:length(b.boardTitle) > 13 ? '...' : ''}</div>
+                                                               
                             </div>
                             <div class="Ss-storydate">
                                 <p class="Ss-date">${b.createDate}</p>
-                                <p class="Ss-count">${b.count}</p>                                
+                                <p class="Ss-count">조회수 ${b.count}</p>                                
                             </div>
                         </div> 
                         </c:forEach>
                         </c:otherwise>
                         </c:choose>                               
                     </div>
-                </div>          
+                </div> 
+                <c:if test="${not empty param.condition}">
+						<c:set var="url"
+							value="&condition=${param.condition}&keyword=${param.keyword}" />
+					</c:if>         
                 
                 <div id="pagingArea">           
-                    <ul class="pagination">            	
-                        <li class="page-item">
-                            <a class="page-link">Previous</a>
-                        </li>           	
-                        <li class="page-item">
-                            <a class="page-link">1</a>
-                            <a class="page-link">2</a>
-                            <a class="page-link">3</a>
-                        </li>             
-                        <li class="page-item">
-                            <a class="page-link">Next</a>
-                        </li>           
-                    </ul>
+                    <ul class="pagination">
+							<c:if test="${pi.currentPage ne 1}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
+							</c:if>
+							<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${p}${url}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
+							</c:if>
+						</ul>
                 </div>
-                <div class="archive-search">
-                    <form class="search-form" action="/archives/category/notice">
-                                    <div class="Ss-btn">
-                            <input type="text" class="archive-search-text input-md width-280px" name="search-text" placeholder="제목 또는 내용 검색을 입력하세요">
-                            <input type="submit" class="green" value="검색">
-                        </div>
-                    </form>
-                </div>
+               <form class="search-form" method="get" action="C">
+						<div class="archive-search">
+
+
+							<div class="Sn-btn">
+								<select class="custom-select" name="condition">
+									<option value="writer"
+										${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+									<option value="title"
+										${param.condition eq 'title'? 'selected':'' }>제목</option>
+
+								</select> <input type="text"
+									class="archive-search-text input-md width-280px" name="keyword"
+									value="${param.keyword}" placeholder="제목 또는 내용 검색을 입력하세요">
+								<input type="submit" class="green" value="검색">
+							</div>
+						</div>
+					</form>
             </div>
         </div>
     </div>
+    <script>
+  
+  
+		function movePage(bno){
+			location.href="${contextPath}/board/detail/C/"+bno
+		}
+		
+	</script>
     </main>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>

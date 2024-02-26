@@ -33,10 +33,10 @@ public class FileDeleteScheduler {
     @Autowired
     private BoardService service;
 
-    @Scheduled(cron = "0/5 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void deleteFile() {
     	List<String> list = service.selectFileList();
-		log.info("list{}", list);
+
 		//new File().listFiles();
 		//file배열형태로 반환
 		List<BoardType> boardTypeList = service.selectBoardTypeList();
@@ -66,8 +66,6 @@ public class FileDeleteScheduler {
 			}
 		}
 		
-		log.info("총{}개의 파일이 삭제됨",count);
-		log.info("파일삭제 스케줄러 종료");
-        }
+      }
   }
 

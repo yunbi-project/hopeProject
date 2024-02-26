@@ -1,6 +1,7 @@
 package com.kh.hope.board.model.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,10 @@ public class Board {
 	private int faqType;
 	private String boardTypeNo;
 	private String userName;
+	private int condition;
+	private String changeName;
+	private int imgLevel;
 	
-	
+	private ArrayList<String> thumnailList;
+	private String thumnail;
 }

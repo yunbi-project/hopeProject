@@ -1,5 +1,6 @@
 package com.kh.hope.board.model.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 	@Override
 	public List<Board> faqList1() {
-		// TODO Auto-generated method stub
 		return dao.faqList1();
 	}
 	
@@ -64,12 +64,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		return dao.faqList3();
 	}
-	/*이야기리스트*/
-	@Override
-	public List<Board> storyList() {
-		
-		return dao.storyList();
-	}
+	
 	/*공지등록*/
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
@@ -118,7 +113,7 @@ public class BoardServiceImpl implements BoardService{
 	/*수정등록*/
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
-	public int updateBoardInsert(Board b, String deleteList, List<MultipartFile> upfiles) {
+	public int updateBoardInsert(Board b,String boardTypeNo, String deleteList, List<MultipartFile> upfiles) {
 	
 		b.setBoardContent(Utils.XSSHandling(b.getBoardContent()));
 		b.setBoardContent(Utils.newLineClear(b.getBoardContent()));
@@ -126,7 +121,7 @@ public class BoardServiceImpl implements BoardService{
 		
 		int result = dao.updateBoardInsert(b);
 		
-		String webPath = "/resources/images/board/N/";
+		String webPath = "/resources/images/board/"+boardTypeNo+"/";
 		String serverFolerPath = application.getRealPath(webPath);
 		
 		if(result>0) {
@@ -172,9 +167,59 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<BoardType> selectBoardTypeList() {
-		// TODO Auto-generated method stub
 		return dao.selectBoardTypeList();
 	}
+	@Transactional(rollbackFor = {Exception.class})
+	@Override
+	public int deleteNotice(int boardNo) {
+		
+		List<Attachment> imgList = dao.selectImgList(boardNo);
+		
+		  // 파일 정보가 있다면 DB에서만 파일 정보 삭제
+        if (imgList != null && !imgList.isEmpty()) {
+            for (Attachment at : imgList) {
+                dao.deleteAttachment(at.getFileNo());
+            }
+        }
+		
+		int result = dao.deleteNotice(boardNo);
+		return result;
+	}
 
+	@Override
+	public int insertFaq(Board b) {
+		
+		return dao.insertFaq(b);
+	}
+/*이야기리스트*/
+	
+	@Override
+	public int selectStoryCount(Map<String, Object> map) {
+	
+		return dao.selectStoryCount(map);
+	}
+
+	@Override
+	public List<Board> storyList(PageInfo pi, Map<String, Object> map) {
+		
+		return dao.storyList(pi,map);
+	}
+	/*나눔후기*/
+
+	@Override
+	public int selectReviewCount(Map<String, Object> map) {
+		
+		return dao.selectReviewCount(map);
+	}
+
+	@Override
+	public List<Board> reviewList(PageInfo pi, Map<String, Object> map) {
+		
+		return  dao.reviewList(pi,map);
+	}
+
+	
+
+	
 	
 }

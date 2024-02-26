@@ -34,8 +34,8 @@
 		<div class="Sn-insert-wrapper">
 			<div class="Sn-insert-section">
 				<div class="Sn-insert-container">
-					<div class="Sn-TextLabel">공지사항 수정</div>
-				<form method="POST" action="${contextPath}/board/update/N/${boardNo}" id="insertform" enctype="multipart/form-data">
+					<div class="Sn-TextLabel">자유게시판 수정</div>
+				<form method="POST" action="${contextPath}/board/update/C/${boardNo}" id="insertform" enctype="multipart/form-data">
 					<div class="Sn-form">
 						<div class="Sn-form-group">
 							<label for="title">제목</label> <input type="text" id="title" name="boardTitle"
@@ -84,7 +84,7 @@
 					<input type="hidden" name="deleteList" id="deleteList" value="" />
 					<div class="Sn-btn-group">
 						<button type="submit" class="Sn-insert-btn">등록</button>
-						<button type="reset" class="Sn-cancel-btn" onclick="window.location.href='${contextPath}/board/N'">취소</button>
+						<button type="reset" class="Sn-cancel-btn" onclick="window.location.href='${contextPath}/board/C'">취소</button>
 					</div>
 				</form>
 				</div>

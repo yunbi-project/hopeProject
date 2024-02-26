@@ -21,8 +21,6 @@ public interface BoardService {
 	/*FAQList*/
 	List<Board> faqList();
 
-	List<Board> storyList();
-
 	List<Board> faqList1();
 
 	List<Board> faqList2();
@@ -41,11 +39,23 @@ public interface BoardService {
 
 	BoardExt selectUpdateBoard(int boardNo);
 
-	int updateBoardInsert(Board b, String deleteList, List<MultipartFile> upfiles);
+	int updateBoardInsert(Board b,String boardTypeNo,String deleteList, List<MultipartFile> upfiles);
 
 	List<String> selectFileList();
 
 	List<BoardType> selectBoardTypeList();
+
+	int deleteNotice(int boardNo);
+
+	int insertFaq(Board b);
+	
+	int selectStoryCount(Map<String, Object> map);
+
+	List<Board> storyList(PageInfo pi, Map<String, Object> map);
+
+	int selectReviewCount(Map<String, Object> map);
+
+	List<Board> reviewList(PageInfo pi, Map<String, Object> map);
 
 
 }

@@ -25,7 +25,7 @@
                 <div>
                     <div>
                         <div>
-                            <div class="Sn-TextLabel" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</div>
+                            <div style="cursor:pointer;" class="Sn-TextLabel" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div>
                         <div class="Sn-component-1" >                         
                             <div class="Sn-chip-1">
-                                <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/Q/insert'">등록</div>
+                                <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/Q'">등록</div>
                             </div>
                             <div class="Sn-chip-2" >
                                 <div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/N'">공지사항</div>

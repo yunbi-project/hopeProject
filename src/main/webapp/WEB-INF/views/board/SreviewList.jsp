@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,10 +35,10 @@
 						<div>
 							<div class="Sn-component-1">
 								<div class="Sn-chip-1">
-									<div class="Sn-text-1">글쓰기</div>
+									<div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/R'">글쓰기</div>
 								</div>
 								<div class="Sn-chip-2">
-									<div class="Sn-text-2">이야기</div>
+									<div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/C'">이야기</div>
 								</div>
 							</div>
 						</div>
@@ -46,115 +47,42 @@
 					<div class="Sn-section">
 						<div class="Sn-notice-container"></div>
 						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="../resources/images/board/HOPE_logo.png">
+							<c:choose>
+							 	<c:when test="${empty list}">
+									<div class="Ss-nonList">
+										<span>게시글이 없습니다.</span>
+									</div>
+								</c:when> 
+								<c:otherwise>
+									<c:forEach var="b" items="${list}">
+										<div class="Sn-row">
+											<div class="Sn-article" onclick="movePage(${b.boardNo})">
+												<div class="Sn-image-container" >
+												<c:choose>    
+							                            <c:when test="${not empty b.changeName}"> 
+															<div class="Sn-notice-image">
+																<img src="<c:url value='/resources/images/board/R/${b.changeName}'/>">
+															</div>
+														</c:when>
+														<c:otherwise>
+							                            	<div class="Sn-notice-image">
+																<img src="<c:url value='/resources/images/board/storydefault.png'/>">
+															</div>
+							                            </c:otherwise>
+							                            </c:choose>
+													
+							                            
+												</div>
+												<div class="Sn-notice-frame">
+													<div class="Sn-notie-title">${b.boardTitle}</div>
+													<p class="Sn-notice-date">${b.createDate}</p>
+													<p class="Sn-notice-count">${b.userName}</p>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="Sn-section">
-						<div class="Sn-notice-container"></div>
-						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="/css/images/2_WOS (1).jpg">
-										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="Sn-section">
-						<div class="Sn-notice-container"></div>
-						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="/css/images/chunsickbackground.png">
-										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="Sn-section">
-						<div class="Sn-notice-container"></div>
-						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="/css/images/user0.jpg">
-										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="Sn-section">
-						<div class="Sn-notice-container"></div>
-						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="/css/images/user1.jpg">
-										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="Sn-section">
-						<div class="Sn-notice-container"></div>
-						<div class="Sn-list">
-							<div class="Sn-row">
-								<div class="Sn-article">
-									<div class="Sn-image-container">
-										<div class="Sn-notice-image">
-											<img src="/css/images/2_WOS (1).jpg">
-										</div>
-									</div>
-									<div class="Sn-notice-frame">
-										<div class="Sn-notie-title">글제목</div>
-										<p class="Sn-notice-date">작성날짜</p>
-										<p class="Sn-notice-count">조회수</p>
-									</div>
-								</div>
-							</div>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 
@@ -178,7 +106,7 @@
 							</c:if>
 						</ul>
 					</div>
-					<form class="search-form" method="get" action="N">
+					<form class="search-form" method="get" action="R">
 						<div class="archive-search">
 
 
@@ -199,7 +127,14 @@
 				</div>
 			</div>
 		</div>
+		 <script>  
+		function movePage(bno){
+			location.href="${contextPath}/board/detail/R/"+bno
+		}
+		
+	</script>
 	</main>
+	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>
