@@ -3,10 +3,11 @@
 <mapper namespace="program">
 
 	<select id="selectListCount" resultType="int">
-	    SELECT COUNT(*)
+		SELECT COUNT(*)
 		FROM PROGRAM P
 		LEFT JOIN USERS USING (USER_NO)
-		WHERE P.STATUS='Y'
+		WHERE
+		P.STATUS='Y'
 		<if test="keyword!=null and keyword != ''">
 			AND
 			<choose>
@@ -15,86 +16,131 @@
 				</when>
 				<when test="condition.equals('writer')">
 					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-				</when>				
+				</when>
 			</choose>
 		</if>
-		<if test="active_type !='' and keyword!=null">
-					AND ACTIVITY_TYPE = #{activityType}
+		<if test="active_type !='' and active_type != null">
+			AND ACTIVITY_TYPE = #{active_type}
 		</if>
-		<if test="active_location!=null and active_location!=''">
-					AND ACTIVITY_LOCATION LIKE '%${activityLocation}%'
+		<if test="active_location != null and active_location!=''">
+			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
 		</if>
 		<if test="active_time !='' and active_time !=null">
-					AND ACTIVITY_TIME = #{activityDays}
+			AND ACTIVITY_TIME = #{active_time}
 		</if>
-		<if test="active_days !='' and active_time !=null">
-					AND ACTIVITY_DAYS = #{activityDays}
+		<if test="active_days !='' and active_days !=null">
+			AND ACTIVITY_DAYS = #{active_days}
 		</if>
 	</select>
 
-	<select id="selectProgramList" parameterType="hashmap" resultType="program">
+	<select id="selectProgramList" parameterType="hashmap"
+		resultType="program">
 		SELECT PROGRAM_NO, PROGRAM_NAME, ACTIVITY_TYPE,
-		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
-				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
-				ACTIVITY_DAYS, ACTIVITY_TIME, ACTIVITY_LOCATION FROM PROGRAM
+		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ACTIVITY_START_DATE,
+		TO_CHAR(PROGRAM_ACTIVITY_END_DATE,
+		'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
+		ACTIVITY_DAYS,
+		ACTIVITY_TIME, SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION,
+		PROGRAM_ENROLL_END_DATE FROM
+		PROGRAM
 		WHERE STATUS = 'Y'
 		<if test="keyword!=null and keyword != ''">
-			AND
 			<choose>
 				<when test="condition.equals('title')">
-					PROGRAM_NAME LIKE '%${keyword}%'
+					AND PROGRAM_NAME LIKE '%${keyword}%'
 				</when>
 				<when test="condition.equals('writer')">
-					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-				</when>				
+					AND USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				</when>
 			</choose>
+		</if>
+		<if test="active_type !='' and active_type != null">
+			AND ACTIVITY_TYPE = #{active_type}
+		</if>
+		<if test="active_location != null and active_location!=''">
+			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
+		</if>
+		<if test="active_time !='' and active_time !=null">
+			AND ACTIVITY_TIME = #{active_time}
+		</if>
+		<if test="active_days !='' and active_days !=null">
+			AND ACTIVITY_DAYS = #{active_days}
 		</if>
 		order by 1 desc
 	</select>
-	
+
 	<insert id="insertProgram" parameterType="program">
 		INSERT INTO PROGRAM
-			(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE,
-			ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION,
-			PROGRAM_CAPACITY,
-			PROGRAM_ENROLL_END_DATE,
-			PROGRAM_CONTENT,
-			STATUS)
-		VALUES 
-			(SEQ_PROGRAMNO.NEXTVAL, #{userNo}, #{programName}, #{programActivityStartDate}, #{programActivityEndDate},
-			#{activityType}, #{activityTime}, #{activityDays}, #{activityLocation}, 
-			#{programCapacity}, #{programEnrollEndDate}, #{programContent}, 'Y' )
+		(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE,
+		PROGRAM_ACTIVITY_END_DATE,
+		ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS,
+		ACTIVITY_LOCATION,
+		PROGRAM_CAPACITY,
+		PROGRAM_ENROLL_END_DATE,
+		PROGRAM_CONTENT,
+		STATUS)
+		VALUES
+		(SEQ_PROGRAMNO.NEXTVAL, #{userNo},
+		#{programName}, #{programActivityStartDate},
+		#{programActivityEndDate},
+		#{activityType}, #{activityTime},
+		#{activityDays}, #{activityLocation},
+		#{programCapacity},
+		#{programEnrollEndDate}, #{programContent}, 'Y' )
 	</insert>
-	
+
 	<select id="detailProgram" resultType="program">
-		SELECT PROGRAM_NO, USER_NO, PROGRAM_NAME, 
-				TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
-				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE, 
-				ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION, PROGRAM_CAPACITY, 
-				TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"') PROGRAM_ENROLL_END_DATE, 
+		SELECT PROGRAM_NO,
+		USER_NO, PROGRAM_NAME,
+		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년"
+		MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
+		TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ACTIVITY_END_DATE,
+		ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS,
+		SUBSTR(ACTIVITY_LOCATION,3) AS
+		ACTIVITY_LOCATION, PROGRAM_CAPACITY,
+		TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ENROLL_END_DATE,
 		PROGRAM_CONTENT
-			FROM PROGRAM
-			WHERE PROGRAM_NO = #{programNo}
+		FROM PROGRAM
+		WHERE PROGRAM_NO =
+		#{programNo}
 	</select>
-	
+
 	<insert id="requestProgram" parameterType="request">
-		INSERT INTO REQUEST 
+		INSERT INTO REQUEST
 		(REQUEST_NO, REQUEST_DATE, STATUS, USER_NO, PROGRAM_NO)
 		VALUES (
-			SEQ_REQNO.nextval, SYSDATE, DEFAULT, '2', #{programNo}
+		SEQ_REQNO.nextval, SYSDATE, DEFAULT, #{userNo}, #{programNo}
 		)
 	</insert>
-	
-	<select id="isLikeExists" resultType="likes">
-		SELECT PROGRAM_NO, USER_NO FROM LIKES
+
+	<select id="isLikeExists" resultType="int">
+		SELECT COUNT(*)
+		FROM LIKES
 		WHERE PROGRAM_NO = #{programNo}
-		AND USER_NO = '2'
+		AND USER_NO = #{userNo}
 	</select>
 	<insert id="programLike" parameterType="likes">
-		INSERT INTO LIKES VALUES (
-    		#{programNo},'2')
+		INSERT INTO LIKES VALUES
+		(#{programNo}, #{userNo})
 	</insert>
-	<select id = "requestCount" resultType="int">
-		select count(*) from request where program_no = #{programNo}
+
+	<select id="requestCount" resultType="int">
+		select count(*) from
+		request where program_no = #{programNo}
+	</select>
+
+	<select id="filterList" resultType="program">
+		select PROGRAM_NO, PROGRAM_NAME, ACTIVITY_TYPE,	TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_START_DATE,
+				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_END_DATE,
+				ACTIVITY_DAYS, ACTIVITY_TIME, SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION, PROGRAM_ENROLL_END_DATE FROM PROGRAM
+where PROGRAM_ACTIVITY_END_DATE>sysdate
+order by 1 desc
+	</select>
+	
+	<select id="requestSelectProgram" resultType="request">
+		SELECT * FROM REQUEST WHERE USER_NO = #{userNo} AND PROGRAM_NO = #{programNo}
 	</select>
 </mapper>

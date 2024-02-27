@@ -25,7 +25,7 @@
                     <table class="y_table">
                         <tr>
                             <td>제목</td>
-                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요"></td>
+                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요" style="width:1100px;"></td>
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
@@ -35,38 +35,46 @@
                             <td>봉사 시간</td>
                             <td>
                             		<select name="activityTime" class="donateInput y_c">
-                            			<option value="오전">오전</option>
-                            			<option value="오후">오후</option>
+                            			<option value="1">오전</option>
+                            			<option value="2">오후</option>
                             		</select>
                             </td>
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" class="donateInput" type="date">까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }">까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
                             <td>
                             		<select name="activityDays" class="donateInput y_c">
-                            			<option value="평일">평일</option>
-                            			<option value="주말">주말</option>
+                            			<option value="1">평일</option>
+                            			<option value="2">주말</option>
                             		</select>
                             </td>
                         </tr>
                         <tr>
                             <td>모집 인원</td>
-                            <td><input name="programCapacity" class="donateInput" type="text" placeholder="숫자만 입력해주세요"></td>
+                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;"></td>
                         </tr>
                         <tr>
                             <td>봉사 장소</td>
-                            <td><input name="activityLocation" class="donateInput" type="text" placeholder="시/도를 포함해주세요"></td>
+                            <td>
+                            <select name="activityLocation">
+                            	<option value="1${activityLocation }">서울&경기</option>
+                            	<option value="2${activityLocation }">강원</option>
+                            	<option value="3${activityLocation }">충청</option>
+                            	<option value="4${activityLocation }">전라</option>
+                            	<option value="5${activityLocation }">경상</option>
+                            </select>
+                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;"></td>
                         </tr>
                         <tr>
                             <td>봉사 유형</td>
                             <td>
                             		<select name="activityType" class="donateInput y_c">
-                            			<option value="정기">정기</option>
-                            			<option value="일시">일시</option>
+                            			<option value="1">정기</option>
+                            			<option value="2">일시</option>
                             		</select>
                             </td>
                         </tr>
@@ -108,6 +116,79 @@
 				        }
 				        window.onload = alertMessage;
 			</script>
+			 <script>
+    // 시작일 입력 요소 가져오기
+    var startDateInput = document.getElementsByName('programActivityStartDate')[0];
+    
+    // 종료일 입력 요소 가져오기
+    var endDateInput = document.getElementsByName('programActivityEndDate')[0];
+    
+    // 마감일 입력 요소 가져오기
+    var enrollmentEndDateInput = document.getElementsByName('programEnrollEndDate')[0];
+    
+    //오늘날짜
+    var today = new Date();
+	var year = today.getFullYear(); // 연도
+	var month = today.getMonth() + 1; // 월 (0부터 시작하므로 +1)
+	var day = today.getDate(); // 일
+	
+	// 월과 일이 한 자리 수일 경우 두 자리로 만들기
+	month = month < 10 ? '0' + month : month;
+	day = day < 10 ? '0' + day : day;
+	
+	var currentDate = year + '-' + month + '-' + day;
+
+    
+    // 시작일 변경 시 이벤트 처리
+    startDateInput.addEventListener('change', function() {
+        // 선택한 시작일 가져오기
+        var startDate = new Date(this.value);
+        
+        // 종료일 입력 요소의 최솟값 설정
+        endDateInput.setAttribute('min', this.value);
+        
+        // 마감일 입력 요소의 최댓값 설정 (시작일 이전)
+        enrollmentEndDateInput.setAttribute('max', this.value);
+        
+        // 시작일을 변경할 때마다 종료일과 마감일의 유효성을 검사
+        validateEndDate();
+        validateEnrollmentEndDate();
+    });
+    
+    // 종료일 변경 시 이벤트 처리
+    endDateInput.addEventListener('change', function() {
+        // 종료일을 변경할 때마다 마감일의 유효성을 검사
+        validateEnrollmentEndDate();
+    });
+    
+    // 시작일과 종료일의 유효성 검사 함수
+    function validateEndDate() {
+        // 선택한 시작일과 종료일 가져오기
+        var startDate = new Date(startDateInput.value);
+        var endDate = new Date(endDateInput.value);
+        
+        // 종료일이 시작일 이전인지 확인
+        if (endDate <= startDate) {
+            alert("종료일은 시작일보다 미래 날짜여야 합니다.");
+            endDateInput.value = ''; // 종료일 초기화
+        }
+    }
+    
+    // 시작일과 마감일의 유효성 검사 함수
+    function validateEnrollmentEndDate() {
+        // 선택한 시작일과 마감일 가져오기
+        var startDate = new Date(startDateInput.value);
+        var enrollmentEndDate = new Date(enrollmentEndDateInput.value);
+        
+        // 마감일이 시작일 이전인지 확인
+        if (enrollmentEndDate >= startDate && enrollmentEndDate <= currentDate) {
+            alert("마감일은 시작일 이전이어야 합니다.");
+            enrollmentEndDateInput.value = ''; // 마감일 초기화
+        }
+    }
+</script>
+
+
      <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script src="./resources/summernote/js/summernote-lite.js"></script>

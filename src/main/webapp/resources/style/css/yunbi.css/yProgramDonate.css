@@ -45,6 +45,9 @@ section {
 	text-align: center;
 	justify-content: center;
 }
+.y_image_activityOnly{
+ accent-color:#84a90c ;
+}
 
 .y_image_activityOnly {
 	width: 35px;
@@ -169,8 +172,12 @@ section {
 }
 
 .y_donate_back_btn {
-	display: flex;
-	flex-direction: column;
+	text-align:center;
+}
+
+.y_donate_list_btn{
+	display:block;
+	text-align:right;
 }
 
 .y_donate_back_btn1 {
@@ -180,6 +187,7 @@ section {
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-top: 20px;
+	margin-right: 20px;
 }
 
 .y_donate_back_btn1:hover {
@@ -253,10 +261,15 @@ section {
 	border-bottom: 1px solid #c9bdbdab;
 }
 
+
 .y_table td>*{
 	border : none;
 	outline : none;
 	font-size : large;
+}
+
+.donateInput input{
+	width:2000px;
 }
 
 .y_program_btn1 {

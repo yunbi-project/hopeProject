@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
+<%@ page import="java.time.LocalDate" %>
+<c:set var="now" value="<%= LocalDate.now() %>" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +25,18 @@
 	</section>
 	<section>
 		<div class="y_program_detail">
-			<span>진행중</span><img
-				src="${contextPath }/resources/style/img/yunbi/heart.svg"
+			<c:choose>
+				<c:when test="${empty program.programEnrollEndDate}">
+					<span>알수없음</span>
+				</c:when>
+				<c:when test="${program.programEnrollEndDate gt now}">
+					<span>진행중</span>
+				</c:when>
+				<c:otherwise>
+					<span>모집마감</span>
+				</c:otherwise>
+			</c:choose>
+			<img src="${contextPath }/resources/style/img/yunbi/heart.svg"
 				class="heart_logo no" onclick="toggleLike()"></img>
 			<h1>${program.programName }</h1>
 			<img src="${contextPath }/resources/style/img/yunbi/sample1.png"
@@ -38,7 +50,12 @@
 				</tr>
 				<tr>
 					<td>봉사 시간</td>
-					<td>${program.activityTime }</td>
+					<c:if test="${program.activityTime eq '1'}">
+						<td class="left-align">오전</td>
+					</c:if>
+					<c:if test="${program.activityTime eq '2'}">
+						<td class="left-align">오후</td>
+					</c:if>
 				</tr>
 				<tr>
 					<td>모집 기간</td>
@@ -46,11 +63,16 @@
 				</tr>
 				<tr>
 					<td>활동 요일</td>
-					<td>${program.activityDays }</td>
+					<c:if test="${program.activityDays eq '1'}">
+						<td class="left-align">평일</td>
+					</c:if>
+					<c:if test="${program.activityDays eq '2'}">
+						<td class="left-align">주말</td>
+					</c:if>
 				</tr>
 				<tr>
 					<td>모집 인원</td>
-					<td>${count} / ${program.programCapacity }</td>
+					<td>${count}/${program.programCapacity }</td>
 				</tr>
 				<tr>
 					<td>봉사 장소</td>
@@ -58,7 +80,12 @@
 				</tr>
 				<tr>
 					<td>봉사 유형</td>
-					<td>${program.activityType }</td>
+					<c:if test="${program.activityType eq '1'}">
+						<td class="left-align">정기</td>
+					</c:if>
+					<c:if test="${program.activityType eq '2'}">
+						<td class="left-align">일시</td>
+					</c:if>
 				</tr>
 				<tr>
 					<td>내용</td>
@@ -67,16 +94,22 @@
 			</table>
 			<div class="y_donate_back_btn">
 				<button class="y_program_btn1" onclick='requestProgram()'>지원하기</button>
-				<button class="y_donate_back_btn1" onclick="move()">목록</button>
+				<button class="y_program_btn1" onclick="join()">채팅방 입장하기</button>
 			</div>
+			<div class="y_donate_list_btn">
+				<button class="y_donate_back_btn1" onclick="move()">목록</button>
+				</div>
 			<script>
 				function move() {
 					location.href = "${contextPath}/program/list";
 				}
+				function join() {
+// 					location.href = "${contextPath}//list";
+				}
 
 				function requestProgram() {
 					let r = {
-// 						userNo : '${loginUser.userNo}',
+						userNo : '${loginUser.userNo}',
 						programNo : '${programNo}'
 					};
 					$.ajax({
@@ -85,67 +118,61 @@
 						type : 'post',
 						contentType : 'application/json;charset=UTF-8',
 						success : function(result) {
-							if (result === 0) {
-								alert("지원 실패");
-							} else {
-								alert("지원 완료");
+							if(count > program.programCapacity){
+								if (result === 0) {
+									alert("지원 실패");
+								} else {
+									alert("지원 완료");
+								}
 							}
 						}
 					})
 				}
-				function toggleIng() {
-					let icon = $(`.y_image_activityOnly`);
 
-					if (icon.hasClass("no")) { //좋아요 하지 않은 상태
-						$('.y_image_activityOnly')
-								.attr('src',
-										'../../resources/style/img/yunbi/check-circle-fill.svg');
-						alert('임시 alert : 진행중인 활동 On');
-						icon.addClass("yes");
-						icon.removeClass("no");
-					} else { //좋아요 한 상태
-						$('.y_image_activityOnly')
-								.attr('src',
-										'../../resources/style/img/yunbi/check-circle.svg');
-						icon.removeClass("yes");
-						icon.addClass("no");
-					}
-				}
 
 				function toggleLike() {
 					let likes = {
-						// userNo: '${loginUser.userNo}',
-						programNo : programNo
+						userNo: '${loginUser.userNo}',
+						programNo : '${programNo}'
 					// 프로그램 번호를 동적으로 설정해야 함
 					};
-					$
-							.ajax({
-								url : '${contextPath}/program/detail/'
-										+ likes.programNo,
-								data : JSON.stringify(likes),
-								type : 'post', // POST 메서드 사용
-								contentType : 'application/json;charset=UTF-8',
-								success : function() {
-									let likeIcon = $(`.heart_logo`);
-									if (likeIcon.hasClass("no")) { // 좋아요 하지 않은 상태
-										$('.heart_logo')
-												.attr('src',
-														'../../resources/style/img/yunbi/heart-fill.svg');
-										alert('찜한 봉사활동은 마이페이지에서 확인 가능합니다.');
-										likeIcon.addClass("yes");
-										likeIcon.removeClass("no");
-									} else { // 좋아요 한 상태
-										// 좋아요를 취소하는 작업 수행
-										// toggleUnlike(); // 이 부분을 좋아요 취소 작업으로 대체
-										$('.heart_logo')
-												.attr('src',
-														'../../resources/style/img/yunbi/heart.svg');
-										likeIcon.removeClass("yes");
-										likeIcon.addClass("no");
-									}
-								}
-							});
+					
+				$.ajax({
+					url : '${contextPath}/program/detail/'
+							+ likes.programNo,
+					data : JSON.stringify(likes),
+					type : 'post', // POST 메서드 사용
+					contentType : 'application/json;charset=UTF-8',
+					success : function() {
+						let likeIcon = $(`.heart_logo`);
+						if (likeIcon.hasClass("no")) { // 좋아요 하지 않은 상태
+							$('.heart_logo')
+									.attr('src',
+											'${contextPath}/resources/style/img/yunbi/heart-fill.svg');
+							alert('찜한 봉사활동은 마이페이지에서 확인 가능합니다.');
+							likeIcon.addClass("yes");
+							likeIcon.removeClass("no");
+						} else { // 좋아요 한 상태
+							// 좋아요를 취소하는 작업 수행
+							// toggleUnlike(); // 이 부분을 좋아요 취소 작업으로 대체
+							$('.heart_logo')
+									.attr('src',
+											'${contextPath}/resources/style/img/yunbi/heart.svg');
+							likeIcon.removeClass("yes");
+							likeIcon.addClass("no");
+						}
+					}
+				});
 				}
+
+				function alertMessage() {
+					var alertMessage = "${alertMessage}";
+					if (alertMessage !== "") {
+						alert(alertMessage);
+						// 또는 모달 창을 띄워 메시지를 보여줄 수도 있습니다.
+					}
+				}
+				window.onload = alertMessage;
 			</script>
 		</div>
 	</section>
