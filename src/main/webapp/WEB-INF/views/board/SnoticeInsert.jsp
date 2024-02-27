@@ -78,9 +78,11 @@
 					reader.readAsDataURL(this.files[0]);
 					reader.onload = function(e){
 						preview[index].setAttribute("src",e.target.result);
+						  preview[index].style.display = 'block';
 					}
 				}else{
 					preview[index].removeAttribute("src");
+					preview[index].style.display = 'none';
 				}
 			})
 		})

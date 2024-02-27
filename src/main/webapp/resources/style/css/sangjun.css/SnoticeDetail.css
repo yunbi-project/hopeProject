@@ -226,3 +226,63 @@
 #replyArea tr td{
     padding: 13px;
 }
+
+/*=====================================*/
+
+
+/* 모달에 대한 CSS */
+.reportForm {
+    display: none; /* 기본적으로 모달을 숨깁니다. */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 투명도가 있는 검은 배경 */
+}
+
+.reportSecondForm {
+    background-color: #fefefe;
+    margin: 15% auto; /* 화면 가운데에 모달을 위치시킵니다. */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.reportHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reportHeader h5 {
+    margin: 0;
+}
+
+.reportHeader button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.report-Content {
+    margin-top: 20px;
+}
+
+.report-Content label {
+    font-weight: bold;
+}
+
+.report-Content textarea {
+    width: 100%;
+    padding: 10px;
+    resize: none;
+    border: 1px solid #ccc;
+}
+
+.report-Content button {
+    margin-top: 10px;
+}

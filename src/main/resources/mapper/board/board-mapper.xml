@@ -20,6 +20,7 @@
 		<result column = "MODIFY_DATE" property="modifyDate"/>
 		<result column = "FAQ_TYPE" property="faqType"/>
 		<result column = "BOARD_TYPE_NO" property="boardTypeNo"/>
+		<result column = "ORIGIN_NAME" property="originName"/>
 		
 		<collection property="imgList" resultMap="attachmentResultMap">
 		</collection>
@@ -165,6 +166,7 @@
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, COUNT, USER_NO,CREATE_DATE
 		FROM BOARD
 		WHERE BOARD_TYPE_NO = 'Q'
+		AND STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
 	</select>
 	
@@ -173,6 +175,7 @@
 		FROM BOARD
 		WHERE BOARD_TYPE_NO = 'Q'
 		AND FAQ_TYPE =1
+		AND STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
 	</select>
 	<select id="faqList2" resultType="board">
@@ -180,6 +183,7 @@
 		FROM BOARD
 		WHERE BOARD_TYPE_NO = 'Q'
 		AND FAQ_TYPE =2
+		AND STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
 	</select>
 	<select id="faqList3" resultType="board">
@@ -187,6 +191,7 @@
 		FROM BOARD
 		WHERE BOARD_TYPE_NO = 'Q'
 		AND FAQ_TYPE =3
+		AND STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
 	</select>
 	<!-- 자주묻는질문 등록 -->
@@ -201,6 +206,11 @@
 		UPDATE BOARD
 		SET STATUS='N'
 		WHERE BOARD_NO=#{boardNo}
+	</update>
+	<update id="deleteReply" parameterType="int">
+		UPDATE REPLY
+		SET STATUS='N'
+		WHERE BOARD_NO = #{boardNo}
 	</update>
 	<delete id="deleteAttachment" parameterType="int">
 		DELETE FROM ATTACHMENT
@@ -294,6 +304,30 @@
 		INSERT INTO REPLY 
 		(REPLY_NO,REPLY_CONTENT,USER_NO,BOARD_NO)
 		VALUES (SEQ_REPLYNO.NEXTVAL,#{replyContent},#{userNo},#{boardNo})
+	</insert>
+	<select id="replyList" resultType="reply">
+		SELECT REPLY_NO,USER_NAME,REPLY_CONTENT,R.CREATE_DATE,R.USER_NO
+		FROM REPLY R
+		LEFT JOIN USERS U ON (R.USER_NO=U.USER_NO)
+		WHERE BOARD_NO = #{boardNo}
+		AND R.STATUS='Y'
+	</select>
+	<update id="updateReply" parameterType="hashMap" >
+		UPDATE REPLY
+		SET REPLY_CONTENT = #{replyContent}
+		WHERE REPLY_NO = #{replyNo}
+	</update>
+	<update id="deleteReplyOnly" parameterType="int">
+		UPDATE REPLY
+		SET STATUS ='N'
+		WHERE REPLY_NO=#{replyNo}
+	</update>
+	<insert id="insertReport" parameterType="report">
+		INSERT INTO REPORT
+		(REPORT_NO,REPORT_CONTENT,USER_NO,BOARD_NO,REPLY_NO)
+		VALUES
+		(SEQ_REPORTNO.NEXTVAL,#{reportContent},#{userNo},#{boardNo},#{replyNo})
+		
 	</insert>
 	
 </mapper>

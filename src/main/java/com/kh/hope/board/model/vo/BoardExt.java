@@ -16,5 +16,6 @@ public class BoardExt extends Board{
 	private List<Attachment> imgList;
 	
 	private String userName;
+	private String originName;
 
 }

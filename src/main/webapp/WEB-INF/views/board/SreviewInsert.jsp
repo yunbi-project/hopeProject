@@ -78,9 +78,11 @@
 					reader.readAsDataURL(this.files[0]);
 					reader.onload = function(e){
 						preview[index].setAttribute("src",e.target.result);
+						  preview[index].style.display = 'block';
 					}
 				}else{
 					preview[index].removeAttribute("src");
+					preview[index].style.display = 'none';
 				}
 			})
 		})
@@ -97,7 +99,6 @@
                 placeholder: '최대 2048자까지 쓸 수 있습니다'
             });
         });
-      
         </script>
    
 	</main>

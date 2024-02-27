@@ -73,6 +73,7 @@
                         <div class="que">
                             <span>${b.boardTitle}</span>
                             <div class="arrow-wrap">
+                            	<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>
                                 <span class="arrow-top">↑</span>
                                 <span class="arrow-bottom">↓</span>
                             </div>
@@ -90,6 +91,12 @@
         </div>
     </div>
     <script>
+	function deleteBoard(boardNo) {
+        var boardTypeNo = 'Q'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
+        var url = '${contextPath}/board/delete/' + boardNo + '?boardTypeNo=' + boardTypeNo;
+        window.location.href = url;
+    }
+	
         $(".que").click(function() {
         	event.preventDefault(); 
         $(this).next(".anw").stop().slideToggle(300);
