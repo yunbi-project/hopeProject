@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
@@ -25,6 +26,7 @@ import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.user.model.service.UserService;
 
 @Controller
+@SessionAttributes({"loginUser"})
 public class DonateController {
 
 	@Autowired
@@ -38,17 +40,18 @@ public class DonateController {
 			@RequestParam Map<String,Object> map) {
 		
 		int listCount = service.selectListCount(map);
-		int pageLimit = 10;
-		int boardLimit = 10;
+//		int pageLimit = 10;
+//		int boardLimit = 10;
 		
-		PageInfo pi = Pagenation.getPageInfo(listCount,currentPage,pageLimit,boardLimit);
+//		PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		List<Donate> list = service.donateList(pi, map);
+//		List<Donate> list = service.donateList(pi, map);
+		List<Donate> list = service.donateList(map);
 		
 		model.addAttribute("list", list);
-		model.addAttribute("pi",pi);
+//		model.addAttribute("pi",pi);
 		model.addAttribute("param",map);
-		System.out.println();
+
 		return "donate/donateList";
 	}
 	

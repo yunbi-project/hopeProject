@@ -47,6 +47,20 @@
 				        </ul>
 				    </div>
 				</c:when>
+				<c:when test="${loginUser.userNo eq 1}">
+					<div class="h_headerLogout">
+		                 <ul style="margin-left: 25px;"> 
+		                     <li>${loginUser.userName} 회원님 환영합니다<img style="width: 17px;" src="https://cdn-icons-png.flaticon.com/128/2338/2338389.png"></li>
+		                 </ul>
+		                 <ul> 
+		                     <li><a href="${contextPath}/logout.me">로그아웃</a></li> 
+		                     <li> | </li>
+		                     <li><a href="${contextPath}/admin/adminIndex">관리자 페이지</a></li> 
+		                     <li> | </li> 
+		                     <li><a href="http://localhost:8005/hope/chat/chatList"><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
+		                 </ul> 
+		           </div> 
+				</c:when>
 		        <c:otherwise>
 				   <!-- 로그인 이후 -->
 		           <div class="h_headerLogout">
@@ -91,7 +105,7 @@
             </ul>
             <ul class='h_headerMenu_2'>
                 <li><a href="${contextPath}/program/list">봉사활동 지원하기</a></li>
-                <li><a href="">활동보고서</a></li>
+                <li><a href="${contextPath}/activityreport">활동보고서</a></li>
             </ul>
             <ul class='h_headerMenu_3'>
                 <li>

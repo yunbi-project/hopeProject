@@ -1,0 +1,247 @@
+*{
+    box-sizing: border-box;
+    font-family: 'NanumSquareNeo-Variable';
+}
+
+/* pageTitle CSS */
+.h_boardTitle{
+    height:330px;
+    padding-top: 100px;
+    background-image: url('https://m.jaseng.org/resources/images/donation/donation_top_bg.jpg');
+    background-size: 100% 100%; /* 배경 이미지를 요소에 꽉 차게 설정 */
+    background-position: center; 
+    margin-bottom: 50px;
+}
+  
+/* 제목 정렬 */
+.h_boardTitle h1,
+.h_boardTitle > p{
+    text-align: center;
+    align-items: center;
+}
+
+/* 제목 글씨크기 */
+.h_boardTitle h1{
+    font-size: 35px;
+    color: black;
+}
+
+.h_boardTitle > p{
+    font-size : 17px;
+    color: black;
+}
+  
+
+.donateGoodFormBorder{
+    border: 4px solid #ABC138;
+    width: 150px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}
+
+.center_div {
+    margin: 0 auto; 
+    width: fit-content; /* 내용에 맞게 너비를 조정합니다. */
+}
+
+/* 후원모집 태그 선택 */
+.donate_tag{
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.doante_all{
+    padding : 15px 30px 15px 30px;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 50px;
+    transition: background-color 0.3s ease; 
+    font-size: 15px;
+    margin-bottom: 50px;
+}
+
+
+/* 게시글이 없습니다. */
+.empty_board{
+	margin-left: 40%;
+	font-size: 17px;
+}
+
+
+
+/* 조회순, 최신순, 종료임박순 */
+.tag_count_end{
+    display: flex;
+    align-items: center;
+}
+
+.tag_count_end span{
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+/* 처음 조회순 선택될때 */
+.right_div div:nth-of-type(1) span{
+    font-weight: bold;
+    color:black;
+}
+
+.right_div div:nth-of-type(2) span{
+    color:rgb(72, 72, 72);
+}
+
+.right_div div:nth-of-type(3) span{
+    color:rgb(72, 72, 72);
+}
+
+.right_div{
+    justify-content: flex-end;
+    margin-right: 120px;
+    margin-bottom: 30px;
+}
+
+.searchBar{
+	display:flex;
+	justify-content: flex-end;
+	margin-right: 135px;
+	margin-bottom: 80px;
+}
+
+.custom-select{
+	margin-right:10px;
+	width: 80px;
+	padding: 10px;
+}
+
+.archive-search-text{
+	margin-right: 10px;
+	width: 300px;
+	padding: 10px;
+}
+
+.green{
+	background-color: #abe128;
+	border: 1px solid #abe128;
+	width: 50px;
+	padding: 10px;
+}
+
+.tag_img{
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+.right_div{
+    display: flex;
+}
+
+/* section 밑 게시글 리스트 */
+.donate_section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width:1300px;
+    margin-left: 135px;
+}
+
+/* 리스트 이미지 */
+.donateList_img{
+    width: 270px;
+    height: 200px;
+    border-radius: 10px;
+}
+
+
+
+/* 후원게시판 각 줄 */
+.donate_board{
+    margin-right: 50px;
+    width: 270px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+/* 후원게시판 각 게시판 */
+.donate_board_div{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* 후원게시판 게시판 제목 */
+.donateList_title{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 270px;
+    font-size: 15px;
+}
+
+/* 후원게시판 게시판 협회 */
+.donateList_foundation{
+    font-size: 13px;
+    color : rgb(123, 123, 123);
+    margin-bottom: 30px;
+}
+
+/* 프로세스바 */
+#progress {
+    margin-bottom: 10px;
+    appearance: none;
+}
+
+#progress::-webkit-progress-bar {
+    background: #dfdede;
+    border-radius: 3px;
+    border: 1px solid #000000;
+    height: 5px;
+    width: 270px;
+    overflow: hidden;
+    border:1px solid white;
+}
+
+#progress::-webkit-progress-value {
+    background: #fd4747;
+    border-radius: 0px;
+    height: 10px;
+    width: 48px;
+}
+
+/* 현재 후원금액, 달성률 */
+.progress_value{   
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress_value span{
+    font-size: 13px;
+}
+
+.progress_value span:nth-of-type(1){
+    margin-right: 155px;
+    font-weight: bold;
+}
+
+
+/* 달성률 */
+.progress_value span:nth-of-type(2){
+    color: #ff3b3b;
+    font-weight: bold;
+}
+
+.ending_imminent{
+    position: absolute;
+    top: 160px;
+    left: 15px;
+    padding:7px;
+    background-color: #fd4747;
+    width: 65px;
+    text-align: center;
+    color: white;
+    font-size: 11px;
+    border-radius: 5px;
+}

@@ -19,12 +19,13 @@ public class DonateDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-	public List<Donate> donateList(PageInfo pi, Map<String, Object> map) {
-		int limit = pi.getBoardLimit();
-		int offset=(pi.getCurrentPage()-1)*limit;
-		
-		RowBounds rowBounds = new RowBounds(offset,limit);
-		return session.selectList("donate.donateList", map, rowBounds);
+	public List<Donate> donateList(Map<String, Object> map) {
+//		int limit = pi.getBoardLimit();
+//		int offset=(pi.getCurrentPage()-1)*limit;
+//		
+//		RowBounds rowBounds = new RowBounds(offset,limit);
+//		return session.selectList("donate.donateList", map, rowBounds);
+		return session.selectList("donate.donateList", map);
 	}
 
 	public Donate donateDetail(int donateNo) {

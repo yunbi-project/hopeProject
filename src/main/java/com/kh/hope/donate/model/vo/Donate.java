@@ -14,6 +14,7 @@ public class Donate {
 	private int donateNo; //후원게시글번호
 	private String donateTitle; //후원제목
 	private String donateContent; //후원내용
+	private String donateFoundation; // 후원재단
 	private Long donateHope; //목표후원금
 	private String dDay;
 	private int donateAmount;
@@ -23,6 +24,11 @@ public class Donate {
 	private int userNo; //회원번호
 	private String userName;
 	private String status; //상태
+	private String tagId;  //해시태그 번호
+	
+	private int sumDonate;  // 총 후원금액
+	private int achRate;  // 달성률
+	
 	
 //	private String donateFoundation; //후원담당재단
 //	private int count; //조회수

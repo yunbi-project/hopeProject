@@ -18,8 +18,8 @@ public class DonateService {
 	@Autowired
 	private DonateDao dao;
 	
-	public List<Donate> donateList(PageInfo pi, Map<String, Object> map) {
-		return dao.donateList(pi, map);
+	public List<Donate> donateList(Map<String, Object> map) {
+		return dao.donateList(map);
 	}
 
 	public Donate donateDetail(int donateNo) {
