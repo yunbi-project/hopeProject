@@ -172,7 +172,7 @@
             <th style="display:none;">방번호</th>
             <th>개설자</th>
             <th style="min-width: 200px;">채팅방 제목(주제)</th> <!-- 길게 만들어줌 -->
-            <th style="width:100px;">참여인수</th>
+            <th style="width:100px;">참여인원</th>
             <th style="width:180px;">삭제</th> <!-- 작게 만듦 -->
         </tr>
     </thead>

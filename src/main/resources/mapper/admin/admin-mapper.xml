@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+
+<mapper namespace="adminMapper">
+
+	<!-- 사용자 조회 -->
+	<select id="selectAllUser" resultType="user">
+		SELECT * 
+		FROM USERS
+		WHERE STATUS = 'Y'
+		ORDER BY LOGIN_TYPE 
+	</select>
+	
+	
+	<!-- 사용자 삭제 -->
+	<update id="deleteUser" parameterType="user">
+	    UPDATE USERS
+	    SET STATUS = 'N'
+	    	WHERE USER_NO = #{userNo}
+	</update>
+	
+	<!-- 블랙리스트 삽입 -->
+	<insert id="blackListInsert" parameterType="blackList">
+		INSERT INTO BLACKLIST
+		VALUES (
+				SEQ_BLACKNO.NEXTVAL,
+				#{reason},
+				SYSDATE,
+				#{userNo},
+				SYSDATE,
+				'N'
+		)
+	</insert>
+	
+	<!-- 회원정보 확인 -->
+	<select id="getUserOne" resultType="user">
+		SELECT *
+		FROM USERS
+			WHERE USER_NO = #{userNo}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateUserInfo" parameterType="user"> 
+		UPDATE USERS
+		SET USER_NAME = #{userName},
+			 PHONE = #{phone}, 
+			 ADDRESS = #{address}
+			WHERE USER_NO = #{userNo}
+	</update>
+	
+	<!-- 이름검색 -->
+	<select id="searchUserByName" resultType="user">
+		SELECT *
+		FROM USERS
+		WHERE USER_NAME = #{userName}
+		AND STATUS = 'Y'
+	</select>
+	
+	<!-- 블랙리스트 조회 -->
+	<select id="blackListView" resultType="blackList">
+		SELECT * 
+		FROM BLACKLIST
+		WHERE STATUS = 'N'
+	</select>
+	
+	<update id="releseStop" parameterType="user">
+		UPDATE USERS
+		SET STATUS = 'Y'
+			WHERE USER_NO = #{userNo}
+	</update>
+	
+	<update id="modifyUserStop" parameterType="blackList">
+		UPDATE BLACKLIST
+		SET STATUS = 'Y'
+			WHERE USER_NO = #{userNo}
+	</update>
+	
+	<select id="searchByUserNo" resultType="blackList">
+		SELECT *
+		FROM BLACKLIST
+			WHERE USER_NO = #{userNo}
+	</select>
+	
+	
+
+
+</mapper>

@@ -64,6 +64,7 @@ public class ChatServiceImpl implements ChatService{
 			// 처음 참가한 사용자는 insert
 			result = chatDao.joinChatRoom(join);
 			System.out.println("result1: " + result);
+			
 			}
 		}catch(Exception e) {
 			// 에러 발생

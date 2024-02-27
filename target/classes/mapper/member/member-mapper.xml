@@ -63,11 +63,13 @@
 	<select id="findByUsername" resultMap="userResultMap">
         SELECT * FROM USERS
          WHERE PROVIDERID = #{providerid}
+         AND STATUS = 'Y'
         	
     </select> 
     
     <insert id="save" parameterType="user">
-        INSERT INTO USERS (USER_NO, USER_NAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID) VALUES (SEQ_USERSNO.NEXTVAL,#{userName}, #{email}, #{role}, #{loginType}, #{providerid})
+        INSERT INTO USERS (USER_NO, USER_NAME, EMAIL, ROLE, LOGIN_TYPE, PROVIDERID)
+         VALUES (SEQ_USERSNO.NEXTVAL,#{userName}, #{email}, #{role}, #{loginType}, #{providerid})
     </insert>
     
     
