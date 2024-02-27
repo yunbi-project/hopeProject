@@ -74,7 +74,7 @@
                         <h6 class="collapse-header">Member Pages:</h6>
                         <a class="collapse-item" href="${contextPath}/admin/memberList">회원 리스트/관리</a>
                         <a class="collapse-item" href="cards.html">신고 내역</a>
-                        <a class="collapse-item" href="cards.html">블랙리스트</a>
+                        <a class="collapse-item" href="${contextPath}/admin/blackListView">블랙리스트</a>
                     </div>
                 </div>
             </li>
