@@ -23,47 +23,56 @@
 			</choose>
 		</if>
 	</select>
-
+	
 	<select id="donateList" parameterType="hashmap" resultType="donate">
-		SELECT
-		B.DONATE_NO donateNo,
-		B.DONATE_TITLE donateTitle,
-		CASE
-		WHEN
-		TRUNC(SYSDATE) =
-		TRUNC(B.DONATE_END_DATE) THEN 'D-DAY'
-		WHEN
-		TRUNC(SYSDATE) <![CDATA[ < ]]>
-		TRUNC(B.DONATE_END_DATE) THEN 'D-' || (TRUNC(B.DONATE_END_DATE) -
-		TRUNC(SYSDATE))
-		ELSE 'D+' || (TRUNC(SYSDATE) -
-		TRUNC(B.DONATE_END_DATE))
-		END AS dDay,
-		B.DONATE_FOUNDATION,
-		NVL((SELECT
-		SUM(I.DONATE_AMOUNT) FROM DONATE_INFO I WHERE I.DONATE_NO =
-		B.DONATE_NO ) , 0) DONATE_AMOUNT ,
-		ROUND(NVL((SELECT
-		SUM(I.DONATE_AMOUNT) FROM DONATE_INFO I WHERE I.DONATE_NO =
-		B.DONATE_NO ) , 0)/B.DONATE_HOPE*100) donateProgress
-		FROM
-		(SELECT * FROM DONATE_BOARD
-            <if test="keyword != null and keyword != ''">
-                WHERE
-                <choose>
-                    <when test="condition.equals('title')">
-                        DONATE_TITLE LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-                    </when>
-                    <when test="condition.equals('content')">
-                        DONATE_CONTENT LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-                    </when>
-                    <when test="condition.equals('writer')">
-                        USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-                    </when>	
-                </choose>
-            </if>
-        ORDER BY DONATE_NO DESC) B
+		SELECT SUM_DONATE, DONATE_HOPE, DONATE_NO, DONATE_TITLE, SUM_DONATE/DONATE_HOPE*100 AS ACH_RATE, TAG_ID, DONATE_FOUNDATION
+		FROM (
+		    SELECT SUM(DONATE_AMOUNT) AS SUM_DONATE, d.DONATE_HOPE , d.DONATE_NO, d.DONATE_TITLE, d.TAG_ID, d.DONATE_FOUNDATION
+		    FROM DONATE_BOARD d
+		    LEFT JOIN DONATE_INFO i ON d.DONATE_NO = i.DONATE_NO
+		    GROUP BY d.DONATE_HOPE , d.DONATE_NO, d.DONATE_TITLE, d.TAG_ID, d.DONATE_FOUNDATION
+		)
+		ORDER BY DONATE_NO DESC
 	</select>
+
+<!-- 	<select id="donateList" parameterType="hashmap" resultType="donate"> -->
+<!-- 		SELECT -->
+<!-- 		B.DONATE_NO donateNo, -->
+<!-- 		B.DONATE_TITLE donateTitle, -->
+<!-- 		B. -->
+<!-- 		CASE -->
+<!-- 		WHEN -->
+<!-- 			TRUNC(SYSDATE) = -->
+<!-- 			TRUNC(B.DONATE_END_DATE) THEN 'D-DAY' -->
+<!-- 		WHEN -->
+<!-- 			TRUNC(SYSDATE) <![CDATA[ < ]]> -->
+<!-- 			TRUNC(B.DONATE_END_DATE) THEN 'D-' || (TRUNC(B.DONATE_END_DATE) - -->
+<!-- 			TRUNC(SYSDATE)) -->
+<!-- 		ELSE 'D+' || (TRUNC(SYSDATE) - -->
+<!-- 			TRUNC(B.DONATE_END_DATE)) -->
+<!-- 		END AS dDay, -->
+<!-- 			B.DONATE_FOUNDATION, -->
+<!-- 			NVL((SELECT -->
+<!-- 			SUM(I.DONATE_AMOUNT) FROM DONATE_INFO I WHERE I.DONATE_NO = -->
+<!-- 			B.DONATE_NO ) , 0) DONATE_AMOUNT , -->
+<!-- 			ROUND(NVL((SELECT -->
+<!-- 			SUM(I.DONATE_AMOUNT) FROM DONATE_INFO I WHERE I.DONATE_NO = -->
+<!-- 			B.DONATE_NO ) , 0)/B.DONATE_HOPE*100) donateProgress -->
+<!-- 		FROM -->
+<!-- 		(SELECT * FROM DONATE_BOARD -->
+<!--             <if test="keyword != null and keyword != ''"> -->
+<!--                 WHERE -->
+<!--                 <choose> -->
+<!--                     <when test="condition.equals('title')"> -->
+<!--                         DONATE_TITLE LIKE CONCAT(CONCAT('%',#{keyword}),'%') -->
+<!--                     </when> -->
+<!--                     <when test="condition.equals('content')"> -->
+<!--                         DONATE_CONTENT LIKE CONCAT(CONCAT('%',#{keyword}),'%') -->
+<!--                     </when> -->
+<!--                 </choose> -->
+<!--             </if> -->
+<!--         ORDER BY DONATE_NO DESC) B -->
+<!-- 	</select> -->
 
 	<select id="donateDetail" resultType="donate">
 		SELECT B.DONATE_NO donateNo,

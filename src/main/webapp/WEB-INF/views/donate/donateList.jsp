@@ -7,91 +7,149 @@
 <head>
 <meta charset="UTF-8">
 <title>기부하기 리스트</title>
-<link rel="stylesheet"
-	href="../resources/style/css/yunbi.css/yProgramDonate.css">
-<script src="../resources/js/yunbi.js/yProgramDonate.js"></script>
+<link rel="stylesheet" href="${contextPath}/resources/style/css/hyun.css/donateList.css">
+
 </head>
 <body>
-	<jsp:include page="../common/header.jsp"></jsp:include>
-	<section>
-		<article class="h_boardTitle">
-			<h1>기부하기</h1>
-			<p>기부금을 통해 세상을 발전시킵니다.</p>
-		</article>
-	</section>
-	<section>
-		<div class="y_donate_top1">
-			<h1>기부하기</h1>
-		</div>
-		<div class="y_donate_top2">
-			<span>진행중인 활동만</span> <img
-				src='../resources/images/donate/check-circle.svg'
-				onclick="toggleIng()" class="y_image_activityOnly no" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	
+    <section>
+        <article class="h_boardTitle">
+            <h1>후원모집</h1>
+            <p>기부금을 통해 세상을 발전시킵니다.</p>
+        </article>
+    </section>
+
+    <h2 style="text-align: center; margin-top: 70px; font-size: 25px;">후원모집</h2>
+    <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
+
+
+    <main>
+        <div class="center_div">
+            <div class="donate_tag">
+                <button type="button" style="background-color: #191919; color: white;" id="all" color="black" class="doante_all">전체</button>
+                <button type="button" id="income_family" color="black" class="doante_all">#저소득가정</button>
+                <button type="button" id="female" color="black" class="doante_all">#여성</button>
+                <button type="button" id="youth" color="black" class="doante_all">#청년</button>
+                <button type="button" id="our_society" color="black" class="doante_all">#우리사회</button>
+                <button type="button" id="Neighbors_need" color="black" class="doante_all">#어려운이웃</button>
+                <button type="button" id="silver" color="black" class="doante_all">#실버세대</button>
+                <button type="button" id="disabled" color="black" class="doante_all">#장애인</button>
+                <button type="button" id="child" color="black" class="doante_all">#아동/청소년</button>
+                <button type="button" id="animals" color="black" class="doante_all">#유기동물</button>
+            </div>
+        </div>
+        <div class="right_div">
+            <div class="tag_count_end" id="tag_count">
+                <img id="tag_img1" class="tag_img" src="https://cdn-icons-png.flaticon.com/128/11498/11498426.png">
+                <span>조회순</span>
+            </div>
+            <div class="tag_count_end" id="tag_recent">
+                <img id="tag_img2" class="tag_img" src="https://cdn-icons-png.flaticon.com/128/11498/11498426.png" hidden>
+                <span>최신순</span>
+            </div>
+            <div class="tag_count_end" id="tag_end">
+                <img id="tag_img3" class="tag_img" src="https://cdn-icons-png.flaticon.com/128/11498/11498426.png" hidden>
+                <span>종료임박순</span>
+            </div>
+        </div>
+
+		<div class="searchBar">
+			<select class="custom-select" name="condition">
+				<option value="content"
+					${param.condition eq 'content'? 'selected':'' }>내용</option>
+				<option value="title"
+					${param.condition eq 'title'? 'selected':'' }>제목</option>
+			</select>
+			<input type="text"
+				class="archive-search-text input-md width-280px" name="keyword"
+				value="${param.keyword}" placeholder="제목 또는 내용 검색을 입력하세요">
+			<input type="submit" class="green" value="검색">
 		</div>
 
-		<div class="y_list">
-			<c:choose>
-				<c:when test="${empty list}">
-					<p>게시글이 없습니다.</p>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${list}" var="d">
-						<div class="y_list_box" onclick="detail(${d.donateNo})">
-							<img src='../resources/style/img/sample1.png'
-								class="y_list_image"  onclick="detail(${d.donateNo})"></img> <span>${d.donateTitle}</span>
-							<progress value="${d.donateProgress }" min="0" max="100"
-								id="progress"></progress>
-							<span>${d.DDay}</span> <span class="y_floatRight">
-								${d.donateProgress}%</span>
-						</div>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<c:if test="${not empty param.condition}">
-						<c:set var="url"
-							value="&condition=${param.condition}&keyword=${param.keyword}" />
-					</c:if>
-					<div id="pagingArea">
-						<ul class="pagination">
-							<c:if test="${pi.currentPage ne 1}">
-								<li class="page-item"><a class="page-link"
-									href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
-							</c:if>
-							<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-								<li class="page-item"><a class="page-link"
-									href="?currentPage=${p}${url}">${p}</a></li>
-							</c:forEach>
-							<c:if test="${pi.currentPage ne pi.maxPage}">
-								<li class="page-item"><a class="page-link"
-									href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
-							</c:if>
-						</ul>
-					</div>
-					<form class="search-form" method="get" action="${contextPath}/donate/list">
-						<div class="archive-search">
-							<div class="Sn-btn">
-								<select class="custom-select" name="condition">
-									<option value="content"
-										${param.condition eq 'content'? 'selected':'' }>내용</option>
-									<option value="title"
-										${param.condition eq 'title'? 'selected':'' }>제목</option>
-									<option value="writer"
-										${param.condition eq 'writer'? 'selected':'' }>작성자</option>
 
-								</select> <input type="text"
-									class="archive-search-text input-md width-280px" name="keyword"
-									value="${param.keyword}" placeholder="제목 또는 내용 검색을 입력하세요">
-								<input type="submit" class="green" value="검색">
-							</div>
-						</div>
-					</form>
-		<script>
-			function detail(donateNo){
-				location.href="${contextPath}/donate/detail/"+donateNo
-			}
-		</script>
-	</section>
-	<jsp:include page="../common/footer.jsp"></jsp:include>
+        <section class="donate_section">
+        	<c:choose>
+        		<c:when test="${empty list }">
+        			<p class="empty_board">게시글이 없습니다.</p>
+        		</c:when>
+        		<c:otherwise>
+        			<c:forEach items="${list}" var="d">
+			        	<div class="donate_board">
+			                <div class="donate_board_div">
+			                    <img class="donateList_img" src="https://mud-kage.kakaocdn.net/dn/bUto3A/btsCJj2tBh0/NEXxP5yHYZ7QfufVWbuUm0/c1400x788.jpg?type=thumb&opt=C700x700">
+			                    <span class="donateList_title">${d.donateTitle }</span>
+			                    <span class="donateList_foundation">${d.donateFoundation }</span>
+			                    <progress
+			                        class="progress"
+			                        id="progress"
+			                        value="${d.achRate}"
+			                        min="0"
+			                        max="100"
+			                    ></progress>
+			                    <div class="progress_value">
+			                        <span>${d.sumDonate}원</span>
+			                        <span>${d.achRate}%</span>
+			                    </div>
+			                    <div class="ending_imminent">종료임박</div>
+			                </div>
+			            </div>
+		           	</c:forEach>
+        		</c:otherwise>
+        	</c:choose>
+
+        </section>
+    </main>
+
+
+	<script>
+		function detail(donateNo){
+			location.href="${contextPath}/donate/detail/"+donateNo
+		}
+		
+		$(document).ready(function() {
+		    $('#tag_recent').click(function() {
+		        $('#tag_img2').removeAttr('hidden');
+		        $('#tag_img1').attr('hidden', 'hidden');
+		        $('#tag_img3').attr('hidden', 'hidden');
+		        $(this).find('span').css({'font-weight': 'bold', 'color': 'black'});
+		        $('#tag_count span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_end span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_count span').nextAll().attr('hidden', 'hidden');
+		        $('#tag_end span').nextAll().attr('hidden', 'hidden');
+		    });
+
+		    $('#tag_end').click(function() {
+		        $('#tag_img3').removeAttr('hidden');
+		        $('#tag_img1').attr('hidden', 'hidden');
+		        $('#tag_img2').attr('hidden', 'hidden');
+		        $(this).find('span').css({'font-weight': 'bold', 'color': 'black'});
+		        $('#tag_count span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_recent span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_count span').nextAll().attr('hidden', 'hidden');
+		        $('#tag_recent span').nextAll().attr('hidden', 'hidden');
+		    });
+
+		    $('#tag_count').click(function() {
+		        $('#tag_img1').removeAttr('hidden');
+		        $('#tag_img2').attr('hidden', 'hidden');
+		        $('#tag_img3').attr('hidden', 'hidden');
+		        $(this).find('span').css({'font-weight': 'bold', 'color': 'black'});
+		        $('#tag_recent span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_end span').css({'font-weight': 'normal', 'color': 'rgb(72, 72, 72)'});
+		        $('#tag_recent span').nextAll().attr('hidden', 'hidden');
+		        $('#tag_end span').nextAll().attr('hidden', 'hidden');
+		    });
+
+		    $('.doante_all').click(function() {
+		        // 클릭된 요소의 배경색과 글자색을 변경하고, 나머지 요소의 배경색과 글자색을 초기화
+		        $(this).css({'background-color': '#191919', 'color': 'white'}).siblings().css({'background-color': 'white', 'color': 'black'});
+		    });
+
+		});
+	</script>
+	
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+	
 </body>
 </html>
