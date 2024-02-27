@@ -21,5 +21,6 @@ public class Reply {
 	private String status;
 	private int userNo;
 	private int boardNo;
+	private String userName;
 	
 }

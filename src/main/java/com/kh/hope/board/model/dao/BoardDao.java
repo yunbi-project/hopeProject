@@ -156,4 +156,9 @@ public class BoardDao {
 		
 		return session.selectList("boardMapper.reviewList",map,rowBounds);
 	}
+
+	public void deleteReply(int boardNo) {
+		session.update("boardMapper.deleteReply",boardNo);
+		
+	}
 }

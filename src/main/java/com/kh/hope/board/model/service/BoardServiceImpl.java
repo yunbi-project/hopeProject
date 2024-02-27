@@ -183,6 +183,7 @@ public class BoardServiceImpl implements BoardService{
         }
 		
 		int result = dao.deleteNotice(boardNo);
+		dao.deleteReply(boardNo);
 		return result;
 	}
 

@@ -69,9 +69,11 @@
     margin-left: 50px;
 }
 .preview{
+	display:none;
 	width:350px;
 	
 }
+
 .delete-image {
     cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
     color: #888; /* x 표시의 색상을 회색으로 지정 */
