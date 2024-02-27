@@ -1,5 +1,6 @@
 package com.kh.hope.program.dao;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,16 +46,13 @@ public class ProgramDao {
 		return session.insert("program.requestProgram", r);
 	}
 
-	public int programLike(Likes l) {
-		return session.insert("program.programLike", l);
-	}
 
-	public boolean isLikeExists(int programNo, int userNo) {
-	    Map<String, Object> parameters = new HashMap<>();
-	    parameters.put("programNo", programNo);
-	    parameters.put("userNo", userNo);
-	    return session.selectOne("program.isLikeExists", parameters);
-	}
+//	public boolean isLikeExists(int programNo, int userNo) {
+//	    Map<String, Object> parameters = new HashMap<>();
+//	    parameters.put("programNo", programNo);
+//	    parameters.put("userNo", userNo);
+//	    return session.selectOne("program.isLikeExists", parameters);
+//	}
 
 	public int requestCount(int programNo) {
 		return session.selectOne("program.requestCount",programNo);
@@ -64,5 +62,24 @@ public class ProgramDao {
 		return session.selectOne("program.selectListCount", map);
 	}
 
+	public List<Program> filterList(PageInfo pi, Map<String, Object> map) {
+		int limit = pi.getBoardLimit();
+		int offset=(pi.getCurrentPage()-1)*limit;
+		
+		RowBounds rowBounds = new RowBounds(offset,limit);
+		return session.selectList("program.filterList", map, rowBounds);
+	}
+
+	public Request requestSelectProgram(Request r) {
+		return session.selectOne("program.requestSelectProgram", r);
+	}
+
+	public Likes isLikeExists(Likes l) {
+		return session.selectOne("program.isLikeExists", l);
+	}
+
+	public int programLike(Likes l) {
+		return session.insert("program.programLike", l);
+	}
 
 }

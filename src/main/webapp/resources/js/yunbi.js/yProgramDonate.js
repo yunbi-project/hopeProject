@@ -1,15 +1,3 @@
-/* programList*/
-function filter() {
-	$("input[name='activity_time']:checked").each(function() {
-		if ($(this).is(":checked") == true) {
-			var checkVal = $(this).val();
-			console.log("미완성");
-		}
-	});
-}
-
-
-
 function toggleUnlike() {
     let unlikes = {
         //userNo: '${loginUser.userNo}',
