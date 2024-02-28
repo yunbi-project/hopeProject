@@ -204,6 +204,16 @@ body{
 
 /* ------------- footer ----------------- */
 /* footer CSS */
+
+.footer{
+    clear: both; /* float된 요소들을 모두 clear하여 아래로 내려가게 함 */
+    width: 100%; /* 화면 전체 너비만큼 설정 */
+    background-color: #f8f9fa; /* 배경색 설정 */
+    padding: 20px; /* 적절한 여백 설정 */
+    box-sizing: border-box; /* padding 값 포함하여 너비 계산 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+}
+
 .h_footers {
   font-family: 'NanumSquareNeo-Variable';
   margin-top: 100px;
@@ -215,8 +225,6 @@ body{
 }
 
 .h_footer{
-  display: flex;
-  flex-direction: column;
   font-size:13px;
   padding-left: 180px;
 }

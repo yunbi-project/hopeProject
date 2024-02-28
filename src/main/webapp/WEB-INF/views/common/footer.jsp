@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <footer class="common">
+    <footer class="common footer">
         <div class="h_footers">
             <div class='h_footer'>
                 <h4>희망의 조각</h4>

@@ -26,6 +26,23 @@ public class DonateService {
 		return dao.donateDetail(donateNo);
 	}
 
+//	후원자 현황
+	public List<PaymentInfo> selectPayPeople(int donateNo) {
+		return dao.selectPayPeople(donateNo);
+	}
+	
+//	조회수 증가
+	public int increaseCount(int donateNo) {
+		return dao.increaseCount(donateNo);
+	}
+	
+//  후원 다른게시글 리스트
+	public List<Donate> selectOtherDonateList(Map<String, Object> map) {
+		return dao.selectOtherDonateList(map);
+	}
+	
+
+	
 	public List<CurrentUser> selectCurrentUser(int donateNo) {
 		return dao.selectCurrentUser(donateNo);
 	}
@@ -38,7 +55,10 @@ public class DonateService {
 		return dao.save(paymentInfo);
 	}
 
-	public int selectListCount(Map<String, Object> map) {
-		return dao.selectListCount(map);
-	}
+
+
+
+
+
+
 }

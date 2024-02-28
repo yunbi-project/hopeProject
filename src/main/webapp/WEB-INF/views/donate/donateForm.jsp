@@ -48,13 +48,8 @@
         </script>
 </head>
 <body>
-	<jsp:include page="../common/header.jsp"></jsp:include>
-	<section>
-		<article class="h_boardTitle">
-			<h1>기부하기</h1>
-			<p>기부금을 통해 세상을 발전시킵니다.</p>
-		</article>
-	</section>
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+
 	<section>
 		<div class="y_donate_insert_area">
 			<div class="y_donate_insert_1">
@@ -174,6 +169,6 @@
 	<script type="text/javascript">
 		
 	</script>
-	<jsp:include page="../common/footer.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>
