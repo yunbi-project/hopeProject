@@ -36,11 +36,16 @@
 					<span>모집마감</span>
 				</c:otherwise>
 			</c:choose>
-			<img src="${contextPath }/resources/style/img/yunbi/heart.svg"
-				class="heart_logo no" onclick="toggleLike()"></img>
+			<div class="toggle"></div>
+				<c:if test="${like > 0}">
+			<img src="${contextPath }/resources/style/img/yunbi/heart-fill.svg" class="heart_logo yes" onclick="toggleLike()"></img>
+				</c:if>
+				<c:if test="${like == 0}">
+			<img src="${contextPath }/resources/style/img/yunbi/heart.svg" class="heart_logo no" onclick="toggleLike()"></img>
+				</c:if>
 			<h1>${program.programName }</h1>
-			<img src="${contextPath }/resources/style/img/yunbi/sample1.png"
-				class="y_program_detail_main_img"></img>
+<%-- 			<img src="${contextPath }/resources/style/img/yunbi/sample1.png" --%>
+<!-- 				class="y_program_detail_main_img"></img> -->
 
 			<table class="y_table">
 				<tr>
@@ -93,7 +98,12 @@
 				</tr>
 			</table>
 			<div class="y_donate_back_btn">
+			<c:if test="${requestCount > 0}">
+				<button class="y_program_btn1" disabled >지원완료</button>
+			</c:if>
+			<c:if test="${requestCount == 0 }">
 				<button class="y_program_btn1" onclick='requestProgram()'>지원하기</button>
+			</c:if>			
 				<button class="y_program_btn1" onclick="join()">채팅방 입장하기</button>
 			</div>
 			<div class="y_donate_list_btn">
@@ -108,74 +118,101 @@
 				}
 
 				function requestProgram() {
-					let r = {
-						userNo : '${loginUser.userNo}',
-						programNo : '${programNo}'
-					};
 					$.ajax({
-						url : '${contextPath}/program/detail/' + r.programNo,
-						data : JSON.stringify(r),
+						url : '${contextPath}/program/detail/request/' + ${programNo},
+						data : {userNo: ${loginUser.userNo}},
 						type : 'post',
-						contentType : 'application/json;charset=UTF-8',
 						success : function(result) {
-							if(count > program.programCapacity){
-								if (result === 0) {
-									alert("지원 실패");
-								} else {
-									alert("지원 완료");
-								}
+							if(result>0){
+							window.location.reload();
+							alert("지원완료");
+							
+							}else{
+								alert("실패");
 							}
 						}
 					})
 				}
-
-
+				
 				function toggleLike() {
-					let likes = {
-						userNo: '${loginUser.userNo}',
-						programNo : '${programNo}'
-					// 프로그램 번호를 동적으로 설정해야 함
-					};
-					
-				$.ajax({
-					url : '${contextPath}/program/detail/'
-							+ likes.programNo,
-					data : JSON.stringify(likes),
-					type : 'post', // POST 메서드 사용
-					contentType : 'application/json;charset=UTF-8',
-					success : function() {
-						let likeIcon = $(`.heart_logo`);
-						if (likeIcon.hasClass("no")) { // 좋아요 하지 않은 상태
-							$('.heart_logo')
-									.attr('src',
-											'${contextPath}/resources/style/img/yunbi/heart-fill.svg');
-							alert('찜한 봉사활동은 마이페이지에서 확인 가능합니다.');
-							likeIcon.addClass("yes");
-							likeIcon.removeClass("no");
-						} else { // 좋아요 한 상태
-							// 좋아요를 취소하는 작업 수행
-							// toggleUnlike(); // 이 부분을 좋아요 취소 작업으로 대체
-							$('.heart_logo')
-									.attr('src',
-											'${contextPath}/resources/style/img/yunbi/heart.svg');
-							likeIcon.removeClass("yes");
-							likeIcon.addClass("no");
-						}
+					if(document.querySelector('.heart_logo').classList.contains('no')){
+						$.ajax({
+							url : '${contextPath}/program/detail/like/'+ ${programNo},
+							data : {userNo: ${loginUser.userNo}},
+							type : 'post', // POST 메서드 사용
+							success : function(result) {
+								let likeIcon = $(`.heart_logo`);
+								if (result > 0) { // 좋아요 하지 않은 상태
+									$('.heart_logo')
+											.attr('src',
+													'${contextPath}/resources/style/img/yunbi/heart-fill.svg');
+									likeIcon.addClass("yes");
+									likeIcon.removeClass("no");
+									alert("관심있는 게시글 저장했습니다. 마이페이지에서 확인해주세요.");
+								} else {
+									alert("실패");
+								}
+							}
+						});
+					} else {
+						$.ajax({
+							url : '${contextPath}/program/detail/unlike/'+ ${programNo},
+							type : "POST",
+							data :{userNo: ${loginUser.userNo}},
+							success: function(result) {
+								let likeIcon = $(`.heart_logo`);
+				                   if(result > 0){
+				                	   $('.heart_logo').attr('src',
+										'${contextPath}/resources/style/img/yunbi/heart.svg');
+										likeIcon.addClass("no");
+										likeIcon.removeClass("yes");
+										alert("게시물 즐겨찾기를 취소했습니다.");
+				                   }
+				               },
+				               error: function(xhr, status, error) {
+				                   // 서버 요청이 실패한 경우 에러 메시지 출력
+				                   console.error('서버 요청 실패:', error);
+				               }
+						});
 					}
-				});
 				}
+				
+				function deleteBoard(boardNo) {
+			        var boardTypeNo = 'N'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
+			        var url = '${contextPath}/board/delete/' + boardNo + '?boardTypeNo=' + boardTypeNo;
+			        window.location.href = url;
+			    }
+				function stripHtmlTags(html) {
+				    let doc = new DOMParser().parseFromString(html, 'text/html');
+				    return doc.body.textContent || "";
+				}
+				/*썸머노트*/
+				$(document).ready(function() {
+				    var text = "${b.boardContent}";
+				    text = stripHtmlTags(text); // HTML 태그 제거
 
-				function alertMessage() {
-					var alertMessage = "${alertMessage}";
-					if (alertMessage !== "") {
-						alert(alertMessage);
-						// 또는 모달 창을 띄워 메시지를 보여줄 수도 있습니다.
-					}
-				}
-				window.onload = alertMessage;
+				    // 썸머노트 초기화
+				    $('#summernote').summernote({
+				        toolbar: [], // 툴바 비활성화 (읽기 전용으로 설정)
+				        airMode: true, // 에어모드 활성화
+				        disableResizeEditor: true, // 에디터 크기 조절 비활성화
+				        focus: false, // 포커스 설정 (선택사항)
+				        codeview: false // 코드 보기 비활성화
+				    });
+
+				    // 썸머노트에 텍스트 삽입
+				    $('#summernote').summernote('code', text);
+
+				    // 에디터를 비활성화하여 사용자의 입력을 막습니다.
+				    $('#summernote').summernote('disable');
+				});
+
 			</script>
 		</div>
 	</section>
+	<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>

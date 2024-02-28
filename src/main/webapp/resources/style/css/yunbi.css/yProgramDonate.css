@@ -3,6 +3,13 @@
 	font-family: 'NanumSquareNeo-Variable';
 }
 
+.donateGoodFormBorder{
+    border: 4px solid #ABe138;
+    width: 250px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}
+
 /* pageTitle CSS */
 .h_boardTitle{
   height:330px;

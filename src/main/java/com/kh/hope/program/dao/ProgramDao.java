@@ -1,6 +1,5 @@
 package com.kh.hope.program.dao;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,18 +41,6 @@ public class ProgramDao {
 		return session.selectOne("program.detailProgram", programNo);
 	}
 
-	public int requestProgram(Request r) {
-		return session.insert("program.requestProgram", r);
-	}
-
-
-//	public boolean isLikeExists(int programNo, int userNo) {
-//	    Map<String, Object> parameters = new HashMap<>();
-//	    parameters.put("programNo", programNo);
-//	    parameters.put("userNo", userNo);
-//	    return session.selectOne("program.isLikeExists", parameters);
-//	}
-
 	public int requestCount(int programNo) {
 		return session.selectOne("program.requestCount",programNo);
 	}
@@ -74,12 +61,29 @@ public class ProgramDao {
 		return session.selectOne("program.requestSelectProgram", r);
 	}
 
-	public Likes isLikeExists(Likes l) {
-		return session.selectOne("program.isLikeExists", l);
+	public int isLikeExists(int userNo, int programNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("programNo", programNo);
+		return session.selectOne("program.isLikeExists", param);
 	}
 
 	public int programLike(Likes l) {
 		return session.insert("program.programLike", l);
 	}
 
+	public int programUnlike(Likes l) {
+		return session.delete("program.programUnlike", l);
+	}
+
+	public int requestProgram(Request r) {
+		return session.insert("program.requestProgram", r);
+	}
+
+	public int isRequestExists(int userNo, int programNo) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userNo", userNo);
+		param.put("programNo", programNo);
+		return session.selectOne("program.isRequestExists", param);
+	}
 }
