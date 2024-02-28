@@ -33,25 +33,24 @@ public class ProgramController {
 
 	@Autowired
 	private ProgramService service;
+	
 
-	@GetMapping("/program/list") 
-	public String selectProgramList(Model model, RedirectAttributes ra, Program program ,
+	@GetMapping("/program/list")
+	public String selectProgramList(Model model, RedirectAttributes ra, Program program,
 			@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-			@RequestParam(value = "ingOnly", required = false) Boolean ingOnly
-			, @RequestParam Map<String, Object> map			
-			) {
-		log.info("map 정보확인 {}" , map);
-		
-		int listCount=service.selectListCount(map);
+			@RequestParam(value = "ingOnly", required = false) Boolean ingOnly, @RequestParam Map<String, Object> map) {
+//		log.info("map 정보확인 {}", map);
+
+		int listCount = service.selectListCount(map);
 		int pageLimit = 10;
 		int boardLimit = 10;
-		
-		log.info("program 정보확인 {}" , program);
-		
+
+//		log.info("program 정보확인 {}", program);
+
 		PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 
 		List<Program> list = service.selectProgramList(pi, map);
-		
+
 		if (ingOnly != null && ingOnly) {
 			map.put("ingOnly", ingOnly);
 			listCount = service.selectListCount(map);
@@ -82,102 +81,79 @@ public class ProgramController {
 	}
 
 	@PostMapping("/program/insert")
-	public String insertProgram(Program program, RedirectAttributes ra, HttpSession session) {
-		User loginUser = (User) session.getAttribute("loginUser");
+	public String insertProgram(@ModelAttribute("loginUser") User loginUser, Program program, RedirectAttributes ra, HttpSession session) {
 		if (loginUser != null) {
 			program.setUserNo(loginUser.getUserNo());
-		}else {
-				ra.addFlashAttribute("alertMsg", "프로그램 등록은 로그인 후 이용해주세요.");
-				System.out.println("로그인 필요");
-			}
+		} else {
+			ra.addFlashAttribute("alertMsg", "프로그램 등록은 로그인 후 이용해주세요.");
+			System.out.println("로그인 필요");
+		}
 
-			int result = service.insertProgram(program);
+		int result = service.insertProgram(program);
 
-			if (result > 0) {
-				ra.addFlashAttribute("alertMsg", "활동 게시글이 등록되었습니다. 목록페이지로 돌아갑니다.");
-				System.out.println("등록 성공");
+		if (result > 0) {
+			ra.addFlashAttribute("alertMsg", "활동 게시글이 등록되었습니다. 목록페이지로 돌아갑니다.");
+			System.out.println("등록 성공");
+		}
 
-			} else {
-				ra.addFlashAttribute("alertMsg", "회원정보를 정확히 입력해주세요");
-				System.out.println("메뉴 등록 실패");
-			}
-		
 		return "redirect:/program/list";
 	}
 
 	// 프로그램 디테일
 	@GetMapping("/program/detail/{programNo}")
-	public String detailProgram(@PathVariable int programNo, Model model) {
+	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session) {
 		Program program = service.detailProgram(programNo);
 		int count = service.requestCount(programNo);
-		if (count > 0) {
-			ResponseEntity.ok(count);
-		}
+		
+		int userNo = 0;
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+		
+		userNo = loginUser.getUserNo();
+		
+		int like = service.isLikeExists(userNo, programNo);
+		int requestCount = service.isRequestExists(userNo, programNo);
+//		System.out.println(like);
+		System.out.println(requestCount);
+		
 		model.addAttribute("program", program);
 		model.addAttribute("count", count);
+		model.addAttribute("like", like);
+		model.addAttribute("requestCount", requestCount);
+
 		return "program/programDetail";
 	}
 
-	// 프로그램 신청, request insert
-	@PostMapping("/program/detail/{programNo}")
-	public String requestProgram(@PathVariable int programNo, Request r, Likes l, HttpSession session,
-			Model model, RedirectAttributes ra) {
+	// like insert
+	@PostMapping("/program/detail/like/{programNo}")
+	public ResponseEntity<String> programLike(@PathVariable int programNo, @RequestParam("loginUser") int userNo, HttpSession session,
+			Model model) {
+			Likes l = new Likes().builder().programNo(programNo).userNo(userNo).build();
+			
+			int result = service.programLike(l);
+			return ResponseEntity.ok(result+"");
+		}
 
-		 int userNo = 0;
-		 User loginUser = (User) session.getAttribute("loginUser");
-
-		 if (loginUser != null) {
-	        userNo = loginUser.getUserNo();
-	        r.setUserNo(userNo);
-		    l.setUserNo(userNo);
-		    l.setProgramNo(programNo);
-		    
-	        Request request = service.requestSelectProgram(r);
-	        Likes likes = service.isLikeExists(l);
-	        System.out.println(likes);
-	        if(likes != null) {
-	        	model.addAttribute("alertMsg", "이미 찜한 게시물입니다. 마이페이지에서 확인해주세요.");
-	        	model.addAttribute("likes", likes);
-	        }else {
-	        	model.addAttribute("alertMsg", "관심있는 게시글 저장했습니다. 마이페이지에서 확인해주세요.");
-	        	int result = service.programLike(l);
-	        }
-	        
-	        if (request != null) {
-	            // 이미 요청한 경우
-	        	model.addAttribute("alertMsg", "이미 지원한 게시글입니다. 마이페이지에서 확인해주세요.");
-	        	model.addAttribute("r", request);
-	        } else {
-	            // 새로운 요청인 경우
-	            int result = service.requestProgram(r);
-	            if (result > 0) {
-	                model.addAttribute("alertMsg", "프로그램 지원 완료");
-	            }
-	        }
-		        model.addAttribute("r", r);
-		    } else {
-		        session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
-		    }
-		return "redirect:/program/programDetail/{programNo}";
+	// like delete
+	@PostMapping("/program/detail/unlike/{programNo}")
+	public ResponseEntity<String> programUnlike(
+			@PathVariable int programNo, @RequestParam int userNo,
+			HttpSession session
+			) {
+		Likes l = new Likes().builder().programNo(programNo).userNo(userNo).build();
+		int result = service.programUnlike(l);
+		return ResponseEntity.ok(result+"");
 	}
+	
+	// program 지원
+	@PostMapping("/program/detail/request/{programNo}")
+	public ResponseEntity<String> requestProgram(@PathVariable int programNo, @RequestParam int userNo, HttpSession session, Model model) {
 
-//	@DeleteMapping("/program/detail/{programNo}")
-//	public String programUnlikes(
-//			@PathVariable int programNo,
-//			Likes l,
-//			HttpSession session
-//			) {
-//		User loginUser = (User) session.getAttribute("loginUser");
-//		int userNo = 0;
-//		if(loginUser != null) {
-//			userNo = loginUser.getUserNo();
-//		}
-//		
-//		if(l.getUserNo() == userNo) {
-//			service.programUnlikes(l);
-//		}
-//		
-//		return "redirect:/program/detail/{programNo}";
-//	}
+		Request request = new Request().builder().programNo(programNo).userNo(userNo).build(); 
+				
+//		int result = service.requestSelectProgram(request);
+		int result = service.requestProgram(request);
+		return ResponseEntity.ok(result+"");
+	}
 
 }

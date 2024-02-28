@@ -42,8 +42,10 @@
 		'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
 		ACTIVITY_DAYS,
 		ACTIVITY_TIME, SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION,
-		PROGRAM_ENROLL_END_DATE FROM
-		PROGRAM
+		PROGRAM_ENROLL_END_DATE
+		
+		 FROM PROGRAM P
+	
 		WHERE STATUS = 'Y'
 		<if test="keyword!=null and keyword != ''">
 			<choose>
@@ -126,6 +128,9 @@
 		INSERT INTO LIKES VALUES
 		(#{programNo}, #{userNo})
 	</insert>
+	<delete id="programUnlike" parameterType="int">
+		DELETE FROM LIKES WHERE PROGRAM_NO = #{programNo} AND USER_NO = #{userNo}
+	</delete>
 
 	<select id="requestCount" resultType="int">
 		select count(*) from
@@ -142,5 +147,11 @@ order by 1 desc
 	
 	<select id="requestSelectProgram" resultType="request">
 		SELECT * FROM REQUEST WHERE USER_NO = #{userNo} AND PROGRAM_NO = #{programNo}
+	</select>
+	
+	<select id="isRequestExists" resultType="int">
+		SELECT COUNT(*) FROM REQUEST
+		WHERE PROGRAM_NO = #{programNo}
+		AND USER_NO = #{userNo}
 	</select>
 </mapper>

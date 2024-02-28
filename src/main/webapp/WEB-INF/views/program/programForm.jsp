@@ -14,12 +14,8 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
-<section>
-        <article class="h_boardTitle">
-            <h1>자원봉사</h1>
-            <p>자원봉사 함께 나아가는 더 나은 세상.</p>
-        </article>
-    </section>
+	<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사 활동 지원 신청</h2>
+    <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 <section>
                 <form action="${contextPath}/program/insert" method="post" class="y_program_detail">
                     <table class="y_table">
@@ -90,9 +86,9 @@
                     </table>
                     <div class="y_donate_back_btn">
                         <button class="y_program_btn1" type="submit">작성</button>
-                        <button class="y_donate_back_btn1" href="${contextPath}/program/list">목록</button>
                     </div>
                 </form>
+                        <button class="y_donate_back_btn1" onclick="window.location.href='${contextPath}/program/list'">목록</button>
             </section>
             <script>
 				        $(document).ready(function() {
@@ -137,8 +133,9 @@
 	day = day < 10 ? '0' + day : day;
 	
 	var currentDate = year + '-' + month + '-' + day;
-
-    
+	
+	//시작일은 최소 오늘부터 선택 가능하다.
+	startDateInput.setAttribute('min', currentDate);
     // 시작일 변경 시 이벤트 처리
     startDateInput.addEventListener('change', function() {
         // 선택한 시작일 가져오기
@@ -147,8 +144,8 @@
         // 종료일 입력 요소의 최솟값 설정
         endDateInput.setAttribute('min', this.value);
         
-        // 마감일 입력 요소의 최댓값 설정 (시작일 이전)
-        enrollmentEndDateInput.setAttribute('max', this.value);
+        // 마감일 입력 요소의 최댓값 설정 / 종료일 이전까지
+        enrollmentEndDateInput.setAttribute('max', endDateInput);
         
         // 시작일을 변경할 때마다 종료일과 마감일의 유효성을 검사
         validateEndDate();
@@ -191,7 +188,7 @@
 
      <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
-<script src="./resources/summernote/js/summernote-lite.js"></script>
-<script src="./resources/summernote/js/lang/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="./resources/summernote/summernote-lite.css">
+<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
 </html>

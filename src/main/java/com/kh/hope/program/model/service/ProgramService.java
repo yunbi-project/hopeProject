@@ -37,10 +37,6 @@ public class ProgramService {
 		return dao.detailProgram(programNo);
 	}
 
-	public int requestProgram(Request r) {
-	    return dao.requestProgram(r);
-	}
-
 	public int requestCount(int programNo) {
 		return dao.requestCount(programNo);
 	}
@@ -50,11 +46,26 @@ public class ProgramService {
 	public Request requestSelectProgram(Request r) {
 		return dao.requestSelectProgram(r);
 	}
-	public Likes isLikeExists(Likes l) {
-		return dao.isLikeExists(l);
+	
+	//좋아요한 게시물이 존재하는지 확인
+	public int isLikeExists(int userNo, int programNo) {
+		return dao.isLikeExists(userNo, programNo);
 	}
+	
+	//programNo, userNo 게시글 좋아요
 	public int programLike(Likes l) {
 		return dao.programLike(l);
 	}
 	
+	//게시글 좋아요 삭제
+	public int programUnlike(Likes l) {
+		return dao.programUnlike(l);
+	}
+	
+	public int requestProgram(Request r) {
+		return dao.requestProgram(r);
+	}
+	public int isRequestExists(int userNo, int programNo) {
+		return dao.isRequestExists(userNo, programNo);
+	}
 }
