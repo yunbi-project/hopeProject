@@ -95,6 +95,52 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- 회원정보 확인 모달 -->
+								<div class="modal" id="userInfoModal" tabindex="-1" role="dialog" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+				    <div class="modal-dialog" role="document">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title" id="userInfoModalLabel">회원정보 확인</h5>
+			                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+		            </div>
+				            <div class="modal-body">
+				                <input type="hidden" id="userNo" name="userNo">
+				                <div class="form-group">
+				                    <label for="inputEmail">Email</label>
+				                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" readonly>
+				                </div>
+				                <div class="form-group">
+				                    <label for="inputName">Name</label>
+				                    <input type="text" class="form-control" id="inputName" name="inputName" readonly>
+				                </div>
+				                <div class="form-group">
+				                    <label for="inputPhone">Phone</label>
+				                    <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder="소셜로그인시 휴대폰번호 없습니다." readonly>
+				                </div>
+				                <div class="form-group">
+				                    <label for="inputLoginType">Login Type</label>
+				                    <input type="text" class="form-control" id="inputLoginType" name="inputLoginType" readonly>
+				                </div>
+				                <div class="form-group">
+				                    <label for="inputStatus">Status</label>
+				                    <input type="text" class="form-control" id="inputStatus" name="inputStatus" readonly>
+				                </div>
+				                <div class="form-group">
+				                    <label for="inputAddress">Address</label>
+				                    <input type="text" class="form-control" id="inputAddress" name="inputAdditionalInfo" placeholder="소셜로그인시 주소 없습니다." readonly>
+				                </div>
+				            </div>
+				            <div class="modal-footer">
+				                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+                    
+                    
 
                 </div>
             </div>
@@ -106,7 +152,7 @@
     function showStopModal(userNo) {
         $('#myModal').modal('show'); 
 
-        $('#confirmButton').click(function () {
+        $('#confirmButton').off('click').on('click', function () {
             releaseStop(userNo); 
             $('#myModal').modal('hide'); 
         });
@@ -128,30 +174,78 @@
             }
         })
     }
+    </script>
     
+    <script>
     // 검색 버튼 클릭 시
-    $('.input-group-append button').click(function(){
-        var userNo = $('#userNoInput').val();
-        searchByUserNo(userNo);
-    });
+   $('.input-group-append button').click(function(){
+		    var userNo = $('#userNoInput').val();
+		    if(userNo === "") { // 검색어가 비어있는 경우
+		    	window.location.reload();
+		    	return;
+	        } else {
+	            searchByUserNo(userNo);
+	        }
+	    });
 
     // 사용자 번호를 통한 검색
-    function searchByUserNo(userNo) {
-        $.ajax({
-            url: "${contextPath}/admin/searchByUserNo",
-            type: "POST",
-            data: {
-                userNo: userNo
-            },
-            success: function (response) {
-                // 여기서 회원 리스트를 업데이트하는 로직을 추가하세요
-            },
-            error: function (xhr, status, error) {
-                alert("서버 오류가 발생했습니다.");
-            }
-        })
-    }
+   function searchByUserNo(userNo) {
+    $.ajax({
+        url: "${contextPath}/admin/searchByUserNo",
+        type: "POST",
+        data: {
+            userNo: userNo
+        },
+        success: function (response) {
+            $("tbody").empty(); // 검색 결과를 표시하기 전에 tbody를 비웁니다.
+            $.each(response, function(index, list) {
+                var tableRow = "<tr>" +
+                                    "<td>" + list.blackListNo + "</td>" +
+                                    "<td>" + list.reason + "</td>" +
+                                    "<td>" + list.updateDate + "</td>" +
+                                    "<td>" + list.userNo + "</td>" +
+                                    "<td>" + list.status + "</td>" +
+                                    "<td>" +
+                                        " <button onclick=\"showStopModal('" + list.userNo + "')\">정지풀기</button>" +
+                                        " <button onclick=\"showUserInfoModal('" + list.userNo + "')\">회원정보 확인</button>" +
+                                    "</td>" +
+                                "</tr>";
+                $("tbody").append(tableRow); // 검색 결과를 테이블에 추가합니다.
+            });
+        }
+    });
+}
 </script>
 
+		
+		<!-- 회원정보 확인 모달 -->		
+		<script>
+		    function showUserInfoModal(userNo) {
+		        $('#userNo').val(userNo);
+		        console.log(userNo);
+		        
+		        // Ajax 요청
+		        $.ajax({
+		        	url : "${contextPath}/admin/getUserOne",
+		        	type : "GET",
+		        	data : { userNo : userNo},
+		        	dataType : "json",
+		        	success : function(response) {
+		        		$('#userNo').val(response.userNo);
+		        		$('#inputEmail').val(response.email);
+		        		$('#inputName').val(response.userName);
+		        		$('#inputPhone').val(response.phone);
+		        		$('#inputLoginType').val(response.loginType);
+		        		$('#inputStatus').val(response.status); 
+		        		$('#inputAddress').val(response.address); 
+		        	},
+		        	error: function(xhr, status, error) {
+		        		console.error("error user info :" , error);
+		        	}
+		        });
+		        
+		        $('#userInfoModal').modal('show');
+		    }
+		</script>	
 </body>
 </html>
