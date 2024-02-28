@@ -9,9 +9,6 @@
 <title>후원 모집 게시글 작성</title>
 
 <link rel="stylesheet" href="${contextPath}/resources/style/css/hyun.css/donateBoardForm.css">
-
-<link rel="stylesheet" href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
-
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -28,12 +25,6 @@
                         <td>제목</td>
                         <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요" style="width:1100px;"></td>
                     </tr>
-                    <tr>
-                        <td>대표이미지</td>
-                        <td><input type="file"></td>
-                    </tr>
-
-                    
                     <tr>
                         <td>봉사 기간</td>
                         <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date"></td>
@@ -90,7 +81,10 @@
          				<td>
          				 	<textarea id="summernote" name="programContent"></textarea></td>
                     </tr>
-
+                    <tr>
+                        <td>첨부파일</td>
+                        <td><input type="file"></td>
+                    </tr>
                 </table>
                 <div class="y_donate_back_btn">
                     <button class="y_program_btn1" type="submit">작성</button>
@@ -99,38 +93,6 @@
             </form>
         </section>
 	</main>
-	
-	<script>
-		function stripHtmlTags(html) {
-		    let doc = new DOMParser().parseFromString(html, 'text/html');
-		    return doc.body.textContent || "";
-		}
-	
-		$(document).ready(function() {
-		    var text = "${b.boardContent}";
-		    text = stripHtmlTags(text); // HTML 태그 제거
-	
-		    // 썸머노트 초기화
-		    $('#summernote').summernote({
-		        toolbar: [], // 툴바 비활성화 (읽기 전용으로 설정)
-		        airMode: true, // 에어모드 활성화
-		        disableResizeEditor: true, // 에디터 크기 조절 비활성화
-		        focus: false, // 포커스 설정 (선택사항)
-		        codeview: false // 코드 보기 비활성화
-		    });
-	
-		    // 썸머노트에 텍스트 삽입
-		    $('#summernote').summernote('code', text);
-	
-		    // 에디터를 비활성화하여 사용자의 입력을 막습니다.
-		    $('#summernote').summernote('disable');
-		});
-		
-	
-	</script>
-	
-	<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
-	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
