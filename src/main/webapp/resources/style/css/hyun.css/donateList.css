@@ -3,6 +3,7 @@
     font-family: 'NanumSquareNeo-Variable';
 }
 
+
 /* pageTitle CSS */
 .h_boardTitle{
     height:330px;
@@ -30,6 +31,8 @@
     font-size : 17px;
     color: black;
 }
+
+
   
 
 .donateGoodFormBorder{
@@ -97,6 +100,10 @@
     color:rgb(72, 72, 72);
 }
 
+.right_div div:nth-of-type(4) span{
+    color:rgb(72, 72, 72);
+}
+
 .right_div{
     justify-content: flex-end;
     margin-right: 120px;
@@ -114,19 +121,32 @@
 	margin-right:10px;
 	width: 80px;
 	padding: 10px;
+	cursor: pointer;
+	border: 1px solid #ced4da;
 }
 
 .archive-search-text{
 	margin-right: 10px;
-	width: 300px;
+	width: 400px;
 	padding: 10px;
+	border: 1px solid #abe128;
 }
 
 .green{
-	background-color: #abe128;
-	border: 1px solid #abe128;
+	background-color: #83a80ba3;
+	border: 1px solid #83a80ba3;
 	width: 50px;
 	padding: 10px;
+	cursor: pointer;
+	border-radius: 5px;
+	color:white;
+	transition: background-color 0.5s ease; 
+	transition: border 0.5s ease; 
+}
+
+.green:hover{
+	background-color: #abc128;
+	border: 1px solid #abc128;
 }
 
 .tag_img{

@@ -16,18 +16,23 @@ public class Donate {
 	private String donateContent; //후원내용
 	private String donateFoundation; // 후원재단
 	private Long donateHope; //목표후원금
-	private String dDay;
 	private int donateAmount;
+	private Date donateStartDate; // 후원시작기간
 	private Date donateEndDate; //후원종료기간
 	private int donateProgress;
-	private int userCount;
+	private int count;  // 조회수
 	private int userNo; //회원번호
 	private String userName;
 	private String status; //상태
-	private String tagId;  //해시태그 번호
+	private int tagId;  //해시태그 번호
+	private String tagName;  //해시태그 이름
+	private Date donateCreateDate;  // 게시글 생성날짜
 	
 	private int sumDonate;  // 총 후원금액
 	private int achRate;  // 달성률
+	private int ceilDayDiff; // 남은 날짜
+	private int totalCount;  //총 후원인수
+	
 	
 	
 //	private String donateFoundation; //후원담당재단

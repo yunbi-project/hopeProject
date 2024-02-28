@@ -21,6 +21,8 @@ public class PaymentInfo {
 	private int userNo;
 	private String billNo;
 	private Date donateDate;
+	private String anonymous;  // 익명 여부
+	private Date createDate; // 기부한 날짜
 	
 	private int donateNo;
 	private String donateTitle;

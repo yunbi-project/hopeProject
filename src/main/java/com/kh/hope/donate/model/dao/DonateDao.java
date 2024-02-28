@@ -20,18 +20,33 @@ public class DonateDao {
 	private SqlSessionTemplate session;
 
 	public List<Donate> donateList(Map<String, Object> map) {
-//		int limit = pi.getBoardLimit();
-//		int offset=(pi.getCurrentPage()-1)*limit;
-//		
-//		RowBounds rowBounds = new RowBounds(offset,limit);
-//		return session.selectList("donate.donateList", map, rowBounds);
+
 		return session.selectList("donate.donateList", map);
 	}
 
 	public Donate donateDetail(int donateNo) {
 		return session.selectOne("donate.donateDetail", donateNo);
 	}
+	
+//	후원자 현황
+	public List<PaymentInfo> selectPayPeople(int donateNo) {
+		
+		return session.selectList("donate.selectPayPeople", donateNo);
+	}
+	
+//	조회수 증가
+	public int increaseCount(int donateNo) {
+		return session.update("donate.increaseCount", donateNo);
+	}
+	
+//  후원 다른게시글 리스트
+	public List<Donate> selectOtherDonateList(Map<String, Object> map) {
+		return session.selectList("donate.selectOtherDonateList", map);
+	}
+	
 
+	
+	
 	public List<CurrentUser> selectCurrentUser(int donateNo) {
 		return session.selectList("donate.selectCurrentUser", donateNo);
 	}
@@ -44,8 +59,11 @@ public class DonateDao {
 		return session.insert("donate.save", paymentInfo);
 	}
 
-	public int selectListCount(Map<String, Object> map) {
-		return session.selectOne("donate.selectListCount", map);
-	}
+	
+
+
+
+
+
 
 }

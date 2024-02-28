@@ -1,0 +1,542 @@
+.donateGoodFormBorder{
+    border: 4px solid #ABe138;
+    width: 200px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}
+@charset "UTF-8";
+*{
+	font-family: 'NanumSquareNeo-Variable';
+}
+
+/* pageTitle CSS */
+.h_boardTitle{
+  height:330px;
+  padding-top: 100px;
+  background-image: url('https://www.beautifulstore.org/wp-content/themes/bs/images/meta/bg_donation01.png');
+  background-size: cover;
+  background-position: center; 
+  margin-bottom: 50px;
+}
+
+/* 제목 정렬 */
+.h_boardTitle h1,
+.h_boardTitle > p{
+  text-align: center;
+  align-items: center;
+}
+
+/* 제목 글씨크기 */
+.h_boardTitle h1{
+  font-size: 35px;
+  color: white;
+}
+
+.h_boardTitle > p{
+  font-size : 17px;
+  color: white;
+}
+
+section {
+	margin: 0 auto;
+	/* width: 1599px; */
+	width: 100%;
+/* 	border : 1px solid red; */
+}
+
+.y_donate_top1 {
+	font-size: 40px;
+	display: flex;
+	width: 100%;
+	text-align: center;
+	justify-content: center;
+}
+.y_image_activityOnly{
+ accent-color:#84a90c ;
+}
+
+.y_image_activityOnly {
+	width: 35px;
+	height: 35px;
+}
+
+.y_donate_top2 {
+	text-align: right;
+}
+
+.y_list {
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: space-between;
+	width: 100%;
+	height : 400px;
+	margin: 0 auto;
+}
+
+.y_list_box {
+	width: 370px;
+	margin: 20px 12px;
+	}
+
+.y_list_box span {
+	font-size: 23px;
+	font-weight: bold;
+}
+
+.y_list_box span, .y_list_box {
+	cursor: pointer;
+}
+
+.y_list_box>progress {
+	width: 100%;
+}
+
+@keyframes fillAnimation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.progress {
+	animation: fillAnimation 2s ease-out;
+}
+
+#progress {
+  appearance: none;
+}
+
+
+#progress::-webkit-progress-bar {
+  background: #eee;
+  width: 100%;
+  height: 10px;
+  border-radius : 10px;
+  overflow: hidden;
+}
+
+#progress::-webkit-progress-value {
+  background: #84a90c;
+  border-radius: 0px;
+}
+
+.y_list_image {
+	width: 100%;
+	height :100%; 
+	border-radius: 10px;
+}
+
+.y_floatRight {
+	float: right;
+	color : #84a90c;
+}
+
+/*donate detail*/
+.y_program_detail {
+	margin: 30px;
+}
+
+.y_donate_detail_img {
+	height: 500px;
+}
+
+.y_donate_detail_top {
+	display: flex;
+}
+
+.y_donate_detail_bottom {
+	display: flex;
+}
+
+.y_donate_detail_img, .y_donate_detail_info, .y_donate_detail_content,
+	.y_donate_detail_countList {
+	flex-basis: 50%;
+	padding: 50px;
+/* 	border: 1px solid blueviolet; */
+}
+
+.y_donate_detail_img img {
+	width: 100%;
+	height: 100%;
+}
+
+.y_donate_detail_info progress {
+	width: 100%;
+	margin: 10px auto;
+}
+
+.y_donate_detail_text1 {
+	text-align: right;
+	padding: 0;
+	margin: 0;
+}
+
+.borderA {
+	font-size: large;
+}
+
+.y_donate_back_btn {
+	text-align:center;
+}
+
+.y_donate_list_btn{
+	display:block;
+	text-align:right;
+}
+
+.y_donate_back_btn1 {
+	margin: 0 auto;
+	background-color: #84A90C;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-top: 20px;
+	margin-right: 20px;
+}
+
+.y_donate_back_btn1:hover {
+	background-color: rgb(103, 131, 10);
+}
+
+.y_donate_detail_list_box {
+	border: 1px solid #c9bdbdab;
+	border-left: 3px solid #84A90C;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.y_donate_detail_list_box p {
+	margin: 5px;
+	padding: 0;
+}
+
+.empty{
+	text-align:center;
+	padding : 20px;
+	white-space: pre-line;
+}
+/* 프로그램 디테일 페이지*/
+
+.y_program_detail {
+	padding: 25px;
+}
+
+.y_program_detail>span {
+	background-color: #84A90C;
+	padding: 10px;
+	border-radius: 5px;
+	color: white;
+}
+
+.heart_logo {
+	float: right;
+}
+
+.y_program_detail_main_img {
+	margin: 0 auto;
+	border-radius: 20px;
+	height: 500px;
+}
+
+.y_table {
+	width: 100%;
+}
+
+.y_table>tr * {
+	padding: 30px 10px;
+}
+
+.y_list_table tbody tr:hover {
+	background-color: #fafee9;
+}
+
+.y_table td:first-child {
+	text-align: center;
+	width: 200px;
+	border-right: 1px solid #c9bdbdab;
+}
+
+.y_table td:last-child {
+	padding-left: 30px;
+}
+
+
+.y_table td {
+	border-bottom: 1px solid #c9bdbdab;
+}
+
+
+.y_table td>*{
+	border : none;
+	outline : none;
+	font-size : large;
+}
+
+.donateInput input{
+	width:2000px;
+}
+
+.y_program_btn1 {
+	background-color: white;
+	margin: 0 auto;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+
+.y_program_btn1:hover {
+	background-color: #eee;
+}
+
+
+.y_c {
+	padding : 10px;
+	border : 1px solid #eee;
+	outline : none;
+}
+/*프로그램 리스트*/
+/* .y_program_list_filter{
+  padding-left:20px;
+} */
+.y_program_list_area {
+	text-align: left;
+	margin: 0 auto;
+	width: 60%;
+	padding-left: 20px;
+}
+
+.y_program_list_filter p {
+	margin-bottom: 30px;
+}
+
+.y_checkbox {
+	display : none;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label{
+	background-color :  #84A90C;
+}
+
+.y_checkbox1 {
+	padding: 10px;
+	border: 2px solid #84A90C;
+	border-radius: 5px;
+	margin-right: 20px;
+}
+
+.y_checkbox1:hover {
+	background-color: #84A90C;
+	color: white;
+}
+
+.y_program_list_search {
+	margin: 30px 0;
+	padding: 15px;
+	width: 100%;
+	border-width: 0 0 1px;
+	border-bottom: 2px solid #84A90C;
+	font-size: large;
+}
+
+.y_program_list_search:focus {
+	outline: none;
+}
+
+.y_program_list_btn {
+	background-color: #84A90C;
+	border: none;
+	color: white;
+	padding: 15px 30px;
+	margin-left: 20px;
+	display: block;
+	margin: 20px auto;
+	border-radius: 10px;
+}
+
+.y_h1 {
+	width: 100%;
+	padding: 20px 0;
+	text-align: center;
+}
+
+.y_list_table {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.y_activeOnly_area {
+	display: flex;
+	text-align: right;
+	padding: 10px 20px;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.y_activeOnly_area img {
+	margin-left: 10px;
+}
+
+.y_list_table thead tr td {
+	text-align: center;
+	font-weight: bold;
+}
+
+.y_list_table tbody tr td {
+	text-align: center;
+}
+
+.y_list_table tbody tr td:nth-child(2){
+	text-align:left;
+	padding-left:15px;
+}
+
+td {
+	padding: 20px 0;
+	border-bottom: 1px solid #c9bdbd3f;
+}
+
+/*donate insert*/
+.y_donate_insert_area{
+	display:flex;
+	background-color : #84A90C;
+	padding : 20px;
+	width : 1000px;
+	margin : 0 auto;
+}
+
+.y_donate_insert_1{
+	text-align:center;
+	width : 200px;
+}
+
+.y_donate_insert_2{
+	width : 800px;
+}
+
+.y_donate_info{
+	margin:20px auto;
+	width:800px;
+	padding: 20px;
+	text-align:center;
+	border-top:7px solid #84A90C;
+	border-bottom:7px solid #84A90C;
+}
+
+.y_donate_info span {
+	width:200px;
+	padding:20px;
+}
+
+.y_donate_info input:focus {outline: none;}
+
+.y_donate_name{
+	padding:20px;
+	display:flex;
+	margin-bottom : 20px;
+}
+
+.y_donate_name span {
+	flex-basis : 20%;
+}
+.y_input{
+	width:500px;
+	border:none;
+  border-bottom: 1px solid black;
+}
+.y_donate_name label {
+	margin : 0 auto;
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  margin-left: 10px; /* 라벨과 라디오 버튼 사이 간격 조절 */
+  width:100px;
+}
+
+/*검색관련*/
+.pagination {
+    border-top: 2px solid #83a80ba3;
+    list-style: none;
+    margin: 100px 0;
+    text-align: center;
+    padding-top: 20px; /* 페이지네이션 위쪽 간격 추가 */
+    cursor: pointer;
+}
+
+.pagination li {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.pagination li a {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #83a80ba3;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+/* 페이지네이션 링크에 호버 효과 추가 */
+.pagination li a:hover {
+    background-color: #6a8a0cd3; /* 호버 상태에서 배경색 변경 */
+    transition: background-color 0.3s ease; /* 배경색 변경에 애니메이션 효과 추가 */
+}
+.archive-search {
+    margin-top: 30px; /* 위쪽 간격 설정 */
+    margin-bottom: 20px; /* 아래쪽 간격 추가 */
+    width: 100%; /* 너비 100%로 설정 */
+    max-width: 700px; /* 최대 너비 설정 */
+    margin-left: auto; /* 좌우 여백 자동 조절 */
+    margin-right: auto; /* 좌우 여백 자동 조절 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+.custom-select {
+    display: inline-block;
+    width: auto;
+    height:40px;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+/* 검색 폼에 경계선 추가 */
+.archive-search-text {
+    width: 500px;
+    padding: 10px; /* 텍스트 입력 필드의 패딩 설정 */
+    font-size: 14px; /* 폰트 크기 설정 */
+    border: 1px solid #83a80ba3; /* 테두리 설정 */
+    border-radius: 5px; /* 테두리 모서리를 둥글게 설정 */
+    transition: border-color 0.3s ease; /* 경계선 색상 변경에 애니메이션 효과 추가 */
+}
+
+
+.archive-search-text:focus {
+    border-color: #6b8a0c; /* 포커스 상태에서 경계선 색상 변경 */
+    outline: none; /* 포커스 상태에서 외곽선 제거 */
+}
+.Sn-btn input[type="submit"] {
+    padding: 10px 20px; /* 버튼의 패딩 설정 */
+    background-color: #83a80ba3; /* 배경색 설정 */
+    color: #fff; /* 글자색 설정 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 테두리 모서리를 둥글게 설정 */
+    cursor: pointer; /* 커서 모양을 포인터로 설정하여 클릭 가능한 상태로 변경 */
+    
+}
+
+/* 버튼에 호버 효과 추가 */
+.Sn-btn input[type="submit"]:hover {
+    background-color: #6b8a0c; /* 호버 상태에서 배경색 변경 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 호버 상태에서 그림자 효과 추가 */
+}
