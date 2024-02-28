@@ -34,7 +34,9 @@
                     <div>
                         <div class="Sn-component-1" >                         
                             <div class="Sn-chip-1">
-                                <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/Q'">등록</div>
+                                <c:if test="${loginUser.userNo eq 1}">
+								    <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/Q'">등록</div>
+								</c:if>
                             </div>
                             <div class="Sn-chip-2" >
                                 <div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/N'">공지사항</div>
@@ -73,7 +75,9 @@
                          <div class="que">
                             <span>${b.boardTitle}</span>
                             <div class="arrow-wrap">
-                            	<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>
+                            	 <c:if test="${loginUser.userNo eq 1}">								 
+	                            	<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>
+								</c:if>
                                 <span class="arrow-top">↑</span>
                                 <span class="arrow-bottom">↓</span>
                             </div>

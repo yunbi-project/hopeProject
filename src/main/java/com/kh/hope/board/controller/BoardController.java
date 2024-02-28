@@ -254,34 +254,7 @@ public class BoardController {
 		// 다운로드할 파일들에 대한 ResponseEntity 리스트 반환
 		return responseEntities;
 	}
-	/*
-	 * @GetMapping("/update/N/{boardNo}") public String
-	 * updateNotice(@PathVariable("boardNo") int boardNo, Model m) { Board b =
-	 * service.selectUpdateBoard(boardNo);
-	 * 
-	 * if (b != null) { String boardContent = b.getBoardContent(); if (boardContent
-	 * != null) { b.setBoardContent(Utils.newLineClear(boardContent)); }
-	 * m.addAttribute("b", b); System.out.println(b); return "board/SnoticeModify";
-	 * } else { m.addAttribute("errorMsg", "게시물을 찾을 수 없습니다."); return
-	 * "common/errorPage"; } }
-	 * 
-	 * @PostMapping("/update/N/{boardNo}") public String
-	 * updateNoticeInsert(@PathVariable("boardNo") int boardNo, Model m, Board b,
-	 * RedirectAttributes ra,
-	 * 
-	 * @RequestParam(value = "upfiles", required = false) List<MultipartFile>
-	 * upfiles, String deleteList) { b.setBoardNo(boardNo);
-	 * 
-	 * int result = service.updateBoardInsert(b, deleteList, upfiles);
-	 * 
-	 * if (result > 0) { ra.addFlashAttribute("alertMsg", "게시글 수정 성공"); return
-	 * "redirect:/board/detail/N/" + boardNo;
-	 * 
-	 * } else { ra.addFlashAttribute("alertMsg", "게시글 수정 실패"); return
-	 * "redirect:/board/detail/N/" + boardNo; }
-	 * 
-	 * }
-	 */
+	
 	
 	 /*삭제하기*/
 	 
@@ -436,7 +409,7 @@ public class BoardController {
 			return "common/errorPage";
 		}
 		m.addAttribute("b", b);
-
+		System.out.println(b);
 		return "board/SstoryDetail";
 	}
 	@GetMapping("/update/{boardTypeNo}/{boardNo}")
@@ -444,7 +417,7 @@ public class BoardController {
 			@PathVariable ("boardTypeNo") String boardTypeNo,
 			Model m) {
 		Board b = service.selectUpdateBoard(boardNo);
-
+		
 		if (b != null) {
 			String boardContent = b.getBoardContent();
 			if (boardContent != null) {

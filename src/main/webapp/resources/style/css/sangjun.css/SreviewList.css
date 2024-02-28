@@ -141,6 +141,31 @@
     color: #333333;
     margin-bottom: 10px;
 }
+.Sn-notice-frame {
+	width:100%;
+    padding: 10px;
+}
+
+.Sn-notie-title {
+	width:65%;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    /* Make sure title doesn't overflow */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.Sn-notice-date,
+.Sn-notice-count {
+    font-size: 0.9rem;
+    color: #777;
+    /* Add space between date/count and title */
+    margin-top: 5px; /* Adjust as needed */
+}
+
 /* 페이지네이션 */
 .pagination {
     border-top: 2px solid #83a80ba3;

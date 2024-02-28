@@ -81,7 +81,13 @@ select {
     border: 0 !important;
     overflow: hidden !important;
 }
-
+.adminNoticetitle{
+	width:70%;
+	
+}
+.adminNoticeNo{
+	width:10%;
+}
 .frm_input {
     padding: 0 4px 1px 4px;
     font-size: 12px;
