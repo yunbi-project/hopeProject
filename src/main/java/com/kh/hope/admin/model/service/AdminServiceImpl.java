@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.hope.admin.model.dao.AdminDao;
 import com.kh.hope.admin.model.vo.BlackList;
+import com.kh.hope.chat.model.vo.Chat;
+import com.kh.hope.chat.model.vo.ChatJoin;
+import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.user.model.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class AdminServiceImpl implements AdminService{
-		
+
+	
 	@Autowired
 	public AdminDao adminDao;
-
+	
+	/* ============================================== 회원 시작 ==============================================*/
 	// 사용자 조회
 	@Override
 	public List<User> selectAllUser() {
@@ -79,6 +84,86 @@ public class AdminServiceImpl implements AdminService{
 	public List<BlackList> searchByUserNo(int userNo) {
 		return adminDao.searchByUserNo(userNo);
 	}
+	
+	/* ============================================== 회원 끝 ==============================================*/
+	
+	
+	/* ============================================== 채팅 시작 ==============================================*/
+	
+	// 채팅방 리스트 조회
+	@Override
+	public List<Chat> selectChatRoomList() {
+		return adminDao.selectChatRoomList();
+	}
+	
+	// 채팅방 조인 조회
+	@Override
+	public List<ChatJoin> selectJoinList() {
+		return adminDao.selectJoinList();
+	}
+	// 채팅방 생성
+	@Override
+	public int openChatRoom(Chat c) {
+		return adminDao.openChatRoom(c);
+	}
+	
+	// 채팅방 입장
+	@Override
+	public List<ChatMessage> joinChatRoom(ChatJoin join) {
+		
+		// chatJoin 데이터 INSERT 후, 채팅메시지 목록 조회후 반환
+		List<ChatMessage> list = null;
+		
+		/**
+		 * 1. 현재 회원이 해당 채팅방에 참여하고 있는지 확인, (SELECT)
+
+		 * 2. 참여하고 있지 않다면 참여 (INSERT)
+		 * */
+		
+		// 사용자가 채팅방 입장 했는지 조회
+		int result = adminDao.joinCheck(join);
+
+		try {
+			if(result == 0) {
+			// 처음 참가한 사용자는 insert
+			result = adminDao.joinChatRoom(join);
+			
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			
+			// 이미 참가했던 사용자는 메세지만 select
+			list = adminDao.selectChatMessage(join.getChatNo());
+		}
+		return list;
+		
+	}
+	// 채팅방 삭제
+	@Override
+	public int deleteChatRoom(ChatJoin join) {
+		
+		// chatJoin 채팅방 나가기 
+		int result = adminDao.deleteChatRoom(join);
+
+		// chat 채팅방 삭제
+		if(result > 0) {
+			int age = adminDao.deleteChat(join);
+		}
+		return 0;
+	}
+	// 채팅방 제목 검색
+	@Override
+	public List<Chat> chatByName(Chat c) {
+		return adminDao.chatByName(c);
+	}
+	
+	
+	
+	
+	
+	/* ============================================== 채팅 끝 ==============================================*/
 
 
 }

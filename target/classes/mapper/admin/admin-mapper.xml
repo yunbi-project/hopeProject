@@ -5,6 +5,7 @@
 
 <mapper namespace="adminMapper">
 
+<!--  ===================================== 회원 시작 ================================================ -->
 	<!-- 사용자 조회 -->
 	<select id="selectAllUser" resultType="user">
 		SELECT * 
@@ -12,7 +13,6 @@
 		WHERE STATUS = 'Y'
 		ORDER BY LOGIN_TYPE 
 	</select>
-	
 	
 	<!-- 사용자 삭제 -->
 	<update id="deleteUser" parameterType="user">
@@ -54,7 +54,7 @@
 	<select id="searchUserByName" resultType="user">
 		SELECT *
 		FROM USERS
-		WHERE USER_NAME = #{userName}
+		WHERE USER_NAME like '%${userName}%'
 		AND STATUS = 'Y'
 	</select>
 	
@@ -65,25 +65,124 @@
 		WHERE STATUS = 'N'
 	</select>
 	
+	<!-- USERS 테이블 회원 정지 풀기 -->
 	<update id="releseStop" parameterType="user">
 		UPDATE USERS
 		SET STATUS = 'Y'
 			WHERE USER_NO = #{userNo}
 	</update>
 	
+	<!-- BLACKLIST 테이블 회원 정지 풀기 -->
 	<update id="modifyUserStop" parameterType="blackList">
 		UPDATE BLACKLIST
 		SET STATUS = 'Y'
 			WHERE USER_NO = #{userNo}
 	</update>
 	
+	
+	<!-- 블랙리스트 회원번호 검색 -->
 	<select id="searchByUserNo" resultType="blackList">
 		SELECT *
 		FROM BLACKLIST
 			WHERE USER_NO = #{userNo}
+			 AND STATUS = 'N'
 	</select>
 	
+<!--  ===================================== 회원 끝 ================================================ -->
 	
+	
+<!--  ===================================== 채팅 시작 ================================================ -->	
+	
+		<!-- 채팅방 목록 -->
+		<select id="selectChatRoomList" resultType="chat">
+			SELECT
+			    CHAT_NO,
+			    CHAT_TITLE,
+			    USER_NAME,
+			    USER_NO,
+			    (SELECT COUNT(*) FROM CHAT_JOIN CRJ WHERE CRJ.CHAT_NO = CR.CHAT_NO) AS CNT
+			FROM CHAT CR
+			JOIN USERS USING(USER_NO)
+			WHERE CR.STATUS = 'Y'
+			ORDER BY CHAT_NO DESC
+		</select>
+		
+		<!-- 채팅방 조인 조회 -->
+		<select id="selectJoinList" resultType="chatJoin">
+			SELECT *
+		    FROM CHAT_JOIN
+		</select>
+		
+		<!-- 채팅방 생성 -->
+		<insert id="openChatRoom" parameterType="chat" useGeneratedKeys="true">
+		
+			INSERT INTO CHAT VALUES
+			(SEQ_CHATNO.NEXTVAL, #{chatTitle} , 'Y' , #{userNo})
+			
+			<selectKey keyProperty="chatNo" resultType="int" order="AFTER">
+				SELECT SEQ_CHATNO.CURRVAL FROM DUAL
+			</selectKey>
+		</insert>
+		
+		<!-- 사용자가 채팅방 입장 했는지 조회-->
+		<select id="joinCheck" parameterType="chatJoin" resultType="int">
+			SELECT
+				COUNT(*)
+			FROM CHAT_JOIN
+			WHERE CHAT_NO = #{chatNo} 
+				AND USER_NO = #{userNo}
+				AND STATUS = 'Y'
+		</select>
+		
+		<!-- 처음 참가한 사용자는 insert -->
+		<insert id="joinChatRoom" parameterType="chatJoin">
+			INSERT INTO CHAT_JOIN
+			VALUES(#{userNo}, #{chatNo}, 'Y')
+		</insert>
+		
+		<!-- 이미 참가했던 사용자는 메세지만 select -->
+		<select id="selectChatMessage" parameterType="int" resultType="chatMessage">
+		    SELECT
+		        CM.MESSAGE,
+		        TO_CHAR(CM.CREATE_DATE, 'YYYY-MM-DD HH24:MI') AS CREATE_DATE,
+		        U.USER_NAME,
+		        U.USER_NO,
+		        CM.CM_NO,
+		        CH.CHAT_TITLE
+		    FROM CHAT_MESSAGE CM
+		    JOIN USERS U ON CM.USER_NO = U.USER_NO
+		    JOIN CHAT CH ON CM.CHAT_NO = CH.CHAT_NO
+		    WHERE CM.CHAT_NO = #{chatNo}
+		    ORDER BY CM.CM_NO
+		</select>
+
+		<!-- chat 채팅방 삭제 -->
+		<update id="deleteChat" parameterType="chat">
+			UPDATE CHAT
+			SET STATUS = 'N'
+			WHERE USER_NO = #{userNo}
+			 AND CHAT_NO = #{chatNo}
+		</update>
+		
+		<!-- chatJoin 채팅방 삭제  -->
+		<update id="deleteUserChat" parameterType="chatJoin">
+			UPDATE CHAT_JOIN
+			SET STATUS = 'N'
+			WHERE USER_NO = #{userNo}
+			 AND CHAT_NO = #{chatNo}
+		</update>
+		
+		<!-- 채팅방 제목 검색 -->
+		<select id="chatByName" resultType="chat">
+			SELECT *
+			FROM CHAT
+				WHERE CHAT_TITLE like '%${chatTitle}%'
+		</select>
+			
+
+		
+
+<!--  ===================================== 채팅 끝 ================================================ -->
 
 
 </mapper>

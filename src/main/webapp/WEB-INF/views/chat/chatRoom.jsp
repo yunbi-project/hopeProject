@@ -127,9 +127,6 @@
 						<li class="myChat">
 							<span class="chatDate">${msg.createDate }</span>
 							<p class="chat">${msg.message }</p>
-							
-							
-					
 						</li>
 					</c:if>
 					<!-- ne : notEqual -->

@@ -3,10 +3,15 @@ package com.kh.hope.admin.model.service;
 import java.util.List;
 
 import com.kh.hope.admin.model.vo.BlackList;
+import com.kh.hope.chat.model.vo.Chat;
+import com.kh.hope.chat.model.vo.ChatJoin;
+import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.user.model.vo.User;
 
 public interface AdminService {
 
+/* ============================================== 회원 시작 ==============================================*/
+	
 	// 사용자 List 조회
 	List<User> selectAllUser();
 	
@@ -33,5 +38,33 @@ public interface AdminService {
 
 	// 블랙리스트 회원번호 검색
 	List<BlackList> searchByUserNo(int userNo);
+	
+/* ============================================== 회원 끝 ==============================================*/	
+
+
+/* ============================================== 채팅 시작 =============================================*/
+	
+	// 채팅방 조회
+	List<Chat> selectChatRoomList();
+
+	// 채팅방 조인 조회
+	List<ChatJoin> selectJoinList();
+
+	// 채팅방 생성 
+	int openChatRoom(Chat c);
+	
+	// 채팅방 입장
+	List<ChatMessage> joinChatRoom(ChatJoin join);
+
+	// 채팅방 삭제
+	int deleteChatRoom(ChatJoin join);
+
+	// 채팅방 제목 검색
+	List<Chat> chatByName(Chat c);
+
+
+
+
+
 
 }

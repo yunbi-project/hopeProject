@@ -91,7 +91,7 @@
                         <h6 class="collapse-header">Board Pages:</h6>
                         <a class="collapse-item" href="${contextPath}/admin/boardManagement">게시판 관리</a>
                         <a class="collapse-item" href="404.html">댓글 관리</a>
-                        <a class="collapse-item" href="blank.html">채팅방 관리</a>
+                        <a class="collapse-item" href="${contextPath}/admin/chat">채팅방 관리</a>
                     </div>
                 </div>
             </li>
@@ -107,8 +107,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">CUSTOMER SERVICE:</h6>
-                        <a class="collapse-item" href="utilities-color.html">공지사항</a>
-                        <a class="collapse-item" href="utilities-border.html">FAQ</a>
+                        <a class="collapse-item" href="${contextPath}/admin/N">공지사항</a>
+                        <a class="collapse-item" href="${contextPath}/admin/Q">FAQ</a>
                         <a class="collapse-item" href="utilities-border.html">회원탈퇴내역</a>
                     </div>
                 </div>
