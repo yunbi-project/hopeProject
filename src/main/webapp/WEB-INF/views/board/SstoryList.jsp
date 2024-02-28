@@ -35,7 +35,9 @@
                     <div>
                         <div class="Sn-component-1" >                         
                             <div class="Sn-chip-1">
-                                <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/C'">글쓰기</div>
+                               <c:if test="${not empty loginUser}">
+								    <div class="Sn-text-1" id="writeButton" onclick="window.location.href='${contextPath}/board/insert/C'">글쓰기</div>
+								</c:if>
                             </div>
                             <div class="Sn-chip-2">
                                 <div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/R'">나눔후기</div>

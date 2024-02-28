@@ -35,7 +35,10 @@
 						<div>
 							<div class="Sn-component-1">
 								<div class="Sn-chip-1">
-									<div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/R'">글쓰기</div>
+								  <c:if test="${not empty loginUser}">
+								   <div class="Sn-text-1" onclick="window.location.href='${contextPath}/board/insert/R'">글쓰기</div>
+								</c:if>
+									
 								</div>
 								<div class="Sn-chip-2">
 									<div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/C'">이야기</div>
@@ -74,9 +77,9 @@
 							                            
 												</div>
 												<div class="Sn-notice-frame">
-													<div class="Sn-notie-title">${b.boardTitle}</div>
-													<p class="Sn-notice-date">${b.createDate}</p>
-													<p class="Sn-notice-count">${b.userName}</p>
+													<div class="Sn-notie-title">${b.boardTitle}</div>													
+													<div class="Sn-notice-count">${b.userName}</div>
+													<div class="Sn-notice-date">${b.createDate}</div>
 												</div>
 											</div>
 										</div>

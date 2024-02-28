@@ -86,7 +86,8 @@
     overflow: hidden;   
     flex-wrap: wrap;
     align-content: center;
-    display: flex;;
+    display: flex;
+   
 }
 .attachment :nth-child(1){
     margin-left: 20px;
@@ -125,7 +126,7 @@
     display: flex;
     flex-direction: row-reverse;
 }
-.modify-btn,.list-btn,.delete-btn {
+.modify-btn,.list-btn,.delete-btn ,.report-btn {
     display: inline-block;
     padding: 10px 20px;
     background-color: #83a80ba3;
@@ -137,8 +138,12 @@
     margin: 0 5px; /* 버튼들 사이의 간격을 조정합니다. */
     cursor: pointer;
 }
-.modify-btn:hover,.list-btn:hover,.delete-btn:hover{
+.modify-btn:hover,.list-btn:hover{
     background-color: #6b8a0c;
+    
+}
+.delete-btn:hover,.report-btn:hover{
+    background-color: #c82333;
     
 }
 /*==============*/
@@ -229,7 +234,6 @@
 
 /*=====================================*/
 
-
 /* 모달에 대한 CSS */
 .reportForm {
     display: none; /* 기본적으로 모달을 숨깁니다. */
@@ -240,16 +244,17 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* 투명도가 있는 검은 배경 */
+    background-color: rgba(0, 0, 0, 0.6); /* 조금 더 어둡게 */
 }
 
 .reportSecondForm {
     background-color: #fefefe;
-    margin: 15% auto; /* 화면 가운데에 모달을 위치시킵니다. */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
+    margin: 10% auto; /* 중앙 정렬 */
+    padding: 30px;
+    border-radius: 10px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    max-width: 80%;
+    width: 500px;
 }
 
 .reportHeader {
@@ -263,9 +268,17 @@
 }
 
 .reportHeader button {
-    background-color: transparent;
+    background-color: #83a80ba3; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
     border: none;
     cursor: pointer;
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    transition: background-color 0.3s ease; /* 부드러운 전환 */
+}
+
+.reportHeader button:hover {
+    background-color: #ddd; /* 호버 효과 */
 }
 
 .report-Content {
@@ -281,8 +294,32 @@
     padding: 10px;
     resize: none;
     border: 1px solid #ccc;
+    border-radius: 5px; /* 모서리 둥글게 */
 }
 
 .report-Content button {
-    margin-top: 10px;
+    margin-top: 20px; /* 버튼과의 간격 조정 */
 }
+.insertbtn {
+    display: inline-block;
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    font-size: 16px; /* 폰트 크기 */
+    font-weight: bold; /* 폰트 굵기 */
+    color: #fff; /* 텍스트 색상 */
+    background-color: #77893b; /* 배경색 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 모양 */
+    transition: background-color 0.3s ease; /* 배경색 변경 시 부드러운 전환 */
+}
+
+.insertbtn:hover {
+    background-color: #0056b3; /* 호버 효과 시 배경색 변경 */
+}
+
+.insertbtn:focus {
+    outline: none; /* 포커스 시 테두리 제거 */
+}
+
+
+

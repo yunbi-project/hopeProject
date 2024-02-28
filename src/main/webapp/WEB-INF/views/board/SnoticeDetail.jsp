@@ -72,10 +72,11 @@
 				
 				<div class="btn-group">
 					<div class="login-detail-btn">
+					 <c:if test="${loginUser.userNo eq 1}">	                       	
+						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>			
+					    <button class="modify-btn" onclick="window.location.href='${contextPath}/board/update/N/${b.boardNo}'">수정</button>					
+					</c:if>
 					
-						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>										
-				
-						    <button class="modify-btn" onclick="window.location.href='${contextPath}/board/update/N/${b.boardNo}'">수정</button>					
 					</div>
 					<div class="detail-btn">
 						<button class="list-btn" onclick="window.location.href='${contextPath}/board/N'">목록</button>

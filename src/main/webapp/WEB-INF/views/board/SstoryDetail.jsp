@@ -37,10 +37,13 @@
 							<div class="Sn-TextLabel">자유게시판</div>
 						</div>
 					</div>
+					
 				</div>
+				
 
 
 				<header class="entry-header">
+				
 					<h1 class="entry-title">${b.boardTitle}</h1>
 					<div class="entry-meta">
 						<div class="detail-date">등록일</div>
@@ -62,7 +65,7 @@
 									href="${contextPath}/board/fileDownload/${b.boardTypeNo}/${imgList[i].fileNo}">
 									${imgList[i].originName} </a>
 							</div>
-						</c:forEach>
+						</c:forEach>					
 					</div>
 				</div>
 
@@ -73,6 +76,7 @@
 
 				</section>
 				<div class="reply-insert">
+					<c:if test="${not empty loginUser}">
 					<div class="comment-section">
 						<textarea class="form-control comment-input" name="replyContent"
 							id="replyContent" style="resize: none; width: 100%;"
@@ -94,17 +98,24 @@
 					</div>
 
 				</div>
-
+				</c:if>
 				<div class="btn-group">
 					<div class="login-detail-btn">
-						<button class="report-btn" onclick="openModal()">신고</button>
+						<c:if test="${not empty loginUser}">
+					    <c:if test="${loginUser.userNo ne b.userNo}">
+					        <button class="report-btn" onclick="openModal()">신고</button>
+					    </c:if>
+					</c:if>
+					
+					<c:if test="${loginUser.userNo eq b.userNo}">
 						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>
 						<button class="modify-btn"
 							onclick="window.location.href='${contextPath}/board/update/${b.boardTypeNo}/${b.boardNo}'">수정</button>
+					</c:if>
 					</div>
 					<div class="detail-btn">
 						<button class="list-btn"
-							onclick="window.location.href='${contextPath}/board/C'">목록</button>
+							onclick="window.location.href='${contextPath}/board/R'">목록</button>
 					</div>
 
 				</div>
@@ -126,7 +137,7 @@
 								<textarea class="form-control" id="reportContent"
 									name="reportContent" rows="4" required></textarea>
 							</div>
-							<button type="button" class="btn btn-primary"
+							<button type="button" class="insertbtn btn-primary"
 								onclick="reportInsert()">신고 보내기</button>
 						</form>
 					</div>
@@ -139,6 +150,7 @@
 	<script>
 	
 	/*============*/
+	let loginUserNo = ${empty loginUser ? null : loginUser.userNo}
 	
 	function loadComments(boardNo) {
 	    $.ajax({
@@ -150,21 +162,27 @@
 	            tbody.empty(); // 기존의 댓글을 모두 지우고 시작
 
 	            // 각 댓글을 순회하며 HTML에 추가
-	            for (let i = 0; i < list.length; i++) {
-	                let r = list[i];
-	                let row = '<tr>' +
-	                          '<td>' + r.userName + '</td>' +
-	                          '<td class="comment-content">' + r.replyContent + '</td>' +
-	                          '<td>' + r.createDate + '</td>' +
-	                          '<td>' +
-	                              '<button onclick="editComment('+i+' , ' + r.replyNo+ ')">수정</button>' +
-	                              '<button onclick="deleteComment('+i+',' + r.replyNo + ')">삭제</button>' +
-	                              '<button onclick="reportComment('+i+',' + r.replyNo + ')">신고</button>' +
-	                          '</td>' +
-	                          '</tr>';
-	                tbody.append(row); // 댓글을 tbody에 추가
-	            }
-
+	             for (let i = 0; i < list.length; i++) {
+				    let r = list[i];
+				    let row = '<tr>' +
+				        '<td>' + r.userName + '</td>' +
+				        '<td class="comment-content">' + r.replyContent + '</td>' +
+				        '<td>' + r.createDate + '</td>' +
+				        '<td>';
+				
+				    // 로그인 상태를 확인하여 버튼을 생성
+				    if (loginUserNo && loginUserNo == r.userNo) {
+				        row += '<button onclick="editComment(' + i + ', ' + r.replyNo + ')">수정</button>' +
+				            '<button onclick="deleteComment(' + i + ', ' + r.replyNo + ')">삭제</button>';
+				    }
+				
+				    // 항상 신고 버튼을 생성
+				    row += '<button onclick="reportComment(' + i + ', ' + r.replyNo + ')">신고</button>';
+				
+				    row += '</td>' +
+				        '</tr>';
+				    tbody.append(row); // 댓글을 tbody에 추가
+				}
 	            // 댓글 개수 업데이트
 	            $('#rcount').text(list.length);
 	        },
@@ -323,6 +341,7 @@
 	});
 	
 	function insertReply(){
+
 		const replyContent = $('#replyContent').val();
 		
 		const data={
@@ -340,8 +359,9 @@
 				if(result.msg === "성공"){
 					alert("댓글 등록에 성공하였습니다.");
 					loadComments();
-				}else{
-					alert("댓글 등록에 실패하였습니다.");
+				}
+				if(result.msg==='실패'){
+					alert("로그인하세요");
 					
 				}
 				$('#replyContent').val("");

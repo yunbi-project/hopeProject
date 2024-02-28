@@ -72,13 +72,18 @@
 
 				</section>
 				<div class="reply-insert">
+			<c:if test="${not empty loginUser}">
 					<div class="comment-section">
+					
 						<textarea class="form-control comment-input" name="replyContent"
 							id="replyContent" style="resize: none; width: 100%;"
 							placeholder="댓글을 입력하세요..."></textarea>
+							
 						<button class="btn btn-secondary comment-button"
 							onclick="insertReply()">등록하기</button>
 					</div>
+					
+				
 					<div class="comment-list">
 						<h3>
 							댓글 (<span id="rcount">0</span>)
@@ -93,13 +98,17 @@
 					</div>
 
 				</div>
-
+			</c:if>
 				<div class="btn-group">
 					<div class="login-detail-btn">
+					<c:if test="${loginUser.userNo ne b.userNo}">
 						<button class="report-btn" onclick="openModal()">신고</button>
+					</c:if>
+					<c:if test="${loginUser.userNo eq b.userNo}">
 						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>
 						<button class="modify-btn"
 							onclick="window.location.href='${contextPath}/board/update/${b.boardTypeNo}/${b.boardNo}'">수정</button>
+					</c:if>
 					</div>
 					<div class="detail-btn">
 						<button class="list-btn"
@@ -125,7 +134,7 @@
 								<textarea class="form-control" id="reportContent"
 									name="reportContent" rows="4" required></textarea>
 							</div>
-							<button type="button" class="btn btn-primary"
+							<button type="button" class="insertbtn btn-primary"
 								onclick="reportInsert()">신고 보내기</button>
 						</form>
 					</div>
@@ -137,7 +146,8 @@
 
 	<script>
 	/*============*/
-	
+	let loginUserNo = ${empty loginUser ? null : loginUser.userNo}
+
 	function loadComments(boardNo) {
 	    $.ajax({
 	        url: '${contextPath}/reply/list', // 댓글 목록을 조회하는 API의 주소
@@ -148,20 +158,27 @@
 	            tbody.empty(); // 기존의 댓글을 모두 지우고 시작
 
 	            // 각 댓글을 순회하며 HTML에 추가
-	            for (let i = 0; i < list.length; i++) {
-	                let r = list[i];
-	                let row = '<tr>' +
-	                          '<td>' + r.userName + '</td>' +
-	                          '<td class="comment-content">' + r.replyContent + '</td>' +
-	                          '<td>' + r.createDate + '</td>' +
-	                          '<td>' +
-	                              '<button onclick="editComment('+i+' , ' + r.replyNo+ ')">수정</button>' +
-	                              '<button onclick="deleteComment('+i+',' + r.replyNo + ')">삭제</button>' +
-	                              '<button onclick="reportComment('+i+',' + r.replyNo + ')">신고</button>' +
-	                          '</td>' +
-	                          '</tr>';
-	                tbody.append(row); // 댓글을 tbody에 추가
-	            }
+	           for (let i = 0; i < list.length; i++) {
+				    let r = list[i];
+				    let row = '<tr>' +
+				        '<td>' + r.userName + '</td>' +
+				        '<td class="comment-content">' + r.replyContent + '</td>' +
+				        '<td>' + r.createDate + '</td>' +
+				        '<td>';
+				
+				    // 로그인 상태를 확인하여 버튼을 생성
+				    if (loginUserNo && loginUserNo == r.userNo) {
+				        row += '<button onclick="editComment(' + i + ', ' + r.replyNo + ')">수정</button>' +
+				            '<button onclick="deleteComment(' + i + ', ' + r.replyNo + ')">삭제</button>';
+				    }
+				
+				    // 항상 신고 버튼을 생성
+				    row += '<button onclick="reportComment(' + i + ', ' + r.replyNo + ')">신고</button>';
+				
+				    row += '</td>' +
+				        '</tr>';
+				    tbody.append(row); // 댓글을 tbody에 추가
+				}
 
 	            // 댓글 개수 업데이트
 	            $('#rcount').text(list.length);
