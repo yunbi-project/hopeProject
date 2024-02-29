@@ -18,6 +18,7 @@
 	<update id="deleteUser" parameterType="user">
 	    UPDATE USERS
 	    SET STATUS = 'N'
+	    
 	    	WHERE USER_NO = #{userNo}
 	</update>
 	
@@ -179,10 +180,43 @@
 				WHERE CHAT_TITLE like '%${chatTitle}%'
 		</select>
 			
-
+			
+		
 		
 
 <!--  ===================================== 채팅 끝 ================================================ -->
+
+
+<!--  ===================================== 대시보드 통계 시작 ================================================== -->
+		
+		<!-- 회원 리스트 카운트 -->
+		<select id="dashboardUser" resultType="user">
+			SELECT COUNT(*) AS totalUsers
+			FROM USERS
+				WHERE STATUS = 'Y'
+		</select>
+		
+		<!-- 후원금액 총 합계 -->
+		<select id="dashboardAmount" resultType="int">
+		    SELECT SUM(DONATE_AMOUNT) AS totalAmount
+		    FROM DONATE_INFO
+		</select>
+		
+		<!-- 게시글 수 합계 -->
+		<select id="dashboardTotalBoardCount" resultType="int">
+			SELECT COUNT(*) AS totalBoard
+			FROM BOARD
+				WHERE STATUS = 'Y'
+		</select>
+		
+		<!-- 채팅방 수 합계 -->
+		<select id="dashboardChatTotalCount" resultType="int">
+			SELECT COUNT(*) AS totalChat
+			FROM CHAT
+				WHERE STATUS = 'Y'
+		</select>
+	
+<!--  ===================================== 대시보드 통계 끝 ================================================== -->
 
 
 </mapper>

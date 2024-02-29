@@ -28,6 +28,7 @@ public class AdminServiceImpl implements AdminService{
 	public List<User> selectAllUser() {
 		return adminDao.selectAllUser();
 	}
+	
 	// 사용자 삭제
 	@Override
 	public int deleteUser(int userNo, String reason) {
@@ -160,10 +161,35 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	
-	
-	
-	
 	/* ============================================== 채팅 끝 ==============================================*/
+	
+	
+	
+	/* ============================================== 대시보드 시작 ==============================================*/	
+
+	// 회원 리스트 조회
+		@Override
+		public List<User> dashboardUser() {
+			return adminDao.dashboardUser();
+		}
+	// 기부금액 합계 	
+		@Override
+		public int dashboardAmount() {
+			return adminDao.dashboardAmount();
+		}
+
+	// 게시판 수
+		@Override
+		public int dashboardTotalBoardCount() {
+			return adminDao.dashboardTotalBoardCount();
+		}
+	// 채팅방 합계
+		@Override
+		public int dashboardChatTotalCount() {
+			return adminDao.dashboardChatTotalCount();
+		}
+
+	/* ============================================== 대시보드  끝 =============================================*/
 
 
 }

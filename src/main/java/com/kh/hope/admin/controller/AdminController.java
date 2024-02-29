@@ -37,6 +37,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 @Slf4j
 @Controller
 @RequestMapping("/admin")
@@ -50,11 +53,46 @@ public class AdminController {
 	private BoardService boardService;
 	
 	
+	// 대시보드
+	// status y인 값들만 카운트
 	@GetMapping("/adminIndex")
-	public String index() {
+	public String index(Model model) {
+
+		// ----- 1. 회원가입 수 리스트  -----
+		List<User> totalUsers  = adminService.dashboardUser();
 		
-	
+		model.addAttribute("totalUsers", totalUsers);
 		
+		log.info("totalUsers의 정보 {}" , totalUsers);
+		
+		// ----- 2. 기부금액 합계  -----
+		int totalAmount = adminService.dashboardAmount();
+		
+		// NumberFormat 인스턴스 생성
+		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+
+		// 쉼표를 추가하여 형식화된 문자열로 변환
+		String formattedTotalAmount = numberFormat.format(totalAmount);
+		model.addAttribute("totalAmount" , formattedTotalAmount);
+		log.info("totalAmount 금액 : {}" , formattedTotalAmount);
+		
+		
+		// ----- 3. 게시글 합계 -----
+		int totalBoard = adminService.dashboardTotalBoardCount();
+		
+		model.addAttribute("totalBoard" , totalBoard);
+		log.info("totalBoard 게시글 수 : {} ", totalBoard);
+		
+		// ----- 4. 채팅방 합계 -----
+		int totalChat = adminService.dashboardChatTotalCount();
+		
+		model.addAttribute("totalChat" , totalChat);
+		log.info("totalChat 채팅방 수 : {}" , totalChat);
+		
+		
+		// 기부금액 통계
+		
+		// 많이 접속한 채팅방명 5개
 		return "admin/adminIndex";
 	}
 	

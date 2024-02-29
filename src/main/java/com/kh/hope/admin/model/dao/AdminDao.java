@@ -23,6 +23,7 @@ public class AdminDao {
 	public List<User> selectAllUser() {
 		return session.selectList("adminMapper.selectAllUser");
 	}
+	
 	// 사용자 삭제
 	public int deleteUser(int userNo) {
 		return session.update("adminMapper.deleteUser", userNo);
@@ -111,13 +112,37 @@ public class AdminDao {
 	public List<Chat> chatByName(Chat c) {
 		return session.selectList("adminMapper.chatByName", c);
 	}
-}
+
 	
 	
 
 	
 /* ============================================== 채팅 끝 ==============================================*/
 	
+
+/* ============================================== 대시보드 시작 ==============================================*/	
+
+	// 회원 리스트 조회
+	public List<User> dashboardUser() {
+		return session.selectList("adminMapper.dashboardUser");
+	}
+	// 기부금액 합계
+	public int dashboardAmount() {
+		return session.selectOne("adminMapper.dashboardAmount");
+	}
+
+	// 게시글 수
+	public int dashboardTotalBoardCount() {
+		return session.selectOne("adminMapper.dashboardTotalBoardCount");
+	}
+	// 채팅방 합계
+	public int dashboardChatTotalCount() {
+		return session.selectOne("adminMapper.dashboardChatTotalCount");
+	}
+
+/* ============================================== 대시보드  끝 =============================================*/
+	
+}
 	
 
 

@@ -15,6 +15,7 @@ public interface AdminService {
 	// 사용자 List 조회
 	List<User> selectAllUser();
 	
+	
 	// 사용자 삭제
 	int deleteUser(int userNo, String reason);
 	
@@ -61,6 +62,24 @@ public interface AdminService {
 
 	// 채팅방 제목 검색
 	List<Chat> chatByName(Chat c);
+
+	
+	
+/* ============================================== 대시보드 시작 ==============================================*/	
+
+	// 회원 리스트 조회
+	List<User> dashboardUser();
+
+	// 기부금액 합계
+	int dashboardAmount();
+	
+	// 게시글 수
+	int dashboardTotalBoardCount();
+
+	// 채팅방 합계
+	int dashboardChatTotalCount();
+
+/* ============================================== 대시보드  끝 =============================================*/
 
 
 
