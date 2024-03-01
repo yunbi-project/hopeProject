@@ -30,14 +30,12 @@ public class LoginController {
 
 	private UserService userService;
 
-//	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired	// 의존성 주입은 생성자 주입을 사용해야함.
 	public LoginController(UserService userService) {
 		this.userService = userService;
 		this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 	
 	public LoginController() {
@@ -61,7 +59,6 @@ public class LoginController {
 		
 		String email = user.getEmail();
 		User loginUser = userService.loginUser(email);
-		System.out.println(loginUser);
 		
 		 // 로그인 성공 시 세션의 타임아웃을 30분으로 설정
         session.setMaxInactiveInterval(30 * 60); // 30분.
@@ -77,10 +74,10 @@ public class LoginController {
 			mv.setViewName("redirect:" + "/login");
 		}
 		return mv;
-		
-		
 	}
-	@PostMapping("singup.me")		// 회원가입
+	
+	// 회원가입
+	@PostMapping("singup.me")		
 	public String insertUser(
 			User user, 
 			@RequestParam("postcode") String postcode,
@@ -110,8 +107,9 @@ public class LoginController {
 		return url;
 	}
 	
-	@ResponseBody // 비동기 요청시 필요
-	@GetMapping("/idcheck")			// 아이디 유효성 검사
+	// 아이디 유효성 검사
+	@ResponseBody 
+	@GetMapping("/idcheck")			
 	public String idCheck(String email) {
 	
 
@@ -128,25 +126,23 @@ public class LoginController {
 	public String passwordfind() {
 		return "member/usersumfind";
 	}
-	
-	@PostMapping("idfind.me")	// 아이디 찾기
+	// 아이디 찾기
+	@PostMapping("idfind.me")	
 	public String idfind(
 			User user, 
 			Model model,
 			HttpSession session
 			) {
 		
-		String name = user.getUserName();
-		String phone = user.getPhone();
-		
-		User user1 = userService.idfind(name, phone);
+		// 핸드폰 + 이름
+		User user1 = userService.idfind(user);
 		
 		
 		if(user1 != null) {
 			session.setAttribute("alertMsg", "아이디 찾기 성공");	
 			session.setAttribute("idfind", user1);
 			
-			return "member/useridfind";	// 아이디 찾으면 세션스코프에 저장 후 useridfind에 보여준다.
+			return "member/useridfind";	
 			
 		}else {
 		model.addAttribute("errorMsg","아이디 찾기 실패");
@@ -176,33 +172,24 @@ public class LoginController {
             return numStr;
       }
   
-	
-	@PostMapping("pwdfind.me") // 비밀번호 찾기
+//비밀번호 찾기
+	@PostMapping("pwdfind.me") 
 	public String pwdfind(
 			User user, 
 			Model model,
 			HttpSession session
 			) {
-		// 암호화 작업 해야함
-		// String encPwd = bCryptPasswordEncoder.encode(m.getPassword());
-		// m.setUserPassword(encPwd);
-		
-		String email = user.getEmail();
-		String phone = user.getPhone();
-		
-		User user1 = userService.pwdfind(email, phone);
-		
+		User user1 = userService.pwdfind(user);
 		
 		if(user1 != null) { // user1이 null이 아니면 비밀번호 찾기 성공 
 			session.setAttribute("alertMsg", "비밀번호 찾기 성공");	
-			session.setAttribute("pwdemail", email);
-			return "member/repassword";		// 후에 repassword.jsp 리다이렉트
+			session.setAttribute("pwdemail", user1.getEmail());
+			return "member/repassword";		
 		}else {
 
 		return "member/errorPage";
 
 		}
-	
 	}
 	
 	@PostMapping("repassword.me")	// 비밀번호 재설정
@@ -217,14 +204,14 @@ public class LoginController {
 	    if (email == null) { // 세션에 이메일이 없을 경우 처리
 	        return "redirect:/member/usersumfind.jsp"; // 비밀번호 찾기 페이지로 리다이렉트
 	    }
-	    
+	    // 비밀번호
 	    String password1 = user.getPassword();
+	    // 비밀번호 재확인
 	    String ConfirmPassword = user.getConfirmPassword();
 
 	    if (!password1.equals(ConfirmPassword)) { // 비밀번호가 일치하지 않을 경우 처리
 	        session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
 	        
-	        System.out.println("패스워드가 일치하지 않습니다.");
 	        return "redirect:/member/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
 	    }
 	    

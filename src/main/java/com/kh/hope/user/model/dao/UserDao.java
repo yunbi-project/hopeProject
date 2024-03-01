@@ -32,19 +32,14 @@ public class UserDao {
 	}
 
 
-	public User idfind(String name, String phone) {
-		 	User user = new User();
-		    user.setUserName(name);
-		    user.setPhone(phone);
-		    System.out.println(user);
+	public User idfind(User user) {
+		
 		    return session.selectOne("member.idfind", user);
 		}
 	
-	public User pwdfind(String email, String phone) {
-			User user = new User();
-			user.setEmail(email);
-			user.setPhone(phone);
+	public User pwdfind(User user) {
 			
+	
 		return session.selectOne("member.pwdfind", user);
 	}
 	
