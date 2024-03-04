@@ -8,9 +8,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.hope.attachment.model.vo.Attachment;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.donate.model.vo.CurrentUser;
 import com.kh.hope.donate.model.vo.Donate;
+import com.kh.hope.donate.model.vo.DonateTag;
 import com.kh.hope.payment.model.vo.PaymentInfo;
 
 @Repository
@@ -44,20 +46,66 @@ public class DonateDao {
 		return session.selectList("donate.selectOtherDonateList", map);
 	}
 	
-
+//  태그 리스트
+	public List<DonateTag> selectTagList() {
+		return session.selectList("donate.selectTagList");
+	}
 	
+//	게시판 등록
+	public int insertDonateBoard(Donate donate) {
+		return session.insert("donate.insertDonateBoard", donate);
+	}
 	
-	public List<CurrentUser> selectCurrentUser(int donateNo) {
-		return session.selectList("donate.selectCurrentUser", donateNo);
+//	사진 등록
+	public int insertDonateImgList(List<Attachment> imgList) {
+		return session.insert("donate.insertDonateImgList", imgList);
+	}
+	
+//	게시판 수정
+	public int updateDonateBoard(Donate donate) {
+		return session.update("donate.updateDonateBoard", donate);
+	}
+	
+//	게시판 사진 삭제
+	public int deleteDonateImg(String deleteList) {
+		return session.delete("donate.deleteDonateImg", deleteList);
+	}
+	
+//	게시판 사진 수정
+	public int updateDonateImg(Attachment at) {
+		return session.update("donate.updateDonateImg", at);
+	}
+	
+//	게시판 사진 추가
+	public int insertDonateImg(Attachment at) {
+		return session.insert("donate.insertDonateImg", at);
 	}
 
-	public PaymentInfo getPayment(int donateNo) {
-		return session.selectOne("donate.getPayment", donateNo);
+//	게시글 삭제
+	public int deleteDonateBoard(int donateNo) {
+		return session.update("donate.deleteDonateBoard", donateNo);
 	}
 
-	public int save(PaymentInfo paymentInfo) {
-		return session.insert("donate.save", paymentInfo);
+//	DB에 없는 사진 자동 삭제
+	public List<String> selectDonateFileList() {
+		return session.selectList("donate.selectDonateFileList");
 	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 

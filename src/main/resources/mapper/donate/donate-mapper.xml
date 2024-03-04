@@ -12,7 +12,8 @@
 		       TAG_ID, 
 		       DONATE_FOUNDATION, 
 		       CEIL(ABS(TRUNC(DONATE_END_DATE) - TRUNC(DONATE_START_DATE))) AS CEIL_DAY_DIFF,
-		       DONATE_CREATE_DATE, COUNT, DONATE_END_DATE
+		       DONATE_CREATE_DATE, COUNT, DONATE_END_DATE,
+       		   CHANGE_NAME
 		FROM (
 		    SELECT SUM(DONATE_AMOUNT) AS SUM_DONATE, 
 		           d.DONATE_HOPE , 
@@ -25,7 +26,7 @@
 		           d.DONATE_CREATE_DATE, d.COUNT
 		    FROM DONATE_BOARD d
 		    LEFT JOIN DONATE_INFO i ON d.DONATE_NO = i.DONATE_NO
-		    WHERE STATUS = 'Y' 
+		    WHERE STATUS = 'Y' AND DONATE_START_DATE &lt;= SYSDATE
 		    <if test="keyword != null and keyword != ''">  
 		    	AND
 			    <choose>
@@ -39,9 +40,12 @@
 			</if>
 		    GROUP BY d.DONATE_HOPE, d.DONATE_NO, d.DONATE_TITLE, d.TAG_ID, d.DONATE_FOUNDATION, DONATE_END_DATE, DONATE_START_DATE, d.DONATE_CREATE_DATE, d.COUNT
 		)
+		LEFT JOIN ATTACHMENT ON
+		DONATE_NO = REF_FNO
 		ORDER BY DONATE_CREATE_DATE DESC
 	</select>
 	
+		
 	<!-- 게시글 상세보기 -->
 	<select id="donateDetail" resultType="donate">
 		SELECT 
@@ -54,11 +58,14 @@
 		    CEIL_DAY_DIFF, 
 		    DONATE_CREATE_DATE, 
 		    COUNT, 
-		    DONATE_CONTENT, 
+		    DONATE_CONTENT,
 		    DONATE_START_DATE, 
 		    DONATE_END_DATE, 
 		    TOTAL_COUNT,
-		    TAG_NAME
+		    TAG_NAME,
+		    ORIGIN_NAME,
+		    CHANGE_NAME,
+		    FILE_NO
 		FROM (
 		    SELECT 
 		        SUM(DONATE_AMOUNT) AS SUM_DONATE, 
@@ -70,9 +77,8 @@
 		        DONATE_START_DATE,
 		        d.TAG_ID,
 		        d.DONATE_CREATE_DATE, 
-		        d.COUNT, 
-		        d.DONATE_CONTENT, 
-		        COUNT(*) AS TOTAL_COUNT,
+		        d.COUNT,  
+		        COUNT(i.DONATE_NO) AS TOTAL_COUNT,
 		        ABS(TRUNC(DONATE_END_DATE) - TRUNC(DONATE_START_DATE)) AS CEIL_DAY_DIFF,
 		        SUM(DONATE_AMOUNT) / d.DONATE_HOPE * 100 AS ACH_RATE,
 		        t.TAG_NAME
@@ -95,9 +101,16 @@
 		        DONATE_START_DATE, 
 		        d.DONATE_CREATE_DATE, 
 		        d.COUNT, 
-		        d.DONATE_CONTENT, 
 		        t.TAG_NAME
-		)
+		) 
+		LEFT JOIN (
+		    SELECT DONATE_CONTENT, DONATE_NO AS DNO
+		    FROM DONATE_BOARD
+		) ON DONATE_NO = DNO
+		LEFT JOIN (
+		    SELECT ORIGIN_NAME, CHANGE_NAME, REF_FNO, FILE_NO
+		    FROM ATTACHMENT
+		)ON DONATE_NO = REF_FNO
 	</select>
 	
 	<!-- 후원 현황 -->
@@ -107,6 +120,7 @@
 		LEFT JOIN DONATE_BOARD b ON i.DONATE_NO = b.DONATE_NO
 		JOIN USERS u ON i.USER_NO = u.USER_NO
 		WHERE b.STATUS = 'Y' AND i.DONATE_NO = #{donateNo}
+		ORDER BY PAY_NO DESC
 	</select>
 	
 	<!-- 조회수 증가 -->
@@ -118,53 +132,121 @@
 	
 	<!-- 후원 다른게시글 리스트 -->
 	<select id="selectOtherDonateList" parameterType="hashmap" resultType="donate">
-		SELECT * 
+		SELECT DONATE_NO, DONATE_TITLE, DONATE_FOUNDATION, CHANGE_NAME
 		FROM (
 		    SELECT *
 		    FROM DONATE_BOARD
 		    WHERE STATUS='Y'
+		    AND SYSDATE &lt;= DONATE_END_DATE
 		    ORDER BY DBMS_RANDOM.RANDOM()
 		)
+		LEFT JOIN (
+		    SELECT CHANGE_NAME, REF_FNO
+		    FROM ATTACHMENT
+		) ON DONATE_NO = REF_FNO
 		WHERE ROWNUM &lt;= 6 AND SYSDATE &lt;= DONATE_END_DATE
 	</select>
+	
+	
+	<!-- 태그 리스트 -->
+	<select id="selectTagList" resultType="donateTag">
+		SELECT *
+		FROM DONATE_TAG
+	</select>
+
+	<!-- 후원모집 게시글 등록 -->
+	<insert id="insertDonateBoard">
+	
+		<selectKey keyProperty="donateNo" resultType="int" order="BEFORE">
+			SELECT SEQ_DBOARDNO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO DONATE_BOARD
+		(DONATE_NO,DONATE_TITLE,DONATE_CONTENT,DONATE_HOPE,DONATE_START_DATE, DONATE_END_DATE, DONATE_FOUNDATION, USER_NO, TAG_ID)
+		VALUES
+		(#{donateNo},#{donateTitle},#{donateContent},#{donateHope},#{donateStartDate}, #{donateEndDate}, #{donateFoundation}, 1, #{tagId})
+	</insert>
 
 
+	<insert id="insertDonateImgList" parameterType="list">
+		INSERT INTO ATTACHMENT
+		(FILE_NO,ORIGIN_NAME,CHANGE_NAME,REF_FNO,FILE_TYPE)
+		SELECT SEQ_ATTNO.NEXTVAL,C.*
+		FROM(
+			<foreach collection="list" item="attachment" separator="UNION ALL">
+				SELECT 
+				#{attachment.originName},
+				#{attachment.changeName},
+				#{attachment.refFno},
+				'D'
+				FROM DUAL				
+			</foreach>
+		) C	
+	</insert>
 
-<!-- 	<resultMap type="currentUser" id="currentUserResultMap"> -->
-<!-- 		<id property="rowNum" column="ROWNUM" /> -->
-<!-- 		<result property="donateAmount" column="DONATE_AMOUNT" /> -->
-<!-- 		<result property="optionalText" column="OPTIONAL_TEXT" /> -->
-<!-- 		<result property="donateDate" column="DONATE_DATE" /> -->
-<!-- 	</resultMap> -->
+	<!-- 게시판 수정 -->
+	<update id="updateDonateBoard" parameterType="donate">
+		UPDATE DONATE_BOARD
+		SET DONATE_TITLE = #{donateTitle},
+			DONATE_CONTENT = #{donateContent},
+			DONATE_START_DATE = #{donateStartDate},
+			DONATE_END_DATE = #{donateEndDate},
+			DONATE_FOUNDATION = #{donateFoundation},
+			DONATE_HOPE = #{donateHope},
+			TAG_ID = #{tagId}
+		WHERE DONATE_NO = #{donateNo}
+	</update>
 
-<!-- 	<select id="selectCurrentUser" resultMap="currentUserResultMap"> -->
-<!-- 		SELECT ROWNUM, -->
-<!-- 		i.DONATE_AMOUNT, i.OPTIONAL_TEXT, -->
-<!-- 		TO_CHAR(i.DONATE_DATE, 'YYYY"년" MM"월" DD"일"') as "DONATE_DATE" -->
-<!-- 		FROM DONATE_BOARD D -->
-<!-- 		LEFT JOIN -->
-<!-- 		DONATE_INFO I ON D.DONATE_NO = I.DONATE_NO -->
-<!-- 		WHERE I.DONATE_NO = -->
-<!-- 		#{donateNo} -->
-<!-- 		ORDER BY I.USER_NO DESC -->
-<!-- 	</select> -->
+	
+	<!-- 게시판 사진 삭제 -->
+	<delete id="deleteDonateImg" parameterType="string">
+		DELETE FROM ATTACHMENT
+		WHERE FILE_NO IN (${deleteList}) AND FILE_TYPE= 'D'
+	</delete>
+	
+	
+	<!-- 게시판 사진 수정 -->
+	<update id="updateDonateImg" parameterType="attachment">
+		UPDATE ATTACHMENT
+		SET ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName}
+		WHERE REF_FNO = #{refFno}
+	</update>
+	
+	
+	<!-- 게시판 사진 등록 -->
+	<insert id="insertDonateImg">
+		INSERT INTO ATTACHMENT
+		(
+			FILE_NO,
+			ORIGIN_NAME,
+			CHANGE_NAME,
+			REF_FNO,
+			FILE_TYPE
+		) VALUES (
+			SEQ_ATTNO.NEXTVAL,
+			#{originName},
+			#{changeName},
+			#{refFno},
+			'D'
+		)
+	</insert>
+	
+	
+	<!-- 게시글 삭제 -->
+	<update id="deleteDonateBoard" parameterType="int">
+		UPDATE DONATE_BOARD
+		SET STATUS = 'N'
+		WHERE DONATE_NO = #{donateNo}
+	</update>
+	
+	<!-- DB에 없는 사진 자동 삭제 -->
+	<select id="selectDonateFileList" resultType="string">
+		SELECT
+		'/resources/images/donate/' || A.CHANGE_NAME
+		FROM DONATE_BOARD
+		LEFT JOIN ATTACHMENT A ON (DONATE_NO = REF_FNO)
+		WHERE A.CHANGE_NAME IS NOT NULL AND FILE_TYPE = 'D'
+	</select>
 
-<!-- 	<select id="getPayment" resultType="paymentInfo"> -->
-<!-- 		select U.USER_NAME, U.PHONE, -->
-<!-- 		U.EMAIL, B.DONATE_TITLE -->
-<!-- 		FROM USERS U -->
-<!-- 		JOIN DONATE_INFO I ON -->
-<!-- 		(I.USER_NO=U.USER_NO) -->
-<!-- 		JOIN DONATE_BOARD B ON (B.DONATE_NO = I.DONATE_NO) -->
-<!-- 		WHERE U.USER_NO = '2' -->
-<!-- 		AND I.DONATE_NO = #{donateNo} -->
-<!-- 	</select> -->
-
-<!-- 	<insert id="save"> -->
-<!-- 		insert into donate_info -->
-<!-- 		(PAY_NO, DONATE_AMOUNT, PAY_TYPE, USER_NO, OPTIONAL_TEXT, DONATE_NO, -->
-<!-- 		DONATE_DATE) -->
-<!-- 		VALUES(SEQ_DOINFONO.NEXTVAL, #{donateAmount}, 'C', '2', #{optionalText}, #{donateNo}, SYSDATE) -->
-
-<!-- 	</insert> -->
 </mapper>

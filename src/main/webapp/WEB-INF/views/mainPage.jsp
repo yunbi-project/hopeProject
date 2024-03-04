@@ -136,8 +136,8 @@
                   <br>
                   자원활동가님
                 </div>
-                <div class="h_text-wrapper-27">11,000명</div>
-                <div class="h_text-wrapper-28">11,000명</div>
+                <div class="h_text-wrapper-27">0 명</div>
+                <div class="h_text-wrapper-28">0 명</div>
                 <p class="h_div-3">
                   <span class="h_text-wrapper-29">투명하고 믿을 수 있는 </span>
                   <span class="h_text-wrapper-30">희망의 조각</span>
@@ -717,6 +717,27 @@
             $('#pagination-wrap ul li').removeClass('active');
             $('#pagination-wrap ul li:eq('+pos+')').addClass('active');
         }
+        
+        
+        // 명수 자동 증가
+        function countUp(targetElement, start, end, duration) {
+            let current = start;
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            const element = document.querySelector(targetElement);
+            const timer = setInterval(() => {
+              current += increment;
+              element.innerHTML = current.toLocaleString() + ' 명';
+              if (current === end) {
+                clearInterval(timer);
+              }
+            }, stepTime);
+          }
+
+          // 사용 예시
+          countUp('.h_text-wrapper-27', 0, 1000, 50000); // 3초 동안 0부터 11000까지 증가
+          countUp('.h_text-wrapper-28', 0, 1000, 50000); // 3초 동안 0부터 11000까지 증가
 
 
     </script>
