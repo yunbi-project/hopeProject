@@ -260,6 +260,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
     position: absolute;
     top: 1px;
     width: 300px;
+    cursor:pointer;
   }
  
   .h_line-7 {
@@ -300,6 +301,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
     position: absolute;
     top: 3px;
     width: 300px;
+    cursor:pointer;
   }
  
   .h_line-9 {
@@ -341,8 +343,9 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
     position: absolute;
     top: 0;
     width: 300px;
+    cursor:pointer;
   }
- 
+  
   .h_line-11 {
     height: 228px;
     left: 0;

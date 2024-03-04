@@ -15,7 +15,7 @@ public class Donate {
 	private String donateTitle; //후원제목
 	private String donateContent; //후원내용
 	private String donateFoundation; // 후원재단
-	private Long donateHope; //목표후원금
+	private int donateHope; //목표후원금
 	private int donateAmount;
 	private Date donateStartDate; // 후원시작기간
 	private Date donateEndDate; //후원종료기간
@@ -33,9 +33,8 @@ public class Donate {
 	private int ceilDayDiff; // 남은 날짜
 	private int totalCount;  //총 후원인수
 	
+	private String originName; // 사진 변경전 이름
+	private String changeName; // 사진 변경후 이름
+	private int fileNo;  // 사진 파일 번호
 	
-	
-//	private String donateFoundation; //후원담당재단
-//	private int count; //조회수
-//	private String donateStartDate; //후원시작기간
 }

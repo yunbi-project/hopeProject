@@ -1,22 +1,26 @@
 package com.kh.hope.payment.model.dao;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Repository;
 
+import com.kh.hope.payment.model.vo.PaymentInfo;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class PaymentDao {
 
 	@Autowired
 	private SqlSession session;
-	
-//	 // 결제 정보를 데이터베이스에 저장하는 메서드
-//    public int insertPaymentInfo(PaymentInfo paymentInfo) {
-//        return session.insert("payment.insertPaymentInfo", paymentInfo);
-//    }
-//
-//    // 결제 정보를 가져오는 메서드
-//    public PaymentInfo getPaymentInfo(int paymentId) {
-//        return session.selectOne("payment.getPaymentInfo", paymentId);
-//    }
+
+	public int insertPay(Map<String, Object> map) {
+		return session.insert("payment.insertPay", map);
+	}
+
+
 }

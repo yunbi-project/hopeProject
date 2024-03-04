@@ -74,8 +74,12 @@
 				<input type="submit" class="green" value="검색">
 			</div>
 		</form>
-
-
+		
+		<c:if test="${loginUser.userNo eq 1}">
+			<a href="${contextPath }/donate/boardInsert"><button type="button" class="report-btn">글쓰기</button></a>
+		</c:if>
+		
+		
         <section class="donate_section">
         	<c:choose>
         		<c:when test="${empty list }">
@@ -85,7 +89,12 @@
         			<c:forEach items="${list}" var="d">
 			        	<div class="donate_board" onclick="detail(${d.donateNo})">
 			                <div class="donate_board_div" data-tagid="${d.tagId}" data-count="${d.count}" data-end="${d.ceilDayDiff}" data-date="${d.donateCreateDate}" data-enddate="${d.donateEndDate}">
-			                    <img class="donateList_img" src="https://mud-kage.kakaocdn.net/dn/bUto3A/btsCJj2tBh0/NEXxP5yHYZ7QfufVWbuUm0/c1400x788.jpg?type=thumb&opt=C700x700">
+			                    <c:if test="${d.changeName eq null}">
+				                    <img class="donateList_img" src="https://msf.or.kr/sites/all/themes/msfkorea/images/img-high-value-slide-04.jpg">
+			                    </c:if>
+			                    <c:if test="${d.changeName ne null }">
+				                    <img class="donateList_img" src="${contextPath}/resources/images/donate/${d.changeName}">
+			                    </c:if>
 			                    <span class="donateList_title">${d.donateTitle }</span>
 			                    <span class="donateList_foundation">${d.donateFoundation }</span>
 			                    <progress
@@ -97,7 +106,7 @@
 			                    ></progress>
 			                    <div class="progress_value">
 			                        <span><fmt:formatNumber value="${d.sumDonate}" type="currency" pattern="#,###"/>원</span>
-			                        <span>${d.achRate}%</span>
+			                        <span>${d.achRate > 100 ? 100 : d.achRate}%</span>
 			                    </div>
 			                    <c:if test="${d.ceilDayDiff <= 14}">
 				                    <div class="ending_imminent">종료임박</div>
@@ -113,6 +122,8 @@
 
         </section>
     </main>
+    
+    
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 

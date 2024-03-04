@@ -23,7 +23,7 @@
                 <span> | </span>
                 <span>이용약관</span>
                 <span> | </span>
-                <span><b>개인정보처리방침</b></span>
+                <span>개인정보처리방침</span>
                 <span> | </span>
                 <span>청소년보호정책</span>
                 <span> | </span>
