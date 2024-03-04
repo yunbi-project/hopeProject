@@ -29,6 +29,8 @@ public class Board {
 	private int imgLevel;
 	private String faqTypeName; // 추가된 필드
 	
+	private int reportNo;
+	
 
 	private ArrayList<String> thumnailList;
 	private String thumnail;

@@ -36,7 +36,7 @@
                         <h1 class="h3 mb-0 text-gray-800">공지사항 관리</h1>
                     </div>
                     
-
+					<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/insert/N'">등록</button>
 					<form id="search-form" method="get" action="N">
 						<div class="tbl_frm01">
 							<div class="search_boardList">
@@ -66,7 +66,15 @@
 							<input type="reset" value="초기화" id="frmRest" class="btn_medium grey">
 						</div>
 						<div class="boardList_table">
+						
 						    <table>
+						    <colgroup>
+							        <col style="width: 5%;">
+							        <col style="width: 70%;">
+							        <col style="width: 15%;">
+							        
+							       
+							    </colgroup>
 						        <thead>
 						            <tr>
 						                <th class="adminNoticeNo">공지번호</th>
@@ -79,7 +87,7 @@
 						        <c:forEach var="b" items="${list}">						        
 						            <tr onclick="movePage(${b.boardNo})">
 						                <td>${b.boardNo}</td>
-						                <td class="adminNoticetitle">${b.boardTitle}</td>
+						                <td class="adminNoticetitle" style="text-align: left;">${b.boardTitle}</td>
 						                <td>${b.createDate }</td>						                						               
 						            </tr>
 						         </c:forEach>

@@ -22,5 +22,6 @@ public class Reply {
 	private int userNo;
 	private int boardNo;
 	private String userName;
+	private String email;
 	
 }

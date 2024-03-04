@@ -36,13 +36,14 @@
     width: 1000px;
     margin: 0 auto;
     padding: 20px;
-    text-align: center; /* 버튼들을 가운데 정렬하기 위해 텍스트 정렬을 가운데로 설정합니다. */
+ 
 }
 
 .Sn-TextLabel {
     font-size: 40px;
     font-weight: bold;
     color: #333333;
+        text-align: center;
 }
 /*추가*/
 .entry-content{

@@ -38,12 +38,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                    <main>
-		<section>
-			<article class="h_boardTitle">
-				<h1>자원봉사</h1>
-				<p>자원봉사 함께 나아가는 더 나은 세상.</p>
-			</article>
-		</section>
+		
 		<div class="Sn-insert-wrapper">
 			<div class="Sn-insert-section">
 				<div class="Sn-insert-container">
