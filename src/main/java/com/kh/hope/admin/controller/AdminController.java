@@ -1,5 +1,6 @@
 package com.kh.hope.admin.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,25 +18,38 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.kh.hope.admin.model.service.AdminService;
 import com.kh.hope.admin.model.vo.BlackList;
 import com.kh.hope.attachment.model.vo.Attachment;
 import com.kh.hope.board.model.service.BoardService;
 import com.kh.hope.board.model.vo.Board;
+import com.kh.hope.board.model.vo.Reply;
+import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.config.Utils;
+import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
+import com.kh.hope.payment.model.vo.PaymentInfo;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -52,6 +66,8 @@ public class AdminController {
 	@Autowired
 	private BoardService boardService;
 	
+	@Autowired
+	private ServletContext application;
 	
 	// 대시보드
 	// status y인 값들만 카운트
@@ -93,6 +109,41 @@ public class AdminController {
 		// 기부금액 통계
 		
 		// 많이 접속한 채팅방명 5개
+		/*
+		 * List<Chat> vogueChat = adminService.dashboardChatRoomList();
+		 * model.addAttribute("vogueChat" , vogueChat); log.info("vogueChat 정보 확인 {}" ,
+		 * vogueChat);
+		 */
+		
+		// 기부 그래프
+		List<Donate> list = adminService.getDailyIncome();
+		
+		// gson 객체 생성
+		Gson gson = new Gson();
+		JsonArray jArray = new JsonArray();
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Iterator<Donate> it = list.iterator();
+		while(it.hasNext()) {
+			Donate donate = it.next();
+			JsonObject object = new JsonObject();
+			// 기부금액
+			int sale = donate.getDonateAmount();
+			
+			// 기부날짜
+			Date dt = donate.getPaymentDate();
+			String date = df.format(dt);
+			
+			object.addProperty("sale", sale);
+			object.addProperty("date", date);
+			jArray.add(object);
+		}
+		
+		String json = gson.toJson(jArray);
+		model.addAttribute("json" ,json);
+		log.info("json변환 {}" , json);
+		
 		return "admin/adminIndex";
 	}
 	
@@ -101,8 +152,14 @@ public class AdminController {
 		return "admin/charts";
 	}
 	
+	// DONATE_INFO 리스트 뽑기
 	@GetMapping("/tables")
-	public String tables() {
+	public String tables(Model model) {
+		 List<PaymentInfo> selectDonate = adminService.selectDonate();
+		 
+		 model.addAttribute("selectDonate" , selectDonate);
+		 
+		 log.info("selectDonate 정보확인 {}" , selectDonate);
 		return "admin/tables";
 	}
 	
@@ -467,6 +524,11 @@ public class AdminController {
 			 
 			 
 		 }
+		@GetMapping("/insert/Q")
+		public String FaqInsert() {
+			
+			return "admin/adminFAQInsert";
+		}
 		@PostMapping("/insert/Q")
 		public String insertFaq(Board b, @ModelAttribute("loginUser") User loginUser, Model m,
 				
@@ -534,7 +596,214 @@ public class AdminController {
 
 		}
 		
+		/* 공지사항 등록 */
+		@GetMapping("/insert/{boardTypeNo}")
+		public String noticeInsert(
+				Model m,
+				RedirectAttributes ra,
+				@PathVariable("boardTypeNo") String boardTypeNo) {
+			
+			// 게시판 유형에 따라 다른 JSP 파일 선택
+		    String url;
+		    if (boardTypeNo.equals("N")) {
+		        url = "admin/adminNoticeInsert"; // 공지사항
+		    } else if (boardTypeNo.equals("C")) {
+		        url = "admin/adminStoryInsert"; //자유게시판
+		    } else {
+		        url = "admin/adminReviewInsert"; // 기타
+		    }
+		    
+		    return url;
+		
+		}
+
+		@PostMapping("/insert/{boardTypeNo}")
+		public String insertNotice(
+				Board b, 
+				@ModelAttribute("loginUser") User loginUser, 
+				Model m, 
+				RedirectAttributes ra,
+				@RequestParam(value = "upfiles", required = false) List<MultipartFile> upfiles,
+				@PathVariable("boardTypeNo") String boardTypeNo // 추가된 부분
+		) {
+			String webPath = "/resources/images/board/"+boardTypeNo+"/";
+			String serverFolderPath = application.getRealPath(webPath);
+			File dir = new File(serverFolderPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			b.setUserNo(loginUser.getUserNo());
+
+			List<Attachment> imgList = new ArrayList();
+
+			if (upfiles != null) {
+				for (int i = 0; i < upfiles.size(); i++) {
+					if (upfiles.get(i).getOriginalFilename().equals("")) {
+						continue;
+					}
+					String changeName = Utils.saveFile(upfiles.get(i), serverFolderPath);
+					Attachment at = new Attachment();
+					at.setChangeName(changeName);
+					at.setOriginName(upfiles.get(i).getOriginalFilename());
+					at.setImgLevel(i);
+					imgList.add(at);
+				}
+			}
+
+			int result = 0;
+			try {
+				result = boardService.insertNotice(b, imgList);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			String url = "";
+			if (result > 0) {
+				ra.addFlashAttribute("alertMsg", "작성에 성공하였습니다.");
+				url = "redirect:/admin/"+boardTypeNo;
+			} else {
+				m.addAttribute("errorMsg", "다시 작성해주세요");
+				url = "common/errorPage";
+			}
+			return url;
+
+		}
+
+		
 		
 	/* ============================================== 게시판 끝 ==============================================*/
+		/*==============================신고내역 시작 ================================================*/
 		
+	
+		@GetMapping("/report/Board")
+		public String reportBoardList(Model m) {
+			
+			
+			  List<Report> list = adminService.reportBoardList();
+			  
+			  m.addAttribute("list", list);
+			 
+			
+			return "admin/ReportBoard";
+			
+		}
+		@GetMapping("/report/Reply")
+		public String reportReplyList(Model m) {
+			
+			
+			  List<Report> list = adminService.reportReplyList();
+			  
+			  m.addAttribute("list", list);
+			 
+			
+			return "admin/ReportReply";
+			
+		}
+
+		//신고내역 삭제
+		@GetMapping("/delete/report/Board/{reportNo}")
+		public String deleteReport(
+				@PathVariable ("reportNo") int reportNo,
+				 Model m,
+				 RedirectAttributes ra
+				) {
+			int result = adminService.deleteReport(reportNo);
+			 
+			 if(result>0) {
+				 ra.addFlashAttribute("alertMsg","확인하였습니다.");
+				 
+			 }else {
+				 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			 }
+			
+			 return "redirect:/admin/report/Board";
+			 
+			 
+		}
+		@GetMapping("/delete/report/Reply/{reportNo}")
+		public String deleteReplyReport(
+				@PathVariable ("reportNo") int reportNo,
+				 Model m,
+				 RedirectAttributes ra
+				) {
+			int result = adminService.deleteReport(reportNo);
+			 
+			 if(result>0) {
+				 ra.addFlashAttribute("alertMsg","확인하였습니다.");
+				 
+			 }else {
+				 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			 }
+			
+			 return "redirect:/admin/report/Reply";
+			 
+			 
+		}
+		//해당게시글 삭제
+		
+		@GetMapping("/delete/report/{boardNo}")
+		public String deleteBoardReport(
+				@PathVariable ("boardNo") int boardNo,
+				 Model m,
+				 RedirectAttributes ra
+				) {
+			int result = adminService.deleteBoardReport(boardNo);
+			 
+			 if(result>0) {
+				 ra.addFlashAttribute("alertMsg","확인하였습니다.");
+				 
+			 }else {
+				 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			 }
+			
+			 return "redirect:/admin/report/Board";
+			 
+			 
+		}
+		@GetMapping("/delete/report/reply/{replyNo}")
+		public String deleteReplyDatailReport(
+				@PathVariable ("replyNo") int replyNo,
+				 Model m,
+				 RedirectAttributes ra
+				) {
+			int result = adminService.deleteReplyDatailReport(replyNo);
+			 
+			 if(result>0) {
+				 ra.addFlashAttribute("alertMsg","확인하였습니다.");
+				 
+			 }else {
+				 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			 }
+			
+			 return "redirect:/admin/report/Reply";
+		}
+		//신고내역상세
+				@GetMapping("/report/detail/{bno}")
+				public String selectReportBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
+						HttpServletResponse res, HttpSession session) {
+					
+					Board b = boardService.selectBoard(boardNo);
+
+					if (b != null) {
+						List<Attachment> imgList = boardService.selectImgList(boardNo);
+						m.addAttribute("imgList", imgList);
+													
+					} else {
+						m.addAttribute("errorMsg", "조회실패");
+						return "common/errorPage";
+					}
+					m.addAttribute("b", b);
+
+					return "admin/ReportBoardDetail";
+				}
+				@GetMapping("/report/detail/reply/{replyNo}")
+				public String selectReportReply(@PathVariable("replyNo") int replyNo, Model m, HttpServletRequest req,
+						HttpServletResponse res, HttpSession session) {
+					
+					Reply b = adminService.selectReply(replyNo);
+
+					
+					m.addAttribute("b", b);
+
+					return "admin/ReportReplyDetail";
+				}
 }

@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.hope.admin.model.dao.AdminDao;
 import com.kh.hope.admin.model.vo.BlackList;
+import com.kh.hope.attachment.model.vo.Attachment;
+import com.kh.hope.board.model.vo.Board;
+import com.kh.hope.board.model.vo.Reply;
+import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
+import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -188,8 +194,73 @@ public class AdminServiceImpl implements AdminService{
 		public int dashboardChatTotalCount() {
 			return adminDao.dashboardChatTotalCount();
 		}
+	// 많이 접속한 채팅방명 5개
+	/*
+	 * @Override public List<Chat> dashboardChatRoomList() { return
+	 * adminDao.dashboardChatRoomList(); }
+	 */
+
+	// 기부그래프	
+		@Override
+		public List<Donate> getDailyIncome() {
+			return adminDao.getDailyIncome();
+		}
+	// donate 리스트 뽑기
+		@Override
+		public List<Donate> selectDonate() {
+			return adminDao.selectDonate();
+		}
 
 	/* ============================================== 대시보드  끝 =============================================*/
 
+		/*==============================================신고리스트 시작===============================*/
+		//신고리스트
+			
+			@Override
+			public List<Report> reportBoardList() {
+				return adminDao.reportBoardList();
+			}
+			@Override
+			public List<Report> reportReplyList() {
+				return adminDao.reportReplyList();
+			}
+			@Override
+			public int deleteReport(int reportNo) {
+				return adminDao.deleteReport(reportNo);
+			}
+			@Override
+			public Board selectReportBoard(int reportNo) {
+				return adminDao.selectReportBoard(reportNo);
+			}
+			@Override
+			public List<Attachment> selectReportImgList(int reportNo) {
+				return adminDao.selectReportImgList(reportNo);
+			}
+			@Transactional(rollbackFor = {Exception.class})
+			@Override
+			public int deleteBoardReport(int boardNo) {
+				int result= adminDao.deleteBoardReport(boardNo);		
+				
+				if(result>0) {
+					result = adminDao.deleteReportList(boardNo);
+				}
+				
+				return result;
+			}
+			@Override
+			public Reply selectReply(int replyNo) {
+				return adminDao.selectReply(replyNo);
+			}
+			@Transactional(rollbackFor = {Exception.class})
+			@Override
+			public int deleteReplyDatailReport(int replyNo) {
+				int result= adminDao.deleteReplyDatailReport(replyNo);		
+				
+				if(result>0) {
+					result = adminDao.deleteReportReplyList(replyNo);
+				}
+				
+				return result;
+			}	
 
 }

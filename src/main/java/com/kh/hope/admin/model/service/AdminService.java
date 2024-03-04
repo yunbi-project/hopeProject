@@ -3,9 +3,14 @@ package com.kh.hope.admin.model.service;
 import java.util.List;
 
 import com.kh.hope.admin.model.vo.BlackList;
+import com.kh.hope.attachment.model.vo.Attachment;
+import com.kh.hope.board.model.vo.Board;
+import com.kh.hope.board.model.vo.Reply;
+import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
+import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
 
 public interface AdminService {
@@ -79,9 +84,36 @@ public interface AdminService {
 	// 채팅방 합계
 	int dashboardChatTotalCount();
 
+	// 기부 그래프
+	List<Donate> getDailyIncome();
+
+	// donate 리스트 뽑기
+	List<Donate> selectDonate();
+
+	// 많이 접속한 채팅방명 5개
+	/* List<Chat> dashboardChatRoomList(); */
+
 /* ============================================== 대시보드  끝 =============================================*/
 
+	
+	// 신고리스트
 
+
+	List<Report> reportBoardList();
+
+	List<Report> reportReplyList();
+
+	int deleteReport(int reportNo);
+
+	Board selectReportBoard(int reportNo);
+
+	List<Attachment> selectReportImgList(int reportNo);
+
+	int deleteBoardReport(int boardNo);
+
+	Reply selectReply(int replyNo);
+
+	int deleteReplyDatailReport(int replyNo);
 
 
 

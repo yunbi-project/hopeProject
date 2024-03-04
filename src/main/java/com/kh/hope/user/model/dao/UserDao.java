@@ -38,8 +38,6 @@ public class UserDao {
 		}
 	
 	public User pwdfind(User user) {
-			
-	
 		return session.selectOne("member.pwdfind", user);
 	}
 	
