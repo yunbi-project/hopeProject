@@ -58,4 +58,6 @@ public interface BoardService {
 	List<Board> reviewList(PageInfo pi, Map<String, Object> map);
 
 
+
+
 }

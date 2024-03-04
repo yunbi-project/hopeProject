@@ -101,8 +101,10 @@
 			</c:if>
 				<div class="btn-group">
 					<div class="login-detail-btn">
-					<c:if test="${loginUser.userNo ne b.userNo}">
-						<button class="report-btn" onclick="openModal()">신고</button>
+							<c:if test="${not empty loginUser}">
+					    <c:if test="${loginUser.userNo ne b.userNo}">
+					        <button class="report-btn" onclick="openModal()">신고</button>
+					    </c:if>
 					</c:if>
 					<c:if test="${loginUser.userNo eq b.userNo}">
 						<button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>

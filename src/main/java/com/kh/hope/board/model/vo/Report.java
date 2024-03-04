@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Report {
-
 	private int reportNo;
 	private String reportContent;
 	private Date reportDate;
 	private int userNo;
 	private int boardNo;
-	private int replyNo;
+	private String replyNo;
 	private String status;
+	
+	private String userName;
+	private String email;
 }

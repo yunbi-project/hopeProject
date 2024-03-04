@@ -71,9 +71,8 @@
                                 <div class="btn-group">
                                     <div class="login-detail-btn">
                                                               
-                                        <button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>          
-                                        <button class="modify-btn" onclick="window.location.href='${contextPath}/admin/update/N/${b.boardNo}'">수정</button>                 
-                               			<button class="list-btn" onclick="window.location.href='${contextPath}/admin/N'">목록</button>
+                                        <button class="delete-btn" onclick="deleteBoard(${b.boardNo})">삭제</button>                                                     
+                               			<button class="list-btn" onclick="window.location.href='${contextPath}/admin/report/Board'">목록</button>
                                     
                                     </div>
                                   
@@ -90,8 +89,8 @@
     </div>
     <script>
 	function deleteBoard(boardNo) {
-        var boardTypeNo = 'N'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
-        var url = '${contextPath}/admin/delete/' + boardNo + '?boardTypeNo=' + boardTypeNo;
+       
+        var url = '${contextPath}/admin/delete/report/' + boardNo
         window.location.href = url;
     }
 	function stripHtmlTags(html) {

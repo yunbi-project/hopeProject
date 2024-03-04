@@ -115,7 +115,7 @@
 					</div>
 					<div class="detail-btn">
 						<button class="list-btn"
-							onclick="window.location.href='${contextPath}/board/R'">목록</button>
+							onclick="window.location.href='${contextPath}/board/C'">목록</button>
 					</div>
 
 				</div>
