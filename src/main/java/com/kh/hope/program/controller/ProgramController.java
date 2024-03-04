@@ -1,7 +1,10 @@
 package com.kh.hope.program.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.time.format.DateTimeFormatter;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +95,7 @@ public class ProgramController {
 		int result = service.insertProgram(program);
 
 		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "활동 게시글이 등록되었습니다. 목록페이지로 돌아갑니다.");
+			ra.addFlashAttribute("alertMsg", "활동 게시글이 수정되었습니다. 목록페이지로 돌아갑니다.");
 			System.out.println("등록 성공");
 		}
 
@@ -102,33 +105,38 @@ public class ProgramController {
 	// 프로그램 디테일
 	@GetMapping("/program/detail/{programNo}")
 	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session) {
-		Program program = service.detailProgram(programNo);
-		int count = service.requestCount(programNo);
-		
-		int userNo = 0;
-		
-		User loginUser = (User) session.getAttribute("loginUser");
-		
-		userNo = loginUser.getUserNo();
-		
-		int like = service.isLikeExists(userNo, programNo);
-		int requestCount = service.isRequestExists(userNo, programNo);
-//		System.out.println(like);
-		System.out.println(requestCount);
-		
-		model.addAttribute("program", program);
-		model.addAttribute("count", count);
-		model.addAttribute("like", like);
-		model.addAttribute("requestCount", requestCount);
-
-		return "program/programDetail";
+	    Program program = service.detailProgram(programNo);
+	    
+	    // 세션에서 loginUser 가져오기
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    
+	    int count = service.requestCount(programNo);
+	    // 로그인한 사용자가 아닌 경우
+	    if (loginUser == null) {
+	        model.addAttribute("program", program);
+	        model.addAttribute("count", count);
+	        return "program/programDetail";
+	    }
+	    
+	    // 로그인한 경우
+	    int userNo = loginUser.getUserNo();
+	    int like = service.isLikeExists(userNo, programNo);
+	    int requestCount = service.isRequestExists(userNo, programNo);
+	    model.addAttribute("count", count);
+	    model.addAttribute("like", like);
+	    model.addAttribute("requestCount", requestCount);
+	    model.addAttribute("program", program);
+	    model.addAttribute("userNo", userNo);
+	    
+	    return "program/programDetail";
 	}
+
 
 	// like insert
 	@PostMapping("/program/detail/like/{programNo}")
-	public ResponseEntity<String> programLike(@PathVariable int programNo, @RequestParam("loginUser") int userNo, HttpSession session,
+	public ResponseEntity<String> programLike(@PathVariable int programNo, @ModelAttribute("loginUser") User loginUser, HttpSession session,
 			Model model) {
-			Likes l = new Likes().builder().programNo(programNo).userNo(userNo).build();
+			Likes l = new Likes().builder().programNo(programNo).userNo(loginUser.getUserNo()).build();
 			
 			int result = service.programLike(l);
 			return ResponseEntity.ok(result+"");
@@ -137,10 +145,10 @@ public class ProgramController {
 	// like delete
 	@PostMapping("/program/detail/unlike/{programNo}")
 	public ResponseEntity<String> programUnlike(
-			@PathVariable int programNo, @RequestParam int userNo,
-			HttpSession session
+			@PathVariable int programNo, HttpSession session, @ModelAttribute("loginUser") User loginUser
 			) {
-		Likes l = new Likes().builder().programNo(programNo).userNo(userNo).build();
+		
+		Likes l = new Likes().builder().programNo(programNo).userNo(loginUser.getUserNo()).build();
 		int result = service.programUnlike(l);
 		return ResponseEntity.ok(result+"");
 	}
@@ -154,6 +162,64 @@ public class ProgramController {
 //		int result = service.requestSelectProgram(request);
 		int result = service.requestProgram(request);
 		return ResponseEntity.ok(result+"");
+	}
+	
+	//프로그램 업데이트 get
+	@GetMapping("/program/update/{programNo}")
+	public String programUpdate(@PathVariable("programNo") int programNo, HttpSession session, 
+			Model model) {
+	    Program program = service.detailProgram(programNo);
+	    
+	    User loginUser = (User) session.getAttribute("loginUser");
+		
+		if (loginUser != null) {
+			model.addAttribute("program", program);
+			
+			return "program/programUpdate";
+		} else {
+			session.setAttribute("alertMsg", "로그인 후 이용해주세요.");
+			return "redirect:/program/list";
+		}
+	}
+	
+	@PostMapping("/program/update/{programNo}")
+	public String programUpdate(@ModelAttribute("loginUser") User loginUser, Program program, RedirectAttributes ra, HttpSession session) {
+		if (loginUser != null) {
+			program.setUserNo(loginUser.getUserNo());
+		} else {
+			ra.addFlashAttribute("alertMsg", "로그인 후 이용해주세요.");
+			System.out.println("로그인 필요");
+		}
+
+		int result = service.updateProgram(program);
+
+		if (result > 0) {
+			ra.addFlashAttribute("alertMsg", "활동 게시글이 수정되었습니다. 목록페이지로 돌아갑니다.");
+			System.out.println("등록 성공");
+		}
+		return "redirect:/program/list";
+	}
+	
+	@GetMapping("/program/delete/{programNo}")
+	public String programDelete(
+			@PathVariable ("programNo") int programNo,
+			 Model m,
+			 RedirectAttributes ra,
+			 @ModelAttribute("loginUser") User loginUser,
+			 Program program) {
+		
+		if (loginUser != null) {
+			int result = service.deleteProgram(programNo);
+
+			if (result > 0) {
+				ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+
+			} else {
+				ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			}
+		}
+		 
+		return "redirect:/program/list";
 	}
 
 }

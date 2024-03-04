@@ -23,5 +23,6 @@ public class Program {
 	private String programCapacity;
 	private String programEnrollEndDate;
 	private String programContent;
+	private String result;
 	private String status;
 }

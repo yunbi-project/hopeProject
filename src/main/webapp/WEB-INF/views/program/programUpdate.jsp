@@ -8,50 +8,56 @@
 <meta charset="UTF-8">
 <title>프로그램 만들기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="../resources/js/yunbi.js/yProgramDonate.js"></script>
-<link rel="stylesheet" href="../resources/style/css/yunbi.css/yProgramDonate.css">
-<link rel="stylesheet" href="../resources/style/css/common.css">
+<script src="${contextPath }/resources/js/yunbi.js/yProgramDonate.js"></script>
+<link rel="stylesheet" href="${contextPath}/resources/style/css/yunbi.css/yProgramDonate.css">
+<link rel="stylesheet" href="${contextPath}/resources/style/css/common.css">
 </head>
 <body>
 <jsp:include page="../common/header.jsp"></jsp:include>
-	<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사 활동 지원 신청</h2>
+	<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사 활동 신청 수정</h2>
     <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 <section>
-                <form action="${contextPath}/program/insert" method="post" class="y_program_detail">
+                <form action="${contextPath}/program/update/${programNo}" method="post" class="y_program_detail">
                     <table class="y_table">
                         <tr>
                             <td>제목</td>
-                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요" style="width:1100px;"></td>
+                            <td><input name="programName" class="donateInput" type="text" value="${program.programName }" style="width:1100px;"></td>
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
-                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date"></td>
+                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> 
+                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date">
+                            ${program.programActivityStartDate} ~ ${program.programActivityEndDate}</td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
                             <td>
                             		<select name="activityTime" class="donateInput y_c">
-                            			<option value="1">오전</option>
-                            			<option value="2">오후</option>
+                            			<c:if test="${not empty program.activityTime}">
+                            				<option value="1">오전</option>
+                            				<option value="2">오후</option>
+                            			</c:if>
                             		</select>
                             </td>
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }">까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }"> ${program.programEnrollEndDate }까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
                             <td>
                             		<select name="activityDays" class="donateInput y_c">
+                            		<c:if test="${not empty program.activityDays}">
                             			<option value="1">평일</option>
                             			<option value="2">주말</option>
+                            		</c:if>
                             		</select>
                             </td>
                         </tr>
                         <tr>
                             <td>모집 인원</td>
-                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;"></td>
+                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;" value="${program.programCapacity }"></td>
                         </tr>
                         <tr>
                             <td>봉사 장소</td>
@@ -63,21 +69,23 @@
                             	<option value="4${activityLocation }">전라</option>
                             	<option value="5${activityLocation }">경상</option>
                             </select>
-                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;"></td>
+                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" value="${program.activityLocation }"></td>
                         </tr>
                         <tr>
                             <td>봉사 유형</td>
                             <td>
                             		<select name="activityType" class="donateInput y_c">
+                            		<c:if test="${not empty program.activityType}">
                             			<option value="1">정기</option>
                             			<option value="2">일시</option>
+                            		</c:if>
                             		</select>
                             </td>
                         </tr>
                         <tr>
                             <td>내용</td>
              				<td>
-             				 	<textarea id="summernote" name="programContent"></textarea></td>
+             				 	<textarea id="summernote" name="programContent">${program.programContent }</textarea></td>
                         </tr>
                     </table>
                     <div class="y_donate_back_btn">

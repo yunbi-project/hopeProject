@@ -104,10 +104,18 @@
 		ACTIVITY_LOCATION, PROGRAM_CAPACITY,
 		TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"')
 		PROGRAM_ENROLL_END_DATE,
-		PROGRAM_CONTENT
+		PROGRAM_CONTENT,
+		CASE 
+            WHEN PROGRAM_ENROLL_END_DATE > SYSDATE THEN '모집중'
+            ELSE '마감' END AS RESULT
 		FROM PROGRAM
 		WHERE PROGRAM_NO =
 		#{programNo}
+	</select>
+	
+	<select id="getRecruitment" resultType="String">
+		SELECT PROGRAM_ENROLL_END_DATE FROM PROGRAM
+		WHERE PROGRAM_NO =#{programNo}
 	</select>
 
 	<insert id="requestProgram" parameterType="request">
@@ -154,4 +162,22 @@ order by 1 desc
 		WHERE PROGRAM_NO = #{programNo}
 		AND USER_NO = #{userNo}
 	</select>
+	<update id="updateProgram" parameterType="program">
+	update program set program_name = #{programName},
+	program_activity_start_date = #{programActivityStartDate},
+	program_activity_end_date = #{programActivityEndDate},
+	activity_time = #{activityTime},
+	program_enroll_end_date = #{programEnrollEndDate},
+	activity_days = #{activityDays},
+	program_capacity = #{programCapacity},
+	activity_location = #{activityLocation},
+	activity_type = #{activityType},
+	program_content = #{programContent}
+	where program_no = #{programNo}
+	</update>
+	
+	<delete id="deleteProgram" parameterType="int">
+		DELETE FROM PROGRAM
+		WHERE PROGRAM_NO = #{programNo}
+	</delete>
 </mapper>
