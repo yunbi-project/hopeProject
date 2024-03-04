@@ -103,4 +103,6 @@ public class ActivityReportController {
 
 		return "activityreport/activityreportDetail";
 	}
+	
+	
 }
