@@ -11,9 +11,9 @@ public interface UserService {
 
 	int idCheck(String email);
 
-	User idfind(String name, String phone);
+	User idfind(User user);
 
-	User pwdfind(String email, String phone);
+	User pwdfind(User user);
 
 	int repassword(String password, String email);
 

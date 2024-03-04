@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User idfind(String name, String phone) {
-		return userDao.idfind(name, phone);
+	public User idfind(User user) {
+		return userDao.idfind(user);
 	}
 
 	@Override
-	public User pwdfind(String email, String phone) {
-		return userDao.pwdfind(email, phone);
+	public User pwdfind(User user) {
+		return userDao.pwdfind(user);
 	}
 
 	@Override

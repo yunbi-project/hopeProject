@@ -15,8 +15,15 @@
     <meta name="author" content="">
 
     <title>희망의 조각 Admin</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
+	<style>
+    /* 그래프 크기 조절 */
+    #myAreaChart {
+        max-width: 40%;
+        height: 50%;
+    }
+</style>
 </head>
 
 
@@ -47,15 +54,15 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- 회원가입 수 -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                회원 수</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${totalUsers[0].totalUsers}명</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -65,15 +72,15 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- 기부금액 통계 -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                기부금액 합계</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${totalAmount} 만원</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -83,17 +90,17 @@
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- 게시글 합계 -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1"> 게시글 수
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${totalBoard} 게시글</div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
@@ -112,15 +119,15 @@
                             </div>
                         </div>
 
-                        <!-- Pending Requests Card Example -->
+                        <!-- 채팅방 합계 -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"> 채팅방 합계 
+                                                </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"> ${totalChat}개</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -131,17 +138,80 @@
                         </div>
                     </div>
 
+			
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // JSON 데이터 파싱
+        const jsonData = ${json};
+        console.log(jsonData);
+        
+        // 중복된 날짜를 제거하고 월별 기부금액을 저장할 맵
+        const saleMap = new Map();
+        
+        // 데이터 처리 - 역순으로 처리
+        for (let i = 0; i < jsonData.length; i++) {
+            const dateParts = jsonData[i].date.split('-');
+            const year = parseInt(dateParts[0]); // 연도
+            const month = parseInt(dateParts[1]); // 월
+            
+            // 연도와 월을 결합하여 날짜 키 생성
+            const formattedDate = year + '-' + month;
+            
+            if (!saleMap.has(formattedDate)) {
+                saleMap.set(formattedDate, 0);
+            }
+            
+            // 기부금액 합산
+            const currentAmount = saleMap.get(formattedDate);
+            const newAmount = currentAmount + jsonData[i].sale;
+            saleMap.set(formattedDate, newAmount);
+        }
+        
+        // 중복 제거된 월별 기부금액 데이터 추출
+        const monthList = Array.from(saleMap.keys());
+        const saleList = Array.from(saleMap.values());
+        
+        // Chart.js를 사용하여 차트 그리기
+        const ctx = document.getElementById('myAreaChart');
+        if(ctx) {
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: monthList,
+                    datasets: [{
+                        label: '월별 기부금액',
+                        data: saleList,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error('Canvas element with ID "myAreaChart" not found.');
+        }
+    });
+</script>
+
+
                     <!-- Content Row -->
 
                     <div class="row">
 
-                        <!-- Area Chart -->
+                        <!-- 기부금액 통계 -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">기부금액 통계</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -154,25 +224,27 @@
                                             <a class="dropdown-item" href="#">Another action</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
+                                            
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body">
+                                <div class="card-body" id="chartgrahpe">
                                     <div class="chart-area">
                                         <canvas id="myAreaChart"></canvas>
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
+                        <!-- 많이 접속한 채팅방 -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">많이 접속한 채팅방명 5개</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -188,6 +260,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
@@ -332,10 +405,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
-                                    </div>
+                                    
                                     <p>Add some quality, svg illustrations to your project courtesy of <a
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use

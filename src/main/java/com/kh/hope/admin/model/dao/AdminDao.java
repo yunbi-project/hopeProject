@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.hope.admin.model.vo.BlackList;
+import com.kh.hope.attachment.model.vo.Attachment;
+import com.kh.hope.board.model.vo.Board;
+import com.kh.hope.board.model.vo.Reply;
+import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
+import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
 
 @Repository
@@ -23,6 +28,7 @@ public class AdminDao {
 	public List<User> selectAllUser() {
 		return session.selectList("adminMapper.selectAllUser");
 	}
+	
 	// 사용자 삭제
 	public int deleteUser(int userNo) {
 		return session.update("adminMapper.deleteUser", userNo);
@@ -111,13 +117,84 @@ public class AdminDao {
 	public List<Chat> chatByName(Chat c) {
 		return session.selectList("adminMapper.chatByName", c);
 	}
-}
+
 	
 	
 
 	
 /* ============================================== 채팅 끝 ==============================================*/
 	
+
+/* ============================================== 대시보드 시작 ==============================================*/	
+
+	// 회원 리스트 조회
+	public List<User> dashboardUser() {
+		return session.selectList("adminMapper.dashboardUser");
+	}
+	// 기부금액 합계
+	public int dashboardAmount() {
+		return session.selectOne("adminMapper.dashboardAmount");
+	}
+
+	// 게시글 수
+	public int dashboardTotalBoardCount() {
+		return session.selectOne("adminMapper.dashboardTotalBoardCount");
+	}
+	// 채팅방 합계
+	public int dashboardChatTotalCount() {
+		return session.selectOne("adminMapper.dashboardChatTotalCount");
+	}
+	/*
+	 * // 많이 접속한 채팅방명 5개 public List<Chat> dashboardChatRoomList() { return
+	 * session.selectList("adminMapper.dashboardChatRoomList"); }
+	 */
+
+	// 기부 그래프
+	public List<Donate> getDailyIncome() {
+		return session.selectList("adminMapper.getDailyIncome");
+	}
+	// donate 리스트 뽑기
+	public List<Donate> selectDonate() {
+		return session.selectList("adminMapper.selectDonate");
+	}
+
+/* ============================================== 대시보드  끝 =============================================*/
+	
+	/*=============================================신고시작========================*/
+	//신고리스트
+	
+	public List<Report> reportBoardList() {
+		
+		return session.selectList("adminMapper.reportBoardList");
+	}
+	public List<Report> reportReplyList() {
+		return session.selectList("adminMapper.reportReplyList");
+	}
+	public int deleteReport(int reportNo) {
+		return session.update("adminMapper.deleteReport",reportNo);
+	}
+	public Board selectReportBoard(int reportNo) {
+		return session.selectOne("adminMapper.selectReportBoard",reportNo);
+	}
+	public List<Attachment> selectReportImgList(int reportNo) {
+		return session.selectList("adminMapper.selectReportImgList",reportNo);
+	}
+	public int deleteBoardReport(int boardNo) {
+		return session.update("adminMapper.deleteBoardReport",boardNo);
+	}
+	public int deleteReportList(int boardNo) {
+		return session.update("adminMapper.deleteReportList",boardNo);
+	}
+	public Reply selectReply(int replyNo) {
+		return session.selectOne("adminMapper.selectReply",replyNo);
+	}
+	public int deleteReplyDatailReport(int replyNo) {
+		return session.update("adminMapper.deleteReplyDatailReport",replyNo);
+	}
+	public int deleteReportReplyList(int replyNo) {
+		return session.update("adminMapper.deleteReportReplyList",replyNo);
+	}
+}
 	
 
 

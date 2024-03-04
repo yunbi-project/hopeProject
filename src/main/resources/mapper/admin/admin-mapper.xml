@@ -18,6 +18,7 @@
 	<update id="deleteUser" parameterType="user">
 	    UPDATE USERS
 	    SET STATUS = 'N'
+	    
 	    	WHERE USER_NO = #{userNo}
 	</update>
 	
@@ -179,10 +180,113 @@
 				WHERE CHAT_TITLE like '%${chatTitle}%'
 		</select>
 			
-
+			
+		
 		
 
 <!--  ===================================== 채팅 끝 ================================================ -->
 
 
+<!--  ===================================== 대시보드 통계 시작 ================================================== -->
+		
+		<!-- 회원 리스트 카운트 -->
+		<select id="dashboardUser" resultType="user">
+			SELECT COUNT(*) AS totalUsers
+			FROM USERS
+				WHERE STATUS = 'Y'
+		</select>
+		
+		<!-- 후원금액 총 합계 -->
+		<select id="dashboardAmount" resultType="int">
+		    SELECT SUM(DONATE_AMOUNT) AS totalAmount
+		    FROM DONATE_INFO
+		</select>
+		
+		<!-- 게시글 수 합계 -->
+		<select id="dashboardTotalBoardCount" resultType="int">
+			SELECT COUNT(*) AS totalBoard
+			FROM BOARD
+				WHERE STATUS = 'Y'
+		</select>
+		
+		<!-- 채팅방 수 합계 -->
+		<select id="dashboardChatTotalCount" resultType="int">
+			SELECT COUNT(*) AS totalChat
+			FROM CHAT
+				WHERE STATUS = 'Y'
+		</select>
+		
+		<!-- 기부금액 그래프 -->
+		<select id="getDailyIncome" resultType="donate">
+			SELECT *
+			FROM DONATE_INFO
+			ORDER BY PAYMENT_DATE ASC
+		</select>
+		
+		<!-- donate 뽑기 -->
+		<select id="selectDonate" resultType="donate">
+			SELECT *
+			FROM DONATE_INFO
+			ORDER BY PAYMENT_DATE ASC
+		</select>
+	
+<!--  ===================================== 대시보드 통계 끝 ================================================== -->
+
+		<!--  ===================================== 신고시작================================================ -->
+
+	<select id="reportBoardList" resultType="report">
+		SELECT REPORT_NO, REPORT_CONTENT, USER_NAME, EMAIL, REPORT_DATE,BOARD_NO,
+		 CASE 
+        WHEN REPLY_NO = 0 THEN '없음' 
+          WHEN REPLY_NO IS NULL THEN '없음'
+        ELSE TO_CHAR(REPLY_NO) 
+    	END AS REPLY_NO 
+		FROM REPORT R
+		LEFT JOIN USERS U ON (R.USER_NO = U.USER_NO)
+		WHERE R.STATUS = 'Y' AND (REPLY_NO = 0 OR REPLY_NO IS NULL)
+		ORDER BY REPORT_NO DESC
+	</select>
+
+	<select id="reportReplyList" resultType="report">
+		SELECT REPORT_NO, REPORT_CONTENT, USER_NAME, EMAIL, REPORT_DATE,BOARD_NO,
+		 CASE 
+        WHEN REPLY_NO = 0 THEN '없음' 
+        ELSE TO_CHAR(REPLY_NO) 
+    	END AS REPLY_NO 
+		FROM REPORT R
+		LEFT JOIN USERS U ON (R.USER_NO = U.USER_NO)
+		WHERE R.STATUS = 'Y' AND (REPLY_NO != 0 OR REPLY_NO IS NOT NULL)
+		ORDER BY REPORT_NO DESC
+	</select>
+	<update id="deleteReport">
+		UPDATE REPORT
+		SET STATUS='N'
+		WHERE REPORT_NO = #{reportNo}
+	</update>
+	<update id="deleteBoardReport">
+		UPDATE BOARD
+		SET STATUS='N'
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	<update id="deleteReportList">
+		UPDATE REPORT
+		SET STATUS='N'
+		WHERE BOARD_NO=#{boardNo}
+	</update>
+	<select id="adminMapper.selectReply" resultType="reply">
+		SELECT REPLY_NO, REPLY_CONTENT, CREATE_DATE, EMAIL, BOARD_NO
+		FROM REPLY R
+		LEFT JOIN USERS U ON (R.USER_NO=U.USER_NO)
+		WHERE REPLY_NO =#{replyNo} 		
+	</select>
+	<update id="deleteReplyDatailReport">
+		UPDATE REPLY
+		SET STATUS='N'
+		WHERE REPLY_NO = #{replyNo}
+	</update>
+	<update id="deleteReportReplyList">
+		UPDATE REPORT
+		SET STATUS='N'
+		WHERE REPLY_NO=#{replyNo}
+	</update>
 </mapper>

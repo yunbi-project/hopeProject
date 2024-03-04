@@ -26,4 +26,6 @@ public class User {
 	
 	private Long id;
 	private String providerid;
+	
+	private int totalUsers;
 }
