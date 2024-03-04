@@ -135,10 +135,6 @@ section {
 }
 
 /*donate detail*/
-.y_program_detail {
-	margin: 30px;
-}
-
 .y_donate_detail_img {
 	height: 500px;
 }
@@ -179,26 +175,35 @@ section {
 }
 
 .y_donate_back_btn {
-	text-align:center;
-}
-
-.y_donate_list_btn{
-	display:block;
 	text-align:right;
 }
 
+
 .y_donate_back_btn1 {
 	margin: 0 auto;
-	background-color: #84A90C;
 	border: none;
 	padding: 10px 20px;
 	border-radius: 5px;
 	margin-top: 20px;
-	margin-right: 20px;
+	cursor:pointer;
+	width:120px;
+	height : 38px;
+}
+
+.y_donate_back_btn2{
+	margin: 0 auto;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin-top: 20px;
+	cursor:pointer;
+	width:120px;
+	height : 38px;
 }
 
 .y_donate_back_btn1:hover {
-	background-color: rgb(103, 131, 10);
+	background-color: #84A90C;
+	color:white;
 }
 
 .y_donate_detail_list_box {
@@ -220,19 +225,25 @@ section {
 }
 /* 프로그램 디테일 페이지*/
 
-.y_program_detail {
-	padding: 25px;
+#programName-area{
+	border-top : 5px solid #84A90C;
+	border-bottom : 5px solid #84A90C;
+	padding :20px 0;
 }
 
-.y_program_detail>span {
+.y_donate_back_btn{
+	text-align: right;
+}
+.y_program_detail {
+	padding-top: 25px;
+	padding : auto 0 0 0;
+}
+
+#color {
 	background-color: #84A90C;
 	padding: 10px;
 	border-radius: 5px;
 	color: white;
-}
-
-.heart_logo {
-	float: right;
 }
 
 .y_program_detail_main_img {

@@ -1,6 +1,6 @@
 package com.kh.hope.program.model.service;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +67,14 @@ public class ProgramService {
 	}
 	public int isRequestExists(int userNo, int programNo) {
 		return dao.isRequestExists(userNo, programNo);
+	}
+	public String getRecruitment(int programNo) {
+		return dao.getRecruitment(programNo);
+	}
+	public int updateProgram(Program program) {
+		return dao.updateProgram(program);
+	}
+	public int deleteProgram(int programNo) {
+		return dao.deleteProgram(programNo);
 	}
 }

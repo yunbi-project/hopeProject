@@ -1,5 +1,8 @@
 package com.kh.hope.program.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,5 +88,17 @@ public class ProgramDao {
 		param.put("userNo", userNo);
 		param.put("programNo", programNo);
 		return session.selectOne("program.isRequestExists", param);
+	}
+
+	public String getRecruitment(int programNo) {
+	    return session.selectOne("program.getRecruitment", programNo);
+	}
+
+	public int updateProgram(Program program) {
+		return session.update("program.updateProgram", program);
+	}
+
+	public int deleteProgram(int programNo) {
+		return session.delete("program.deleteProgram", programNo);
 	}
 }
