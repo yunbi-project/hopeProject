@@ -131,33 +131,12 @@
 	color: #666;
 }
 
-.d-div-wrapper .div-donation-content {
-	display: flex;
-	height: 605px;
-	align-items: flex-start;
-	gap: 60px;
-	padding: 60px 170px;
-	position: relative;
-	align-self: stretch;
-	width: 100%;
-	overflow: hidden;
-}
-
-.d-div-wrapper .div-volunteer-content {
-	display: flex;
-	height: 605px;
-	align-items: flex-start;
-	gap: 60px;
-	padding: 60px 170px;
-	position: relative;
-	align-self: stretch;
-	width: 100%;
-	overflow: hidden;
-}
-
+.d-div-wrapper .div-donationp-content,
+.d-div-wrapper .div-donationm-content,
+.d-div-wrapper .div-volunteer-content,
 .d-div-wrapper .div-bookmark-content {
 	display: flex;
-	height: 605px;
+	height: 700px;
 	align-items: flex-start;
 	gap: 60px;
 	padding: 60px 170px;
@@ -185,12 +164,14 @@
 	flex-direction: column;
 	width: 917px;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: 40px;
 	padding: 20px 0px;
 	position: relative;
 	margin-bottom: -31px;
 	margin-right: -73px;
+	overflow-y: auto;
+	max-height: 540px;
 }
 
 .d-div-wrapper .row {
@@ -321,42 +302,6 @@
 	background-color: #30B222A1;
 }
 
-/* 라디오 버튼 컨테이너 스타일 */
-.radio-container {
-	display: inline-block;
-	cursor: pointer;
-}
-
-/* 라디오 버튼 숨김 */
-.radio-container input {
-	display: none;
-}
-
-/* 네모칸 디자인 */
-.checkmark {
-	width: 100px;
-	height: 80px;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	top: 5px;
-	background-color: #e3e3e3;
-	font-size: 25px;
-	font-weight: bold;
-	margin-top: 40px;
-	margin-left: -15px;
-}
-
-/* 클릭 시 배경색 변경 */
-.radio-container input:checked+.checkmark {
-	background-color: #abe138;
-}
-
-/* 마지막 라디오 버튼의 margin-right를 0으로 설정 */
-.radio-container:last-child {
-	margin-left: 0;
-}
 
 /* 하트 버튼 */
 .d-div-wrapper .heartBtn {

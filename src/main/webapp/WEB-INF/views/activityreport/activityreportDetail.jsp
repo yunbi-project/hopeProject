@@ -13,8 +13,7 @@
 	background-color: transparent !important;
 }
 </style>
-<link rel="stylesheet"
-	href="${contextPath}/resources/style/css/sangjun.css/SnoticeDetail.css">
+
 <link rel="stylesheet"
 	href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
 <link rel="stylesheet"
@@ -25,31 +24,31 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main>
 		<section>
-			<article class="h_boardTitle">
+			<article class="activityreportTitle">
 				<h1>자원봉사</h1>
 				<p>자원봉사 함께 나아가는 더 나은 세상.</p>
 			</article>
 		</section>
-		<div class="Sn-wrapper1">
-			<div class="Sn-wrapper2">
+		<div class="ar-wrapper1">
+			<div>
 				<div>
 					<div>
 						<div>
-							<div class="Sn-TextLabel">활동보고서</div>
+							<div class="ar-TextLabel">활동보고서</div>
 						</div>
 					</div>
 				</div>
 
 
-				<header class="entry-header">
+				<header class="ar-header">
 					<h1 class="entry-title">${ar.reportTitle}</h1>
-					<div class="entry-meta">
+					<div class="ar-meta">
 						<div class="detail-date">등록일</div>
-						<div class="detail-date-">${ar.createDate}</div>
+						<div class="detail-date">${ar.createDate}</div>
 						<div>조회수</div>
 						<div>${ar.count }</div>
 					</div>
-					<div class="entry-meta">
+					<div class="ar-meta">
 						<div class="detail-date">작성자</div>
 						<div class="detail-date-">관리자</div>
 					</div>
@@ -62,27 +61,27 @@
 						
 						<tr>
 							<th class="header">작성일자</th>
-							<th colspan="2" style="width: 30%;">${ar.createDate}</th>
+							<td colspan="2" style="width: 30%;">${ar.createDate}</td>
 							<th class="header" colspan="2">작성자</th>
-							<th colspan="2">임도원</th>
+							<td colspan="2">관리자</td>
 
 						</tr>
 						
 						<tr>
-							<td class="header">제목</td>
+							<th class="header">제목</th>
 							<td class="span-two" colspan="6">${ar.reportTitle}</td>
 
 						</tr>
 						
 						<tr>
-							<td class="header">활동기간</td>
+							<th class="header">활동기간</th>
 							<td class="span-two" colspan="6">${ar.activityStartDate} ~ ${ar.activityEndDate}</td>
 						</tr>
 
 						
 
 						<tr>
-							<td class="header" style="height: 500px;">활동내용</td>
+							<th class="header" style="height: 500px;">활동내용</th>
 							<td class="span-two" colspan="6">${ar.reportContent}</td>
 						</tr>
 
@@ -104,9 +103,7 @@
 	</main>
 
 
-	<script
-		src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
-
+	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 </body>

@@ -29,7 +29,12 @@
 	</select>
 	
 	<!-- 활동보고서 등록 -->
-
+	<insert id="insertActivityReport" parameterType="activityreport">
+		INSERT INTO ACTIVITY_REPORT
+		(REPORT_NO, REPORT_TITLE, REPORT_CONTENT, CREATE_DATE, ACTIVITY_START_DATE, ACTIVITY_END_DATE)
+		VALUES
+		(SEQ_AREPORTNO.nextval, #{reportTitle}, #{reportContent}, SYSDATE, #{createDate}, #{activityStartDate}, #{activityEndDate})
+	</insert>
 
 
 

@@ -38,9 +38,14 @@ heartButtons.forEach(function(button) {
 
 // 기부활동, 봉사활동, 즐겨찾기 탭 
 document.addEventListener("DOMContentLoaded", function() {
-	// 기부 탭 클릭 시
-	document.getElementById('donation-tab').addEventListener('click', function() {
-		showContent('donation');
+	// 기부 (물품) 탭 클릭 시
+	document.getElementById('donationp-tab').addEventListener('click', function() {
+		showContent('donationp');
+	});
+
+	// 기부 (금액) 탭 클릭 시
+	document.getElementById('donationm-tab').addEventListener('click', function() {
+		showContent('donationm');
 	});
 
 	// 봉사활동 탭 클릭 시
@@ -54,38 +59,13 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	// 초기에 기부 탭 내용을 보이도록 설정
-	showContent('donation');
+	showContent('donationp');
 
-	// 라디오 버튼 클릭 이벤트 처리
-	document.querySelectorAll('input[type=radio][name=donateGood]').forEach(function(radio) {
-		radio.addEventListener('change', function() {
-			// 선택된 값을 확인합니다.
-			const selectedValue = this.value;
 
-			// 선택된 값을 기준으로 데이터 영역을 표시하거나 숨깁니다.
-			if (selectedValue === '물품') {
-				// 물품을 선택한 경우, 물품 데이터 영역을 표시하고 후원금 데이터 영역을 숨깁니다.
-				document.querySelectorAll('.div-donation-content-p').forEach(function(content) {
-					content.style.display = 'none';
-				});
-				document.querySelectorAll('.div-donation-content-m').forEach(function(content) {
-					content.style.display = 'block';
-				});
-			} else if (selectedValue === '후원금') {
-				// 후원금을 선택한 경우, 후원금 데이터 영역을 표시하고 물품 데이터 영역을 숨깁니다.
-				document.querySelectorAll('.div-donation-content-m').forEach(function(content) {
-					content.style.display = 'none';
-				});
-				document.querySelectorAll('.div-donation-content-p').forEach(function(content) {
-					content.style.display = 'block';
-				});
-			}
-		});
-	});
 
 	function showContent(tabName) {
 		// 모든 탭 숨기기
-		const tabContents = document.querySelectorAll('.div-donation-content, .div-volunteer-content, .div-bookmark-content');
+		const tabContents = document.querySelectorAll('.div-donationp-content, .div-donationm-content, .div-volunteer-content, .div-bookmark-content');
 		tabContents.forEach(function(content) {
 			content.style.position = 'absolute'; // 모든 탭의 위치를 화면 밖으로 이동
 			content.style.left = '-9999px'; // 화면 왼쪽 밖으로 이동
@@ -96,7 +76,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		const selectedContent = document.querySelector('.div-' + tabName + '-content');
 		selectedContent.style.position = 'static'; // 선택한 탭의 위치를 원래 위치로 변경
 	}
+
+
 });
+
+
 
 
 

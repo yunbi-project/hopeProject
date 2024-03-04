@@ -34,7 +34,9 @@
 
 		<div class="navigation-wrapper">
 			<div class="navigation">
-				<div class="tab" id="donation-tab">기부활동</div>
+				<div class="tab" id="donationp-tab">기부물품</div>
+				<div class="divider">|</div>
+				<div class="tab" id="donationm-tab">기부금</div>
 				<div class="divider">|</div>
 				<div class="tab" id="volunteer-tab">봉사활동</div>
 				<div class="divider">|</div>
@@ -43,26 +45,11 @@
 		</div>
 
 
-		<div class="div-donation-content">
+		<div class="div-donationp-content">
 
-
-			<div class="title-2">
-				기부활동
-				<div class="radio_div">
-					<!-- 첫 번째 라디오 버튼 -->
-					<label class="radio-container"> <input name="donateGood"
-						type="radio" value="물품" checked> <span class="checkmark">물품</span>
-					</label>
-					<!-- 두 번째 라디오 버튼 -->
-					<label class="radio-container"> <input name="donateGood"
-						type="radio" value="후원금"> <span class="checkmark">후원금</span>
-					</label>
-				</div>
-
-			</div>
+			<div class="title-2">기부물품</div>
 
 			<div class="list">
-
 
 				<!-- 물품 -->
 				<c:forEach var="donatep" items="${donatelistp}">
@@ -87,24 +74,36 @@
 					</div>
 				</c:forEach>
 
+			</div>
+			
+		</div>
+
+		<div class="div-donationm-content">
+
+			<div class="title-2">기부금</div>
+
+			<div class="list">
+
 				<!-- 후원금 -->
 				<c:forEach var="donatem" items="${donatelistm}">
 					<div class="row">
 						<div class="article">
 							<div class="image-container">
 								<div class="frame">
-									<div class="icon">📦</div>
+									<div class="icon">💸</div>
 								</div>
 							</div>
 							<div class="frame-2">
 								<div class="subtitle">결제번호 : ${donatem.payNo}</div>
 								<div class="subtitle">결제유형 : ${donatem.payType}</div>
-								<div class="subtitle">후원금액 : ${donatem.donateAmount}</div>
+								<div class="subtitle">후원금액 : ${donatem.donateAmount}원</div>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
+
 			</div>
+			
 		</div>
 
 
@@ -114,6 +113,7 @@
 			<div class="title-2">봉사활동</div>
 
 			<div class="list">
+				※ 내가 참여한 봉사활동 목록이 표시됩니다. ※
 				<c:forEach var="program" items="${programlist}">
 					<div class="row">
 						<div class="article">
@@ -144,7 +144,7 @@
 			<div class="title-2">즐겨찾기</div>
 
 			<div class="list">
-
+				※ 하트를 누르면 즐겨찾기가 삭제됩니다. ※
 				<c:forEach var="bookmark" items="${bookmarklist}">
 					<div class="row">
 						<div class="article">
@@ -176,46 +176,8 @@
 
 		</div>
 
-		<div id="pagingArea">
-			<ul class="pagination">
-				<c:if test="${pi.currentPage ne 1}">
-					<li class="page-item"><a class="page-link"
-						href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
-				</c:if>
-				<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
-					<li class="page-item"><a class="page-link"
-						href="?currentPage=${p}${url}">${p}</a></li>
-				</c:forEach>
-				<c:if test="${pi.currentPage ne pi.maxPage}">
-					<li class="page-item"><a class="page-link"
-						href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
-				</c:if>
-			</ul>
-		</div>
+		
 
-		<div class="component">
-			<div class="page">
-				<div class="num"><</div>
-			</div>
-			<div class="page">
-				<div class="num">1</div>
-			</div>
-			<div class="page">
-				<div class="num">2</div>
-			</div>
-			<div class="page">
-				<div class="num">3</div>
-			</div>
-			<div class="page">
-				<div class="num">4</div>
-			</div>
-			<div class="page">
-				<div class="num">5</div>
-			</div>
-			<div class="page">
-				<div class="num">></div>
-			</div>
-		</div>
 
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
