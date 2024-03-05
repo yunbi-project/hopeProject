@@ -24,4 +24,6 @@ public class Reply {
 	private String userName;
 	private String email;
 	
+	private String boardTypeName;
+	
 }
