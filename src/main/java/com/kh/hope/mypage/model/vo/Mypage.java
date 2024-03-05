@@ -17,10 +17,10 @@ public class Mypage {
 	private String categoryName;
 	private String productType;
 	private String productWay;
-	private String receipt;
+	private String status;
 	
 	// 기부 (donate) 후원금
-	private int payNo;
+	private Date createDate;
 	private String payType;
 	private int donateAmount;
 	

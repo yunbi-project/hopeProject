@@ -1,62 +1,84 @@
 body {
-    font-family: 'NanumSquareNeo-Variable';
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-  }
-  .container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  .form-group {
-    margin-bottom: 20px;
-  }
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  #name, #phone{
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  #postcode, #address, #detailAddress{
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
-  
-  input[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  input[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  #openAddressPopup {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  #openAddressPopup:hover {
-    background-color: #45a049;
-  }
+	font-family: 'NanumSquareNeo-Variable';
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+
+
+input[type="submit"] {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background-color: #45a049;
+}
+
+#openAddressPopup {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-right: 190px;
+	margin-bottom: 50px;
+}
+
+#openAddressPopup:hover {
+	background-color: #45a049;
+}
+
+.y_donate_info {
+	margin: 100px auto;
+	width: 800px;
+	padding: 20px;
+	text-align: center;
+	border-top: 7px solid #84A90C;
+	border-bottom: 7px solid #84A90C;
+}
+
+.y_donate_info span {
+	width: 200px;
+	padding: 20px;
+}
+
+.form-group1 {
+	padding: 20px;
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.form-group2 {
+	padding: 20px;
+	display: block;
+	margin-bottom: 20px;
+}
+
+#address {
+	margin-left: 70px;
+	margin-right: -30px;
+}
+
+#postcode, #detailAddress {
+	margin-left: 180px;
+}
+
+.edit {
+	border: none;
+	width: 500px;
+	border-radius: 10px;
+	height: 50px;
+}

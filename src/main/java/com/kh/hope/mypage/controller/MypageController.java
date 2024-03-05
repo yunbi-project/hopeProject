@@ -40,19 +40,15 @@ public class MypageController {
 			int userNo = loginUser.getUserNo();
 			
 			List<Mypage> donatelistp = mypageService.selectMypageDonateListP(userNo);
-			System.out.println(donatelistp);
 			model.addAttribute("donatelistp",donatelistp);
 			
 			List<Mypage> donatelistm = mypageService.selectMypageDonateListM(userNo);
-			System.out.println(donatelistm);
 			model.addAttribute("donatelistm",donatelistm);
-			
+		
 			List<Mypage> bookmarklist = mypageService.selectMypageBookmarkList(userNo);
-			System.out.println(bookmarklist);
 			model.addAttribute("bookmarklist",bookmarklist);
 			
-			List<Mypage> programlist = mypageService.selectMypageProgramList(userNo);
-			System.out.println(programlist);
+			List<Mypage> programlist = mypageService.selectMypageProgramList(userNo);;
 			model.addAttribute("programlist",programlist);
 			
 			return "mypage/mypage";
@@ -68,7 +64,6 @@ public class MypageController {
 	    }
 	    
 	    int userNo = loginUser.getUserNo();
-	    System.out.println(programNo + userNo);
 
 	    boolean deleted = mypageService.deleteBookmark(userNo, programNo);
 	    if (deleted) {
