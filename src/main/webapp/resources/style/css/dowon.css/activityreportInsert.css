@@ -1,0 +1,90 @@
+@charset "EUC-KR";
+
+@font-face {
+	font-family: 'NanumSquareNeo-Variable';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+* {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
+body {
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: 400px;
+	margin: 50px auto;
+	padding: 20px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+#title, #content, #date {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+input[type="submit"] {
+	background-color: #4caf50;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background-color: #45a049;
+}
+
+textarea {
+	height: 100px;
+	resize: none;
+}
+
+.activityreportTitle {
+	height: 330px;
+	padding-top: 100px;
+	background-image:
+		url('https://www.beautifulstore.org/wp-content/themes/bs/images/meta/bg_donation01.png');
+	background-size: cover;
+	background-position: center;
+	margin-bottom: 50px;
+}
+/* 力格 沥纺 */
+.activityreportTitle h1, .activityreportTitle>p {
+	text-align: center;
+	align-items: center;
+}
+/* 力格 臂揪农扁 */
+.activityreportTitle h1 {
+	font-size: 35px;
+	color: white;
+}
+
+.activityreportTitle>p {
+	font-size: 17px;
+	color: white;
+}
