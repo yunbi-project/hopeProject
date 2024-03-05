@@ -16,7 +16,9 @@ public class Program {
 	private String programName;
 	private String programActivityStartDate;
 	private String programActivityEndDate;
-	private String activityType;
+	private String sdate;
+	private String edate;
+	private String enroll;
 	private String activityTime;
 	private String activityDays;
 	private String activityLocation;

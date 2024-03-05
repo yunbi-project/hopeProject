@@ -31,9 +31,6 @@ public class ProgramService {
 	public int selectListCount(Map<String, Object> map) {
 		return dao.selectListCount(map);
 	}
-	public Program selectProgramDetail(int programNo) {
-		return dao.selectProgramDetail(programNo);
-	}
 	
 	@Transactional(rollbackFor = Exception.class)
 	public int insertProgram(Program program, Chat c) {

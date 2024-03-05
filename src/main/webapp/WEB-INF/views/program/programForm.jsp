@@ -21,11 +21,11 @@
                     <table class="y_table">
                         <tr>
                             <td>제목</td>
-                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요" style="width:1100px;"></td>
+                            <td><input name="programName" class="donateInput" type="text" placeholder="제목을 입력하세요" style="width:1100px;" required></td>
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
-                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date"></td>
+                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date" required> - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" required></td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }">까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }" required>까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
@@ -51,7 +51,7 @@
                         </tr>
                         <tr>
                             <td>모집 인원</td>
-                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;"></td>
+                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;" required></td>
                         </tr>
                         <tr>
                             <td>봉사 장소</td>
@@ -64,15 +64,6 @@
                             	<option value="5${activityLocation }">경상</option>
                             </select>
                             <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;"></td>
-                        </tr>
-                        <tr>
-                            <td>봉사 유형</td>
-                            <td>
-                            		<select name="activityType" class="donateInput y_c">
-                            			<option value="1">정기</option>
-                            			<option value="2">일시</option>
-                            		</select>
-                            </td>
                         </tr>
                         <tr>
                             <td>내용</td>

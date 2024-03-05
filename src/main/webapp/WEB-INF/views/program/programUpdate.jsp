@@ -25,9 +25,8 @@
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
-                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date"> 
-                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date">
-                            ${program.programActivityStartDate} ~ ${program.programActivityEndDate}</td>
+                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date" value="${program.programActivityStartDate}"> 
+                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" value=" ${program.programActivityEndDate}"></td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
@@ -42,7 +41,7 @@
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }"> ${program.programEnrollEndDate }까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }">까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
@@ -72,17 +71,6 @@
                             <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" value="${program.activityLocation }"></td>
                         </tr>
                         <tr>
-                            <td>봉사 유형</td>
-                            <td>
-                            		<select name="activityType" class="donateInput y_c">
-                            		<c:if test="${not empty program.activityType}">
-                            			<option value="1">정기</option>
-                            			<option value="2">일시</option>
-                            		</c:if>
-                            		</select>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>내용</td>
              				<td>
              				 	<textarea id="summernote" name="programContent">${program.programContent }</textarea></td>
@@ -94,6 +82,83 @@
                 </form>
                         <button class="y_donate_back_btn1" onclick="window.location.href='${contextPath}/program/list'">목록</button>
             </section>
+             <script>
+			// 시작일 입력 요소 가져오기
+			 var startDateInput = document.getElementsByName('programActivityStartDate')[0];
+
+			 // 종료일 입력 요소 가져오기
+			 var endDateInput = document.getElementsByName('programActivityEndDate')[0];
+
+			 // 마감일 입력 요소 가져오기
+			 var enrollmentEndDateInput = document.getElementsByName('programEnrollEndDate')[0];
+
+			 // 오늘 날짜 생성
+			 var today = new Date();
+			 var year = today.getFullYear();
+			 var month = today.getMonth() + 1;
+			 var day = today.getDate();
+
+			 // 월과 일이 한 자리 수일 경우 두 자리로 만들기
+			 month = month < 10 ? '0' + month : month;
+			 day = day < 10 ? '0' + day : day;
+
+			 var currentDate = year + '-' + month + '-' + day;
+
+			 // 시작일은 최소 오늘부터 선택 가능
+			 startDateInput.setAttribute('min', currentDate);
+			 
+			 // 마감일은 최소 오늘부터 선택 가능
+			 enrollmentEndDateInput.setAttribute('min', currentDate);
+
+			 // 시작일 변경 시 이벤트 처리
+			 startDateInput.addEventListener('change', function() {
+			     // 선택한 시작일 가져오기
+			     var startDate = new Date(this.value);
+
+			     // 종료일 입력 요소의 최솟값 설정 / 시작일 이후
+			     endDateInput.setAttribute('min', this.value);
+
+			     // 종료일과 마감일의 유효성 검사
+			     validateEndDate();
+			     validateEnrollmentEndDate();
+			 });
+
+			 // 종료일 변경 시 이벤트 처리
+			 endDateInput.addEventListener('change', function() {
+			     // 종료일을 변경할 때마다 마감일의 최댓값을 설정
+			     enrollmentEndDateInput.setAttribute('max', this.value);
+
+			     // 종료일과 마감일의 유효성 검사
+			     validateEndDate();
+			     validateEnrollmentEndDate();
+			 });
+
+			 // 시작일과 종료일의 유효성 검사 함수
+			 function validateEndDate() {
+			     // 선택한 시작일과 종료일 가져오기
+			     var startDate = new Date(startDateInput.value);
+			     var endDate = new Date(endDateInput.value);
+
+			     // 종료일이 시작일 이전인지 확인
+			     if (endDate < startDate) {
+			         alert("종료일은 시작일보다 미래 날짜여야 합니다.");
+			         endDateInput.value = ''; // 종료일 초기화
+			     }
+			 }
+
+			 // 시작일과 마감일의 유효성 검사 함수
+			 function validateEnrollmentEndDate() {
+			     // 선택한 종료일과 마감일 가져오기
+			     var endDate = new Date(endDateInput.value);
+			     var enrollmentEndDate = new Date(enrollmentEndDateInput.value);
+
+			     // 마감일이 종료일 이전인지 확인
+			     if (enrollmentEndDate <= endDate) {
+			         alert("마감일은 종료일보다 미래 날짜여야 합니다.");
+			         enrollmentEndDateInput.value = ''; // 마감일 초기화
+			     }
+			 }
+</script>
             <script>
 				        $(document).ready(function() {
 				

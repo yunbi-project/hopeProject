@@ -29,7 +29,7 @@
 
 					<!-- 버튼들 -->
 					<div class="y_donate_back_btn" style="text-align: right;">
-					<c:if test="${loginUser.userNo ne program.userNo }">
+					<c:if test="${loginUser.userNo != null && loginUser.userNo ne program.userNo }">
 						<!-- 지원완료 버튼 -->
 						<c:choose>
 							<c:when test="${program.result eq '마감'}">
@@ -45,8 +45,6 @@
 								</c:if>
 							</c:otherwise>
 							</c:choose>
-						<!-- 채팅방입장 버튼 -->
-						<button class="y_donate_back_btn1" onclick="location.href = '<%=request.getContextPath() %>/chat/${chatNo}'">채팅방입장</button>
 						<!-- 관심목록 담기/취소 버튼 -->
 						<c:if test="${like > 0}">
 							<button class="heart_logo y_donate_back_btn1 yes" onclick="toggleLike()" style="margin-right: 5px;">관심목록취소</button>
@@ -55,7 +53,9 @@
 							<button class="heart_logo y_donate_back_btn1 no" onclick="toggleLike()" style="margin-right: 5px;">관심목록담기</button>
 						</c:if>
 						</c:if>
-						<c:if test="${loginUser.userNo eq program.userNo }">
+						<!-- 관리자인 경우 보이는 버튼 -->
+						<c:if test="${loginUser.userNo eq program.userNo || loginUser.userNo eq '1'}">
+							<button class="y_donate_back_btn1" onclick="location.href = '<%=request.getContextPath() %>/chat/${chatNo}'">채팅방입장</button>
 							<button class="y_donate_back_btn1" onclick="location.href = '${contextPath}/program/update/${programNo}'">수정하기</button>
 							<button class="y_donate_back_btn1" onclick="deleteProgram()">삭제하기</button>
 						</c:if>
@@ -70,8 +70,8 @@
 			<table class="y_table">
 				<tr>
 					<td>봉사 기간</td>
-					<td>${program.programActivityStartDate}~
-						${program.programActivityEndDate}</td>
+					<td>${program.sdate}~
+						${program.edate}</td>
 				</tr>
 				<tr>
 					<td>봉사 시간</td>
@@ -84,7 +84,7 @@
 				</tr>
 				<tr>
 					<td>모집 기간</td>
-					<td>${program.programEnrollEndDate }까지</td>
+					<td>${program.enroll }까지</td>
 				</tr>
 				<tr>
 					<td>활동 요일</td>
@@ -104,15 +104,6 @@
 					<td>${program.activityLocation }</td>
 				</tr>
 				<tr>
-					<td>봉사 유형</td>
-					<c:if test="${program.activityType eq '1'}">
-						<td class="left-align">정기</td>
-					</c:if>
-					<c:if test="${program.activityType eq '2'}">
-						<td class="left-align">일시</td>
-					</c:if>
-				</tr>
-				<tr>
 					<td>내용</td>
 					<td>${program.programContent }</td>
 				</tr>
@@ -120,21 +111,14 @@
 			<!-- 목록 버튼 -->
 			<div class="y_donate_back_btn"
 				style="text-align: center; margin-top: 20px;">
-				<button class="y_donate_back_btn1" onclick="move()">목록</button>
+				<button class="y_donate_back_btn1" onclick="location.href = '${contextPath}/program/list'">목록</button>
 			</div>
 			<script>
-				function move() {
-					location.href = "${contextPath}/program/list";
-				}
-				function join() {
-// 					location.href = "${contextPath}//list";
-				}
-
 				function requestProgram() {
 					if(confirm("봉사활동을 신청하시겠습니까?")){
 						$.ajax({
 							url : '${contextPath}/program/detail/request/' + ${programNo},
-							data : {userNo: loginUser.userNo},
+							data : {userNo: ${userNo}},
 							type : 'post',
 							success : function(result) {
 								if(result>0){
