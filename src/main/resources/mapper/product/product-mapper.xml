@@ -12,9 +12,6 @@
 	    <result property="email" column="EMAIL" />
 	    <result property="productWay" column="PRODUCT_WAY" />
 	    <result property="productAmount" column="PRODUCT_AMOUNT" />
-	    <result property="receipt" column="RECEIPT" />
-	    <result property="businessNum" column="BUSINESS_NUM" />
-	    <result property="residentNum" column="RESIDENT_NUM" />
 	    <result property="categoryNo" column="CATEGORY_NO" />
 	    <result property="inquiryContent" column="INQUIRY_CONTENT" />
 	</resultMap>
@@ -23,12 +20,11 @@
 	<insert id="insertProduct" parameterType="product">
 		INSERT INTO DONATE_PRODUCT(
 		PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
-		BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
-		BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT
+		BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, STATUS,PRODUCT_DATE, CATEGORY_NO, INQUIRY_CONTENT
 		)
 		VALUES(
 		SEQ_DOPRONO.NEXTVAL, #{productType}, #{puserName}, #{businessName}, #{phone}, #{email}, #{productWay},
-		#{productAmount}, #{receipt}, #{businessNum}, #{residentNum}, 'Y', SYSDATE, #{categoryNo}, #{inquiryContent}
+		#{productAmount}, 'Y', SYSDATE, #{categoryNo}, #{inquiryContent}
 		)
 	</insert>
 	
@@ -47,8 +43,8 @@
 	<select id="selectProductNoCheck" resultType="product">
 		SELECT 
 		    PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME,
-		    BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
-		    BUSINESS_NUM, RESIDENT_NUM, STATUS,PRODUCT_DATE, D.CATEGORY_NO, INQUIRY_CONTENT, C.CATEGORY_NAME
+		    BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, 
+		    STATUS,PRODUCT_DATE, D.CATEGORY_NO, INQUIRY_CONTENT, C.CATEGORY_NAME
 		FROM DONATE_PRODUCT D
 		INNER JOIN PRODUCT_CATEGORY C ON D.CATEGORY_NO = C.CATEGORY_NO
 		WHERE PHONE = #{phone} AND STATUS = 'Y'
@@ -58,8 +54,8 @@
 	<!-- 물품 기부 번호, 이름, 전화번호 -->
 	<select id="selectProductUpdateCheck" parameterType="product" resultMap="productRm">
 		SELECT
-			PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME, BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT, RECEIPT, 
-			BUSINESS_NUM, RESIDENT_NUM, D.CATEGORY_NO, INQUIRY_CONTENT
+			PRODUCT_NO, PRODUCT_TYPE, PUSER_NAME, BUSINESS_NAME, PHONE, EMAIL, PRODUCT_WAY, PRODUCT_AMOUNT,
+			D.CATEGORY_NO, INQUIRY_CONTENT
 		FROM DONATE_PRODUCT D
 		INNER JOIN PRODUCT_CATEGORY C ON D.CATEGORY_NO = C.CATEGORY_NO
 		WHERE PHONE = #{phone}
@@ -79,9 +75,6 @@
 			EMAIL = #{email},
 			PRODUCT_WAY = #{productWay},
 			PRODUCT_AMOUNT = #{productAmount},
-			RECEIPT = #{receipt}, 
-			BUSINESS_NUM = #{businessNum},
-			RESIDENT_NUM = #{residentNum},
 			CATEGORY_NO = #{categoryNo},
 			INQUIRY_CONTENT = #{inquiryContent}
 		WHERE STATUS='Y' AND PRODUCT_NO = #{productNo}

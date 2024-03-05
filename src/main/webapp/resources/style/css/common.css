@@ -54,7 +54,7 @@ header{
 .h_logo_img{
     width: 200px;
     padding: 10px;
-    margin: 0px 100px 0px 0px;
+/*     margin: 0px 100px 0px 10px; */
 }
 
 #header_new .header__btm nav > ul.gnb__depth1 > li {
@@ -124,8 +124,7 @@ header{
 
 #header_new .header__btm nav .gnb__area .gnb__menu {
     float: left;
-    width: 350px;
-    padding-right: 100px;
+    min-width: 400px;
     box-sizing: border-box;
 }
 
@@ -146,11 +145,10 @@ header{
 
 #header_new .header__btm nav .gnb__area .gnb__banner {
     float: right;
-    width: 600px;
+    min-width: 550px;
     padding-left: 50px;
     box-sizing: border-box;
     border-left: 1px solid #ddd;
-    margin-right: 100px;
 }
 
 #header_new .header__btm nav .gnb__area .gnb__banner img {
@@ -213,9 +211,6 @@ header{
     cursor: pointer;
 }
 
-.h_logout{
-    margin-left: 100px;
-}
 
 .logoutImg{
     width: 13px;
@@ -274,34 +269,77 @@ header{
     text-align: center;
 }
 
-.sub_menu li a{
+.sub_menu a li{
     color:white;
+    transition: all 0.3s ease; /* 슬라이드 애니메이션을 위해 추가 */
 }
 
-.sub_menu li a:hover{
-    border-bottom: 1px solid white;
-    color:white !important;
+.sub_menu a li:hover{
+	color:black;
 }
 
 
+#activity{
+    position: absolute;
+    top: 90px;
+    left: 0;
+    display: none;
+    padding: 10px;
+    background-color: #abc128;
+    border: 1px solid #c8f0d7;
+    z-index: 99;
+}
 
+#activity a li{
+	color: white;
+	margin : 10px;
+	transition: all 0.3s ease; /* 슬라이드 애니메이션을 위해 추가 */
+}
 
+#activity a li:hover{
+    color:black;
+}
+
+#h_new{
+    position: absolute;
+    top: 90px;
+    left: 0;
+    display: none;
+    padding: 10px;
+    background-color: #abc128;
+    border: 1px solid #c8f0d7;
+    z-index: 99;
+}
+
+#h_new a li{
+	color: white;
+	margin : 10px;
+	transition: all 0.3s ease; /* 슬라이드 애니메이션을 위해 추가 */
+}
+
+#h_new a li:hover{
+	color:black;
+}
 
 /* ------------- footer ----------------- */
 /* footer CSS */
 
-.footer{
-    clear: both; /* float된 요소들을 모두 clear하여 아래로 내려가게 함 */
-    width: 100%; /* 화면 전체 너비만큼 설정 */
-    background-color: #f8f9fa; /* 배경색 설정 */
+.footer {
+	position: absolute;  
+    bottom: auto;
+    width: 1500px; /* 화면 전체 너비만큼 설정 */
     padding: 20px; /* 적절한 여백 설정 */
     box-sizing: border-box; /* padding 값 포함하여 너비 계산 */
     text-align: center; /* 텍스트를 가운데 정렬 */
+    margin: 0px;
+    padding: 0px;
+    z-index:10;
+    clear: both; /* float된 요소들을 모두 clear하여 아래로 내려가게 함 */
 }
 
 .h_footers {
   font-family: 'NanumSquareNeo-Variable';
-  margin-top: 100px;
+  margin-top: 10%;
   display: flex;
   background-color: rgb(214, 214, 214);
   text-align: left;
@@ -351,4 +389,3 @@ header{
 .h_footer_end span{
   color:rgb(5, 11, 39);
 }
-

@@ -678,6 +678,7 @@
                     pagination();
                 }
             });
+            
         });//DOCUMENT READY
 
         /***********
@@ -735,10 +736,10 @@
             }, stepTime);
           }
 
-          // 사용 예시
+          // 숫자 자동으로 증가하는 JS
           countUp('.h_text-wrapper-27', 0, 1000, 50000); // 3초 동안 0부터 11000까지 증가
           countUp('.h_text-wrapper-28', 0, 1000, 50000); // 3초 동안 0부터 11000까지 증가
-
+		
 
     </script>
 </body>
