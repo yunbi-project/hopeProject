@@ -21,102 +21,158 @@
 	    </script>
 	    <c:remove var="alertMsg" />
 	</c:if>
-    <header class="common">
-        <div class='h_header'>
-            <div class="h_headerLogo">
-                <a href="${contextPath}"><img class="h_logo_img" src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png' ></a>
-            </div>
-            <div class='h_headerSelect'>
-                <div>
-                    <a href="${contextPath}"><div id="h_home">홈</div></a>
-                    <a href="${contextPath}/donate/list"><div id="h_support">후원모집</div></a>
-                    <a href="${contextPath}/product"><div id="h_donate">물품기부</div></a>
-                    <a href="${contextPath}/program/list"><div id="h_activity" class="hoverToShowMenu_activity">활동</div></a>
-                    <a href="${contextPath}/board/R"><div id="h_news" class="hoverToShowMenu_news">소식</div></a>
-                </div>
-            </div>
-			
-			<c:choose>
-				<c:when test="${empty loginUser}">
-					<!-- 로그인 하지 않을 경우 -->
-					<div class='h_headerLogin'>
-					    <ul>
-					        <li><a href="${contextPath}/login">로그인</a></li>
-							<li> | </li>
-							<li><a href="${contextPath}/login">회원가입</a></li>
-				        </ul>
-				    </div>
-				</c:when>
-				<c:when test="${loginUser.userNo eq 1}">
-					<div class="h_headerLogout">
-		                 <ul style="margin-left: 25px;"> 
-		                     <li>${loginUser.userName} 회원님 환영합니다<img style="width: 17px;" src="https://cdn-icons-png.flaticon.com/128/2338/2338389.png"></li>
-		                 </ul>
-		                 <ul> 
-		                     <li><a href="${contextPath}/logout.me">로그아웃</a></li> 
-		                     <li> | </li>
-		                     <li><a href="${contextPath}/admin/adminIndex">관리자 페이지</a></li> 
-		                     <li> | </li> 
-		                     <li><a href="http://localhost:8005/hope/chat/chatList"><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
-		                 </ul> 
-		           </div> 
-				</c:when>
-		        <c:otherwise>
-				   <!-- 로그인 이후 -->
-		           <div class="h_headerLogout">
-		                 <ul style="margin-left: 25px;"> 
-		                     <li>${loginUser.userName} 회원님 환영합니다<img style="width: 17px;" src="https://cdn-icons-png.flaticon.com/128/2338/2338389.png"></li>
-		                 </ul>
-		                 <ul> 
-		                     <li><a href="${contextPath}/logout.me">로그아웃</a></li> 
-		                     <li> | </li>
-		                     <li><a href="${contextPath}/mypage">마이페이지</a></li> 
-		                     <li> | </li> 
-		                     <li><a href="http://localhost:8005/hope/chat/chatList"><img style="width:20px" src="https://cdn-icons-png.flaticon.com/128/5465/5465394.png"></a></li>
-		                 </ul> 
-		           </div> 
-		        </c:otherwise>
-			</c:choose>
+    <header id="header_new">
+        <div class="header__inner w1200">
+            <div class="header__btm flex">
+                <h1 class="logo">
+                    <a href="${contextPath}"><img class="h_logo_img" src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png' ></a>
+                </h1>
 
-        </div>
-        <div class='h_headerMenu headerMenu_news' style="display:none">
-            <ul class='h_headerMenu_1'>
-                <h4>소식</h4>
-                <li>행복한 변화와 이야기를 전해드립니다.</li>
-            </ul>
-            <ul id="headerNews" class='h_headerMenu_2' >
-                <li><a href="${contextPath}/board/R">나눔후기 게시판</a></li>
-                <li><a href="${contextPath}/board/C">자유 게시판</a></li>
-                <li><a href="${contextPath}/board/N">공지사항</a></li>
-                <li><a href="${contextPath}/board/Q">자주 묻는 질문 FAQ</a></li>
-            </ul>
-            <ul class='h_headerMenu_3'>
-                <li>
-                    <a>
-                        <img src='/images/hyun/희망의조각.png' alt="image" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class='h_headerMenu headerMenu_activity' style="display:none">
-            <ul class='h_headerMenu_1'>
-                <h4>활동</h4>
-                <li>도움이 가장 필요한 곳에 후원자님의 사랑을 전달합니다.</li>
-            </ul>
-            <ul class='h_headerMenu_2'>
-                <li><a href="${contextPath}/program/list">봉사활동 지원하기</a></li>
-                <li><a href="${contextPath}/activityreport">활동보고서</a></li>
-            </ul>
-            <ul class='h_headerMenu_3'>
-                <li>
-                    <a>
-                        <img src='/images/hyun/희망의조각.png' alt="image" />
-                    </a>
-                </li>
-            </ul>
+                <nav class="flex">
+                    <ul class="flex gnb__depth1" style="height: 100px;">
+                        <li>
+                            <a href="${contextPath}">홈</a>
+                        </li>
+                        <li>
+                            <a href="${contextPath}/donate/list">후원모집</a>
+                        </li>
+                        <li>
+                            <a href="${contextPath}/product">물품기부</a>
+                        </li>
+                        <li>
+                            <a>활동</a>
+                            <div class="gnb__area" style="overflow: hidden;
+                            display: none;
+                            height: 240px;
+                            padding-top: 0px;
+                            margin-top: 0px;
+                            padding-bottom: 0px;
+                            margin-bottom: 0px;">
+                                <div class="inner">
+                                    <div class="w1200 clearfix">
+                                        <div class="gnb__intro">
+                                            <h2 style="font-family: 'NanumSquareNeo-Variable'; margin-top: 20px; color:black;">희망의 조각은</h2>
+                                            <p>행복한 변화와<br>
+                                            이야기를 전해드립니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="gnb__menu">
+                                        <ul class="gnb__depth2" style="margin-top: 40px;">
+                                            <li class="gnb__menu__others">
+                                                <a href="${contextPath}/program/list">봉사활동 지원하기</a>
+                                            </li>
+                                            <li class="gnb__menu__others">
+                                                <a href="${contextPath}/activityreport">활동보고서</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="gnb__banner">
+                                        <a style="cursor:pointer;">
+                                            <img src="${contextPath}/resources/style/img/물품기부.jpg">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li>
+                            <a>소식</a>
+                            <div class="gnb__area" style="overflow: hidden;
+                            display: none;
+                            height: 250px;
+                            padding-top: 0px;
+                            margin-top: 0px;
+                            padding-bottom: 0px;
+                            margin-bottom: 0px;">
+
+                                <div class="inner">
+                                    <div class="w1200 clearfix">
+                                        <div class="gnb__intro">
+                                            <h2  style="font-family: 'NanumSquareNeo-Variable'; margin-top: 20px; color:black;">희망의 조각은</h2>
+                                            <p>도움이 가장 필요한 곳에<br>
+                                            후원자님의 사랑을 전달합니다.</p>
+                                        </div>
+                                    </div>
+                                    <div class="gnb__menu">
+                                        <ul class="gnb__depth2">
+                                            <li class="gnb__menu__others" style="margin-top:10px;">
+                                                <a href="${contextPath}/board/R">나눔후기 게시판</a>
+                                            </li>
+                                            <li class="gnb__menu__others">
+                                                <a href="${contextPath}/board/C">자유 게시판</a>
+                                            </li>
+                                            <li class="gnb__menu__others">
+                                                <a href="${contextPath}/board/N">공지사항</a>
+                                            </li>
+                                            <li class="gnb__menu__others">
+                                                <a href="${contextPath}/board/Q">자주 묻는 질문 FAQ</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="gnb__banner">
+                                        <a style="cursor:pointer;">
+                                            <img src="${contextPath}/resources/style/img/물품기부.jpg">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <c:choose>
+                        <c:when test="${empty loginUser}">
+                            <li class="h_login flex">
+                                <a style="margin-left: 100px;" href="${contextPath}/login">회원가입</a>
+                                <a style="color:black;" href="${contextPath}/login"><div class="nexon_login">로그인</div></a>
+                            </li>
+                        </c:when>
+                        <c:when test="${loginUser.userNo eq 1}">
+                            <li class="h_logout flex">
+                                <a href="${contextPath}/logout.me">로그아웃</a>
+                                <div class="flex logoutSub" onclick="toggleSubMenu()">
+                                    <span class="nexon_logout">${loginUser.userName}님</span>
+                                    <img class="logoutImg" src="https://cdn-icons-png.flaticon.com/128/748/748063.png">
+                                    <ul class="sub_menu">
+                                        <li><a href="${contextPath}/admin/adminIndex">ADMIN</a></li>
+                                        <li><a href="${contextPath}/mypage">마이페이지</li>
+                                        <li><a href="http://localhost:8005/hope/chat/chatList">채팅방</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="h_logout flex">
+                                <a href="${contextPath}/logout.me">로그아웃</a>
+                                <div class="flex logoutSub" onclick="toggleSubMenu()">
+                                    <span class="nexon_logout">${loginUser.userName}님</span>
+                                    <img class="logoutImg" src="https://cdn-icons-png.flaticon.com/128/748/748063.png">
+                                    <ul class="sub_menu">
+                                        <li><a href="${contextPath}/mypage">마이페이지</li>
+                                        <li><a href="http://localhost:8005/hope/chat/chatList">채팅방</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    
+                </nav>
+            </div>
         </div>
     </header>
-    
+
+    <script>
+        function toggleSubMenu() {
+            var subMenu = document.querySelector('.sub_menu');
+            if (subMenu.style.display === 'none') {
+                subMenu.style.display = 'block';
+            } else {
+                subMenu.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>

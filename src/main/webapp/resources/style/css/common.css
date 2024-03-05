@@ -1,201 +1,286 @@
 @font-face {
-  font-family: 'NanumSquareNeo-Variable';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
 
 *{
-  box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'NanumSquareNeo-Variable';  
 }
-
-
-a {
-  text-decoration: none;
-  color: inherit; /* Inherit the default text color */
-}
-
 
 body{
-  margin: 0 auto;  /* 가운데 정렬 */
-  max-width: 1500px; 
-  min-width: 1500px;
+    margin: 0 auto;  /* 가운데 정렬 */
+    max-width: 1500px; 
+    min-width: 1500px;
 }
 
-.common {
-  text-align: center;
-  position: relative;
-  justify-content: center;
-  align-items: center;
+a, li {
+    list-style: none;
+    text-decoration: none;
+    color: black;
 }
 
-
-
-.h_header {
-  display: flex; /* 요소들을 가로로 나열 */
-  align-items: center; /* 세로 방향 가운데 정렬 */
-  justify-content: space-between; /* 요소들을 가로로 최대한 분산 배치 */
-  background-color: white;
-  border-bottom: 2px solid rgb(210, 208, 208);
-  width: 100%;
-  height: 100px;
-}
-
-.h_headerLogo img {
-  margin-left: 50px;
-  width: 180px; /* 로고 이미지 크기 조정 */
-}
-
-.h_headerSelect div {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  align-items: center;
-  justify-content: center;
+a{
+    cursor: pointer;
 }
 
 
-
-.h_headerSelect div > a > div {
-  font-family: 'NanumSquareNeo-Variable';
-  padding: 0; /* Add padding to div elements */
-  height: 100px;
-  font-size: 20px;
-  font-weight: bold;
-  width: 130px;
-  padding-right: 40px;
-  padding-left: 40px;
-  cursor: pointer;
-
-  transition: border-bottom 0.3s ease; 
+header{
+    line-height: 1.6em !important;
+    word-break: keep-all;
+    letter-spacing: -0.8px;
 }
 
-.h_headerSelect div > a> div:hover{
-  color:#7fa924;
+#header_new {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    transition: 0.5s;
 }
 
-.h_headerSelect div > a> div, .h_headerMenu ul > ul {
-  padding: 0;
-  height: 100px;
-  font-size: 20px;
-  font-weight: bold;
-  width: 160px;
-  padding-right: 30px;
-  padding-left: 30px;
-  cursor: pointer;
-  position: relative;
+#header_new .header__btm {
+    height: 100px;
 }
 
-.h_headerSelect div > a> div::before {
-  content: ''; /* Add content to the pseudo element */
-  position: absolute; /* Position the pseudo element absolutely */
-  bottom: 0; /* Align the pseudo element to the bottom */
-  left: 0; /* Start the pseudo element from the left */
-  width: 0; /* Initially set the width to 0 */
-  height: 2px; /* Set the height of the border */
-  background-color: #ABC138; /* Set the color of the border */
-  transition: width 0.7s ease; /* Apply transition to width property */
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100px;
 }
 
-.h_headerSelect div > a> div:hover::before{
-  width: 100%; 
+.h_logo_img{
+    width: 200px;
+    padding: 10px;
+    margin: 0px 100px 0px 0px;
 }
-.h_headerMenu:hover ul > ul::before {
-  width: 0; /* Decrease the width to 0 when .h_headerMenu is hovered */
+
+#header_new .header__btm nav > ul.gnb__depth1 > li {
+    position: relative;
+    margin-right: 69px;
+    height: 100px;
+    padding: 20px;
+    padding-top: 35px;
+    text-align: center;
+}
+
+#header_new .header__btm nav > ul.gnb__depth1 > li > a {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000000;
+    transition: 0.3s;
+}
+
+#header_new .header__btm nav > ul.gnb__depth1 > li:hover > a {
+    color: #abc128;
+    font-weight: bold;
 }
 
 
 
-.h_headerLogin,
-.h_headerLogout {
-  margin-right: 20px;
-  font-family: 'NanumSquareNeo-Variable';
+#header_new .header__btm nav > ul.gnb__depth1 > li {
+    position: relative;
 }
 
-.h_headerLogin ul,
-.h_headerLogout ul {
-  display: flex; /* 요소들을 가로로 나열 */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  
+#header_new .header__btm nav > ul.gnb__depth1 > li::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0; /* 시작점을 왼쪽으로 설정 */
+    width: 0%;
+    height: 3px;
+    background-color: #abe128;
+    transition: width 0.3s ease; /* 변경 사항에 대한 transition 속성 적용 */
 }
 
-.h_headerLogin ul li{
-  margin-right: 20px; /* 각 요소 사이의 간격 조정 */
-  font-size: 15px;
-  cursor: pointer;
+#header_new .header__btm nav > ul.gnb__depth1 > li:hover::after {
+    width: 100%; /* hover 상태일 때 선의 너비를 100%로 변경하여 오른쪽으로 선이 나타나도록 함 */
 }
 
-.h_headerLogout ul li{
-	height: 35px;
-	margin-right: 20px; /* 각 요소 사이의 간격 조정 */
-  	font-size: 15px;
-  	cursor: pointer;
-  	
+#header_new .header__btm nav .gnb__area .inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    height: 240px;
+    padding: 40px 0 45px;
+    box-sizing: border-box;
+    background-color: #fff;
+    z-index:98;
+    
 }
 
-/* 소식 */
-.h_headerMenu{
-  font-family: 'NanumSquareNeo-Variable';
-  opacity:.9;
-  display: none;
-  width: 1500px;
-  height: 200px;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  background-color: rgb(238, 245, 238);
-  padding: 20px 0; /* 위아래 padding 추가 */
-  z-index: 23; /* 다른 요소 위에 표시 */
+.w1200 {
+    width: 1500px;
+    margin: 0 auto;
 }
 
-
-
-
-.h_headerMenu_1{
-  width: 210px;
-  list-style: none;
+#header_new .header__btm nav .gnb__area .gnb__intro {
+    float: left;
+    width: 285px;
+    margin-left: 200px;
 }
 
-.h_headerMenu_2{
-  list-style: none;
-  text-align: left;
-  border-right: 1px solid #A4A4A4; /* 오른쪽에 선 추가 */
-  padding-right: 150px; /* 오른쪽 padding 추가 */
+#header_new .header__btm nav .gnb__area .gnb__menu {
+    float: left;
+    width: 350px;
+    padding-right: 100px;
+    box-sizing: border-box;
 }
 
-.h_headerMenu_2 li{
-  margin-top: 20px;
- 
+#header_new .header__btm nav ul.gnb__depth1 > li .gnb__area .gnb__menu ul.gnb__depth2 > li a {
+    margin-bottom: 21px;
 }
-
-.h_headerMenu_2 li:hover{
-  cursor: pointer;
+#header_new .header__btm nav .gnb__area .gnb__menu ul.gnb__depth2 > li a {
+    display: block;
+    margin-bottom: 13px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    color: #333;
+    transition: 0.7s;
 }
 
 
-/* 사진 */
-.h_headerMenu_3{
-  list-style: none;
+
+#header_new .header__btm nav .gnb__area .gnb__banner {
+    float: right;
+    width: 600px;
+    padding-left: 50px;
+    box-sizing: border-box;
+    border-left: 1px solid #ddd;
+    margin-right: 100px;
 }
 
-.h_headerMenu_3 li a img{
-  width: 100px;
-  margin-right: 150px;
+#header_new .header__btm nav .gnb__area .gnb__banner img {
+    max-width: 260px;
+    border: 0 none;
+    font-size: 0px;
+    padding: 0;
+    margin: 0;
+    transition: opacity 0.3s ease; 
 }
 
-.h_headerMenu_3 li a img{
-	cursor : pointer;
+#header_new .header__btm nav .gnb__area .gnb__banner img:hover{
+    opacity: 0.9; /* 투명도 조정 */
 }
 
-/* 소식 메뉴 표시 및 숨김 */
-.h_headerSelect ul li:nth-last-child(2):hover ~ .h_headerMenu {
-  display: flex; /* 호버 시 메뉴가 나타남 */
+#header_new .header__btm nav .gnb__area {
+    display: none;
+    position: fixed;
+    top: 100.5px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    height: 390px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 로그인 */
+.h_login, .h_logout{
+    display: flex;
+    width: 100px;
+    margin-left: 50px;
+}
+.h_login a, .h_logout a{
+    font-size: 14px;
+}
+
+.h_login a{
+    transition: color 0.3s ease; 
+}
+
+/* 로그인 전 */
+.nexon_login{
+    margin-left: 20px;
+    border: 1px solid rgb(174, 174, 174);
+    padding:5px 30px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease; 
+}
+
+.nexon_login:hover{
+    background-color: #abe128;
+    border: 1px solid #abe128;
+}
+
+/* 로그인 후 */
+.nexon_logout{
+    margin-left: 20px;
+    transition: color 0.3s ease; 
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.h_logout{
+    margin-left: 100px;
+}
+
+.logoutImg{
+    width: 13px;
+    margin-left: 10px;
+    transition: margin-top 0.3s ease; 
+}
+
+.nexon_logout:hover + .logoutImg{
+    margin-top: 3px;
+}
+
+.nexon_logout{
+	font-size:14px;
+}
+
+.h_logout a{
+    transition: color 0.3s ease; 
+}
+
+.nexon_logout:hover, .h_logout a:nth-of-type(1):hover, .h_login a:hover{
+    color:#abc128;
+}
+
+#header_new .header__btm nav .gnb__area .gnb__menu ul.gnb__depth2 > li a:hover{
+    color:#abc128;
+}
+
+
+.logoutSub {
+    position: relative;
+    cursor: pointer;
+}
+
+.logoutImg {
+    vertical-align: middle;
+}
+.sub_menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    display: none;
+    padding: 10px;
+    background-color: #abc128;
+    border: 1px solid #c8f0d7;
+    z-index: 99;
+    transition: all 0.3s ease; /* 슬라이드 애니메이션을 위해 추가 */
+}
+.sub_menu.active {
+    display: block;
+}
+.sub_menu li{
+    padding: 10px;
+    list-style-type: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.sub_menu li a{
+    color:white;
+}
+
+.sub_menu li a:hover{
+    border-bottom: 1px solid white;
+    color:white !important;
 }
 
 
