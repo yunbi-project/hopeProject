@@ -6,14 +6,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.program.dao.ProgramDao;
 import com.kh.hope.program.model.vo.Likes;
 import com.kh.hope.program.model.vo.Program;
 import com.kh.hope.program.model.vo.Request;
 
-@Repository
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
 public class ProgramService {
 
 	@Autowired
@@ -28,9 +34,22 @@ public class ProgramService {
 	public Program selectProgramDetail(int programNo) {
 		return dao.selectProgramDetail(programNo);
 	}
-
-	public int insertProgram(Program program) {
-		return dao.insertProgram(program);
+	
+	@Transactional(rollbackFor = Exception.class)
+	public int insertProgram(Program program, Chat c) {
+		
+		int result = dao.insertProgram(program);
+		
+		if (result > 0) {
+			// 게시글 조회
+			 int selectProgramNo = dao.selectchatProgram(program); 
+			
+			c.setProgramNo(selectProgramNo);
+			log.info("service chat 정보확인 :  {} ", c );
+			result = dao.insertChat(c);
+		}
+		
+		return result;
 	}
 
 	public Program detailProgram(int programNo) {
@@ -76,5 +95,18 @@ public class ProgramService {
 	}
 	public int deleteProgram(int programNo) {
 		return dao.deleteProgram(programNo);
+	}
+	// 채팅방 생성
+	public int insertChat(Chat c) {
+		
+		return dao.insertChat(c);
+	}
+	// 채팅방 조회
+	public int selectChat(Chat c) {
+		return dao.selectChat(c);
+	}
+	// programNo값이랑 같은 채팅방을 가져온다.
+	public int selectChatRoomNo(Chat c) {
+		return dao.selectChatRoomNo(c);
 	}
 }

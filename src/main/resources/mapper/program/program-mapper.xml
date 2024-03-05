@@ -72,7 +72,7 @@
 		order by 1 desc
 	</select>
 
-	<insert id="insertProgram" parameterType="program">
+	<insert id="insertProgram" >
 		INSERT INTO PROGRAM
 		(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE,
 		PROGRAM_ACTIVITY_END_DATE,
@@ -106,16 +106,13 @@
 		PROGRAM_ENROLL_END_DATE,
 		PROGRAM_CONTENT,
 		CASE 
-            WHEN PROGRAM_ENROLL_END_DATE > SYSDATE THEN '모집중'
-            ELSE '마감' END AS RESULT
+            WHEN TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'DD') = TO_CHAR(SYSDATE, 'DD')  THEN '모집중'
+	        WHEN PROGRAM_ENROLL_END_DATE <![CDATA[>]]> SYSDATE THEN '모집중'
+	        ELSE '마감'
+	    END AS RESULT
 		FROM PROGRAM
 		WHERE PROGRAM_NO =
 		#{programNo}
-	</select>
-	
-	<select id="getRecruitment" resultType="String">
-		SELECT PROGRAM_ENROLL_END_DATE FROM PROGRAM
-		WHERE PROGRAM_NO =#{programNo}
 	</select>
 
 	<insert id="requestProgram" parameterType="request">
@@ -180,4 +177,32 @@ order by 1 desc
 		DELETE FROM PROGRAM
 		WHERE PROGRAM_NO = #{programNo}
 	</delete>
+	
+	
+	<!-- 채팅방 생성 -->
+
+	<insert id="insertChat" parameterType="chat" useGeneratedKeys="true">
+   
+    	INSERT INTO CHAT (CHAT_NO,CHAT_TITLE,USER_NO,PROGRAM_NO) 
+		VALUES
+		(SEQ_CHATNO.NEXTVAL, #{chatTitle} , #{userNo}, #{programNo} )
+    
+  		<selectKey keyProperty="programNo" resultType="int" order="AFTER">
+				SELECT SEQ_PROGRAMNO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert> 
+	
+	<select id="selectchatProgram" resultType="int">
+	 	SELECT PROGRAM_NO
+	 	FROM PROGRAM
+	 		WHERE USER_NO = #{userNo} AND
+	 		PROGRAM_NAME = #{programName}
+	 		AND PROGRAM_ACTIVITY_START_DATE = #{programActivityStartDate}
+	</select> 
+	
+	<select id="selectChatRoomNo" resultType="int">
+		SELECT CHAT_NO
+		FROM CHAT
+			WHERE PROGRAM_NO = #{programNo}
+	</select>
 </mapper>

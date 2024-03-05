@@ -1,5 +1,6 @@
 package com.kh.hope.admin.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,7 @@ public class AdminController {
 		 */
 		
 		// 기부 그래프
-		List<Donate> list = adminService.getDailyIncome();
+		List<PaymentInfo> list = adminService.getDailyIncome();
 		
 		// gson 객체 생성
 		Gson gson = new Gson();
@@ -124,15 +125,15 @@ public class AdminController {
 		
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
-		Iterator<Donate> it = list.iterator();
+		Iterator<PaymentInfo> it = list.iterator();
 		while(it.hasNext()) {
-			Donate donate = it.next();
+			PaymentInfo paymentInfo = it.next();
 			JsonObject object = new JsonObject();
 			// 기부금액
-			int sale = donate.getDonateAmount();
+			int sale = paymentInfo.getDonateAmount();
 			
 			// 기부날짜
-			Date dt = donate.getPaymentDate();
+			Date dt = paymentInfo.getCreateDate();
 			String date = df.format(dt);
 			
 			object.addProperty("sale", sale);
@@ -160,6 +161,8 @@ public class AdminController {
 		 model.addAttribute("selectDonate" , selectDonate);
 		 
 		 log.info("selectDonate 정보확인 {}" , selectDonate);
+		 
+		 
 		return "admin/tables";
 	}
 	
@@ -328,34 +331,29 @@ public class AdminController {
 		
 	
 		
-		// 채팅방 입장 
-		@GetMapping("/chat/{chatNo}") // 내일 학원가서 채팅방 입장부터 하면됨.
-		public String joinChatRoom(
-				@PathVariable("chatNo") int chatNo, // url chatno
-				Model model,
-				RedirectAttributes ra,
-				ChatJoin join,
-				@ModelAttribute("loginUser") User loginUser
-				) {
-			
-			// chatJoin 안에 참여한 채팅방번호(chatNo)와 참여한 회원번호(userNo)를 담아서 INSERT(참여인원수 증가) 
-			join.setChatNo(chatNo);
-			join.setUserNo(loginUser.getUserNo());
-			
-			List<ChatMessage> list = adminService.joinChatRoom(join); 
-			
-			// 채팅방 참여(insert)후, 해당 채팅방의 채팅메시지 조회(select)
-			log.info("채팅내용 {}" , list);
-			
-			if(list != null) {
-				model.addAttribute("list", list);
-				model.addAttribute("chatNo", chatNo); // 웹소켓이 활용하기 위해 담아줬다. session으로 이관
-				return "chat/chatRoom";
-			}else {
-				ra.addFlashAttribute("alertMsg" , "채팅방이 존재하지 않습니다.");
-				return "redirect:/chat/chatList";
-			}
-		}	
+			/*
+			 * // 채팅방 입장
+			 * 
+			 * @GetMapping("/chat/{chatNo}") // 내일 학원가서 채팅방 입장부터 하면됨. public String
+			 * joinChatRoom(
+			 * 
+			 * @PathVariable("chatNo") int chatNo, // url chatno Model model,
+			 * RedirectAttributes ra, ChatJoin join,
+			 * 
+			 * @ModelAttribute("loginUser") User loginUser ) {
+			 * 
+			 * // chatJoin 안에 참여한 채팅방번호(chatNo)와 참여한 회원번호(userNo)를 담아서 INSERT(참여인원수 증가)
+			 * join.setChatNo(chatNo); join.setUserNo(loginUser.getUserNo());
+			 * 
+			 * List<ChatMessage> list = adminService.joinChatRoom(join);
+			 * 
+			 * // 채팅방 참여(insert)후, 해당 채팅방의 채팅메시지 조회(select) log.info("채팅내용 {}" , list);
+			 * 
+			 * if(list != null) { model.addAttribute("list", list);
+			 * model.addAttribute("chatNo", chatNo); // 웹소켓이 활용하기 위해 담아줬다. session으로 이관
+			 * return "chat/chatRoom"; }else { ra.addFlashAttribute("alertMsg" ,
+			 * "채팅방이 존재하지 않습니다."); return "redirect:/chat/chatList"; } }
+			 */
 		
 		// 채팅방 삭제
 		@GetMapping("chat/{chatNo}/deleteChatRoom")

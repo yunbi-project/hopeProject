@@ -11,6 +11,7 @@ import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
+import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.user.model.vo.User;
 
 public interface AdminService {
@@ -85,10 +86,10 @@ public interface AdminService {
 	int dashboardChatTotalCount();
 
 	// 기부 그래프
-	List<Donate> getDailyIncome();
+	List<PaymentInfo> getDailyIncome();
 
-	// donate 리스트 뽑기
-	List<Donate> selectDonate();
+	// donate_INFO 리스트 뽑기
+	List<PaymentInfo> selectDonate();
 
 	// 많이 접속한 채팅방명 5개
 	/* List<Chat> dashboardChatRoomList(); */

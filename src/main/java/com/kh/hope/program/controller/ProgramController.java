@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.program.model.service.ProgramService;
@@ -83,6 +84,7 @@ public class ProgramController {
 		}
 	}
 
+	// 프로그램 , 채팅방 다중인설트 
 	@PostMapping("/program/insert")
 	public String insertProgram(@ModelAttribute("loginUser") User loginUser, Program program, RedirectAttributes ra, HttpSession session) {
 		if (loginUser != null) {
@@ -91,20 +93,33 @@ public class ProgramController {
 			ra.addFlashAttribute("alertMsg", "프로그램 등록은 로그인 후 이용해주세요.");
 			System.out.println("로그인 필요");
 		}
-
-		int result = service.insertProgram(program);
-
-		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "활동 게시글이 수정되었습니다. 목록페이지로 돌아갑니다.");
-			System.out.println("등록 성공");
-		}
-
-		return "redirect:/program/list";
+		Chat c = new Chat();
+		// 채팅방 회원 번호, 제목
+		c.setUserNo(loginUser.getUserNo());
+		c.setChatTitle(program.getProgramName());
+		// 프로그램 번호
+		c.setProgramNo(program.getProgramNo());
+		
+		
+		log.info("program 확인 {}" , program);
+		
+		log.info("chat 확인 {}" , c) ;
+		 
+		int result = service.insertProgram(program, c);
+	    
+	    if (result > 0) {
+	        ra.addFlashAttribute("alertMsg", "활동 게시글이 등록되었습니다. 목록페이지로 돌아갑니다.");
+	        return "redirect:/program/list"; // 등록 성공 시 목록 페이지로 리디렉션
+	    } else {
+	        ra.addFlashAttribute("alertMsg", "활동 게시글 등록에 실패했습니다. 다시 시도해주세요.");
+	        return "redirect:/program/new"; // 등록 실패 시 다시 등록 페이지로 리디렉션
+	    }
 	}
 
 	// 프로그램 디테일
 	@GetMapping("/program/detail/{programNo}")
-	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session) {
+	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session, Chat c) {
+		
 	    Program program = service.detailProgram(programNo);
 	    
 	    // 세션에서 loginUser 가져오기
@@ -120,6 +135,7 @@ public class ProgramController {
 	    
 	    // 로그인한 경우
 	    int userNo = loginUser.getUserNo();
+	    
 	    int like = service.isLikeExists(userNo, programNo);
 	    int requestCount = service.isRequestExists(userNo, programNo);
 	    model.addAttribute("count", count);
@@ -127,6 +143,14 @@ public class ProgramController {
 	    model.addAttribute("requestCount", requestCount);
 	    model.addAttribute("program", program);
 	    model.addAttribute("userNo", userNo);
+	    
+	    // programNo값이랑 같은 채팅방을 가져온다.
+	    c.setProgramNo(programNo);
+	    log.info("chat 번호 확인 {} " , c);
+	    
+	    int chatNo = service.selectChatRoomNo(c);
+	    model.addAttribute("chatNo" , chatNo);
+	    log.info("chatNo {}" ,chatNo);
 	    
 	    return "program/programDetail";
 	}

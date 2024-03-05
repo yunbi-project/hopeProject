@@ -78,7 +78,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         
         // username으로 조회
         User existData = memberEntityMapperDao.findByUsername(providerid);
-        String role = "B";
+        String role = "USER";
 
         // 조회된 사용자가 없으면 새로운 사용자로 등록합니다.
         if(existData == null) { // 처음 로그인한경우 insert
