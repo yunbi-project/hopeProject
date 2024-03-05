@@ -27,9 +27,6 @@
                 <p style="height: 400px;">기부물품종류*</p>
                 <p>기부물품수량*</p>
                 <p style="height: 100px;">기부방법*</p>
-                <p style="height: 90px;">기부금영수증<br> 발급 여부*</p>
-                <p id="h_businessNumber" hidden>사업자번호*</p>
-                <p id="h_residentNumer" hidden>주민등록번호*</p>
                 <p>기타문의 혹은<br> 요청사항</p>
             </div>
             <div style="border: 1px solid #D8D8D8; margin-right: 50px;"></div>
@@ -89,6 +86,9 @@
                 <div class="donateGoodRadio_List">
                     <p>유통기한 1년이상, 새상품만 기부가 가능합니다.</p>
                     <c:forEach var="category" items="${list}">
+                    	<c:if test="${category.categoryNo eq product.categoryNo}">
+                    		<label><input type="radio" name="categoryNo" value="${category.categoryNo}" required checked><span>${category.categoryName}</span></label>
+                    	</c:if>
 	                    <label><input type="radio" name="categoryNo" value="${category.categoryNo}" required><span>${category.categoryName}</span></label>
                     </c:forEach>
                 </div>
@@ -103,19 +103,6 @@
                     <option value="용달" ${product.productWay == '용달' ? 'selected' : ''}>용달발송</option>
                     <option value="방문" ${product.productWay == '방문' ? 'selected' : ''}>방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
                 </select>
-
-                <!-- 기부금영수증 발급 여부 -->
-                <div class="donateGoodRadio_List">
-                    <p style="font-size: 15px; margin-top: 30px;">후원물품 도착 기준 3주 소요되며, 기타 상황에 따라 변동될 수 있습니다</p>
-                    <label><input type="radio" id="h_receiptY" name="receipt" value="Y" required><span>예</span></label>
-                    <label><input type="radio" id="h_receiptN" name="receipt" value="N" required><span>아니요</span></label>
-                </div>
-
-                <!-- 사업자 번호 -->
-                <input type="text" id="h_businessNumberInput" name="businessNum" class="donateGoodInput" placeholder="사업자번호 입력" value="${product.businessNum }" requried>
-
-                <!-- 주민등록번호 -->
-                <input type="text" id="h_residentNumerInput" name="residentNum" class="donateGoodInput" placeholder="주민등록번호 입력" value="${product.residentNum }" requried>
 
                 <!-- 기타문의 혹은 요청사항 -->
                 <input type="text" name="inquiryContent" style="width: 450px;  height: 150px; margin: 20px 0px 40px 0px;" value="${product.inquiryContent }" >
@@ -138,60 +125,38 @@
 
             if (selectedValue === '개인') {
                 // 개인물품후원 선택 시
-       			$('#h_businessNameInput').removeAttr('required');
-                $('#h_companyName, #h_businessNumberInput, #h_businessNameInput, #h_residentNumerInput, #h_businessNumber, #h_residentNumer').hide();
+                $('#h_companyName, #h_businessNameInput').hide();
                 $('#h_name, #h_nameInput').show();
+                $('#h_businessNameInput').prop('required', false);
             } else if (selectedValue === '기업') {
                 // 기업물품후원 선택 시
-                $('#h_businessNameInput').attr('required', 'required');
-                $('#h_residentNumerInput, #h_residentNumer, #h_businessNumberInput').hide();
                 $('#h_companyName, #h_businessNameInput').show();
+                $('#h_businessNameInput').prop('required', true);
             }
         });
+        
+
 
         // 초기 설정
         $('input[name="productType"]:checked').trigger('change');
 
-        // 기부금영수증 발급 여부 변경 시 이벤트 처리
-        $('input[name="receipt"]').change(function() {
-            var isReceiptY = $(this).val() === 'Y';
-            var isReceiptN = $(this).val() === 'N';
-            var isPersonal = $('input[name="productType"]:checked').val() === '개인';
-            var isCompany = $('input[name="productType"]:checked').val() === '기업';
 
-            if (isReceiptY && isPersonal) {
-                $('#h_residentNumer, #h_residentNumerInput').show();
-                $('#h_businessNumberInput, #h_businessNumber').hide();
-                $('#h_residentNumerInput').prop('required', true);
-                $('#h_businessNumberInput').prop('required', false);
-                $('#h_businessNameInput').prop('required', false);
-            } else if (isReceiptY && isCompany) {
-            	$('#h_residentNumerInput').prop('required', true);
-            	$('#h_businessNumberInput').prop('required', true);
-            	$('#h_businessNameInput').prop('required', true);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').show();
-            } else if (isReceiptN && isPersonal) {
-            	$('#h_residentNumerInput').prop('required', false);
-            	$('#h_businessNumberInput').prop('required', false);
-            	$('#h_businessNameInput').prop('required', false);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').hide();
-            } else if (isReceiptN && isCompany) {
-            	$('#h_residentNumerInput').prop('required', false);
-            	$('#h_businessNumberInput').prop('required', false);
-            	$('#h_businessNameInput').prop('required', true);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').hide();
-            }
-        });
-
-        
         
         // 휴대폰 인증하기
 
 		//휴대폰 번호 인증
 		var code2 = "";
 		$("#donateGoodBtn").click(function(){
-		    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+			
 		    var phoneNumber = $("#phone").val();
+		    
+	        // 휴대폰 번호가 입력되지 않은 경우
+	        if (phoneNumber === "") {
+	            alert("휴대폰 번호를 입력해주세요.");
+	            return;
+	        }
+		    
+		    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
 		    $.ajax({
 		        type:"POST", // post 형식으로 발송
 		        url:"/hope/sendSMS1.do", // controller 위치
@@ -206,12 +171,20 @@
 		            }
 		        }
 		    });
-		});
-		 
-		 
+		});		 
 		
 		//휴대폰 인증번호 대조
 		$("#certificationNumberBtn").click(function(){
+			
+			var certificationNumber = $("#certificationNumber").val().trim();
+			
+	        // 인증번호가 입력되지 않은 경우
+	        if (certificationNumber === "") {
+	            alert("인증번호를 입력해주세요.");
+	            return;
+	        }
+
+			
 		    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
 		         alert('인증성공')
 		    	
@@ -220,8 +193,8 @@
 		    }
 		});
 		
-	    // 수정하기 버튼 클릭 시
-	    $("#modifyBtn").click(function() {
+	    // 신청하기 버튼 클릭 시
+	    $(".productBtn").click(function() {
 	        // 입력한 인증번호를 가져옵니다.
 	        var certificationNumber = $("#certificationNumber").val();
 
@@ -236,16 +209,7 @@
 	        }
 	    });
 	    
-	    // 라디오 버튼 자동 체크되어있도록 설정
-		var productCategoryNo = "${product.categoryNo}"; // product.categoryNo 값 가져오기
-	    $('input[name="categoryNo"][value="' + productCategoryNo + '"]').prop('checked', true);
-		
-	    var productReceipt = "${product.receipt}"; // product.receipt 값 가져오기
-	    if (productReceipt === 'Y') {
-	        $('#h_receiptY').prop('checked', true);
-	    } else if (productReceipt === 'N') {
-	        $('#h_receiptN').prop('checked', true);
-	    }
+
 	    
     });
     </script>

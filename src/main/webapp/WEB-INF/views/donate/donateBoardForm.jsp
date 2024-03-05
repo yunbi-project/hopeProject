@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td>후원 모집 기간</td>
-                        <td>시작일 : <input name="donateStartDate" class="donateInput" type="date" required> - 종료일 : <input name="donateEndDate" class="donateInput" type="date" required></td>
+                        <td>시작일 : <input name="donateStartDate" class="donateInput" type="date" min="<%= java.time.LocalDate.now() %>" required> - 종료일 : <input name="donateEndDate" class="donateInput" type="date" required></td>
                     </tr>
                     <tr>
                     	<td>후원 재단</td>
@@ -70,7 +70,7 @@
                 </table>
                 <div class="btn-group">
                     <button class="modify-btn" type="submit">작성</button>
-                    <button class="modify-btn" href="${contextPath}/donate/list">목록</button>
+                    <a href="${contextPath}/donate/list"><button class="modify-btn" type="button" >목록</button></a>
                 </div>
             </form>
         </section>

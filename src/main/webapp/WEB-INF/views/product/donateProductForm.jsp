@@ -17,7 +17,6 @@
 <body>
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-    
    
     <main>
         <h2 style="text-align: center; margin-top: 70px; font-size: 25px;">물품 기부 신청</h2>
@@ -26,15 +25,13 @@
             <div class="donateGoodForm_List">
                 <p>문의 유형*</p>
                 <p id="h_companyName" name="" hidden>기업명*</p>
-                <p id="h_name">이름*</p>
+				<p id="h_name">이름*</p>                
                 <p style="height: 85px;">연락처*</p>
                 <p>이메일*</p>
-                <p style="height: 400px;">기부물품종류*</p>
+                <p style="height: 360px;">기부물품종류*</p>
                 <p>기부물품수량*</p>
                 <p style="height: 100px;">기부방법*</p>
-                <p style="height: 90px;">기부금영수증<br> 발급 여부*</p>
-                <p id="h_businessNumber" hidden>사업자번호*</p>
-                <p id="h_residentNumer" hidden>주민등록번호*</p>
+
                 <p>기타문의 혹은<br> 요청사항</p>
             </div>
             
@@ -72,13 +69,25 @@
                 <input type="text" id="h_businessNameInput" name="businessName" class="donateGoodInput" placeholder="기업명 입력" required>
 
                 <!-- 개인 -->
-                <input type="text" id="h_nameInput" name="puserName" class="donateGoodInput" placeholder="이름 입력" required>
+                <c:if test="${empty loginUser}">
+	                <input type="text" id="h_nameInput" name="puserName" class="donateGoodInput" placeholder="이름 입력" required>                
+                </c:if>
+                <c:if test="${loginUser ne null}">
+                	<input type="text" id="h_nameInput" name="puserName" value="${loginUser.userName}" class="donateGoodInput onlyRead" placeholder="이름 입력" readonly>      
+                </c:if>
 
 
 
                 <!-- 연락처 -->
                 <div>
-                    <input type="number" style="width: 350px;" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required>
+                	<c:choose>
+						<c:when test="${empty loginUser}">
+		                    <input type="number" style="width: 350px;" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required>
+						</c:when>             
+						<c:otherwise>
+							<input type="number" style="width: 350px;" name="phone" id="phone" class="donateGoodInput onlyRead" value="${loginUser.phone}" placeholder="'-'빼고 숫자만 입력" readonly>
+						</c:otherwise>   	
+                	</c:choose>
                     <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청">
                 </div>
                 <div>
@@ -87,7 +96,14 @@
                 </div>
 
                 <!-- 이메일 -->
-                <input type="email" class="donateGoodInput" name="email" placeholder="example@hope.co.kr" required>
+                <c:choose>
+					<c:when test="${empty loginUser}">
+		                <input type="email" class="donateGoodInput" name="email" placeholder="example@hope.co.kr" required>
+					</c:when>
+					<c:otherwise>
+						<input type="email" class="donateGoodInput onlyRead" name="email" placeholder="example@hope.co.kr" value="${loginUser.email}" readonly>
+					</c:otherwise>
+				</c:choose>
 
                 <!-- 기부물품종류 -->
                 <div class="donateGoodRadio_List">
@@ -108,18 +124,6 @@
                     <option value="방문">방문기부 (10~17시, 점심시간 12시-13시 제외)</option>
                 </select>
 
-                <!-- 기부금영수증 발급 여부 -->
-                <div class="donateGoodRadio_List">
-                    <p style="font-size: 15px; margin-top: 30px;">후원물품 도착 기준 3주 소요되며, 기타 상황에 따라 변동될 수 있습니다</p>
-                    <label><input type="radio" id="h_receiptY" name="receipt" value="Y" required><span>예</span></label>
-                    <label><input type="radio" id="h_receiptN" name="receipt" value="N" required><span>아니요</span></label>
-                </div>
-
-                <!-- 사업자 번호 -->
-                <input type="text" id="h_businessNumberInput" name="businessNum" class="donateGoodInput" placeholder="사업자번호 입력" requried>
-
-                <!-- 주민등록번호 -->
-                <input type="text" id="h_residentNumerInput" name="residentNum" class="donateGoodInput" placeholder="주민등록번호 입력" requried>
 
                 <!-- 기타문의 혹은 요청사항 -->
                 <input type="text" name="inquiryContent" style="width: 450px;  height: 150px; margin: 20px 0px 40px 0px;" >
@@ -139,57 +143,40 @@
 
             if (selectedValue === '개인') {
                 // 개인물품후원 선택 시
-                $('#h_companyName, #h_businessNumberInput, #h_businessNameInput, #h_residentNumerInput, #h_businessNumber, #h_residentNumer').hide();
+                $('#h_companyName, #h_businessNameInput').hide();
                 $('#h_name, #h_nameInput').show();
+                $('#h_businessNameInput').prop('required', false);
             } else if (selectedValue === '기업') {
                 // 기업물품후원 선택 시
-                $('#h_residentNumerInput, #h_residentNumer, #h_businessNumberInput').hide();
                 $('#h_companyName, #h_businessNameInput').show();
+                $('#h_businessNameInput').prop('required', true);
             }
         });
+        
+
 
         // 초기 설정
         $('input[name="productType"]:checked').trigger('change');
 
-        // 기부금영수증 발급 여부 변경 시 이벤트 처리
-        $('input[name="receipt"]').change(function() {
-            var isReceiptY = $(this).val() === 'Y';
-            var isReceiptN = $(this).val() === 'N';
-            var isPersonal = $('input[name="productType"]:checked').val() === '개인';
-            var isCompany = $('input[name="productType"]:checked').val() === '기업';
-
-            if (isReceiptY && isPersonal) {
-                $('#h_residentNumer, #h_residentNumerInput').show();
-                $('#h_businessNumberInput, #h_businessNumber').hide();
-                $('#h_residentNumerInput').prop('required', true);
-                $('#h_businessNumberInput').prop('required', false);
-                $('#h_businessNameInput').prop('required', false);
-            } else if (isReceiptY && isCompany) {
-            	$('#h_residentNumerInput').prop('required', true);
-            	$('#h_businessNumberInput').prop('required', true);
-            	$('#h_businessNameInput').prop('required', true);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').show();
-            } else if (isReceiptN && isPersonal) {
-            	$('#h_residentNumerInput').prop('required', false);
-            	$('#h_businessNumberInput').prop('required', false);
-            	$('#h_businessNameInput').prop('required', false);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').hide();
-            } else if (isReceiptN && isCompany) {
-            	$('#h_residentNumerInput').prop('required', false);
-            	$('#h_businessNumberInput').prop('required', false);
-            	$('#h_businessNameInput').prop('required', true);
-                $('#h_residentNumer, #h_residentNumerInput, #h_businessNumberInput, #h_businessNumber').hide();
-            }
-        });
 
         // 개인, 기업 버튼이 변경될 때 실행되는 함수 모든 필드 값 초기화
         $('input[name="productType"]').change(function() {
+        	
+        	
             // 선택한 옵션을 초기화
             $('input[name="categoryNo"]').prop('checked', false);
-            $('.donateGoodInput').val(''); // 모든 input 태그의 값을 초기화
             $('.donateGoodSelect').val(''); // 셀렉트 박스의 선택 값을 초기화
-            $('input[name="receipt"]').prop('checked', false); // 기부금영수증 발급 여부 초기화
             $('input[name="inquiryContent"]').val(''); // 기타문의내용 값 초기화
+            
+            // 로그인 유저가 있는 경우에만 아래 필드를 초기화
+            if (loginUser != null) {
+            	
+                $('#h_businessNameInput').val(''); // 기업명 입력 필드 초기화
+                $('#certificationNumber').val(''); // 인증번호 입력 필드 초기화
+                $('input[name="productAmount"]').val(''); // 상품 수량 입력 필드 초기화
+            }else{
+                $('.donateGoodInput').val(''); // 모든 input 태그의 값을 초기화
+            }
         });
         
         
@@ -198,8 +185,16 @@
 		//휴대폰 번호 인증
 		var code2 = "";
 		$("#donateGoodBtn").click(function(){
-		    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
+			
 		    var phoneNumber = $("#phone").val();
+		    
+	        // 휴대폰 번호가 입력되지 않은 경우
+	        if (phoneNumber === "") {
+	            alert("휴대폰 번호를 입력해주세요.");
+	            return;
+	        }
+		    
+		    alert('인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.');
 		    $.ajax({
 		        type:"POST", // post 형식으로 발송
 		        url:"/hope/sendSMS1.do", // controller 위치
@@ -214,12 +209,20 @@
 		            }
 		        }
 		    });
-		});
-		 
-		 
+		});		 
 		
 		//휴대폰 인증번호 대조
 		$("#certificationNumberBtn").click(function(){
+			
+			var certificationNumber = $("#certificationNumber").val().trim();
+			
+	        // 인증번호가 입력되지 않은 경우
+	        if (certificationNumber === "") {
+	            alert("인증번호를 입력해주세요.");
+	            return;
+	        }
+
+			
 		    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
 		         alert('인증성공')
 		    	
@@ -243,6 +246,8 @@
 	            return true; // 폼을 제출합니다.
 	        }
 	    });
+	    
+
 	    
     });
     </script>

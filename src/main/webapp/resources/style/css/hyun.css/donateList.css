@@ -81,6 +81,7 @@
     transition: background-color 0.3s ease; 
     font-size: 15px;
     margin-bottom: 50px;
+    cursor:pointer;
 }
 
 
@@ -101,6 +102,7 @@
 .tag_count_end span{
     font-size: 16px;
     margin-right: 20px;
+    cursor:pointer;
 }
 
 /* 처음 조회순 선택될때 */

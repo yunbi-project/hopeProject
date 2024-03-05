@@ -189,18 +189,18 @@
 					</c:choose>
                     
 
-                    <div style="display: flex; justify-content: space-around;">
-                        <div class="heart_share">
-                            <img class="heart" id="bin_heart" src="https://cdn-icons-png.flaticon.com/128/6063/6063316.png">
-                            <img class="heart" hidden id="heart" src="https://cdn-icons-png.flaticon.com/128/2550/2550361.png">
-                            <span>300</span>
-                        </div>
-                        <div style="border: 1px solid rgb(186, 186, 186); margin-top: 20px; height: 30px;"></div>
-                        <div class="heart_share">
-                            <img class="heart" src="https://cdn-icons-png.flaticon.com/128/4189/4189861.png">
-                            <span>공유</span>
-                        </div>
-                    </div>
+<!--                     <div style="display: flex; justify-content: space-around;"> -->
+<!--                         <div class="heart_share"> -->
+<!--                             <img class="heart" id="bin_heart" src="https://cdn-icons-png.flaticon.com/128/6063/6063316.png"> -->
+<!--                             <img class="heart" hidden id="heart" src="https://cdn-icons-png.flaticon.com/128/2550/2550361.png"> -->
+<!--                             <span>300</span> -->
+<!--                         </div> -->
+<!--                         <div style="border: 1px solid rgb(186, 186, 186); margin-top: 20px; height: 30px;"></div> -->
+<!--                         <div class="heart_share"> -->
+<!--                             <img class="heart" src="https://cdn-icons-png.flaticon.com/128/4189/4189861.png"> -->
+<!--                             <span>공유</span> -->
+<!--                         </div> -->
+<!--                     </div> -->
                 </div>
 
                 <div class="association_donation">
