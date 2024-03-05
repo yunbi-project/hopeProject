@@ -19,9 +19,6 @@
 				</when>
 			</choose>
 		</if>
-		<if test="active_type !='' and active_type != null">
-			AND ACTIVITY_TYPE = #{active_type}
-		</if>
 		<if test="active_location != null and active_location!=''">
 			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
 		</if>
@@ -35,7 +32,7 @@
 
 	<select id="selectProgramList" parameterType="hashmap"
 		resultType="program">
-		SELECT PROGRAM_NO, PROGRAM_NAME, ACTIVITY_TYPE,
+		SELECT PROGRAM_NO, PROGRAM_NAME, 
 		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"')
 		PROGRAM_ACTIVITY_START_DATE,
 		TO_CHAR(PROGRAM_ACTIVITY_END_DATE,
@@ -57,9 +54,6 @@
 				</when>
 			</choose>
 		</if>
-		<if test="active_type !='' and active_type != null">
-			AND ACTIVITY_TYPE = #{active_type}
-		</if>
 		<if test="active_location != null and active_location!=''">
 			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
 		</if>
@@ -76,7 +70,7 @@
 		INSERT INTO PROGRAM
 		(PROGRAM_NO, USER_NO, PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE,
 		PROGRAM_ACTIVITY_END_DATE,
-		ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS,
+		ACTIVITY_TIME, ACTIVITY_DAYS,
 		ACTIVITY_LOCATION,
 		PROGRAM_CAPACITY,
 		PROGRAM_ENROLL_END_DATE,
@@ -86,24 +80,26 @@
 		(SEQ_PROGRAMNO.NEXTVAL, #{userNo},
 		#{programName}, #{programActivityStartDate},
 		#{programActivityEndDate},
-		#{activityType}, #{activityTime},
+		#{activityTime},
 		#{activityDays}, #{activityLocation},
 		#{programCapacity},
 		#{programEnrollEndDate}, #{programContent}, 'Y' )
 	</insert>
 
 	<select id="detailProgram" resultType="program">
-		SELECT PROGRAM_NO,
-		USER_NO, PROGRAM_NAME,
-		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년"
-		MM"월" DD"일"') PROGRAM_ACTIVITY_START_DATE,
-		TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"')
+		SELECT PROGRAM_NO, 
+		USER_NO, 
+		PROGRAM_NAME,
+		PROGRAM_ACTIVITY_START_DATE,
 		PROGRAM_ACTIVITY_END_DATE,
-		ACTIVITY_TYPE, ACTIVITY_TIME, ACTIVITY_DAYS,
-		SUBSTR(ACTIVITY_LOCATION,3) AS
-		ACTIVITY_LOCATION, PROGRAM_CAPACITY,
-		TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"')
 		PROGRAM_ENROLL_END_DATE,
+		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS sdate,
+		TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') AS edate,
+		ACTIVITY_TIME,
+		ACTIVITY_DAYS,
+		SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION,
+		PROGRAM_CAPACITY,
+		TO_CHAR(PROGRAM_ENROLL_END_DATE, 'YYYY"년" MM"월" DD"일"') AS enroll,
 		PROGRAM_CONTENT,
 		CASE 
             WHEN TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'DD') = TO_CHAR(SYSDATE, 'DD')  THEN '모집중'
@@ -111,8 +107,7 @@
 	        ELSE '마감'
 	    END AS RESULT
 		FROM PROGRAM
-		WHERE PROGRAM_NO =
-		#{programNo}
+		WHERE PROGRAM_NO = #{programNo}
 	</select>
 
 	<insert id="requestProgram" parameterType="request">
@@ -143,7 +138,7 @@
 	</select>
 
 	<select id="filterList" resultType="program">
-		select PROGRAM_NO, PROGRAM_NAME, ACTIVITY_TYPE,	TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_START_DATE,
+		select PROGRAM_NO, PROGRAM_NAME, TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_START_DATE,
 				TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_END_DATE,
 				ACTIVITY_DAYS, ACTIVITY_TIME, SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION, PROGRAM_ENROLL_END_DATE FROM PROGRAM
 where PROGRAM_ACTIVITY_END_DATE>sysdate
@@ -168,7 +163,6 @@ order by 1 desc
 	activity_days = #{activityDays},
 	program_capacity = #{programCapacity},
 	activity_location = #{activityLocation},
-	activity_type = #{activityType},
 	program_content = #{programContent}
 	where program_no = #{programNo}
 	</update>

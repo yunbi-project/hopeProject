@@ -33,9 +33,6 @@ public class ProgramDao {
 		return session.selectList("program.selectProgramList",map, rowBounds);
 	}
 
-	public Program selectProgramDetail(int programNo) {
-		return session.selectOne("program.selectProgramDetail", programNo);
-	}
 
 	public int insertProgram(Program program) {
 		return session.insert("program.insertProgram", program);
@@ -111,12 +108,17 @@ public class ProgramDao {
 		return session.selectOne("program.selectChat" , c);
 	}
 	// 게시글 조회
-	
-	  public int selectchatProgram(Program program) { 
+	public int selectchatProgram(Program program) { 
 		  return session.selectOne("program.selectchatProgram" , program); }
 	// programNo값이랑 같은 채팅방을 가져온다.  
 	public int selectChatRoomNo(Chat c) {
-		return session.selectOne("program.selectChatRoomNo" , c);
+		Integer result = session.selectOne("program.selectChatRoomNo", c);
+		
+		if (result != null) {
+		    return result;
+		} else {
+			return 0;
+		}
 	}
 	 
 }

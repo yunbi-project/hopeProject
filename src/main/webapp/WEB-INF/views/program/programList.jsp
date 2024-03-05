@@ -89,11 +89,10 @@
 <!-- 				<button class="y_program_list_btn" type="button" -->
 <!-- 					onclick="resetFilters()">초기화</button> -->
 <!-- 			</form> -->
-			<button class="y_program_list_btn">
-				<a href="${contextPath }/program/insert">글쓰기</a>
-			</button>
 		</div>
-		<h1 style="text-align:center;">봉사활동</h1>
+		
+		<h2 style="text-align:center; font-size:25px;">봉사활동</h2>
+		<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 		<div class="y_activeOnly_area">
 			<p>지원가능한 활동만</p>
 			<input type="checkbox"
@@ -103,20 +102,18 @@
 		</div>
 		<table class="y_list_table">
 		<colgroup>
-        <col style="width: 5%;">
-        <col style="width: 35%;">
-        <col style="width: 5%;">
-        <col style="width: 25%;">
+        <col style="width: 7%;">
+        <col style="width: 30%;">
+        <col style="width: 20%;">
         <col style="width: 5%;">
         <col style="width: 5%;">
         <col style="width: 15%;">
-        <col style="width: 10%;">
+        <col style="width: 5%;">
     </colgroup>
 			<thead>
 				<tr>
 					<td>번호</td>
 					<td>제목</td>
-					<td>유형</td>
 					<td>기간</td>
 					<td>요일</td>
 					<td>시간</td>
@@ -136,12 +133,6 @@
 							<tr onclick="move(${p.programNo})">
 								<td class="left-align">${p.programNo}</td>
 								<td class="list-left">${p.programName}</td>
-								<c:if test="${p.activityType eq '1'}">
-									<td class="left-align">정기</td>
-								</c:if>
-								<c:if test="${p.activityType eq '2'}">
-									<td class="left-align">일시</td>
-								</c:if>
 								<td class="left-align">${p.programActivityStartDate }~
 									${p.programActivityEndDate }</td>
 								<c:if test="${p.activityDays eq '1'}">
@@ -196,6 +187,9 @@
 							onclick="goToPage(${pi.currentPage+1})">Next</a></li>
 					</c:if>
 			</ul>
+			<c:if test="${loginUser.userNo eq '1' }">
+				<button class="y_program_list_btn" onclick="location.href='${contextPath }/program/insert'" style="cursor:pointer;">글쓰기</button>
+			</c:if>
 		</div>
 		<form class="search-form" method="get"
 			action="${contextPath}/program/list">
