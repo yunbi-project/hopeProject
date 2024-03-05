@@ -33,13 +33,20 @@
 </style>
 
 <body>
+	<c:if test="${not empty alertMsg}">
+	    <script>
+	        alert("${alertMsg}");
+	    </script>
+	    <c:remove var="alertMsg" />
+	</c:if>
 	<!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
+				
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${contextPath}/admin/index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"href="${contextPath}">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img style="width:30px;" src="https://cdn-icons-png.flaticon.com/128/2556/2556855.png">
+                    <img style="width:30px;" src="https://cdn-icons-png.flaticon.com/128/2556/2556855.png" >
                 </div>
                 <div class="sidebar-brand-text mx-3">HOPE ADMIN</div>
             </a>
@@ -117,7 +124,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="${contextPath}/admin/tables">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>표</span></a>
+                    <span>기부내역</span></a>
             </li>
 
             <!-- Divider -->

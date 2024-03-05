@@ -16,6 +16,7 @@ import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.vo.PaymentInfo;
+import com.kh.hope.product.model.vo.Product;
 import com.kh.hope.user.model.vo.User;
 
 @Repository
@@ -196,15 +197,20 @@ public class AdminDao {
 		return session.update("adminMapper.deleteReportReplyList",replyNo);
 	}
 	
-	//댓글관리
-		public List<Reply> ReplyList() {
-			return session.selectList("adminMapper.ReplyList");
-		}
+//댓글관리
+	public List<Reply> ReplyList() {
+		return session.selectList("adminMapper.ReplyList");
+	}
 
-		public List<Reply> ReplyTodayList() {
-			return session.selectList("adminMapper.ReplyTodayList");
-		}
-}
+	public List<Reply> ReplyTodayList() {
+		return session.selectList("adminMapper.ReplyTodayList");
+	}
+	
+	//게시판관리 물품기부
+	public List<Product> productList() {
+		return session.selectList("adminMapper.productList");
+				}
+	}
 	
 
 

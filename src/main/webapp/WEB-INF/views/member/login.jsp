@@ -36,27 +36,36 @@
 <div class="wrapper">
     <div class="container">
       <div class="sign-up-container">
-        <h1 class="login">회원가입</h1>
-        <div class="social-links">  
+        <br>
+          <div style="display: flex; justify-content: center;">
+    <div style="margin-right: 20px;">
+        <a href="/hope/oauth2/authorization/google" style="background-color: #949494; padding: 5px; border-radius: 70%;">
+            <img src="././resources/style/img/socialLogin/google2.png" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+    <div>
+        <a href="/hope/oauth2/authorization/naver" style="background-color: #949494; padding: 5px; border-radius: 70%;">
+            <img src="././resources/style/img/socialLogin/naver1.png" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+</div>
           <div>
-            <a href="/hope/oauth2/authorization/google"><img src="././resources/style/img/socialLogin/google2.png"></a>
-          </div>
-          <div>
-            <a href="/hope/oauth2/authorization/naver "><img src="././resources/style/img/socialLogin/naver1.png"></a>
-          </div>
-        </div>
+			    <hr style="border-top: 1px solid #949494;">
+			    <p style="text-align: center; font-size: 12px; color: #949494;">SNS 또는 아이디로 회원가입</p>
+		 </div>
+        
         <form action="<%=request.getContextPath() %>/singup.me" method="post"> <!-- 회원가입 폼 -->
           <input type="hidden" name="loginType" value="1"> <!-- loginType값 세션로그인 1 넘겨줌 -->
           <div class="input-group">
             <input type="email" id="email" name="email" style="margin-left: 12px" placeholder="이메일" required>
-            <button type="button" id="idcheck" class="singupbutton" onclick="idCheck()">이메일중복체크</button>
+            <button type="button"  class="form_btn" onclick="idCheck()" style="font-size:10px;">중복체크</button>
           </div>
           <input type="password" name="password" placeholder="비밀번호" required>
           <input type="text" name="phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" placeholder="휴대폰 번호 = -빼고 입력해주세요" required>
           <input type="text" name="userName" placeholder="이름" required>
           <!-- 주소 입력 부분 -->
           <input type="text" id="postcode" name="postcode" placeholder="우편번호" required>
-          <button id="openAddressPopup" type="button" class="form_btn" style="background-color: #4CAF50; color: #ffffff;" onclick="execDaumPostcode()">우편번호 찾기</button>
+          <button id="openAddressPopup" type="button" class="form_btn"  onclick="execDaumPostcode()">우편번호 찾기</button>
           <input type="text" id="address" name="address" placeholder="주소"><br>
           <input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required><br>
           <button class="form_btn">회원가입</button>
@@ -121,17 +130,23 @@
         
       </div>
       <div class="sign-in-container">
-    
-          <h1 class="login">로그인</h1>
-          <div class="social-links">
-            <div>
-              <a href="/hope/oauth2/authorization/google"><img src="././resources/style/img/socialLogin/google2.png"></a>
-            </div> 
-            <div>
-              <a href="/hope/oauth2/authorization/naver"><img src="././resources/style/img/socialLogin/naver1.png"></a>
-            </div>
-          </div>
-          
+			<br>    
+          <div style="display: flex; justify-content: center;">
+    <div style="margin-right: 20px;">
+        <a href="/hope/oauth2/authorization/google" style="background-color: #949494; padding: 5px; border-radius: 70%;">
+            <img src="././resources/style/img/socialLogin/google2.png" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+    <div>
+        <a href="/hope/oauth2/authorization/naver" style="background-color: #949494; padding: 5px; border-radius: 70%;">
+            <img src="././resources/style/img/socialLogin/naver1.png" style="width: 40px; height: 40px;">
+        </a>
+    </div>
+</div>
+          <div>
+			    <hr style="border-top: 1px solid #949494;">
+			    <p style="text-align: center; font-size: 12px; color: #949494;">SNS 또는 아이디로 로그인</p>
+		 </div>
           
           <form action="<%=request.getContextPath() %>/login.me" method="post"> <!-- 로그인 폼 -->
           <input type="text" name="email" placeholder="email 입력" required>
@@ -149,13 +164,13 @@
       </div>
       <div class="overlay-container">
         <div class="overlay-left">
-          <h1>환영합니다.</h1>
-          <p>로그인은 아래 버튼을 클릭해주세요</p>
+          <h1>회원가입 입니다.</h1>
+          <p style="font-size:15px">로그인은 아래 버튼을 클릭해주세요</p>
           <button id="signIn" class="overlay_btn">로그인</button>
         </div>
         <div class="overlay-right">
-          <h1>환영합니다.</h1>
-          <p>회원가입은 아래 버튼을 클릭해주세요</p>
+          <h1>로그인 입니다.</h1>
+          <p style="font-size:15px">회원가입은 아래 버튼을 클릭해주세요</p>
           <button id="signUp" class="overlay_btn">회원가입</button>
         </div>
       </div>

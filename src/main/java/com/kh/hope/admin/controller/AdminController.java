@@ -38,6 +38,7 @@ import com.kh.hope.config.Utils;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
 import com.kh.hope.payment.model.vo.PaymentInfo;
+import com.kh.hope.product.model.vo.Product;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import jakarta.servlet.ServletContext;
@@ -396,10 +397,7 @@ public class AdminController {
 		
 	/* ============================================== 게시판 시작 끝 ==============================================*/
 		
-		@GetMapping("/boardManagement")
-		public String boardManagement() {
-			return "admin/boardManagement";
-		}
+		
 		@GetMapping("/Q")
 		public String faqManagement(Model m) {
 			List<Board> list = boardService.faqList();
@@ -826,5 +824,47 @@ public class AdminController {
 
 					return "admin/ReplyManagement";
 
-				}		
+				}	
+				
+				/*===============================================게시판관리==================================================*/
+				@GetMapping("/boardManagement")
+				public String boardManagement(Model m) {
+					
+					List<Product> list = adminService.productList();
+					m.addAttribute("list",list);
+					return "admin/boardManagement";
+				}
+				//나눔후기
+				@GetMapping("/R")
+			    public String searchReviewBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+						@RequestParam Map<String, Object> map) {
+					int listCount = boardService.selectReviewCount(map);
+					int pageLimit = 10;
+					int boardLimit = 14;
+
+					PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+					List<Board> list = boardService.reviewList(pi, map);
+					m.addAttribute("list", list);
+					m.addAttribute("pi", pi);
+					m.addAttribute("param", map);
+					return "admin/adminReviewList";
+			    }
+				//자유게시판
+				@GetMapping("/C")
+			    public String searchStoryBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+						@RequestParam Map<String, Object> map) {
+					int listCount = boardService.selectStoryCount(map);
+					int pageLimit = 10;
+					int boardLimit = 14;
+
+					PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+					List<Board> list = boardService.storyList(pi, map);
+					m.addAttribute("list", list);
+					m.addAttribute("pi", pi);
+					m.addAttribute("param", map);
+					
+					return "admin/adminStoryList";
+			    }
 }

@@ -13,13 +13,11 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        background-color: #f5f5f5;
     }
     .content {
         position: relative; 
         padding: 30px;
         margin: 50px auto; 
-        background-color: #f0fff0;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
@@ -35,23 +33,23 @@
         border-radius: 8px;
         overflow: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #f5fffa;
+        background-color: #ffffff;
     }
     th, td {
         padding: 12px 18px;
         text-align: center;
-        border: 1px solid #bc8f8f;
+        border: 1px solid #ddd;
     }
     th {
-        background-color: #f5fffa;
-        color: black;
-        font-size: 24px; 
+        background-color: #f2f2f2;
+        color: #333;
+        font-size: 16px; 
     }
     td {
-        font-size: 20px;
+        font-size: 14px;
     }
     tr:nth-child(even) {
-        background-color: #f2f2f2;
+        background-color: #f9f9f9;
     }
     .btn-area {
         text-align: center;
@@ -59,7 +57,7 @@
     }
     .btn-area button {
         margin-right: 10px;
-        background-color: #d2b48c;
+        background-color: #007bff;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -68,7 +66,7 @@
         transition: background-color 0.3s ease;
     }
     .btn-area button:hover {
-        background-color: #9acd32;
+        background-color: #0056b3;
     }
     .modal {
         display: none;
@@ -100,9 +98,9 @@
         text-align: center;
     }
     .modal-title {
-         margin: 0;
-            font-size: 20px;
-            color: #333;
+        margin: 0;
+        font-size: 20px;
+        color: #333;
     }
     .close {
         color: #aaa;
@@ -131,7 +129,7 @@
         justify-content: space-around;
     }
     .btn-join, .btn-delete {
-        background-color: #9acd32;
+        background-color: #28a745;
         color: #fff;
         border: none;
         border-radius: 7px;
@@ -142,12 +140,12 @@
     }
 
     .btn-join:hover, .btn-delete:hover {
-        background-color: #00ff7f;
+        background-color: #218838;
     }
 
     /* 뒤로가기 버튼 */
     .btn-back {
-        background-color: #d2b48c;
+        background-color: #ffc107;
         color: #fff;
         border: none;
         border-radius: 4px;
@@ -157,9 +155,8 @@
     }
 
     .btn-back:hover {
-        background-color: #c82333;
+        background-color: #e0a800;
     }
-   
 </style>
 </head>
 <body>
@@ -191,7 +188,7 @@
                                 <td style="display:none;">${chat.chatNo}</td>
                                 <td>${chat.userName}</td>
                                 <td>${chat.chatTitle}</td>
-                                <td>${chat.cnt}  /  100</td>
+                                <td>${chat.cnt}명</td>
                                 <td>
                                     <c:if test='${!empty loginUser }'>
                                         <button class="btn btn-primary btn-join" id="btn-join" onclick="location.href = '<%=request.getContextPath() %>/chat/room/${chat.chatNo}'" >입장</button>
@@ -219,6 +216,6 @@
         modal.style.display = modal.style.display === "block" ? "none" : "block";
     }
 </script>
-
+  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 </html>
