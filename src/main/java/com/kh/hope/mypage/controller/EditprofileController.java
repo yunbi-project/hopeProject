@@ -44,6 +44,8 @@ public class EditprofileController {
 	
 	int result = editprofileService.updateUser(user);
 	
-	return "mypage/editprofile";
+	
+	
+	return "redirect:/editprofile";
 	}
 }

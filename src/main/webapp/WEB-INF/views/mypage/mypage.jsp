@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,6 @@
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
-
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -63,19 +63,19 @@
 							<div class="frame-2">
 								<div class="subtitle">날짜 : ${donatep.productDate}</div>
 								<div class="subtitle">제품 종류 : ${donatep.categoryName}</div>
-								<div class="subtitle">수량 : ${donatep.productAmount}</div>
+								<div class="subtitle">수량 : ${donatep.productAmount}개</div>
 							</div>
 							<div class="frame-2">
-								<div class="subtitle">문의 유형 : ${donatep.productType}</div>
-								<div class="subtitle">기부 방법 : ${donatep.productWay}</div>
-								<div class="subtitle">영수증 발급여부 : ${donatep.receipt}</div>
+								<div class="subtitle">문의 유형 : ${donatep.productType == 'B' ?  '개인' : '기업'}</div>
+								<div class="subtitle">기부 방법 : ${donatep.productWay == 'V' ?  '방문' : '택배'}</div>
+								<div class="subtitle">택배 수령 여부 : ${donatep.status == 'Y' ? '확인중' : '확인완료'}</div>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 
 			</div>
-			
+
 		</div>
 
 		<div class="div-donationm-content">
@@ -94,16 +94,22 @@
 								</div>
 							</div>
 							<div class="frame-2">
-								<div class="subtitle">결제번호 : ${donatem.payNo}</div>
-								<div class="subtitle">결제유형 : ${donatem.payType}</div>
-								<div class="subtitle">후원금액 : ${donatem.donateAmount}원</div>
+								<div class="subtitle">날짜 : ${donatem.createDate}</div>
+								<div class="subtitle">결제유형 : ${donatem.payType == 'C' ?  '신용카드' : '자동이체'}</div>
+								<div class="subtitle">
+									후원금액 :
+									<fmt:formatNumber value="${donatem.donateAmount}"
+										type="currency" pattern="#,###" />
+									원
+								</div>
+
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 
 			</div>
-			
+
 		</div>
 
 
@@ -175,15 +181,16 @@
 			</div>
 
 		</div>
+	</div>
 
-		
 
 
-		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
-		<script src="resources/js/dowon.js/mypage.js"></script>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
-		<script>
+	<script src="resources/js/dowon.js/mypage.js"></script>
+
+	<script>
 	    function deleteBookmark(programNo) {
 	        // AJAX 요청
 	        $.ajax({
@@ -193,12 +200,12 @@
 	                programNo: programNo // 프로그램 번호를 데이터로 전달
 	            },
 	            success: function(response) { // 요청 성공 시 처리
-	                console.log("북마크가 삭제되었습니다.");
+	                console.log("즐겨찾기가 삭제되었습니다.");
 	            	// 페이지 새로고침
 	                location.reload();
 	            },
 	            error: function(xhr, status, error) { // 요청 실패 시 처리
-	                console.error("북마크 삭제 중 오류 발생:", error);
+	                console.error("즐겨찾기 삭제 중 오류 발생:", error);
 	                // 실패한 경우 추가 작업 수행 가능
 	            }
 	        });
