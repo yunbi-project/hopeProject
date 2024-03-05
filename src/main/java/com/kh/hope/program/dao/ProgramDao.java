@@ -12,6 +12,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.program.model.vo.Likes;
 import com.kh.hope.program.model.vo.Program;
@@ -101,4 +102,21 @@ public class ProgramDao {
 	public int deleteProgram(int programNo) {
 		return session.delete("program.deleteProgram", programNo);
 	}
+	// 채팅방 생성
+	public int insertChat(Chat c) {	
+		return session.insert("program.insertChat", c);
+	}
+	// 채팅방 조회
+	public int selectChat(Chat c) {
+		return session.selectOne("program.selectChat" , c);
+	}
+	// 게시글 조회
+	
+	  public int selectchatProgram(Program program) { 
+		  return session.selectOne("program.selectchatProgram" , program); }
+	// programNo값이랑 같은 채팅방을 가져온다.  
+	public int selectChatRoomNo(Chat c) {
+		return session.selectOne("program.selectChatRoomNo" , c);
+	}
+	 
 }

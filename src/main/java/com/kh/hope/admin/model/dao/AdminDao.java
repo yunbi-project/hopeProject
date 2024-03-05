@@ -15,6 +15,7 @@ import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
+import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.user.model.vo.User;
 
 @Repository
@@ -150,11 +151,11 @@ public class AdminDao {
 	 */
 
 	// 기부 그래프
-	public List<Donate> getDailyIncome() {
+	public List<PaymentInfo> getDailyIncome() {
 		return session.selectList("adminMapper.getDailyIncome");
 	}
 	// donate 리스트 뽑기
-	public List<Donate> selectDonate() {
+	public List<PaymentInfo> selectDonate() {
 		return session.selectList("adminMapper.selectDonate");
 	}
 

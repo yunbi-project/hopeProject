@@ -16,5 +16,7 @@ public class Chat{
 	
 	private String userName;
 	private int cnt;
+	
+	private int programNo;	// 프로그램 번호
 
 }

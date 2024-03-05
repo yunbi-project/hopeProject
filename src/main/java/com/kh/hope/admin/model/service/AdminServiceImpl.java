@@ -3,6 +3,7 @@ package com.kh.hope.admin.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +17,13 @@ import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
+import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.user.model.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
+@Repository
 public class AdminServiceImpl implements AdminService{
 
 	
@@ -202,12 +204,12 @@ public class AdminServiceImpl implements AdminService{
 
 	// 기부그래프	
 		@Override
-		public List<Donate> getDailyIncome() {
+		public List<PaymentInfo> getDailyIncome() {
 			return adminDao.getDailyIncome();
 		}
 	// donate 리스트 뽑기
 		@Override
-		public List<Donate> selectDonate() {
+		public List<PaymentInfo> selectDonate() {
 			return adminDao.selectDonate();
 		}
 
@@ -236,7 +238,7 @@ public class AdminServiceImpl implements AdminService{
 			public List<Attachment> selectReportImgList(int reportNo) {
 				return adminDao.selectReportImgList(reportNo);
 			}
-			@Transactional(rollbackFor = {Exception.class})
+			
 			@Override
 			public int deleteBoardReport(int boardNo) {
 				int result= adminDao.deleteBoardReport(boardNo);		

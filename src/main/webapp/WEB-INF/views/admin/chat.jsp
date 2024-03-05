@@ -74,7 +74,7 @@
 
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">채팅방 조회</h1>
-                    <button id="createChatRoomBtn">채팅방 생성</button>
+                   <!--  <button id="createChatRoomBtn">채팅방 생성</button> -->
                 </div>
 
                 <div class="secede">
@@ -112,7 +112,7 @@
                                     <td>
                                         <button onclick="deleteChatRoom('${chat.chatNo}')">채팅방 삭제</button>
                                         <button class="btn btn-primary btn-join" style ="background-color: blue;" id="btn-join" 
-                                        onclick="location.href = '<%=request.getContextPath() %>/admin/chat/${chat.chatNo}'" >채팅방 입장</button>
+                                        onclick="location.href = '<%=request.getContextPath() %>/chat/${chat.chatNo}'" >채팅방 입장</button>
                                     </td>
                                 </tr>
                              </c:forEach> 
@@ -147,7 +147,7 @@
 							</div>
 
 					
-					<script>
+				<!-- 	<script>
 					// 채팅방 생성
 					    // 모달 표시를 위한 함수
 					    function showModal() {
@@ -199,7 +199,7 @@
 					            closeModal();
 					        }
 					    });
-					</script>
+					</script> -->
 					
 					
 					<script>
@@ -248,7 +248,7 @@
 					                                        "<td>" +
 					                                            " <button onclick=\"deleteChatRoom('" + chatRoom.chatNo + "')\">채팅방 삭제</button>" +
 					                                            " <button class=\"btn btn-primary btn-join\" style=\"background-color: blue;\" id=\"btn-join\" " +
-					                                            "onclick=\"location.href = '<%=request.getContextPath() %>/admin/chat/" + chatRoom.chatNo + "'\" >채팅방 입장</button>" +
+					                                            "onclick=\"location.href = '<%=request.getContextPath() %>/chat/" + chatRoom.chatNo + "'\" >채팅방 입장</button>" +
 					                                        "</td>" +
 					                                    "</tr>";
 					                    $("tbody").append(tableRow); 

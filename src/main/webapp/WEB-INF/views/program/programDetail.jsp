@@ -46,7 +46,7 @@
 							</c:otherwise>
 							</c:choose>
 						<!-- 채팅방입장 버튼 -->
-						<button class="y_donate_back_btn1" onclick="join()"style="margin-right: 5px;">채팅방입장</button>
+						<button class="y_donate_back_btn1" onclick="location.href = '<%=request.getContextPath() %>/chat/${chatNo}'">채팅방입장</button>
 						<!-- 관심목록 담기/취소 버튼 -->
 						<c:if test="${like > 0}">
 							<button class="heart_logo y_donate_back_btn1 yes" onclick="toggleLike()" style="margin-right: 5px;">관심목록취소</button>

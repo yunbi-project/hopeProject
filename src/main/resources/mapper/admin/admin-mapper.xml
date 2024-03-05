@@ -217,17 +217,17 @@
 		</select>
 		
 		<!-- 기부금액 그래프 -->
-		<select id="getDailyIncome" resultType="donate">
+		<select id="getDailyIncome" resultType="PaymentInfo">
 			SELECT *
 			FROM DONATE_INFO
-			ORDER BY PAYMENT_DATE ASC
+			ORDER BY CREATE_DATE ASC
 		</select>
 		
 		<!-- donate 뽑기 -->
-		<select id="selectDonate" resultType="donate">
+		<select id="selectDonate" resultType="PaymentInfo">
 			SELECT *
 			FROM DONATE_INFO
-			ORDER BY PAYMENT_DATE ASC
+			ORDER BY CREATE_DATE ASC
 		</select>
 	
 <!--  ===================================== 대시보드 통계 끝 ================================================== -->
@@ -289,4 +289,25 @@
 		SET STATUS='N'
 		WHERE REPLY_NO=#{replyNo}
 	</update>
+	
+	<!-- 댓글관리 -->
+	<select id="ReplyList" resultType="reply">
+		SELECT REPLY_NO, REPLY_CONTENT, R.CREATE_DATE, EMAIL, R.BOARD_NO, BOARD_TYPE_NAME
+		FROM USERS U
+        LEFT JOIN  REPLY R ON (R.USER_NO=U.USER_NO)
+		LEFT JOIN BOARD B ON(R.BOARD_NO=B.BOARD_NO)
+        LEFT JOIN BOARD_TYPE T ON (B.BOARD_TYPE_NO = T.BOARD_TYPE_NO)		
+		WHERE R.STATUS='Y'
+		ORDER BY REPLY_NO DESC
+	</select>
+		<select id="ReplyTodayList" resultType="reply">
+		SELECT REPLY_NO, REPLY_CONTENT, R.CREATE_DATE, EMAIL, R.BOARD_NO, BOARD_TYPE_NAME
+		FROM USERS U
+		LEFT JOIN  REPLY R ON (R.USER_NO=U.USER_NO)
+		LEFT JOIN BOARD B ON(R.BOARD_NO=B.BOARD_NO)
+		LEFT JOIN BOARD_TYPE T ON (B.BOARD_TYPE_NO = T.BOARD_TYPE_NO)     
+		WHERE R.STATUS='Y' AND TRUNC(R.CREATE_DATE) = TRUNC(SYSDATE)
+		ORDER BY REPLY_NO DESC
+
+	</select>
 </mapper>
