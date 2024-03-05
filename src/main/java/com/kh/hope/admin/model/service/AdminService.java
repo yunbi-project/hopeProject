@@ -116,7 +116,10 @@ public interface AdminService {
 
 	int deleteReplyDatailReport(int replyNo);
 
+	//댓글관리
+	List<Reply> ReplyList();
 
+	List<Reply> ReplyTodayList();
 
 
 }

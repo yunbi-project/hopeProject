@@ -804,4 +804,27 @@ public class AdminController {
 
 					return "admin/ReportReplyDetail";
 				}
+				
+				/*댓글관리*/
+				
+				@GetMapping("/Reply")
+				public String ReplyList(Model m) {
+
+					List<Reply> list = adminService.ReplyList();
+
+					m.addAttribute("list", list);
+
+					return "admin/ReplyManagement";
+
+				}
+				@GetMapping("/Reply/today")
+				public String ReplyTodayList(Model m) {
+
+					List<Reply> list = adminService.ReplyTodayList();
+
+					m.addAttribute("list", list);
+
+					return "admin/ReplyManagement";
+
+				}		
 }

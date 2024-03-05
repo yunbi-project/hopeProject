@@ -195,6 +195,15 @@ public class AdminDao {
 	public int deleteReportReplyList(int replyNo) {
 		return session.update("adminMapper.deleteReportReplyList",replyNo);
 	}
+	
+	//댓글관리
+		public List<Reply> ReplyList() {
+			return session.selectList("adminMapper.ReplyList");
+		}
+
+		public List<Reply> ReplyTodayList() {
+			return session.selectList("adminMapper.ReplyTodayList");
+		}
 }
 	
 

@@ -264,5 +264,17 @@ public class AdminServiceImpl implements AdminService{
 				
 				return result;
 			}	
+			
+/*===============댓글관리=============================*/
+			
+			@Override
+			public List<Reply> ReplyList() {
+				return adminDao.ReplyList();
+			}
+
+			@Override
+			public List<Reply> ReplyTodayList() {
+				return adminDao.ReplyTodayList();
+			}		
 
 }
