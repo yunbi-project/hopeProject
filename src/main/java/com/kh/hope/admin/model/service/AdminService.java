@@ -12,6 +12,7 @@ import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.vo.PaymentInfo;
+import com.kh.hope.product.model.vo.Product;
 import com.kh.hope.user.model.vo.User;
 
 public interface AdminService {
@@ -120,6 +121,9 @@ public interface AdminService {
 	List<Reply> ReplyList();
 
 	List<Reply> ReplyTodayList();
+	
+	//게시판관리 시작
+	List<Product> productList();
 
 
 }

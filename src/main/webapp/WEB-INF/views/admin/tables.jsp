@@ -49,8 +49,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>은행</th>
-                                            <th>계좌번호</th>
+
                                             <th>후원금액</th>
                                             <th>후원자 한마디</th>
                                             <th>회원번호</th>
@@ -61,8 +60,6 @@
                                     <tbody>
                                     <c:forEach items="${selectDonate}" var="paymentInfo">
                                         <tr>
-                                            <td>${paymentInfo.bank }</td>
-                                            <td>${paymentInfo.account }</td>
                                             <td>${paymentInfo.donateAmount } 원</td>
                                             <td>${paymentInfo.optionalText }</td>
                                             <td>${paymentInfo.userNo }</td>
@@ -73,8 +70,6 @@
                                     
                                       <tfoot>
                                         <tr>
-                                            <th>은행</th>
-                                            <th>계좌번호</th>
                                             <th>후원금액</th>
                                             <th>후원자 한마디</th>
                                             <th>회원번호</th>

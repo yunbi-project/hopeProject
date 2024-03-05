@@ -18,6 +18,7 @@ import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.vo.PaymentInfo;
+import com.kh.hope.product.model.vo.Product;
 import com.kh.hope.user.model.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -275,6 +276,11 @@ public class AdminServiceImpl implements AdminService{
 			@Override
 			public List<Reply> ReplyTodayList() {
 				return adminDao.ReplyTodayList();
+			}	
+			/*======================게시판관리===============================*/
+			@Override
+			public List<Product> productList() {
+				return adminDao.productList();
 			}		
 
 }

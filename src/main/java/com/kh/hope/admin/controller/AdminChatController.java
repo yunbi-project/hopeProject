@@ -54,5 +54,4 @@ public class AdminChatController {
 					return "redirect:/chat/chatList";
 				}
 			}	
-
 }

@@ -44,22 +44,19 @@ public class SecurityConfig {
         http.headers((headerConfig) -> headerConfig.frameOptions(config->config.disable()))
                 .csrf((csrf) -> csrf.disable())
                 .cors( cors -> cors.disable());
-
         http
                 .formLogin((login) -> login.disable());
 
         http
                 .httpBasic((basic) -> basic.disable());
-
         http
                 .oauth2Login((oauth2) -> oauth2		// OAuth2 로그인 기능에 대한 진입점
                 		.loginPage("/login")
                         .userInfoEndpoint((userInfoEndpointConfig) -> 
                          userInfoEndpointConfig.userService(customOAuth2UserService)));
-
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/**" ).permitAll()	// 모든 요청 허용
+                		.requestMatchers("/hope/admin/**").hasRole("ADMIN") // admin
                         .anyRequest().permitAll());		    // 인증된 요청만 허용
 
         return http.build();
