@@ -56,18 +56,24 @@
 							
 							<div class="search_boardList">
 		                    	<span class="h_titleLine"></span>
-		                    	<span style="font-size:20px;">물품기부신청내역</span>
+		                    	<span style="font-size:20px;">나눔후기</span>
 		                    
 			                </div>
 							<table>
 								<colgroup>
-								
+									<col class="w100">
+									</col>
 								</colgroup>
 								<tbody>
 									<tr>
-										
+										<th scope="row">검색어</th>
 										<td>
-											
+											<select name="condition">
+												<option value="writer" ${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+												
+												<option value="title" ${param.condition eq 'title'? 'selected':'' }>제목</option>												
+											</select>
+											<input type="text" name="keyword" value="${param.keyword}"class="frm_input" size="30">
 										</td>
 									</tr>
 								
@@ -85,66 +91,65 @@
 								</tbody>
 							</table>								
 						</div>
-											
+						
+								<div class="btn_confirm">
+							<input type="submit" value="검색" class="btn_medium"> 
+							<input type="reset" value="초기화" id="frmRest" class="btn_medium grey">
+						</div>
+						
 									
 						<div class="boardList_table">
 						
 						    <table>
 						     <colgroup>
 							        <col style="width: 5%;">
-							        <col style="width: 5%;">
-							        <col style="width: 10%;">
-							        <col style="width: 10%;">
-							        <col style="width: 10%;">
+							        <col style="width: 60%;">
 							        <col style="width: 15%;">
-							        <col style="width: 5%;">
 							        <col style="width: 10%;">
-							        <col style="width: 5%;">						        
-							       						        
+							        <col style="width: 10%;">
+							        
 							       
 							    </colgroup>
-							  
-						        <thead >
+						        <thead>
 						            <tr>
 						                <th>번호</th>
-						                <th>유형</th>
-						                <th>이름</th>
-						                <th>기업명</th>
-						                <th>전화번호</th>						          
-						                <th>이메일</th>						          
-						                <th>물품수량</th>						          
-						                <th>신청날짜</th>							                			          
-						                <th>종류</th>
-						               					          
-						          							          
+						                <th>제목</th>
+						                <th>작성자</th>
+						                <th>조회수</th>
+						                <th>작성일</th>						          
 						            </tr>
 						        </thead>
-						        <tbody >
-						          <c:forEach var="b" items="${list}">
-						            <tr >
-						                <td rowspan="2" >${b.productNo }</td>
-						                <td>${b.productType }</td>
-						                <td>${b.puserName}</td>
-						                <td>${b.businessName }</td>
-						                <td>${b.phone}</td>
-						                <td>${b.email}</td>
-						                <td>${b.productAmount}</td>
-						                <td>${b.productDate}</td>						                
-						                <td>${b.categoryName}</td>
+						        <tbody>
+						         <c:forEach var="b" items="${list}">		
+						            <tr>
+						                <td>${b.boardNo }</td>
+						                <td>${b.boardTitle }</td>
+						                <td>${b.userName}</td>
+						                <td>${b.count }</td>
+						                <td>${b.createDate}</td>
 						               
 						            </tr>
-						            <tr style="margin-bottom:10px;">
-						            <td>문의사항</td>
-						            <td colspan="4" >${b.inquiryContent}</td>
-						            <td>비고</td>
-						            <td><button>수령</button></td>	<td><button>삭제</button></td>
-						            </tr>
-						    </c:forEach>
+						            </c:forEach>
 						        </tbody>
-						         
 						    </table>
 						</div>
 					
+						<div id="pagingArea">
+						<ul class="pagination">
+							<c:if test="${pi.currentPage ne 1}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage-1}${url}">Previous</a></li>
+							</c:if>
+							<c:forEach var="p" begin="${pi.startPage}" end="${pi.endPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${p}${url}">${p}</a></li>
+							</c:forEach>
+							<c:if test="${pi.currentPage ne pi.maxPage}">
+								<li class="page-item"><a class="page-link"
+									href="?currentPage=${pi.currentPage+1}${url}">Next</a></li>
+							</c:if>
+						</ul>
+						</div>
 				</form>
 				</div>
 			</div>
