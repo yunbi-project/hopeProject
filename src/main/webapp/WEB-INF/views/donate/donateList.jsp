@@ -64,7 +64,7 @@
 			<div class="searchBar">
 				<select class="custom-select" name="condition">
 					<option value="foundation"
-					${param.condition eq 'foundation'? 'selected':'' }>협회</option>
+						${param.condition eq 'foundation'? 'selected':'' }>협회</option>
 					<option value="title"
 						${param.condition eq 'title'? 'selected':'' }>제목
 				</select>
@@ -183,8 +183,7 @@
 		        
 
 		        filterAndSortList(clickedTagId, 'end'); // 선택된 태그에 따라 리스트 필터링 후 종료임박순으로 정렬
-		        
-;
+
 		    });
 
 		    $('#tag_count').click(function() {
@@ -235,9 +234,8 @@
 		        // 클릭된 버튼의 value 값 가져오기
 		        clickedTagId = $(this).val();
 		        filterContent(clickedTagId);
-		        
-		       
 		    });
+
 		    
 
 		    
@@ -252,9 +250,6 @@
 		                $(this).hide(); // 숨기기
 		            }
 		        });
-		        
-		        
-
 		    }
 
 		    // 최신순 정렬 함수
@@ -311,7 +306,7 @@
 		        $(".donate_board").each(function() {
 		            var endDate = new Date($(this).find('.donate_board_div').data("enddate"));
 		            var boardTagId = parseInt($(this).find('.donate_board_div').data("tagid"));
-		            if ((tagId === 0 || boardTagId === parseInt(tagId)) && endDate > currentDate) {
+		            if ((parseInt(tagId) === 0 || boardTagId === parseInt(tagId)) && endDate > currentDate) {
 		                $(this).show(); // 보여주기
 		            } else {
 		                $(this).hide(); // 숨기기

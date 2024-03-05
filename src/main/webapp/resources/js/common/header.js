@@ -1,45 +1,35 @@
 $(document).ready(function () {
 
-    // 소식 hover 이벤트
-    $('.hoverToShowMenu_news').hover(function () {
-        $('.headerMenu_news').toggle();
+
+    $('.gnb__depth1 > li').on('mouseenter', function(e){
+        e.preventDefault();
+
+        $(this).find('.gnb__area').stop().slideDown(400);
     });
 
-    $('.headerMenu_news').hover(function () {
-        $('.headerMenu_news').toggle();
-        $('.hoverToShowMenu_news').css('color', '#7fa924');
-        $('.hoverToShowMenu_news').css('border-bottom', '2px solid #ABC138');
-    },function(){
-        $('.headerMenu_news').toggle();
-        $('.hoverToShowMenu_news').css('color', '');
-        $('.hoverToShowMenu_news').css('border-bottom', '');
+    $('.gnb__depth1 > li').on('mouseleave', function(e){
+        e.preventDefault();
+
+        $(this).find('.gnb__area').stop().slideUp(400);
     });
 
+    $(window).on('scroll', function(){
+        const win_scroll = $(this).scrollTop();
 
-    // 활동 hover 이벤트
-    $('.hoverToShowMenu_activity').hover(function () {
-        $('.headerMenu_activity').toggle();
-        
+        if(win_scroll > 0){
+            $("#header_new").addClass('scroll-on');
+        }else{
+            $('#header_new').removeClass('scroll-on');
+        }
     });
 
-    $('.headerMenu_activity').hover(function () {
-        $('.headerMenu_activity').toggle();
-        $('.hoverToShowMenu_activity').css('color', '#7fa924');
-        $('.hoverToShowMenu_activity').css('border-bottom', '2px solid #ABC138');
-    },function(){
-        $('.headerMenu_activity').toggle();
-        $('.hoverToShowMenu_activity').css('color', '');
-        $('.hoverToShowMenu_activity').css('border-bottom', '');
+    // 후원하기 버튼 슬라이드
+    $('.header__btn--support').on('mouseenter',function(){
+        $(this).find('ul').stop().slideDown();
     });
 
-
-
-    // 후원모집 클릭하면 아래 하단 유지
-//     $('#h_support').click(function(){
-//         $(this).css('border-bottom', '2px solid #ABC138');
-//         $('#h_home').css('border-bottom', 'none');
-//     });
-    
-    
+    $('.header__btn--support').on('mouseleave', function(){
+        $(this).find('ul').stop().slideUp();
+    });
 
 });

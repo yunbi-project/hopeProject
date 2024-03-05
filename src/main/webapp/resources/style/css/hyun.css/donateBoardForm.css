@@ -435,6 +435,7 @@ td {
 	padding : 20px;
 	width : 1000px;
 	margin : 0 auto;
+	margin-top: 100px;
 }
 
 .y_donate_insert_1{
@@ -447,7 +448,7 @@ td {
 }
 
 .y_donate_info{
-	margin:20px auto;
+	margin:100px auto;
 	width:800px;
 	padding: 20px;
 	text-align:center;
