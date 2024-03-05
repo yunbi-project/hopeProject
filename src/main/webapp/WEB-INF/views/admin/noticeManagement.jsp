@@ -44,10 +44,7 @@
 		                    	<span style="font-size:20px;">구분 검색</span>
 			                </div>
 							<table>
-								<colgroup>
-									<col class="w100">
-									</col>
-								</colgroup>
+								
 								<tbody>
 									<tr>
 										<th scope="row">검색어</th>
