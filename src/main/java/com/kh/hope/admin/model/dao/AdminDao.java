@@ -146,10 +146,6 @@ public class AdminDao {
 	public int dashboardChatTotalCount() {
 		return session.selectOne("adminMapper.dashboardChatTotalCount");
 	}
-	/*
-	 * // 많이 접속한 채팅방명 5개 public List<Chat> dashboardChatRoomList() { return
-	 * session.selectList("adminMapper.dashboardChatRoomList"); }
-	 */
 
 	// 기부 그래프
 	public List<PaymentInfo> getDailyIncome() {
@@ -158,6 +154,10 @@ public class AdminDao {
 	// donate 리스트 뽑기
 	public List<PaymentInfo> selectDonate() {
 		return session.selectList("adminMapper.selectDonate");
+	}
+	// userList
+	public List<User> dashboarduserList() {
+		return session.selectList("adminMapper.dashboarduserList");
 	}
 
 /* ============================================== 대시보드  끝 =============================================*/
@@ -210,6 +210,8 @@ public class AdminDao {
 	public List<Product> productList() {
 		return session.selectList("adminMapper.productList");
 				}
+
+	
 	}
 	
 

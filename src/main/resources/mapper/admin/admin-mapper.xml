@@ -229,6 +229,12 @@
 			FROM DONATE_INFO
 			ORDER BY CREATE_DATE ASC
 		</select>
+		
+		<!-- userList -->
+		<select id="dashboarduserList" resultType="user">
+			SELECT *
+			FROM USERS
+		</select>
 	
 <!--  ===================================== 대시보드 통계 끝 ================================================== -->
 

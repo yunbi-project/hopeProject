@@ -197,11 +197,6 @@ public class AdminServiceImpl implements AdminService{
 		public int dashboardChatTotalCount() {
 			return adminDao.dashboardChatTotalCount();
 		}
-	// 많이 접속한 채팅방명 5개
-	/*
-	 * @Override public List<Chat> dashboardChatRoomList() { return
-	 * adminDao.dashboardChatRoomList(); }
-	 */
 
 	// 기부그래프	
 		@Override
@@ -213,6 +208,13 @@ public class AdminServiceImpl implements AdminService{
 		public List<PaymentInfo> selectDonate() {
 			return adminDao.selectDonate();
 		}
+		
+	// userList
+		@Override
+		public List<User> dashboarduserList() {
+			return adminDao.dashboarduserList();
+		}		
+
 
 	/* ============================================== 대시보드  끝 =============================================*/
 
@@ -281,6 +283,7 @@ public class AdminServiceImpl implements AdminService{
 			@Override
 			public List<Product> productList() {
 				return adminDao.productList();
-			}		
+			}
 
+		
 }

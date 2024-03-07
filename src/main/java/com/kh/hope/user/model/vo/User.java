@@ -1,5 +1,7 @@
 package com.kh.hope.user.model.vo;
 
+import java.sql.Date;
+
 import com.kh.hope.user.model.vo.User;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ public class User {
 	private String role;
 	private String confirmPassword;
 	private String address;
+	private Date createDate;
 	
 	private Long id;
 	private String providerid;

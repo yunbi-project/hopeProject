@@ -74,7 +74,14 @@ public class AdminController {
 	// 대시보드
 	// status y인 값들만 카운트
 	@GetMapping("/adminIndex")
-	public String index(Model model) {
+	public String index(Model model, HttpSession session, HttpServletRequest request) {
+		
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+		if(loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			
+			return "redirect:/";
+		}
 
 		// ----- 1. 회원가입 수 리스트  -----
 		List<User> totalUsers  = adminService.dashboardUser();
@@ -82,6 +89,13 @@ public class AdminController {
 		model.addAttribute("totalUsers", totalUsers);
 		
 		log.info("totalUsers의 정보 {}" , totalUsers);
+		
+		// ------ 회원 리스트 --------------
+		List<User> userList = adminService.dashboarduserList();
+		
+		model.addAttribute("userList" , userList);
+		
+		log.info("userList {}", userList);
 		
 		// ----- 2. 기부금액 합계  -----
 		int totalAmount = adminService.dashboardAmount();
@@ -107,15 +121,6 @@ public class AdminController {
 		model.addAttribute("totalChat" , totalChat);
 		log.info("totalChat 채팅방 수 : {}" , totalChat);
 		
-		
-		// 기부금액 통계
-		
-		// 많이 접속한 채팅방명 5개
-		/*
-		 * List<Chat> vogueChat = adminService.dashboardChatRoomList();
-		 * model.addAttribute("vogueChat" , vogueChat); log.info("vogueChat 정보 확인 {}" ,
-		 * vogueChat);
-		 */
 		
 		// 기부 그래프
 		List<PaymentInfo> list = adminService.getDailyIncome();

@@ -201,28 +201,51 @@
 </script>
 <br>
                         <!-- 기부금액 통계 -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">기부금액 통계</h6>
-                                    <div class="dropdown no-arrow">
-                                        
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                           
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body" id="chartgrahpe">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>   
-		</div>
-	</div>               
+                        <div class="d-flex flex-row justify-content-between">
+    <!-- 기부금액 통계 -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">기부금액</h6>
+                <div class="dropdown no-arrow">
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" id="chartgrahpe">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 리스트 -->
+    <div class="col-xl-4 col-lg-5">
+        <div style="width: 500px; height: 410px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+            <table style="width: 100%;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; text-align: left;">회원이름</th>
+                        <th style="padding: 8px; text-align: left;">가입일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${userList}" var="user">
+                        <tr>
+                            <td style="padding: 8px;">${user.userName}님이</td>
+                            <td style="padding: 8px;">${user.createDate}에 가입했습니다.</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 </body>
 
 </html>

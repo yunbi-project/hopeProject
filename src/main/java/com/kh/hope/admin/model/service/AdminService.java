@@ -91,9 +91,10 @@ public interface AdminService {
 
 	// donate_INFO 리스트 뽑기
 	List<PaymentInfo> selectDonate();
+	
+	// userList 
+	List<User> dashboarduserList();
 
-	// 많이 접속한 채팅방명 5개
-	/* List<Chat> dashboardChatRoomList(); */
 
 /* ============================================== 대시보드  끝 =============================================*/
 
@@ -124,6 +125,9 @@ public interface AdminService {
 	
 	//게시판관리 시작
 	List<Product> productList();
+
+	
+	
 
 
 }
