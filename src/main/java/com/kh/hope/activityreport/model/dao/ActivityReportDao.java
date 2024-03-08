@@ -43,9 +43,21 @@ public class ActivityReportDao {
 		return session.update("activityreportMapper.increaseCount",reportNo);
 	}
 
+	
 	public int insertActivityReport(ActivityReport activityReport) {
 		return session.insert("activityreportMapper.insertActivityReport",activityReport);
 	}
+
+
+	public int updateActivityReport(ActivityReport activityreport) {
+		return session.update("activityreportMapper.updateActivityReport", activityreport);
+	}
+
+	public int deleteActivityReport(int reportNo) {
+		return session.update("activityreportMapper.deleteActivityReport", reportNo);
+	}
+
+
 
 	
 	

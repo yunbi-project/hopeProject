@@ -10,14 +10,15 @@
 	</select>
 	
 	<select id="reportList" parameterType="hashMap" resultType="activityreport">
-		SELECT REPORT_NO, REPORT_TITLE, COUNT, CREATE_DATE
+		SELECT REPORT_NO, REPORT_TITLE, COUNT, CREATE_DATE, STATUS
 		FROM ACTIVITY_REPORT
+		WHERE STATUS = 'Y'
 		ORDER BY REPORT_NO DESC
 	</select>
 	
 	<!-- 활동보고서 상세 -->
 	<select id="selectActivityReport" parameterType="int" resultType="activityreport">
-		SELECT REPORT_NO, REPORT_TITLE, REPORT_CONTENT, COUNT, CREATE_DATE, ACTIVITY_START_DATE, ACTIVITY_END_DATE
+		SELECT REPORT_NO, REPORT_TITLE, REPORT_CONTENT, COUNT, CREATE_DATE, ACTIVITY_START_DATE, ACTIVITY_END_DATE, STATUS
 		FROM ACTIVITY_REPORT R
 		WHERE REPORT_NO = #{reportNo}
 	</select>
@@ -31,11 +32,28 @@
 	<!-- 활동보고서 등록 -->
 	<insert id="insertActivityReport" parameterType="activityreport">
 		INSERT INTO ACTIVITY_REPORT
-		(REPORT_NO, REPORT_TITLE, REPORT_CONTENT, CREATE_DATE, ACTIVITY_START_DATE, ACTIVITY_END_DATE)
+		(REPORT_NO, REPORT_TITLE, REPORT_CONTENT, CREATE_DATE, ACTIVITY_START_DATE, ACTIVITY_END_DATE, STATUS)
 		VALUES
-		(SEQ_AREPORTNO.nextval, #{reportTitle}, #{reportContent}, SYSDATE,  #{activityStartDate}, #{activityEndDate})
+		(SEQ_AREPORTNO.nextval, #{reportTitle}, #{reportContent}, SYSDATE,  #{activityStartDate}, #{activityEndDate}, 'Y')
 	</insert>
-
-
+	
+	<!-- 활동보고서 수정 -->
+	<update id="updateActivityReport" parameterType="activityreport">
+		UPDATE ACTIVITY_REPORT
+		SET
+		REPORT_TITLE = #{reportTitle},
+		REPORT_CONTENT = #{reportContent},
+		ACTIVITY_START_DATE = #{activityStartDate},
+		ACTIVITY_END_DATE = #{activityEndDate}
+		WHERE REPORT_NO = #{reportNo}
+	</update>
+	
+	<!-- 활동보고서 삭제 -->	
+	<update id="deleteActivityReport" parameterType="int">
+		UPDATE ACTIVITY_REPORT
+		SET
+		STATUS = 'N'
+		WHERE REPORT_NO = #{reportNo}
+	</update>
 
 </mapper>

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.hope.mypage.model.service.EditprofileService;
 import com.kh.hope.user.model.vo.User;
@@ -13,6 +14,7 @@ import com.kh.hope.user.model.vo.User;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@SessionAttributes({ "loginUser" })
 public class EditprofileController {
 
     @Autowired
@@ -44,7 +46,11 @@ public class EditprofileController {
 	
 	int result = editprofileService.updateUser(user);
 	
-	
+	loginUser.setUserName(user.getUserName());
+	loginUser.setAddress(user.getAddress());
+	loginUser.setPhone(user.getPhone());
+
+	session.setAttribute("loginUser", loginUser);
 	
 	return "redirect:/editprofile";
 	}

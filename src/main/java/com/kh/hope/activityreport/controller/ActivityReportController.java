@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.hope.activityreport.model.service.ActivityReportService;
@@ -26,12 +28,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@SessionAttributes({ "loginUser" })
 public class ActivityReportController {
 	
 
 	@Autowired
 	private ActivityReportService service;
 	
+	// 활동보고서 페이지
 	@GetMapping("/activityreport")
 	public String ReportList(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
 			@RequestParam Map<String, Object> map) {
@@ -103,7 +107,7 @@ public class ActivityReportController {
 		return "activityreport/activityreportDetail";
 	}
 	
-	
+	// 활동보고서 작성
 	@GetMapping("/activityreportinsert")
 	public String showActivityReportForm() {
 		// 활동보고서 작성 폼을 보여주는 페이지로 이동
@@ -116,7 +120,7 @@ public class ActivityReportController {
 		    @RequestParam("reportContent") String reportContent,
 		    @RequestParam("activityStartDate") Date activityStartDate,
 		    @RequestParam("activityEndDate") Date activityEndDate,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes ra) {
 		// 사용자로부터 입력받은 파라미터 값을 이용하여 ActivityReport 객체를 생성
 	    ActivityReport activityReport = new ActivityReport();
 	    activityReport.setReportTitle(reportTitle);
@@ -129,13 +133,75 @@ public class ActivityReportController {
 	    
 	    if(result > 0) {
 	        // 저장 성공 시 메시지를 리다이렉트한 페이지로 전달
-	        redirectAttributes.addFlashAttribute("successMessage", "활동 보고서가 성공적으로 저장되었습니다.");
+	        ra.addFlashAttribute("successMessage", "활동 보고서가 성공적으로 저장되었습니다.");
 	    } else {
 	        // 저장 실패 시 메시지를 리다이렉트한 페이지로 전달
-	        redirectAttributes.addFlashAttribute("errorMessage", "활동 보고서 저장에 실패하였습니다. 다시 시도해주세요.");
+	        ra.addFlashAttribute("errorMessage", "활동 보고서 저장에 실패하였습니다. 다시 시도해주세요.");
 	    }
 	    
 	    return "redirect:/activityreport"; // 다시 입력 폼으로 리다이렉트
 	}
+	
+	// 활동보고서 수정
+	@GetMapping("/activityreport/update/{reportNo}")
+	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model) {
+		ActivityReport ar = service.selectActivityReport(reportNo);
+
+		User loginUser = (User) session.getAttribute("loginUser");
+		model.addAttribute("activityreport", ar);
+		
+		System.out.println(ar);
+		
+		if (loginUser.getUserNo() != 1) {
+			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
+			return "redirect:/activityreport";
+		}else {
+			return "activityreport/activityreportUpdate";
+		}
+	}
+	
+	@PostMapping("/activityreport/update/{reportNo}")
+	public String activityreportUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra) {
+		
+		
+		int	result = service.updateActivityReport(activityreport);
+
+		
+		if(result > 0) {
+			
+			ra.addFlashAttribute("게시글 수정하는데 성공하였습니다.");
+			
+			return "redirect:/activityreport";
+		}else {
+			ra.addFlashAttribute("게시글 수정 실패");
+			
+			return "redirect:/hope/errorPage";
+		}
+	}
+	
+	// 활동보고서 삭제
+	@GetMapping("/activityreport/delete/{reportNo}")
+	public String activityreportDelete(@PathVariable("reportNo") int reportNo, Model m, RedirectAttributes ra,
+			@ModelAttribute("loginUser") User loginUser, HttpSession session) {
+
+		int result = service.deleteActivityreport(reportNo);
+		
+		if (loginUser.getUserNo() != 1) {
+			System.out.println(result);
+			ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
+			return "redirect:/errorPage";
+		}
+		
+		if (result > 0) {
+			ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+
+		} else {
+			ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+		}
+		return "redirect:/activityreport";
+
+	}
+	
+	
 	
 }

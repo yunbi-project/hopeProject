@@ -22,6 +22,12 @@ public interface ActivityReportService {
 
 	int insertActivityReport(ActivityReport activityReport);
 	
+
+	int updateActivityReport(ActivityReport activityreport);
+
+	
+	int deleteActivityreport(int reportNo);
+	
 }
 
 
