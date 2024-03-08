@@ -13,15 +13,16 @@
 	</select>
 	
 	<select id="mypageDonateListM" parameterType="int" resultType="mypage">
-		SELECT CREATE_DATE, PAY_TYPE, DONATE_AMOUNT
+		SELECT CREATE_DATE, PAY_TYPE, DONATE_AMOUNT, DONATE_TITLE, OPTIONAL_TEXT
 		FROM DONATE_INFO DI
 		JOIN USERS U ON (U.USER_NO = DI.USER_NO)
+        JOIN DONATE_BOARD DB on (DB.DONATE_NO = DI.DONATE_NO)
 		WHERE DI.USER_NO = #{userNo}
 	</select>
 	
 	<!-- 봉사활동 -->
 	<select id="mypageProgramList" parameterType="int" resultType="mypage">
-		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE
+		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE, R.PROGRAM_NO
 		FROM PROGRAM P 
 		JOIN REQUEST R ON (R.PROGRAM_NO = P.PROGRAM_NO)
 		JOIN USERS U ON (U.USER_NO = R.USER_NO)
@@ -30,11 +31,16 @@
 	
 	<!-- 즐겨찾기 -->
 	<select id="mypageBookmarkList" parameterType="int" resultType="mypage">
-		SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE, P.PROGRAM_NO
-		FROM LIKES L
-		JOIN USERS U ON (U.USER_NO = L.USER_NO)
-		JOIN PROGRAM P ON (L.PROGRAM_NO = P.PROGRAM_NO)
-		WHERE L.USER_NO = #{userNo}
+	SELECT PROGRAM_NAME, PROGRAM_ACTIVITY_START_DATE,
+	PROGRAM_ACTIVITY_END_DATE, P.PROGRAM_NO,
+	CASE 
+    WHEN PROGRAM_ACTIVITY_END_DATE - SYSDATE >= 0 THEN TO_CHAR(TRUNC(PROGRAM_ACTIVITY_END_DATE - SYSDATE))
+    ELSE '0'
+    END AS result
+	FROM LIKES L
+	JOIN USERS U ON (U.USER_NO = L.USER_NO)
+	JOIN PROGRAM P ON (L.PROGRAM_NO = P.PROGRAM_NO)
+	WHERE L.USER_NO = #{userNo}
 	</select>
 	
 	<delete id="deleteBookmark">
@@ -51,7 +57,21 @@
 		ADDRESS = #{address}
 		WHERE USER_NO = #{userNo}
 	</update>
-
-
+	
+	<!-- 마이페이지 총 기부금액 조회 -->
+	<select id="selectMypageDonate" parameterType="int" resultType="mypage">
+	SELECT 
+	    (SELECT SUM(DONATE_AMOUNT) FROM DONATE_INFO WHERE USER_NO = #{userNo}) AS donateAmount,
+	    (SELECT COUNT(DONATE_NO) FROM DONATE_INFO WHERE USER_NO = #{userNo}) AS donateCount,
+	    (SELECT COUNT(*) FROM DONATE_PRODUCT DP JOIN USERS U ON DP.PHONE = U.PHONE WHERE U.USER_NO = #{userNo}) AS productCount,
+	    (SELECT COUNT(*) FROM DONATE_PRODUCT DP JOIN USERS U ON DP.PHONE = U.PHONE WHERE U.USER_NO = #{userNo} AND DP.STATUS = 'N') AS statusCount
+	FROM DUAL
+	</select>
+	
+	<delete id="deleteRequest">
+		DELETE 
+		FROM REQUEST
+		WHERE USER_NO = #{userNo} AND PROGRAM_NO = #{programNo}
+	</delete>
 
 </mapper>

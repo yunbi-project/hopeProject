@@ -34,6 +34,15 @@ public class MypageService {
 	public boolean deleteBookmark(int userNo, int programNo) {
 		return mypageDao.deleteBookmark(userNo, programNo);
 	}
+
+	//마이페이지 총기부금
+	public Mypage selectMypageDonate(int userNo) {
+		return mypageDao.selectMypageDonate(userNo);
+	}
+
+	public boolean deleteRequest(int userNo, int programNo) {
+		return mypageDao.deleteRequest(userNo, programNo);
+	}
 	
 
 

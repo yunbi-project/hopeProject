@@ -110,7 +110,7 @@ public class ProgramController {
 
 	// 프로그램 디테일
 	@GetMapping("/program/detail/{programNo}")
-	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session, Chat c) {
+	public String detailProgram(@PathVariable int programNo, Model model, HttpSession session, RedirectAttributes ra, Chat c) {
 
 		Program program = service.detailProgram(programNo);
 		int count = service.requestCount(programNo);
@@ -131,6 +131,7 @@ public class ProgramController {
 		}
 			model.addAttribute("program", program);
 			model.addAttribute("count", count);
+			
 
 		// programNo값이랑 같은 채팅방을 가져온다.
 		c.setProgramNo(programNo);
@@ -165,10 +166,18 @@ public class ProgramController {
 	@PostMapping("/program/detail/request/{programNo}")
 	public ResponseEntity<String> requestProgram(@PathVariable int programNo, @RequestParam int userNo,
 			HttpSession session, Model model) {
-
+		Program program = service.detailProgram(programNo);
+		int count = service.requestCount(programNo);
+		
 		Request request = new Request().builder().programNo(programNo).userNo(userNo).build();
+		
+		int result = 0;
+		if(Integer.parseInt(program.getProgramCapacity())<=count) {
+			return null;
+		}else {
+			result = service.requestProgram(request);
+		}
 
-		int result = service.requestProgram(request);
 		return ResponseEntity.ok(result + "");
 	}
 
@@ -178,7 +187,7 @@ public class ProgramController {
 		Program program = service.detailProgram(programNo);
 
 		User loginUser = (User) session.getAttribute("loginUser");
-
+		
 		if (loginUser != null) {
 			model.addAttribute("program", program);
 

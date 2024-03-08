@@ -46,6 +46,24 @@ public class MypageDao {
 	    }
 	}
 
+	public Mypage selectMypageDonate(int userNo) {
+		return session.selectOne("mypageMapper.selectMypageDonate", userNo);
+	}
+
+	public boolean deleteRequest(int userNo, int programNo) {
+		try {
+	        HashMap<String, Object> map = new HashMap();
+	        map.put("userNo", userNo);
+	        map.put("programNo", programNo);
+	        
+	        int result = session.delete("mypageMapper.deleteRequest", map);
+	        return result > 0;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 	
 
 
