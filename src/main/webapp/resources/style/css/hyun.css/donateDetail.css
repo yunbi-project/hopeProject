@@ -178,6 +178,14 @@ main{
 
 .note-editable{
 	background-color: white !important;
+}	
+
+.note-editable h5{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}
+
+.note-editable p{
+	font-family: 'NanumSquareNeo-Variable' !important;
 }
 
 /* 상세페이지 제목 */

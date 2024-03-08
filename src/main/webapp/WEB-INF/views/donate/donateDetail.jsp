@@ -34,16 +34,18 @@
                 		</c:otherwise>
                		</c:choose>
                     <c:choose>
-                    <c:when test="${donate.donateEndDate lt currentDate}">
-                    	<div class="ending_imminent">종료</div>
-                    	
-                    </c:when>
-                    <c:when test="${donate.ceilDayDiff <= 14}">
-                    	<div class="ending_imminent">종료임박</div>
-                    </c:when>
-                    <c:otherwise >
-                    	
-                    </c:otherwise>
+                        <c:when test="${donate.donateEndDate lt currentDate and donate.ceilDayDiff ne 0}">
+                    		<div class="ending_imminent">종료</div>        
+                    	</c:when>
+                    	<c:when test="${donate.ceilDayDiff eq 0}">
+                    		<div class="ending_imminent">오늘마감</div>
+                    	</c:when>
+                    	<c:when test="${donate.ceilDayDiff <= 14 and donate.ceilDayDiff ne 0}">
+                    		<div class="ending_imminent">종료임박</div>
+                    	</c:when>
+                    	<c:otherwise>
+		                    
+                    	</c:otherwise>
                     </c:choose>
                 </div>
 
@@ -111,7 +113,7 @@
                     		<c:when test="${donate.achRate >= 100}">
                     			<img class="rabbit_img" style="width:140px;" src="https://item.kakaocdn.net/do/7f552a5d038cc7b0b6f99339bbc330baf43ad912ad8dd55b04db6a64cddaf76d">
                     		</c:when>
-                    		<c:when test="${donate.donateEndDate lt currentDate and donate.achRate < 100}">
+                    		<c:when test="${donate.donateEndDate lt currentDate and donate.ceilDayDiff ne 0}">
                     			<img class="rabbit_img" style="width:120px;" src="https://media.tenor.com/RSFvAKQkWJoAAAAM/%EC%B6%98%EC%8B%9D-%EC%B6%98%EC%8B%9D%EC%9D%B4.gif">
                     		</c:when>
                     		<c:otherwise>
@@ -136,8 +138,11 @@
                 <div class="object_num">
                     <span>${donate.achRate > 100 ? 100 : donate.achRate}% 달성</span>
                     <c:choose>
-                    	<c:when test="${donate.donateEndDate lt currentDate}">
+                    	<c:when test="${donate.donateEndDate lt currentDate and donate.ceilDayDiff ne 0}">
                     		<span>모금종료</span>
+                    	</c:when>
+                    	<c:when test="${donate.ceilDayDiff eq 0}">
+                    		<span style="color:red; font-weight:bold;">오늘 마감</span>
                     	</c:when>
                     	<c:otherwise>
 		                    <span>${donate.ceilDayDiff}일 남음</span>
@@ -175,7 +180,7 @@
                     </div>
 					
 					<c:choose>
-						<c:when test="${donate.donateEndDate lt currentDate}">
+						<c:when test="${donate.donateEndDate lt currentDate and donate.ceilDayDiff ne 0}">
 							<div class="donationEnd">모금종료</div>
 						</c:when>
 						<c:otherwise>

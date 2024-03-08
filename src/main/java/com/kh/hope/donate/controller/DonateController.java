@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,6 @@ import com.kh.hope.donate.model.vo.DonateTag;
 import com.kh.hope.payment.model.service.PaymentService;
 //import com.kh.hope.payment.model.service.PaymentService;
 import com.kh.hope.payment.model.vo.PaymentInfo;
-import com.kh.hope.product.model.vo.ProductCategory;
 import com.kh.hope.user.model.service.UserService;
 import com.kh.hope.user.model.vo.User;
 
@@ -179,7 +179,12 @@ public class DonateController {
 	
 	// 게시판 등록 페이지로 이동
 	@GetMapping("/donate/boardInsert")
-	public String donateBoardInsert(Model model) {
+	public String donateBoardInsert(Model model, @ModelAttribute("loginUser") User loginUser,RedirectAttributes ra) {
+		
+		if (loginUser.getUserNo() != 1) {
+			ra.addFlashAttribute("alertMsg", "게시글 등록 권한이 없습니다.");
+			return "redirect:/errorPage";
+		}
 		
 		List<DonateTag> tag = service.selectTagList();
 		
@@ -248,12 +253,10 @@ public class DonateController {
     	
 		if(result > 0) {
     		session.setAttribute("alertMsg", "성공적으로 게시글 등록이 되었습니다.");
-    		System.out.println("게시글 등록 성공");
     		url = "redirect:/donate/list";
     		
     	}else {
     		model.addAttribute("alertMsg", "게시글 등록에 실패하였습니다.");
-    		System.out.println("게시글 등록 실패");
     		url = "redirect:/errorPage";
     	}
     	
@@ -265,8 +268,14 @@ public class DonateController {
 	public String updateProductForm(
 			@PathVariable int donateNo,
 			HttpServletRequest request,
-			Model model
+			Model model,
+			@ModelAttribute("loginUser") User loginUser,RedirectAttributes ra
 			) {
+		
+		if (loginUser.getUserNo() != 1) {
+			ra.addFlashAttribute("alertMsg", "게시글 수정 권한이 없습니다.");
+			return "redirect:/errorPage";
+		}
 		
 	    // 세션에서 특정 플래그가 설정되어 있는지 확인
 	    Boolean hasVisited = (Boolean) request.getSession().getAttribute("hasVisitedDonateProductUpdate");
@@ -303,17 +312,14 @@ public class DonateController {
 		
 		
 		donate.setDonateNo(donateNo);
-		log.info("donate ?? {} deleteList ?? {}", donate, deleteList);
 		
 		int result = service.updateDonateBoard(donate, deleteList, upfiles);
 	    
 	    if(result > 0) {
     		ra.addFlashAttribute("alertMsg", "게시글이 성공적으로 수정되었습니다.");
-    		System.out.println("게시글 수정 성공");
     		return "redirect:/donate/detail/" + donateNo;
 	    }else {
 	    	ra.addFlashAttribute("alertMsg", "게시글 수정 실패");
-    		System.out.println("게시글 수정 실패");
     		return "redirect:/errorPage";
 	    }
 		
@@ -327,11 +333,9 @@ public class DonateController {
 		
 		if(result > 0) {
 			ra.addFlashAttribute("alertMsg", "게시글이 성공적으로 삭제되었습니다.");
-			System.out.println("게시글 삭제 성공");
 			return "redirect:/donate/list" ;
 		}else {
 			ra.addFlashAttribute("alertMsg", "게시글을 삭제하는데 실패하였습니다.");
-			System.out.println("게시글 삭제 실패");
 			return "redirect:/errorPage";
 		}
 	}

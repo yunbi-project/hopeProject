@@ -111,7 +111,10 @@
 			                    <c:if test="${d.ceilDayDiff <= 14}">
 				                    <div class="ending_imminent">종료임박</div>
 				                </c:if>
-				                <c:if test="${d.donateEndDate lt currentDate}">
+				                <c:if test="${d.ceilDayDiff eq 0}">
+				                	<div class="ending_imminent" style="font-weight:bold;">오늘마감</div>
+				                </c:if>
+				                <c:if test="${d.donateEndDate lt currentDate and d.ceilDayDiff ne 0}">
 				                	<div class="ending_imminent">종료</div>
 								</c:if>
 			                </div>
@@ -140,7 +143,8 @@
 		    
 		    $('.donate_board').each(function() {
 		        var endDate = new Date($(this).find('.donate_board_div').data('enddate')); // donate_board_div 내의 data-enddate 속성값을 가져옵니다.
-		        if (endDate > currentDate) {
+		        var ceilDayDiff = $(this).find('.donate_board_div').data('end'); 
+		        if (endDate > currentDate || ceilDayDiff == 0) {
 		            $(this).show(); // 종료되지 않은 기부는 보이게 합니다.
 		        } else {
 		            $(this).hide(); // 종료된 기부는 숨깁니다.
@@ -243,11 +247,18 @@
 		    function filterContent(tagId) {
 		        $(".donate_board").each(function() {
 		            var endDate = new Date($(this).find('.donate_board_div').data("enddate"));
+		            var ceilDayDiff = $(this).find('.donate_board_div').data('end'); 
 		            var boardTagId = parseInt($(this).find('.donate_board_div').data("tagid"));
+		            var ceilDayDiff = $(this).find('.donate_board_div').data('end'); 
+		            
 		            if ((tagId === "0" || boardTagId === parseInt(tagId)) && endDate > currentDate) {
 		                $(this).show(); // 보여주기
 		            } else {
 		                $(this).hide(); // 숨기기
+		            }
+		            
+		            if (tagId === "0" && ceilDayDiff == 0) {
+		                $(this).show(); // 보여주기
 		            }
 		        });
 		    }
@@ -294,7 +305,9 @@
 		            var endDate = new Date($(this).find('.donate_board_div').data('enddate')); // 종료일을 가져옴
 		            var boardTagId = parseInt($(this).find('.donate_board_div').data('tagid')); // 태그 ID를 가져옴
 		            // 종료된 후원이면서 선택된 태그에 해당하는 경우에만 보여줍니다.
-		            if (endDate < currentDate && (clickedTagId == 0 || boardTagId == clickedTagId)) {
+		            var ceilDayDiff = $(this).find('.donate_board_div').data('end'); 
+		            
+		            if (endDate < currentDate && (clickedTagId == 0 || boardTagId == clickedTagId) && ceilDayDiff != 0) {
 		                $(this).show(); // 보여주기
 		            } else {
 		                $(this).hide(); // 숨기기
@@ -306,7 +319,8 @@
 		        $(".donate_board").each(function() {
 		            var endDate = new Date($(this).find('.donate_board_div').data("enddate"));
 		            var boardTagId = parseInt($(this).find('.donate_board_div').data("tagid"));
-		            if ((parseInt(tagId) === 0 || boardTagId === parseInt(tagId)) && endDate > currentDate) {
+		            var ceilDayDiff = $(this).find('.donate_board_div').data('end'); 
+		            if ((parseInt(tagId) === 0 || boardTagId === parseInt(tagId)) && endDate > currentDate || ceilDayDiff == 0) {
 		                $(this).show(); // 보여주기
 		            } else {
 		                $(this).hide(); // 숨기기

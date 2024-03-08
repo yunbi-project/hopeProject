@@ -11,7 +11,7 @@
     <footer class="common footer">
         <div class="h_footers">
             <div class='h_footer'>
-                <h4>희망의 조각</h4>
+                <h4 style="margin-bottom: 20px;">희망의 조각</h4>
                 <div class='h_footer_frist1'>
                 <span>회사소개</span>
                 <span> | </span>

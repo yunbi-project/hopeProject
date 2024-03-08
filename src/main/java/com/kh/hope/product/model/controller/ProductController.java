@@ -50,7 +50,6 @@ public class ProductController {
     public String handleDonationForm(@RequestParam("donateType") String donateType, Model model) {
         // donateType을 사용하여 원하는 처리를 수행합니다.
         // 이 예제에서는 donateType을 콘솔에 출력하겠습니다.
-        System.out.println("선택된 기부 유형: " + donateType);
         model.addAttribute("donateType", donateType);
         
         // 다음에 할 작업에 따라 적절한 뷰 이름을 반환합니다.
@@ -65,22 +64,16 @@ public class ProductController {
 			HttpSession session) {
     	
     	
-    	
-    	log.info("Product : {}", p);
-    	
-
     	int result = productService.insertProduct(p);
     	
     	
     	String url = "";
     	if(result > 0) {
     		session.setAttribute("alertMsg", "물품 기부가 성공적으로 신청되었습니다.");
-    		System.out.println("물품 등록 성공");
     		url = "redirect:/product/donateProductResult";
     		
     	}else {
     		model.addAttribute("errorMsg", "물품 기부 신청에 실패하였습니다.");
-    		System.out.println("물품 등록 실패");
     		url = "redirect:/errorPage";
     	}
     	
@@ -117,7 +110,6 @@ public class ProductController {
         int productNo = productService.selectProductNo();
         
         model.addAttribute("productNo", productNo);
-        System.out.println("productNo : " + productNo);
         
 
         return "product/donateProductResult";
@@ -132,12 +124,10 @@ public class ProductController {
 			@RequestParam("phone") String phone
 			) {
 		
-		log.info("phone {}", phone);
 		
 		List<Product> product = productService.selectProductNoCheck(phone);
 		
 		model.addAttribute("product", product);
-		log.info("product {}", product);
 		
 		return product;
 	}
@@ -181,7 +171,6 @@ public class ProductController {
 		
 		Product pro = new Product(); // Product 객체 생성
 		
-		System.out.println(phone  + productNo + puserName);
 		
 		pro.setPhone(phone);
 		pro.setProductNo(productNo);
@@ -190,7 +179,6 @@ public class ProductController {
 		
 		Product product = productService.selectProductUpdateCheck(pro);
 		
-		log.info("pro {}", product);
 		model.addAttribute("product", product);
 		
 		if(product != null) {
@@ -213,10 +201,8 @@ public class ProductController {
 	    
 	    if(result > 0) {
     		session.setAttribute("alertMsg", "물품 기부가 성공적으로 수정되었습니다.");
-    		System.out.println("물품 수정 성공");
     		return "redirect:/";
 	    }else {
-    		System.out.println("물품 수정 실패");
     		return "redirect:/errorPage";
 	    }
 	}
