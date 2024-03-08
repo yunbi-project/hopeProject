@@ -1,10 +1,10 @@
 package com.kh.hope.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.hope.admin.model.dao.AdminDao;
@@ -16,9 +16,11 @@ import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
+import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.product.model.vo.Product;
+import com.kh.hope.program.model.vo.Program;
 import com.kh.hope.user.model.vo.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -197,11 +199,6 @@ public class AdminServiceImpl implements AdminService{
 		public int dashboardChatTotalCount() {
 			return adminDao.dashboardChatTotalCount();
 		}
-	// 많이 접속한 채팅방명 5개
-	/*
-	 * @Override public List<Chat> dashboardChatRoomList() { return
-	 * adminDao.dashboardChatRoomList(); }
-	 */
 
 	// 기부그래프	
 		@Override
@@ -213,6 +210,13 @@ public class AdminServiceImpl implements AdminService{
 		public List<PaymentInfo> selectDonate() {
 			return adminDao.selectDonate();
 		}
+		
+	// userList
+		@Override
+		public List<User> dashboarduserList() {
+			return adminDao.dashboarduserList();
+		}		
+
 
 	/* ============================================== 대시보드  끝 =============================================*/
 
@@ -281,6 +285,67 @@ public class AdminServiceImpl implements AdminService{
 			@Override
 			public List<Product> productList() {
 				return adminDao.productList();
-			}		
+			}
+			//봉사활동
+			@Override
+			public int selectProgramCount(Map<String, Object> map) {
+				return adminDao.selectProgramCount(map);
+			}
 
+			@Override
+			public List<Program> programList(PageInfo pi, Map<String, Object> map) {
+				return adminDao.programList(pi,map);
+			}
+			//후원모집
+			@Override
+			public int selectDonateCount(Map<String, Object> map) {
+				return adminDao.selectDonateCount(map);
+			}
+
+			@Override
+			public List<Donate> donateList(PageInfo pi, Map<String, Object> map) {
+				return adminDao.donateList(pi,map);
+			}
+			//댓글관리삭제
+			@Override
+			public int deleteReply(int replyNo) {
+				return adminDao.deleteReply(replyNo);
+			}
+			//물품수령
+			@Override
+			public int confirmProduct(int productNo) {
+				return adminDao.confirmProduct(productNo);
+			}
+			//물품기부삭제
+			@Override
+			public int deleteProduct(int productNo) {
+				return adminDao.deleteProduct(productNo);
+			}
+
+			@Override
+			public List<Product> productConfirmList() {
+				return adminDao.productConfirmList();
+			}
+			//프로그램 명단
+			@Override
+			public List<Program> programPeople(int programNo) {
+				return adminDao.programPeople(programNo);
+			}
+
+			@Override
+			public Program programPeopleCount(int programNo) {
+				return adminDao.programPeopleCount(programNo);
+			}
+			//프로그램 삭제
+			@Override
+			public int deleteProgram(int programNo) {
+				return adminDao.deleteProgram(programNo);
+			}
+
+			@Override
+			public int deleteDonate(int donateNo) {
+				return adminDao.deleteDonate(donateNo);
+			}			
+
+		
 }

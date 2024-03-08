@@ -137,6 +137,15 @@
                             </div>
                         </div>
                     </div>
+                    <bt>
+                 
+                    <!-- Begin Page Content -->
+                
+
+              
+            <!-- End of Main Content -->
+		</div>
+	</div>
 
 			
 <script>
@@ -201,28 +210,98 @@
 </script>
 <br>
                         <!-- 기부금액 통계 -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">기부금액 통계</h6>
-                                    <div class="dropdown no-arrow">
-                                        
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                           
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body" id="chartgrahpe">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>   
-		</div>
-	</div>               
+                        <div class="d-flex flex-row justify-content-between">
+    <!-- 기부금액 통계 -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">기부금액</h6>
+                <div class="dropdown no-arrow">
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" id="chartgrahpe">
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 리스트 -->
+    <div class="col-xl-4 col-lg-5">
+        <div style="width: 100%; height: 410px; overflow-y: auto; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+            <table style="width: 100%;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; text-align: left;">회원이름</th>
+                        <th style="padding: 8px; text-align: left;">가입일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${userList}" var="user">
+                        <tr>
+                            <td style="padding: 8px;">${user.userName}님이</td>
+                            <td style="padding: 8px;">${user.enrollDate}에 가입했습니다.</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </div>
+         
+</div>
+ <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">회원 기부 리스트</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+
+                                            <th>후원금액</th>
+                                            <th>후원자 한마디</th>
+                                            <th>회원번호</th>
+                                            <th>기부날짜</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <c:forEach items="${selectDonate}" var="paymentInfo">
+                                        <tr>
+                                            <td>${paymentInfo.donateAmount } 원</td>
+                                            <td>${paymentInfo.optionalText }</td>
+                                            <td>${paymentInfo.userNo }</td>
+                                            <td>${paymentInfo.createDate }</td>
+                                        </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                    
+                                      <tfoot>
+                                        <tr>
+                                            <th>후원금액</th>
+                                            <th>후원자 한마디</th>
+                                            <th>회원번호</th>
+                                            <th>기부날짜</th>
+                                        </tr>
+                                    </tfoot>
+                                    
+                                    
+                                </table>
+                            </div>
+                        </div>
+                  
+                <!-- /.container-fluid -->
+
+            </div>
+
 </body>
 
 </html>
