@@ -29,7 +29,6 @@
 				<c:set var="url"
 				value="&active_type=${param.active_type}&active_location=${param.active_location}&active_time=${param.active_time}&active_days=${param.active_days}" /> 
 		</c:if>
-
 <!-- 			<form class="y_program_list_area" method="get" -->
 <%-- 				action="${contextPath}/program/list"> --%>
 <!-- 				<p>활동 유형</p> -->

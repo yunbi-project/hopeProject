@@ -51,6 +51,10 @@ public class MypageController {
 			List<Mypage> programlist = mypageService.selectMypageProgramList(userNo);;
 			model.addAttribute("programlist",programlist);
 			
+			Mypage mypage = mypageService.selectMypageDonate(userNo);
+			model.addAttribute("mypage",mypage);
+			
+			
 			return "mypage/mypage";
 		}
 	}
@@ -66,7 +70,8 @@ public class MypageController {
 	    int userNo = loginUser.getUserNo();
 
 	    boolean deleted = mypageService.deleteBookmark(userNo, programNo);
-	    if (deleted) {
+	    boolean deleteRequest = mypageService.deleteRequest(userNo, programNo);
+	    if (deleted || deleteRequest) {
 	        return "success"; // 삭제 성공
 	    } else {
 	        return "failed"; // 삭제 실패

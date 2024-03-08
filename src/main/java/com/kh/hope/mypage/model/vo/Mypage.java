@@ -18,20 +18,24 @@ public class Mypage {
 	private String productType;
 	private String productWay;
 	private String status;
+	private int donateCount;
+	private int productCount; // 물품 기부 신청 상태 카운트
+	private int statusCount; // 물품 기부 완료 상태 카운트
+	private String optionalText;
 	
 	// 기부 (donate) 후원금
 	private Date createDate;
 	private String payType;
 	private int donateAmount;
-	
+	private String donateTitle;
 	
 	// 봉사활동 (program)
 	// 즐겨찾기 (bookmark)
 	private String programName;
 	private Date programActivityStartDate;
 	private Date programActivityEndDate;
-	
 	private int programNo;
+	private int result;
 	
 }
 

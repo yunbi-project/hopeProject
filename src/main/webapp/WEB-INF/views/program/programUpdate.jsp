@@ -17,6 +17,7 @@
 	<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사 활동 신청 수정</h2>
     <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 <section>
+
                 <form action="${contextPath}/program/update/${programNo}" method="post" class="y_program_detail">
                     <table class="y_table">
                         <tr>
@@ -26,7 +27,7 @@
                         <tr>
                             <td>봉사 기간</td>
                             <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date" value="${program.programActivityStartDate}"> 
-                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" value=" ${program.programActivityEndDate}"></td>
+                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" value="${program.programActivityEndDate}"></td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
@@ -41,7 +42,7 @@
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }">까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }" value="${program.programEnrollEndDate}" >까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
