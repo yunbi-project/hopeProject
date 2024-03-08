@@ -1,3 +1,16 @@
+@font-face {
+  font-family: 'SEBANG_Gothic_Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+main{
+	max-width: 1500px;
+	min-width:1500px;
+	overflow-x: hidden; /* 가로 스크롤 숨김 */
+}
+
 /*GLOBALS*/
 *{margin:0; padding:0; list-style:none; font-family: 'NanumSquareNeo-Variable';}
 a{text-decoration:none;}
@@ -54,7 +67,13 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
   font-size:21px;
 }
 
+.fa-arrow-right{
+	margin-top: 20px !important;
+}
 
+.fa-arrow-left{
+	margin-top: 20px !important;
+}
 
 /*btns*/
 .btns{
@@ -110,6 +129,8 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
   text-align:center;
 }
 
+
+
 #pagination-wrap ul {
   width:100%;
 }
@@ -125,8 +146,7 @@ body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
   opacity:0.5;
   position:relative;
   top:0;
- 
- 
+  cursor: pointer;
 }
 
 #pagination-wrap ul li.active{
@@ -172,6 +192,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
   transition: background-color 0.3s ease;
   border-radius: 3px;
   border:1px solid rgb(199, 231, 202);
+  cursor: pointer;
 }
 
 .h_slider_btn:hover{
@@ -439,7 +460,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 /* ------------------------------ */
 /* 지금껏 후원한 사람들 */
 .donation_people{
-  background-color: #dfdfdf;
+  background-color: #eaeaea;
   height: 400px;
   position: absolute;
   width: 1500px;
@@ -518,7 +539,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
   font-family: 'NanumSquareNeo-Variable';
   font-size: 35px;
   font-weight: 500;
-  left: 770px;
+  left: 800px;
   letter-spacing: 0;
   line-height: 36px;
   position: absolute;
@@ -532,7 +553,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
   font-family: 'NanumSquareNeo-Variable';
   font-size: 35px;
   font-weight: 500;
-  left: 1115px;
+  left: 1135px;
   letter-spacing: 0;
   line-height: 36px;
   position: absolute;
@@ -810,14 +831,19 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 /* ----------------------- */
 /* 함께하는 나눔 프로젝트 */
 .sharingProject{
-  margin-top : 1570px;
+  margin-top : 100px;
 }
 
 /* 슬라이드 */
 .swiper-container {
-	height:550px;
-	border-radius:7px;
+  height:650px;
+  border-radius:7px;
   margin-top: 0px;
+  width: 1250px;
+  padding: 100px;
+  border: 1px solid rgb(220, 217, 217);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/*   padding: 50px !important; */
 }
 
 .swiper-slide {
@@ -825,80 +851,612 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 	display:flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
 	align-items:center; /* 위아래 기준 중앙정렬 */
 	justify-content:center; /* 좌우 기준 중앙정렬 */
- 
-}
-.swiper-slide img {
-	box-shadow:0 0 5px #555;
-	max-width:100%; /* 이미지 최대너비를 제한, 슬라이드에 이미지가 여러개가 보여질때 필요 */
-	/* 이 예제에서 필요해서 설정했습니다. 상황에따라 다를 수 있습니다. */
+
 }
 
+.swiper-slide img {
+	box-shadow:0 0 5px #555;
+	width: 350px;
+	height: 250px;
+	border-radius: 10px;
+}
 
 
 /* 후원 내용 */
 .h_donation_container{
   font-family: 'NanumSquareNeo-Variable';
-  border: 1px solid black;
+  border: 1px solid #d0cdcd;
   border-radius: 10px;
   margin-top: 30px;
   margin-left: 10px;
   margin-right: 10px;
-  height: 115px;
+  height: 120px;
   text-align: left;
-  width: 475px;
+  width: 350px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
+  padding: 4px;
+  position: relative; /* 부모 요소를 상대적으로 위치시킵니다. */
 }
 
 .h_donation_container div{
-  padding: 6px;
+  padding: 3px;
 }
 
-/* 후원 제목 */
-.h_donation_container div:nth-child(1){
-  margin-left: 20px;
-}
-
-.h_donation_container div:nth-child(3) span:nth-child(1),
-.h_donation_container div:nth-child(4) span:nth-child(1)
-{
-  margin-left: 20px;
-}
-
-/* 남은 기간 정렬 */
-.h_donation_container div:nth-child(3) span:nth-child(2){
-  margin-left: 250px;
-}
-
-/* 후원 목표 금액 정렬 */
-.h_donation_container div:nth-child(4) span:nth-child(2){
-  margin-left: 300px;
-}
-
-/* 색깔 중요도 표시 */
-.h_donation{
-  color : blue;
+.other_donate_money{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
   font-weight: bold;
+}
+
+.other_donate_rate {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   font-size: 10px;
+   margin-bottom: 10px;
+}
+
+
+.other_donate_rate span:nth-of-type(1) {
+    color: #ff3b3b;
+}
+
+
+/* 프로세스바 */
+#progress_other {
+  appearance: none;
+}
+
+#progress_other::-webkit-progress-bar {
+  background: #dfdede;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  height: 7px;
+  width: 330px;
+  overflow: hidden;
+  border:1px solid white;
+}
+
+#progress_other::-webkit-progress-value {
+  background: #fd4747;
+  border-radius: 0px;
+  height: 7px;
+  width: 330px;
+}
+
+.other_donate_title {
+	font-size: 23px;
+	z-index: 5px;
+    position: relative; /* 겹쳐지는 이미지의 상위 요소로 설정합니다. */
+    display: flex; /* 자식 요소들을 가로로 정렬합니다. */
+    align-items: center; /* 세로 중앙 정렬합니다. */
+    font-weight: bold;
+    padding:50px;
+}
+
+.other_donate_img{
+	width: 30px;
+	margin-right: 20px;
+	z-index: 5px;
+}
+
+.other_donate_bottom {
+    position: absolute; /* 절대적인 위치로 설정합니다. */
+    top: 10px;
+    left: 310px; /* 부모 요소 좌측에 배치합니다. */
+    z-index: 0; /* 다른 요소보다 아래에 쌓입니다. */
+    width: 140px;
+}
+
+.swiper-slide{
+	height: 470px !important;
+}
+
+
+
+
+/* ======================================================================= */
+/* 희망의 조각 소식 */
+.newTitle{
+  font-weight: bold;
+  font-size: 40px;
+  color: #abc128;
+  margin-right: 10px;
+}
+
+
+
+/* 모든 게시판 */
+.all_board{
+  margin: 50px 40px 50px 40px;
+  width: 1400px;
+}
+
+/* 공지사항 */
+.main_notice {
+  float: left;
+}
+
+/* 공지사항 안 ul들 */
+.subject{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 30px;
+  padding-left: 0px;
+  width: 700px;
+}
+
+/* 첫번째 요소만 margin-top 스타일 추가 */
+li:first-child .subject{
+  margin-top: 50px;
+}
+
+
+/* 공지 마크 */
+.notice_mark{
+  background-color: #555;
+  padding: 6px 14px;
+  border-radius: 40px;
+  font-size: 11px;
+  color:white;
+  margin-right: 40px;
+}
+.subject a{
+  width: 400px;
+  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정합니다. */
+  overflow: hidden; /* 너비를 넘는 부분을 숨깁니다. */
+  text-overflow: ellipsis; /* 너비를 넘는 경우 생략 부호를 표시합니다. */
+  font-size: 14px;
+  cursor:pointer;
+}
+
+.subject:hover{
+  font-weight: bold;
+}
+
+
+.subject:hover .notice_mark {
+  background-color: #e2435a;
+}
+
+
+.share_news{
+  min-width: 1500px;
+}
+
+
+
+/* new 아이콘 */
+.new{
+  float: right;
+  width: 30px;
+  margin-left:10px;
+}
+
+/* 시간 아이콘 */
+.time{
+  width: 15px;
+  margin-left:30px;
+  margin-right: 10px;;
+}
+
+/* 점선 밑줄 */
+.notice_hr{
+  width: 660px;
+  margin-left: 30px;
+  border-style:dashed;
+  border-width: 1px; /* 더 넓은 border를 설정합니다. */
+  border-color: #7f8c8d;
+}
+
+/* 공지 올린 날짜 */
+.notice_date{
+  font-size: 12px;
+}
+
+.all_board.main_notice hr:last-child {
+  display: none;
+}
+
+/* 나눔소식 게시글 */
+.other_board{
+  display: flex;
+}
+
+/* 나눔소식 슬라이드 바 */
+.share_board_banner{
+  float: right;
+  position: relative;
+  width: 360px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 1px 4px rgba(34, 34, 38, 0.05);
+  background-color: #fff;
+  margin-left: 40px;
+  margin-top: 40px;
+  cursor:pointer;
+}
+
+.share_board_content{
+  width: 360px;
+  height: 300px;
+  overflow: hidden;
+  margin-left: 20px;
+  margin-top: 40px;
+}
+
+
+.slide-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  flex: 0 0 360px; /* 슬라이드의 너비 */
+}
+
+/* slide 작동안할시 */
+.slide_none {
+  flex: 0 0 360px; /* 슬라이드의 너비 */
+}
+
+/* 슬라이드 이미지 */
+.slide_img{
+	width:360px;
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.prev img, .next img{
+  width:20px;
+}
+
+
+/* 슬라이드 내용 */
+.slide_content{
+	padding:20px;
+}
+
+.slide_content h3{
+	margin-bottom: 40px;
+	width:220px;
+}
+
+.slide_content span:nth-of-type(1){
+	font-size: 10px;	
+}
+
+.textarea {
+    margin-top: 20px;
+    max-width: 200px;
+    min-width: 200px;
+    max-height: 155px;
+}
+
+.note-editor img{
+	display :none;
+}
+
+.note-editor{
+	margin-top: 20px;
+    max-width: 200px;
+    min-width: 200px;
+    max-height: 155px !important;
+     overflow: hidden !important; /* 높이를 초과하는 내용을 숨깁니다. */
+    text-overflow: ellipsis !important; /* 텍스트가 너무 길면 ...으로 표시됩니다. */
+}
+
+.note-editable h5{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}
+
+.note-editable p{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}
+
+.new_display{
+  float: right;
+  width: 30px;
+  margin-left:10px;
+  visibility: hidden;
+}
+
+/* ----------------------- */
+/* 함께하는 나눔 프로젝트 */
+.sharingProject1{
+  margin-top : 550px;
+  margin-left: 20px;
+}
+
+
+
+/* 시간 자동 카운트 다운 */
+.countdown {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin: 50px 70px;
+  width: 600px;
+  gap: 10px;
+}
+
+.timer {
+  width: 70px;
+  text-align: center;
+  position: relative;
+}
+
+.h3 {
+  position: relative;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: 30px;
+  background-color: #010102;
+  color: #ffffff;
+  line-height: 50px;
+  border-radius: 10px;
+}
+
+.h3::before {
+  background-color: #979797;
+  left: 0;
+  top: 50%;
+  box-shadow: 0 1px 0 0 #000000;
+  border-radius: 0px 0px 10px 10px;
+}
+.h3::before, h3::after {
+  width: 100%;
+  content: "";
+  height: 50%;
+  opacity: 0.4;
+  position: absolute;
+  z-index: 7;
+}
+
+.h3::after {
+  background-color: #696b83;
+  left: 0;
+  top: 0%;
+  border-radius: 10px 10px 0px 0px;
+}
+.h3::before, h3::after {
+  width: 100%;
+  content: "";
+  height: 50%;
+  opacity: 0.4;
+  position: absolute;
+  z-index: 7;
+}
+
+
+.time{
+	font-size: 40px;
+	fonst-weight: bold;
+}
+
+.p {
+  font-size: 0.5rem;
+  letter-spacing: 3px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+  color: #1e1f36;
+}
+
+/* 마지막 기부자 박스 */
+.end_donate_box{
+  margin: 50px 65px;
+  padding: 30px 70px;
+  border: 1px solid rgb(220, 217, 217);
+  width: 1250px;
+  border-radius: 7px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+
+.end_donate_find{
+  width:600px;
+  margin-left: 30px;
+}
+/* 마지막 기부자 찾습니다 */
+.end_donate_find h4{
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+/* 목표 달성을 위해 ~ */
+.end_donate_find p{
+  font-size: 14px;
+  color:#403e3e;
+}
+
+/* 기부 사진 및 정보 박스 */
+.end_donate_all{
+  margin-left: 30px;
+  position: relative;
+  display: flex;
+}
+
+/* 남은 금액 div박스 */
+.end_donate_reamount{
+  background-color: rgb(32, 32, 32);
+  width: 400px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* 남은 금액 */
+.end_donate_reamount span:nth-of-type(1){
+  font-size: 17px;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.end_donate_reamount span:nth-of-type(2){
+  font-size: 20px;
+  margin-right: 20px;
+  font-family: 'SEBANG_Gothic_Bold';
+}
+
+.ending_imminent{
+  position: absolute;
+  top: 210px;
+  left: 15px;
+  padding:10px;
+  background-color: #fd4747;
+  width: 80px;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor:pointer;
 }
 
 /* 프로세스바 */
 #progress {
-  position: absolute;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   appearance: none;
-  margin-left: 20px;
 }
 
 #progress::-webkit-progress-bar {
-  background: #ffffff;
-  border-radius: 12px;
+  background: #dfdede;
+  border-radius: 5px;
   border: 1px solid #000000;
   height: 10px;
-  width: 420px;
+  width: 500px;
   overflow: hidden;
+  border:1px solid white;
 }
 
 #progress::-webkit-progress-value {
-  /* background: #84f3a1; */
+  background: #fd4747;
   border-radius: 0px;
   height: 10px;
-  width: 48px;
+  width: 500px;
+}
+
+/* 현재 후원금액, 달성률 */
+.progress_value{   
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress_value span{
+  font-size: 13px;
+}
+
+.progress_value span:nth-of-type(1){
+  margin-right: 155px;
+  font-weight: bold;
+}
+
+
+/* 달성률 */
+.progress_value span:nth-of-type(2){
+  color: #ff3b3b;
+  font-weight: bold;
+}
+
+/* 기부 내용 */
+.end_donate_content{
+  margin-left: 100px;
+  padding:20px;
+  width:540px;
+  position: relative; /* 부모 상자를 상대적으로 위치시킵니다. */
+}
+
+/* 기부 내용 제목 */
+.end_donate_content h3{
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+/* 기부금 */
+.end_donate_money{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 기부 달성률 */
+.end_donate_rate{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+/* 달성률 */
+.end_donate_rate span:nth-of-type(1){
+  color: #ff3b3b;
+}
+
+/* 기부하기 버튼 */
+.donationing{
+  position: absolute; /* 버튼을 절대적으로 위치시킵니다. */
+    bottom: 0; /* 하단으로부터의 거리를 0으로 설정하여 맨 아래에 위치시킵니다. */
+  margin-top: 30px;
+  background-color: #fbfbfb;
+  padding: 15px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid rgb(220, 221, 221);
+  font-size: 17px;
+  cursor: pointer;
+  width: 500px;
+  transition: background-color 0.3s; /* 배경색 변경에 대한 전환 효과 설정 */
+  display: block; /* 블록 레벨 요소로 설정하여 가로 폭을 최대화합니다. */
+  margin: 0 auto; /* 가운데 정렬을 위해 좌우 마진을 자동으로 설정합니다. */
+  margin-bottom: 10px;
+}
+
+.donationing:hover {
+  background-color: rgba(171, 225, 40); /* 투명도가 0.8인 배경색으로 변경 */
+}
+
+/* 후원게시글이 아예 없을 경우 */
+.none_donate{
+	width: 700px !important;
+}
+
+/* 슬라이드바 간격 맞추기 */
+.other_board .share_board_content:nth-of-type(2) div{
+	margin-right: -50px !important;
+}
+
+.other_board .share_board_content:nth-of-type(3) div{
+	margin-right: -50px !important;
 }

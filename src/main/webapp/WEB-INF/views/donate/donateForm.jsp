@@ -155,7 +155,8 @@
                     		"optionalText": optionalText,
                             "userNo" : userNo,
                             "anonymous": anonymous
-                    	},success: function(response) {
+                    	},
+                    	success: function(response) {
                     		document.location.href="${contextPath}/donate/detail/" + donateNo;
                         	alert("결제성공");
                     	},
@@ -167,8 +168,10 @@
                 	console.log("결제 실패");
                 	var msg = "결제 실패"
                 	msg += "에러 내용" + data.error_msg;
+                	return;
                 }
         		alert(msg);
+        		document.location.href="${contextPath}/donate/detail/" + donateNo;
         	});
         }
 

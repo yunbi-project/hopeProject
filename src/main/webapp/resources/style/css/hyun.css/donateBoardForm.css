@@ -599,3 +599,11 @@ td {
 	width: 500px;
 	border-radius: 10px;
 }
+
+.note-editable h5{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}
+
+.note-editable p{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}

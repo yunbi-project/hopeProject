@@ -282,7 +282,7 @@ header{
 #activity{
     position: absolute;
     top: 90px;
-    left: 0;
+    left: -15px;
     display: none;
     padding: 10px;
     background-color: #abc128;
@@ -303,7 +303,7 @@ header{
 #h_new{
     position: absolute;
     top: 90px;
-    left: 0;
+    left: -15px;
     display: none;
     padding: 10px;
     background-color: #abc128;
