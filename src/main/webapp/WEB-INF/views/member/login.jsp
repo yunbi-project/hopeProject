@@ -50,7 +50,6 @@
     </div>
 </div>
           <div>
-			    <hr style="border-top: 1px solid #949494;">
 			    <p style="text-align: center; font-size: 12px; color: #949494;">SNS 또는 아이디로 회원가입</p>
 		 </div>
         
@@ -144,7 +143,6 @@
     </div>
 </div>
           <div>
-			    <hr style="border-top: 1px solid #949494;">
 			    <p style="text-align: center; font-size: 12px; color: #949494;">SNS 또는 아이디로 로그인</p>
 		 </div>
           

@@ -1,7 +1,9 @@
 package com.kh.hope.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,9 +16,11 @@ import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
 import com.kh.hope.chat.model.vo.ChatMessage;
+import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.product.model.vo.Product;
+import com.kh.hope.program.model.vo.Program;
 import com.kh.hope.user.model.vo.User;
 
 @Repository
@@ -210,7 +214,66 @@ public class AdminDao {
 	public List<Product> productList() {
 		return session.selectList("adminMapper.productList");
 				}
+	//게시판관리 봉사활동
+		public int selectProgramCount(Map<String, Object> map) {
+			return session.selectOne("adminMapper.selectProgramCount",map);
+		}
 
+		public List<Program> programList(PageInfo pi, Map<String, Object> map) {
+			int limit = pi.getBoardLimit();
+			int offset=(pi.getCurrentPage()-1)*limit;
+			
+			RowBounds rowBounds = new RowBounds(offset,limit);
+			
+			return session.selectList("adminMapper.programList",map,rowBounds);
+		}
+	//후원모집
+		public int selectDonateCount(Map<String, Object> map) {
+			return session.selectOne("adminMapper.selectDonateCount",map);
+		}
+
+		public List<Donate> donateList(PageInfo pi, Map<String, Object> map) {
+			int limit = pi.getBoardLimit();
+			int offset=(pi.getCurrentPage()-1)*limit;
+			
+			RowBounds rowBounds = new RowBounds(offset,limit);
+			
+			return session.selectList("adminMapper.donateList",map,rowBounds);
+		}
+
+		public int deleteReply(int replyNo) {
+			return session.update("adminMapper.deleteReply",replyNo);
+		}
+		//물품수령
+
+		public int confirmProduct(int productNo) {
+			return session.update("adminMapper.confirmProduct",productNo);
+		}
+
+		public int deleteProduct(int productNo) {
+			return session.delete("adminMapper.deleteProduct",productNo);
+		}
+		//물품수령확인내역
+		public List<Product> productConfirmList() {
+			return session.selectList("adminMapper.productConfirmList");
+		}
+		//프로그램 명단
+		public List<Program> programPeople(int programNo) {
+			return session.selectList("adminMapper.programPeople",programNo);
+		}
+
+		public Program programPeopleCount(int programNo) {
+			return session.selectOne("adminMapper.programPeopleCount",programNo);
+		}
+		//프로그램 삭제
+		public int deleteProgram(int programNo) {
+			return session.update("adminMapper.deleteProgram",programNo);
+		}
+
+		public int deleteDonate(int donateNo) {
+			return session.update("adminMapper.deleteDonate",donateNo);
+		}
+	
 	
 	}
 	

@@ -25,7 +25,7 @@ public class User {
 	private String role;
 	private String confirmPassword;
 	private String address;
-	private Date createDate;
+	private Date enrollDate;
 	
 	private Long id;
 	private String providerid;

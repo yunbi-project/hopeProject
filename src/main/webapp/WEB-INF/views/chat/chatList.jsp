@@ -175,7 +175,7 @@
     </thead>
     <tbody>
         <c:choose>
-            <c:when test="${empty list}">
+            <c:when test="${empty list && empty join}">
                 <tr>
                     <td colspan="5">존재하는 채팅방이 없습니다.</td>
                 </tr>

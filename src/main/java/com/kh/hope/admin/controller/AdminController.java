@@ -39,6 +39,7 @@ import com.kh.hope.donate.model.vo.Donate;
 import com.kh.hope.user.model.vo.User;
 import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.product.model.vo.Product;
+import com.kh.hope.program.model.vo.Program;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import jakarta.servlet.ServletContext;
@@ -71,6 +72,7 @@ public class AdminController {
 	@Autowired
 	private ServletContext application;
 	
+
 	// 대시보드
 	// status y인 값들만 카운트
 	@GetMapping("/adminIndex")
@@ -78,10 +80,12 @@ public class AdminController {
 		
 		
 		User loginUser = (User) session.getAttribute("loginUser");
-		if(loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
-			
-			return "redirect:/";
-		}
+		  // 로그인한 사용자가 ROLE_ADMIN이 아니고 요청이 "/admin"으로 시작하는 경우 홈페이지로 리디렉션
+	    if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	        if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	            return "redirect:/";
+	        }
+	    }
 
 		// ----- 1. 회원가입 수 리스트  -----
 		List<User> totalUsers  = adminService.dashboardUser();
@@ -151,6 +155,15 @@ public class AdminController {
 		model.addAttribute("json" ,json);
 		log.info("json변환 {}" , json);
 		
+		//
+		
+		List<PaymentInfo> selectDonate = adminService.selectDonate();
+		 
+		 model.addAttribute("selectDonate" , selectDonate);
+		 
+		 log.info("selectDonate 정보확인 {}" , selectDonate);
+		
+		
 		return "admin/adminIndex";
 	}
 	
@@ -159,18 +172,7 @@ public class AdminController {
 		return "admin/charts";
 	}
 	
-	// DONATE_INFO 리스트 뽑기
-	@GetMapping("/tables")
-	public String tables(Model model) {
-		 List<PaymentInfo> selectDonate = adminService.selectDonate();
-		 
-		 model.addAttribute("selectDonate" , selectDonate);
-		 
-		 log.info("selectDonate 정보확인 {}" , selectDonate);
-		 
-		 
-		return "admin/tables";
-	}
+
 	
 	/* ============================================== 회원 시작 ==============================================*/
 	
@@ -872,4 +874,242 @@ public class AdminController {
 					
 					return "admin/adminStoryList";
 			    }
+				//봉사활동게시판
+				@GetMapping("/P")
+			    public String searchProgramBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+						@RequestParam Map<String, Object> map) {
+					int listCount = adminService.selectProgramCount(map);
+					int pageLimit = 10;
+					int boardLimit = 14;
+
+					PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+					List<Program> list = adminService.programList(pi, map);
+					m.addAttribute("list", list);
+					m.addAttribute("pi", pi);
+					m.addAttribute("param", map);
+					
+					return "admin/adminProgramList";
+			    }
+				// 후원모집 목록
+				@GetMapping("/D")
+				public String donateList(Model model,@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+						@RequestParam Map<String,Object> map) {
+					
+					int listCount = adminService.selectDonateCount(map);
+					int pageLimit = 10;
+					int boardLimit = 14;
+					
+					PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+					List<Donate> list = adminService.donateList(pi,map);
+					
+					model.addAttribute("list", list);
+					model.addAttribute("pi", pi);
+					model.addAttribute("param",map);
+
+					return "admin/adminDonateList";
+				}
+				
+				//댓글 삭제
+				@GetMapping("/delete/reply/{replyNo}")
+				public String deleteReply(
+						@PathVariable ("replyNo") int replyNo,
+						 RedirectAttributes ra
+						){
+					int result= adminService.deleteReply(replyNo);
+					
+					if(result>0) {
+						 ra.addFlashAttribute("alertMsg","댓글 삭제 되었습니다..");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 return "redirect:/admin/Reply";
+					}
+				//물품 수령
+				@GetMapping("/confirm/{productNo}")
+				public String confirmProduct(
+						@PathVariable ("productNo") int productNo,
+						 RedirectAttributes ra
+						){
+					int result= adminService.confirmProduct(productNo);
+					
+					if(result>0) {
+						 ra.addFlashAttribute("alertMsg","물품수령 확인되었습니다..");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "확인에 실패하였습니다.");
+					 }
+					
+					 return "redirect:/admin/boardManagement";
+					}
+				//물품 삭제
+				@GetMapping("/delete/product/{productNo}")
+				public String deleteProduct(
+						@PathVariable ("productNo") int productNo,
+						 RedirectAttributes ra
+						){
+					int result= adminService.deleteProduct(productNo);
+					
+					if(result>0) {
+						 ra.addFlashAttribute("alertMsg","물품기부가 삭제 되었습니다..");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 return "redirect:/admin/boardManagement";
+					}
+				//물품수령내역
+				@GetMapping("/confirm/product")
+				public String productConfirmList(Model m, RedirectAttributes ra) {
+					
+					List<Product> list = adminService.productConfirmList();
+					if (list.isEmpty()) {
+						ra.addFlashAttribute("alertMsg","내역이 없습니다.");
+						 return "redirect:/admin/boardManagement";
+				    } else {
+				        m.addAttribute("list", list);
+				        return "admin/adminConfirmProduct";
+				    }
+					
+					
+				}
+				//물품수령내역
+				@GetMapping("/program/people/{programNo}")
+				public String programPeople(Model m,
+						@PathVariable ("programNo") int programNo,
+						RedirectAttributes ra
+					
+						) {
+					 
+					Program p = adminService.programPeopleCount(programNo);
+					
+					List<Program> list = adminService.programPeople(programNo);
+					if (list.isEmpty()) {
+					ra.addFlashAttribute("alertMsg","명단이 없습니다.");
+						 return "redirect:/admin/adminProgramList";
+				    } else {
+				        m.addAttribute("list", list);
+				        m.addAttribute("p", p);
+				        return "admin/adminProgramPeople";
+				    }
+					
+					
+				}
+				//프로그램 삭제
+				@GetMapping("/delete/program/{programNo}")
+				public String deleteProgram(
+						@PathVariable ("programNo") int programNo,
+						 RedirectAttributes ra
+						){
+					int result= adminService.deleteProgram(programNo);
+					
+					if(result>0) {
+						 ra.addFlashAttribute("alertMsg","봉사 프로그램이 삭제되었습니다..");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 return "redirect:/admin/P";
+					}
+				//후원모집 삭제
+				@GetMapping("/delete/donate/{donateNo}")
+				public String deleteDonate(
+						@PathVariable ("donateNo") int donateNo,
+						 RedirectAttributes ra
+						){
+					int result= adminService.deleteDonate(donateNo);
+					
+					if(result>0) {
+						 ra.addFlashAttribute("alertMsg","후원 게시글이 삭제되었습니다..");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 return "redirect:/admin/D";
+					}
+				//나눔후기 및 자유게시판상세
+				@GetMapping("/review/detail/{bno}")
+				public String selectReviewBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
+						HttpServletResponse res, HttpSession session) {
+					
+					Board b = boardService.selectBoard(boardNo);
+
+					if (b != null) {
+						List<Attachment> imgList = boardService.selectImgList(boardNo);
+						m.addAttribute("imgList", imgList);
+													
+					} else {
+						m.addAttribute("errorMsg", "조회실패");
+						return "common/errorPage";
+					}
+					m.addAttribute("b", b);
+
+					return "admin/adminReviewDetail";
+				}
+				//나눔푸기, 자유게시판 삭제
+				@GetMapping("/delete/review/{boardNo}")
+				public String deleteBoard(
+						@PathVariable ("boardNo") int boardNo,
+						 Model m,
+						 RedirectAttributes ra
+						) {
+					int result = boardService.deleteNotice(boardNo);
+					 
+					 if(result>0) {
+						 ra.addFlashAttribute("alertMsg","삭제하였습니다.");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 
+					 return "redirect:/admin/R";
+					 
+				}
+				//나눔후기 및 자유게시판상세
+				@GetMapping("/story/detail/{bno}")
+				public String selectStoryBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
+						HttpServletResponse res, HttpSession session) {
+					
+					Board b = boardService.selectBoard(boardNo);
+
+					if (b != null) {
+						List<Attachment> imgList = boardService.selectImgList(boardNo);
+						m.addAttribute("imgList", imgList);
+													
+					} else {
+						m.addAttribute("errorMsg", "조회실패");
+						return "common/errorPage";
+					}
+					m.addAttribute("b", b);
+
+					return "admin/adminStoryDetail";
+				}
+				//나눔푸기, 자유게시판 삭제
+				@GetMapping("/delete/story/{boardNo}")
+				public String deleteStory(
+						@PathVariable ("boardNo") int boardNo,
+						 Model m,
+						 RedirectAttributes ra
+						) {
+					int result = boardService.deleteNotice(boardNo);
+					 
+					 if(result>0) {
+						 ra.addFlashAttribute("alertMsg","삭제하였습니다.");
+						 
+					 }else {
+						 ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+					 }
+					
+					 
+					 return "redirect:/admin/C";
+					 
+				}
+
+
 }

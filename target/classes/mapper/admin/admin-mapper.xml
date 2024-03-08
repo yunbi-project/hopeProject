@@ -325,4 +325,183 @@
 		WHERE STATUS ='Y'
 	 	AND PRODUCT_WAY='택배'
 	</select>
+	
+	
+	<!-- 봉사활동리스트 -->
+	<select id="selectProgramCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PROGRAM
+		WHERE STATUS='Y'
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					PROGRAM_NAME LIKE '%${keyword}%'
+				</when>
+
+			</choose>
+		</if>
+	</select>
+	<select id="programList" parameterType="hashMap"
+		resultType="program">
+		SELECT PROGRAM_NO, PROGRAM_NAME,
+		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ACTIVITY_START_DATE,
+		TO_CHAR(PROGRAM_ACTIVITY_END_DATE,
+		'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ACTIVITY_END_DATE,
+		ACTIVITY_DAYS,
+		ACTIVITY_TIME,
+		SUBSTR(ACTIVITY_LOCATION,3) AS ACTIVITY_LOCATION,
+		TO_CHAR(PROGRAM_ENROLL_END_DATE,
+		'YYYY"년" MM"월" DD"일"')
+		PROGRAM_ENROLL_END_DATE
+
+		FROM
+		PROGRAM
+		WHERE
+		STATUS='Y'
+
+		<if test="keyword!=null and keyword != ''">
+			AND
+			<choose>
+				<when test="condition == 'title'">
+					PROGRAM_NAME LIKE '%${keyword}%'
+				</when>
+
+			</choose>
+		</if>
+		ORDER BY PROGRAM_NO DESC
+	</select>
+	
+	<!-- 후원 목록 -->
+	<select id="donateList" parameterType="hashmap" resultType="donate">
+		SELECT SUM_DONATE, 
+		       DONATE_HOPE, 
+		       DONATE_NO, 
+		       DONATE_TITLE, 
+		       SUM_DONATE / DONATE_HOPE * 100 AS ACH_RATE, 
+		       TAG_ID, 
+		       DONATE_FOUNDATION, 
+		       CEIL(ABS(TRUNC(DONATE_END_DATE) - TRUNC(DONATE_START_DATE))) AS CEIL_DAY_DIFF,
+		       DONATE_CREATE_DATE, COUNT, DONATE_END_DATE,
+       		   CHANGE_NAME
+		FROM (
+		    SELECT SUM(DONATE_AMOUNT) AS SUM_DONATE, 
+		           d.DONATE_HOPE , 
+		           d.DONATE_NO, 
+		           d.DONATE_TITLE, 
+		           d.TAG_ID, 
+		           d.DONATE_FOUNDATION, 
+		           DONATE_END_DATE, 
+		           DONATE_START_DATE,
+		           d.DONATE_CREATE_DATE, d.COUNT
+		    FROM DONATE_BOARD d
+		    LEFT JOIN DONATE_INFO i ON d.DONATE_NO = i.DONATE_NO
+		    WHERE STATUS = 'Y' AND DONATE_START_DATE &lt;= SYSDATE
+		    <if test="keyword != null and keyword != ''">  
+		    	AND
+			    <choose>
+				    <when test="condition.equals('title')">
+						DONATE_TITLE LIKE '%${keyword}%'
+					</when>
+					<when test="condition.equals('foundation')">
+						DONATE_FOUNDATION LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+		    GROUP BY d.DONATE_HOPE, d.DONATE_NO, d.DONATE_TITLE, d.TAG_ID, d.DONATE_FOUNDATION, DONATE_END_DATE, DONATE_START_DATE, d.DONATE_CREATE_DATE, d.COUNT
+		)
+		LEFT JOIN ATTACHMENT ON
+		DONATE_NO = REF_FNO
+		ORDER BY DONATE_CREATE_DATE DESC
+	</select>
+		<select id="selectDonateCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		    SELECT SUM(DONATE_AMOUNT) AS SUM_DONATE, 
+		           d.DONATE_HOPE , 
+		           d.DONATE_NO, 
+		           d.DONATE_TITLE, 
+		           d.TAG_ID, 
+		           d.DONATE_FOUNDATION, 
+		           DONATE_END_DATE, 
+		           DONATE_START_DATE,
+		           d.DONATE_CREATE_DATE, d.COUNT
+		    FROM DONATE_BOARD d
+		    LEFT JOIN DONATE_INFO i ON d.DONATE_NO = i.DONATE_NO
+		    WHERE STATUS = 'Y' AND DONATE_START_DATE &lt;= SYSDATE
+		    <if test="keyword != null and keyword != ''">  
+		    	AND
+			    <choose>
+				    <when test="condition.equals('title')">
+						DONATE_TITLE LIKE '%${keyword}%'
+					</when>
+					<when test="condition.equals('foundation')">
+						DONATE_FOUNDATION LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</if>
+		    GROUP BY d.DONATE_HOPE, d.DONATE_NO, d.DONATE_TITLE, d.TAG_ID, d.DONATE_FOUNDATION, DONATE_END_DATE, DONATE_START_DATE, d.DONATE_CREATE_DATE, d.COUNT
+		)
+		LEFT JOIN ATTACHMENT ON
+		DONATE_NO = REF_FNO
+		ORDER BY DONATE_CREATE_DATE DESC
+	</select>
+	<!-- 댓글 삭제 -->
+	<update id="deleteReply">
+		UPDATE REPLY
+		SET STATUS='N'
+		WHERE REPLY_NO = #{replyNo}
+	</update>
+	<!-- 물품수령 -->
+	<update id="confirmProduct">
+		UPDATE DONATE_PRODUCT
+		SET STATUS='N'
+		WHERE PRODUCT_NO=#{productNo}
+	</update>
+	<!-- 물품 삭제 -->
+	<delete id="deleteProduct">
+		DELETE FROM DONATE_PRODUCT
+		WHERE PRODUCT_NO=#{productNo} 
+	</delete>
+	<select id="productConfirmList" resultType="product">
+		SELECT
+		PRODUCT_NO,PRODUCT_TYPE,BUSINESS_NAME,PUSER_NAME,PHONE,EMAIL,PRODUCT_AMOUNT,STATUS,INQUIRY_CONTENT,PRODUCT_DATE,CATEGORY_NAME
+		FROM DONATE_PRODUCT DP
+		LEFT JOIN PRODUCT_CATEGORY PC ON
+		(DP.CATEGORY_NO=PC.CATEGORY_NO)
+		WHERE STATUS ='N'
+		AND PRODUCT_WAY='택배'
+	</select>
+	<!-- 프로그램명단 -->
+	<select id="programPeople" resultType="program">
+		SELECT P.PROGRAM_NO, USER_NAME, EMAIL, PHONE
+		FROM PROGRAM P
+		LEFT JOIN REQUEST R ON (P.PROGRAM_NO=R.PROGRAM_NO)
+		LEFT JOIN USERS U ON (R.USER_NO=U.USER_NO)
+		WHERE P.PROGRAM_NO = #{programNo}
+		
+	</select>
+	<select id="programPeopleCount" resultType="program">
+		SELECT PROGRAM_NAME,COUNT(*) AS COUNT
+		FROM PROGRAM P
+		LEFT JOIN REQUEST R ON (P.PROGRAM_NO=R.PROGRAM_NO)
+		LEFT JOIN USERS U ON (R.USER_NO=U.USER_NO)
+		WHERE P.PROGRAM_NO = #{programNo}
+		GROUP BY P.PROGRAM_NAME		
+	</select>
+	<!-- 프로그램삭제 -->
+	<update id="deleteProgram">
+		UPDATE PROGRAM
+		SET STATUS='N'
+		WHERE PROGRAM_NO=#{programNo}
+	</update>
+	<!-- 후원삭제 -->
+	<update id="deleteDonate">
+		UPDATE DONATE_BOARD
+		SET STATUS='N'
+		WHERE DONATE_NO=#{donateNo}
+	</update>
+
 </mapper>
