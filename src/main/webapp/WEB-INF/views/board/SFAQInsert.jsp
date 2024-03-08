@@ -14,7 +14,6 @@
 
 <link rel="stylesheet" href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
 
-
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -28,7 +27,8 @@
 		<div class="Sn-insert-wrapper">
 			<div class="Sn-insert-section">
 				<div class="Sn-insert-container">
-					<div class="Sn-TextLabel">자주묻는질문등록</div>
+				<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">FAQ 등록</h2>
+        <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 					<form method="POST" action="${contextPath}/board/insert/Q" id="insertform" enctype="multipart/form-data">
 						<c:if test="${not empty param.condition}">
 								<c:set var="url"

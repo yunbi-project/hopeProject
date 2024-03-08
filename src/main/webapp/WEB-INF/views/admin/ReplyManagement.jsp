@@ -85,9 +85,8 @@
 		</div>
 	</div>
 	<script>
-	function deleteBoard(boardNo) {
-        var boardTypeNo = 'Q'; // boardTypeNo 값을 설정하거나 동적으로 가져옵니다.
-        var url = '${contextPath}/admin/delete/' + boardNo + '?boardTypeNo=' + boardTypeNo;
+	function deleteBoard(replyNo) {
+        var url = '${contextPath}/admin/delete/reply/' + replyNo ;
         window.location.href = url;
     }
 		

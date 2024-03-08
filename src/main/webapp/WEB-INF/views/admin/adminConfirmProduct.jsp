@@ -100,8 +100,8 @@
 						            <td>문의사항</td>
 						            <td colspan="4" >${b.inquiryContent}</td>
 						            <td>비고</td>
-						            <td><button onclick="productConfirm(${b.productNo})">수령</button></td>	
-						            <td><button onclick="deleteProduct(${b.productNo})">삭제</button></td>
+						            <td></td>	
+						            <td></td>
 						            </tr>
 						    </c:forEach>
 						        </tbody>
@@ -111,18 +111,7 @@
 				</div>
 			</div>
 		</div>
-		<script>
-	function productConfirm(productNo) {       
-        var url = '${contextPath}/admin/confirm/' + productNo;
-        window.location.href = url;
-    }
-	function deleteProduct(productNo) {
-        
-        var url = '${contextPath}/admin/delete/product/' + productNo;
-        window.location.href = url;
-    }
-		
-	</script>
+
 	</div>
 	
 </body>

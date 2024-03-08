@@ -26,7 +26,8 @@
 					<div>
 						<div>
 							<div>
-								<div class="Sn-TextLabel">나눔후기</div>
+								<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">나눔후기</h2>
+        <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 							</div>
 						</div>
 					</div>
@@ -41,7 +42,7 @@
 									
 								</div>
 								<div class="Sn-chip-2">
-									<div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/C'">이야기</div>
+									<div class="Sn-text-2" onclick="window.location.href='${contextPath}/board/C'">자유게시판</div>
 								</div>
 							</div>
 						</div>

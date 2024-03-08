@@ -26,7 +26,8 @@
 					<div>
 						<div>
 							<div>
-								<div class="Sn-TextLabel">공지사항</div>
+								<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">공지사항</h2>
+        						<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 							</div>
 						</div>
 					</div>

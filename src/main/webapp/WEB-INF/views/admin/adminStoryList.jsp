@@ -35,12 +35,11 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">게시판 관리</h1>
                         	<div class="btn_confirm">
-                        								 
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/boardManagement'">물품기부</button>
+                        	<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/boardManagement'">물품기부</button>
+							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/P'">봉사활동</button>
+							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/D'">후원모집</button>
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/R'">나눔후기</button>
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/R'">봉사활동</button>
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/R'">후원모집</button>						
+							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>							
 						</div>
                     </div>
                     
@@ -56,7 +55,7 @@
 							
 							<div class="search_boardList">
 		                    	<span class="h_titleLine"></span>
-		                    	<span style="font-size:20px;">나눔후기</span>
+		                    	<span style="font-size:20px;">자유게시판</span>
 		                    
 			                </div>
 							<table>
@@ -104,7 +103,8 @@
 						     <colgroup>
 							        <col style="width: 5%;">
 							        <col style="width: 60%;">
-							        <col style="width: 15%;">
+							        <col style="width: 10%;">
+							        <col style="width: 5%;">
 							        <col style="width: 10%;">
 							        <col style="width: 10%;">
 							        
@@ -116,7 +116,8 @@
 						                <th>제목</th>
 						                <th>작성자</th>
 						                <th>조회수</th>
-						                <th>작성일</th>						          
+						                <th>작성일</th>	
+						                <th>비고</th>					          
 						            </tr>
 						        </thead>
 						        <tbody>
@@ -127,6 +128,8 @@
 						                <td>${b.userName}</td>
 						                <td>${b.count }</td>
 						                <td>${b.createDate}</td>
+						                <td><button  type="button" onclick="movePage(${b.boardNo})">상세보기</button></td>
+						                
 						               
 						            </tr>
 						            </c:forEach>
@@ -155,5 +158,10 @@
 			</div>
 		</div>
 	</div>
+	<script>
+	function movePage(bno){
+		location.href="${contextPath}/admin/story/detail/"+bno
+	}
+	</script>
 </body>
 </html>									
