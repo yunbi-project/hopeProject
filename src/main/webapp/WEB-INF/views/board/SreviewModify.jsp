@@ -34,7 +34,8 @@
 		<div class="Sn-insert-wrapper">
 			<div class="Sn-insert-section">
 				<div class="Sn-insert-container">
-					<div class="Sn-TextLabel">나눔후기 수정</div>
+						<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">나눔후기수정</h2>
+        <div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 				<form method="POST" action="${contextPath}/board/update/R/${boardNo}" id="insertform" enctype="multipart/form-data">
 					<div class="Sn-form">
 						<div class="Sn-form-group">

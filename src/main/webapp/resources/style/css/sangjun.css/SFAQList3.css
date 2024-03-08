@@ -18,6 +18,12 @@
   margin-bottom: 50px;
    
 }
+.donateGoodFormBorder{
+    border: 4px solid #ABE138;
+    width: 200px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}
 /* 제목 정렬 */
 .h_boardTitle h1,
 .h_boardTitle > p{

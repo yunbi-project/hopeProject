@@ -25,7 +25,8 @@
                 <div>
                     <div>
                         <div>
-                            <div style="cursor:pointer;" class="Sn-TextLabel" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</div>
+                            <h2 style="text-align: center; margin-top: 70px; font-size: 25px;" onclick="window.location.href='${contextPath}/board/Q'">자주묻는질문</h2>
+        					<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
                         </div>
                     </div>
                 </div>

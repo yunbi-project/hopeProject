@@ -39,7 +39,7 @@
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/P'">봉사활동</button>
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/D'">후원모집</button>
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/R'">나눔후기</button>
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>						
+							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>							
 						</div>
                     </div>
                     
@@ -50,12 +50,12 @@
 											value="&condition=${param.condition}&keyword=${param.keyword}" />
 										</c:if>
 
-				<form id="fsearch" method="get" action="R">
+				<form id="fsearch" method="get" action="P">
 						<div class="tbl_frm01">
 							
 							<div class="search_boardList">
 		                    	<span class="h_titleLine"></span>
-		                    	<span style="font-size:20px;">나눔후기</span>
+		                    	<span style="font-size:20px;">봉사활동</span>
 		                    
 			                </div>
 							<table>
@@ -68,25 +68,12 @@
 										<th scope="row">검색어</th>
 										<td>
 											<select name="condition">
-												<option value="writer" ${param.condition eq 'writer'? 'selected':'' }>작성자</option>
-												
 												<option value="title" ${param.condition eq 'title'? 'selected':'' }>제목</option>												
 											</select>
 											<input type="text" name="keyword" value="${param.keyword}"class="frm_input" size="30">
 										</td>
 									</tr>
 								
-									<tr>
-										<!-- <th scope="row">기간검색</th> -->
-										<td>
-											<!-- <label for="fr_date" class="sound_only">시작일</label>
-											<input type="date" name="fr_date" value id="fr_date" class="frm_input w80 hasDatepicker" maxlength="10">
-											~
-											<label for="to_date" class="sound_only">종료일</label>
-											<input type="date" name="to_date" value id="to_date" class="frm_input w80 hasDatepicker" maxlength="10"> -->
-											
-										</td>
-									</tr>
 								</tbody>
 							</table>								
 						</div>
@@ -102,33 +89,33 @@
 						    <table>
 						     <colgroup>
 							        <col style="width: 5%;">
-							        <col style="width: 60%;">
-							        <col style="width: 10%;">
+							        <col style="width: 45%;">
+							        <col style="width: 12%;">
+							        <col style="width: 12%;">
+							        <col style="width: 12%;">
 							        <col style="width: 5%;">
-							        <col style="width: 10%;">
-							        <col style="width: 10%;">
-							        
-							       
 							    </colgroup>
 						        <thead>
 						            <tr>
 						                <th>번호</th>
-						                <th>제목</th>
-						                <th>작성자</th>
-						                <th>조회수</th>
-						                <th>작성일</th>	
+						                <th>프로그램</th>
+						                <th colspan="2">활동기간</th>
+						                <th>모집기간</th>						               
+						                <th>인원</th>							                
 						                <th>비고</th>					          
 						            </tr>
 						        </thead>
 						        <tbody>
 						         <c:forEach var="b" items="${list}">		
 						            <tr>
-						                <td>${b.boardNo }</td>
-						                <td>${b.boardTitle }</td>
-						                <td>${b.userName}</td>
-						                <td>${b.count }</td>
-						                <td>${b.createDate}</td>
-						                <td><button type="button" onclick="movePage(${b.boardNo})">상세보기</button></td>
+						                <td>${b.programNo }</td>
+						                <td>${b.programName }</td>
+						                <td>${b.programActivityStartDate }</td>
+						                <td>${b.programActivityEndDate }</td>						               
+						                <td>${b.programEnrollEndDate }</td>
+						                <td><button onclick="programCount(${b.programNo})" type="button">명단</button></td>
+						                
+						                <td><button onclick="deleteProgram(${b.programNo})" type="button">삭제</button></td>
 						                
 						               
 						            </tr>
@@ -159,9 +146,16 @@
 		</div>
 	</div>
 	<script>
-	function movePage(bno){
-		location.href="${contextPath}/admin/review/detail/"+bno
-	}
+	function programCount(programNo) {       
+        var url = '${contextPath}/admin/program/people/' + programNo;
+        window.location.href = url;
+    }
+	function deleteProgram(programNo) {
+        
+        var url = '${contextPath}/admin/delete/program/' + programNo;
+        window.location.href = url;
+    }
+		
 	</script>
 </body>
 </html>									

@@ -39,7 +39,7 @@
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/P'">봉사활동</button>
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/D'">후원모집</button>
 							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/R'">나눔후기</button>
-							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>						
+							<button class="btn_medium" onclick="window.location.href='${contextPath}/admin/C'">자유게시판</button>			
 						</div>
                     </div>
                     
@@ -50,12 +50,12 @@
 											value="&condition=${param.condition}&keyword=${param.keyword}" />
 										</c:if>
 
-				<form id="fsearch" method="get" action="R">
+				<form id="fsearch" method="get" action="P">
 						<div class="tbl_frm01">
 							
 							<div class="search_boardList">
 		                    	<span class="h_titleLine"></span>
-		                    	<span style="font-size:20px;">나눔후기</span>
+		                    	<span style="font-size:20px;">후원모집</span>
 		                    
 			                </div>
 							<table>
@@ -67,10 +67,10 @@
 									<tr>
 										<th scope="row">검색어</th>
 										<td>
-											<select name="condition">
-												<option value="writer" ${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+											<select name="condition">							
 												
-												<option value="title" ${param.condition eq 'title'? 'selected':'' }>제목</option>												
+												<option value="title" ${param.condition eq 'title'? 'selected':'' }>후원명</option>												
+																								
 											</select>
 											<input type="text" name="keyword" value="${param.keyword}"class="frm_input" size="30">
 										</td>
@@ -102,37 +102,35 @@
 						    <table>
 						     <colgroup>
 							        <col style="width: 5%;">
-							        <col style="width: 60%;">
-							        <col style="width: 10%;">
-							        <col style="width: 5%;">
-							        <col style="width: 10%;">
-							        <col style="width: 10%;">
-							        
-							       
+							        <col style="width: 45%;">
+							        <col style="width: 12%;">
+							        <col style="width: 12%;">
+							        <col style="width: 12%;">
+							        <col style="width: 5%;">        
+							        <col style="width: 10%;">        
 							    </colgroup>
 						        <thead>
 						            <tr>
 						                <th>번호</th>
-						                <th>제목</th>
-						                <th>작성자</th>
-						                <th>조회수</th>
-						                <th>작성일</th>	
+						                <th>후원명</th>
+						                <th colspan="2">모집기간</th>
+						                <th>현재후원금</th>						               
+						                <th>목표후원금</th>					                   
 						                <th>비고</th>					          
 						            </tr>
 						        </thead>
 						        <tbody>
 						         <c:forEach var="b" items="${list}">		
 						            <tr>
-						                <td>${b.boardNo }</td>
-						                <td>${b.boardTitle }</td>
-						                <td>${b.userName}</td>
-						                <td>${b.count }</td>
-						                <td>${b.createDate}</td>
-						                <td><button type="button" onclick="movePage(${b.boardNo})">상세보기</button></td>
-						                
-						               
+						                <td>${b.donateNo }</td>
+						                <td>${b.donateTitle }</td>
+						                <td>${b.donateCreateDate }</td>
+						                <td>${b.donateEndDate }</td>				                						               
+						                <td><script>document.write(new Intl.NumberFormat().format(${b.sumDonate}))</script></td>
+						                <td><script>document.write(new Intl.NumberFormat().format(${b.donateHope}))</script></td>
+						                <td><button onclick="deleteDonate(${b.donateNo})" type="button">삭제</button></td>
 						            </tr>
-						            </c:forEach>
+						            </c:forEach> 
 						        </tbody>
 						    </table>
 						</div>
@@ -159,9 +157,10 @@
 		</div>
 	</div>
 	<script>
-	function movePage(bno){
-		location.href="${contextPath}/admin/review/detail/"+bno
-	}
+		function deleteDonate(donateNo) {
+	        var url = '${contextPath}/admin/delete/donate/' + donateNo;
+	        window.location.href = url;
+	    }
 	</script>
 </body>
 </html>									

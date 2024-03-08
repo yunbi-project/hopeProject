@@ -90,7 +90,7 @@
     <script>
 	function deleteBoard(boardNo) {
        
-        var url = '${contextPath}/admin/delete/report/' + boardNo
+        var url = '${contextPath}/admin/delete/story/' + boardNo
         window.location.href = url;
     }
 	function stripHtmlTags(html) {
