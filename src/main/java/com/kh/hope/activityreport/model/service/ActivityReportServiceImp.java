@@ -40,10 +40,23 @@ public class ActivityReportServiceImp implements ActivityReportService{
 	public int increaseCount(int reportNo) {
 		return dao.increaseCount(reportNo);
 	}
-
+	
+	/* 활동보고서 작성*/
 	@Override
 	public int insertActivityReport(ActivityReport activityReport) {
 		return dao.insertActivityReport(activityReport);
+	}
+	
+	/* 활동보고서 수정*/
+	@Override
+	public int updateActivityReport(ActivityReport activityreport) {
+		return dao.updateActivityReport(activityreport);
+	}
+	
+	/* 활동보고서 삭제*/
+	@Override
+	public int deleteActivityreport(int reportNo) {
+		return dao.deleteActivityReport(reportNo);
 	}
 
 

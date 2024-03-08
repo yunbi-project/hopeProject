@@ -20,4 +20,6 @@ public class ActivityReport {
 	
 	private Date activityStartDate;
 	private Date activityEndDate;
+	
+	private String status;
 }

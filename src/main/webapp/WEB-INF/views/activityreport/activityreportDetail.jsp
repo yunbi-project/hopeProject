@@ -50,7 +50,7 @@
 
 					<tr>
 						<th class="header">활동기간</th>
-						<td class="span-two" colspan="6">${ar.activityStartDate}~
+						<td class="span-two" colspan="6">${ar.activityStartDate} ~
 							${ar.activityEndDate}</td>
 					</tr>
 
@@ -66,14 +66,21 @@
 					<button class="list-btn"
 						onclick="window.location.href='${contextPath}/activityreport'">목록</button>
 					<button class="list-btn"
-						onclick="window.location.href='${contextPath}/activityreport'">수정</button>
+						onclick="location.href='${contextPath}/activityreport/update/${ar.reportNo}'">수정</button>
 					<button class="list-btn"
-						onclick="window.location.href='${contextPath}/activityreport'">삭제</button>
+						onclick="deleteReport();">삭제</button>
 				</div>
 			</div>
 		</div>
 
 	</main>
+	<script>
+	function deleteReport(){
+		if(confirm("게시글을 삭제하시겠습니까?")){
+			location.href = '${contextPath}/activityreport/delete/${ar.reportNo}'
+		}
+	}
+	</script>
 
 
 

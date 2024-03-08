@@ -154,6 +154,6 @@ input[type="text"],[type="date"]{
 	outline: none;
 	border: none;
 	background-color: #f4f4f4;
-	width: 100%;
+	width: 150px;
 	height: 100%;
 }
