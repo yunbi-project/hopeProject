@@ -3,233 +3,166 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   font-family: "Montserrat", sans-serif;
   margin: 0;
   padding: 0;
 }
+
 .wrapper {
-  width: 60%;
-  height: 70vh;
+  height: 850px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgb(255, 255, 255);
   overflow: hidden;
+  margin: 0 auto;
 }
+
 .container {
-  border-radius: 20px;
-  box-shadow: -5px -5px 10px rgb(192, 192, 192), 5px 5px 10px #babebc;
-  position: absolute;
-  width: 700px;
-  min-height: 700px;
+  width: 1000px;
+  height: 800px;
   overflow: hidden;
+  margin:0 auto;
 }
 
-form {
-  background: #ebecf0;
-  display: flex;
-  flex-direction: column;
-  padding: 0 50px;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-#idcheck {
-  font-size: 10px;
-  padding: 8px 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  position: relative;
-  top: -2px; /* 이메일 입력란과의 수직 위치 조정 */
-}
-#idcheck:hover {
-  background-color: #45a049; /* 마우스 호버시 배경색 변경 */
-}
-form input {
-  background: #eee;
-  padding: 10px;
-  margin: 8px 0; /* 위아래 간격을 10px로 조정 */
-  width: calc(100% - 20px); /* 입력 요소의 너비를 전체 너비에서 20px 감소시킴 */
-  max-width: 300px; /* 최대 너비를 300px로 제한 */
-  border: 0;
-  outline: none;
-  border-radius: 7px;
-  box-shadow: inset 7px 2px 10px #babebc, inset -5px -5px 12px #fff;
-}
-
-
-button {
-  border-radius: 20px;
-  border: none;
-  outline: none;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 10px 30px;
-  margin: 10px 0; /* 위아래 간격을 10px로 조정 */
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: transform 80ms ease-in;
-}
-
-
-.form_btn {
-  box-shadow: -5px -5px 10px #fff, 5px 5px 8px #0f0f0e;
-}
-.input-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.input-group input {
-  width: calc(70% - 5px); /* input 너비 조절 */
-  padding: 10px;
-  margin-right: 5px; /* 오른쪽 여백 조절 */
-}
-
-.input-group button {
-  width: calc(30% - 5px); /* 버튼 너비 조절 */
-  padding: 10px;
-  margin-left: 5px; /* 왼쪽 여백 조절 */
-}
-.form_btn:active {
-  box-shadow: inset 1px 1px 2px #0c130f, inset -1px -1px 2px #1f1515;
-}
-.overlay_btn {
-  background-color: #b5b971;
-  color: #fff;
-  box-shadow: -5px -5px 10px #e4e0de, 5px 5px 8px #0c0a09;
-}
-.sign-in-container {
-  position: absolute;
-  left: 0;
-  width: 50%;
-  height: 80%;
-  transition: all 0.5s;
-}
-.sign-up-container {
-  position: absolute;
-  left: 0;
-  width: 50%;
-  height: 80%;
-  opacity: 0;
-  transition: all 0.5s;
-}
-.overlay-left {
-  display: flex;
-  flex-direction: column;
-  padding: 0 50px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  opacity: 0;
-   background-color:#abe128;
-  color: #fff;
-  transition: all 0.5s;
-}
-.overlay-right {
-  display: flex;
-  flex-direction: column;
-  padding: 0 50px;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  background-color: #abe128;
-  color: #fff;
-  transition: all 0.5s;
-}
-.container.right-panel-active .sign-in-container {
-  transform: translateX(100%);
-  opacity: 0;
-}
-.container.right-panel-active .sign-up-container {
-  transform: translateX(100%);
-  opacity: 1;
-  z-index: 2;
-}
-.container.right-panel-active .overlay-right {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-.container.right-panel-active .overlay-left {
-  transform: translateX(-100%);
-  opacity: 1;
-  z-index: 2;
-}
-.social-links {
-  margin: 20px 0;
-}
-
-p {
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  margin: 20px 0 30px;
-}
-span {
-  font-size: 12px;
-  color: #000;
-  letter-spacing: 0.5px;
-  margin-bottom: 10px;
-}
-.social-links div {
-    display: inline-block;
-    margin-right: 10px; /* 이미지 간격 조절 */
-  }
-  
-  .social-links div:last-child {
-    margin-right: 0; /* 마지막 이미지의 오른쪽 간격 제거 */
-  }
-  
-  .social-links img {
-    width: 40px; /* 이미지 크기 조절 */
-    height: 40px;
-  }
-  .social-links {
-    margin: 20px auto; /* 상단 및 하단 여백을 20px로 설정하고 좌우 여백은 자동으로 조절하여 가운데 정렬합니다. */
-    text-align: center; /* 하위 요소를 가운데 정렬합니다. */
-  }
-  /* 중앙 정렬을 위한 스타일 */
-.container {
+.signupContainer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+form input {
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  padding: 20px;
+  border: 1px solid #eee;
+  font-size:13px;
+  width: 400px;
+}
+
+#input_email{
+	border-radius: 10px 10px 0 0;
+}
+#input_email:focus{
+	border-radius: 10px 10px 0 0;
+}
+#input_password{
+	border-radius: 0 0 10px 10px;
+}
+#input_password:focus{
+	border-radius: 0 0 10px 10px;
+}
+
+button {
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 130px;
+  margin: 10px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 400px;
+}
+
+.form_btn_check{
+	width:100px;
+}
+
+.form_btn:active {
+  background-color: #84a90c;
+}
+
+.overlay_btn {
+  background-color: #b5b971;
+  color: #fff;
+}
+
+.find-links {
+  margin-top: 20px;
+}
+
+.find-links a {
+  color: #84a90c;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.find-links a:hover {
+  text-decoration: underline;
+}
+
+.social-links div {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.social-links div:last-child {
+  margin-right: 0;
+}
+
+.social-links img {
+  width: 40px;
+  height: 40px;
+}
+
+.social-links {
+  margin: 20px auto;
+  text-align: center;
+}
+
 form h1 {
   font-weight: bold;
-  margin: 20px 0; /* 로그인 및 회원가입 제목과 위 아래 간격 조절 */
+  margin: 20px 0;
   color: #000;
-  text-align: center; /* 텍스트 가운데 정렬 */
+  text-align: center;
 }
+
 h1.login {
-  text-align: center; /* 텍스트를 중앙에 배치합니다. */
+  text-align: center;
   color: #949494;
 }
-.find-links {
-     margin-top: 20px; /* 링크 위 여백 설정 */
- }
 
- .find-links a {
-     color: #007bff; /* 링크 텍스트 색상 */
-     text-decoration: none; /* 밑줄 제거 */
-     margin-right: 10px; /* 링크 간 여백 설정 */
- }
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 380px;
+}
 
- .find-links a:hover {
-     text-decoration: underline; /* 호버 시 밑줄 추가 */
- }
+.input-group input {
+  padding: 13px;
+  border:1px solid #eee;
+  margin : 10px 0;
+}
+
+.input-group button {
+  padding: 15px;
+  margin-left:5px;
+  font-size:10px;
+}
+
+input:focus {
+  border: 1px solid #84a90c;
+}
+
+.inputbox{
+	width:370px;
+	padding: 15px;
+}

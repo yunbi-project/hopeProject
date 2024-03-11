@@ -76,6 +76,11 @@ public class LoginController {
 		return mv;
 	}
 	
+	@GetMapping("singup.me")
+	public String insertUser() {
+		return "member/signUp";
+	}
+	
 	// 회원가입
 	@PostMapping("singup.me")		
 	public String insertUser(

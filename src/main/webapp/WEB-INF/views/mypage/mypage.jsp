@@ -80,7 +80,7 @@
 							<div class="article">
 								<div class="frame-2">
 									<div class="title-3" style="text-align: center;">최근 기부한 내역이 없습니다.</div>
-									<a href="${contexPath}/donate/list" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">후원모집 리스트 바로가기➡</a>
+									<a href="${contextPath}/donate/list" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">후원모집 리스트 바로가기➡</a>
 								</div>
 							</div>
 						</div>
@@ -95,7 +95,8 @@
 					<div class="flex-container">
 						<div class="donate-amount">
 							<p class="text-wrapper total" style="font-size: 15px;">
-								물품기부 신청<c:if test="${not empty mypage.productCount}"><fmt:formatNumber value="${mypage.productCount}" type="currency" pattern="#,###" />회</c:if>
+								물품기부 신청
+								<c:if test="${not empty mypage.productCount}"><fmt:formatNumber value="${mypage.productCount}" type="currency" pattern="#,###" />회</c:if>
 								<c:if test="${empty mypage.productCount}">0회</c:if>
 							</p>
 							<p class="text-wrapper total" style="font-size: 15px;">

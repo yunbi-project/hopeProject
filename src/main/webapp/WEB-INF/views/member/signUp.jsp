@@ -30,19 +30,87 @@
 	window.onload = displayErrorMessage;
 </script>
 </head>
-
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
 	<div class="wrapper">
-		<div class="container" style="margin-top:200px;">
-	<div class="logo" style="text-align:center; margin-bottom:30px;">
-		<a href="${contextPath}"><img class="h_logo_img"
-			src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png'></a>
-	</div>
-			<div class="sign-up-container">
+		<div class="container">
+			<div class="logo" style="text-align: center;">
+				<a href="${contextPath}"><img class="h_logo_img"
+					src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png'></a>
+			</div>
 
-				<script>
+			<div class="sign-up-container">
+				
+
+				<form action="<%=request.getContextPath()%>/singup.me"
+					method="post">
+					<!-- 회원가입 폼 -->
+					<input type="hidden" name="loginType" value="1">
+					<!-- loginType값 세션로그인 1 넘겨줌 -->
+					
+					<div class="input-group">
+						 <input type="email" id="email" name="email" placeholder="이메일"
+							required class="inputbox">
+						<button type="button" class="form_btn_check" onclick="idCheck()">중복체크</button>
+					</div>
+
+					<div class="input-group">
+						<input type="password" name="password" placeholder="비밀번호" required
+							class="inputbox" style="width:500px;">
+					</div>
+
+					<div class="input-group">
+						<input type="text" name="phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}"
+							placeholder="휴대폰 번호 = -빼고 입력해주세요" required>
+					</div>
+
+					<div class="input-group">
+						<input type="text" name="userName" placeholder="이름" required>
+					</div>
+
+					<!-- 주소 입력 부분 -->
+					<div class="input-group">
+						<input type="text" id="postcode" name="postcode"
+							placeholder="우편번호" required>
+						<button id="openAddressPopup" type="button" style="width:130px;"
+							onclick="execDaumPostcode()">우편번호 찾기</button>
+					</div>
+					<div class="input-group">
+						<input type="text" id="address" name="address" placeholder="주소" class="inputbox">
+					</div>
+					<div class="input-group">
+						<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required class="inputbox" style="width:500px;">
+					</div>
+
+					<button class="form_btn" style="width:380px; margin-bottom:50px;">회원가입</button>
+					
+					<div style="display: flex; justify-content: center;">
+					<div style="margin-right: 20px;">
+						<a href="/hope/oauth2/authorization/google"> <img
+							src="././resources/style/img/socialLogin/google2.png"
+							style="width: 40px; height: 40px;">
+						</a>
+					</div>
+					<div>
+						<a href="/hope/oauth2/authorization/naver"> <img
+							src="././resources/style/img/socialLogin/naver1.png"
+							style="width: 40px; height: 40px;">
+						</a>
+					</div>
+				</div>
+				<div>
+					<p style="text-align: center; font-size: 12px; color: #949494;">SNS
+						또는 아이디로 회원가입</p>
+				</div>
+					<button
+						onclick='location.href="<%=request.getContextPath()%>/login"'
+						id="signIn" class="form_btn" style="font-size: 10px; color: grey; width:380px; margin-bottom:50px;">로그인하러가기</button>
+				</form>
+			</div>
+		</div>
+		</div>
+		
+						<script>
         function execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function(data) {
@@ -96,50 +164,9 @@
         return regex.test(email);
     }
 </script>
-			</div>
-			<div class="sign-in-container" style="margin: 0 auto">
-				<form action="<%=request.getContextPath() %>/login.me" method="post">
-					<!-- 로그인 폼 -->
-					<input type="text" name="email" placeholder="email 입력" required id="input_email">
-					<input type="password" name="password" placeholder="Password 입력" required id="input_password"> 
-					<input type="hidden" name="loginType" value="1" >
-					<button type="submit" class="form_btn" style="margin-top:20px;">로그인</button>
 
-					<!-- 아이디 찾기와 비밀번호 찾기 링크 -->
-					<div class="find-links">
-						<a href="<%=request.getContextPath() %>/idfind">아이디 찾기</a> | <a
-							href="<%=request.getContextPath() %>/passwordfind">비밀번호 찾기</a> |
-						<a id="signUp" href="<%=request.getContextPath() %>/singup.me">회원가입</a>
-					</div>
-					
-				<div style="border-top:1px solid #eee; width:300px; margin-top:50px;"></div>
-				<div style="margin-top:30px;">
-					<p style="text-align: center; font-size: 12px; color: #949494;">
-					SNS계정으로 간편 로그인/회원가입</p>
-				</div>
-					<div style="display: flex; justify-content: center; ">
-					<div style="margin-right: 20px;">
-						<a href="/hope/oauth2/authorization/google"> <img
-							src="././resources/style/img/socialLogin/google2.png"
-							style="width: 40px; height: 40px;">
-						</a>
-					</div>
-					<div>
-						<a href="/hope/oauth2/authorization/naver"> <img
-							src="././resources/style/img/socialLogin/naver1.png"
-							style="width: 40px; height: 40px;">
-						</a>
-					</div>
-				</div>
-				</form>
-
-
-			</div>
-		</div>
-	</div>
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
-	<script type="text/javascript" src="././resources/js/gun.js/login.js"></script>
+		<script type="text/javascript" src="././resources/js/gun.js/login.js"></script>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 
 </html>
