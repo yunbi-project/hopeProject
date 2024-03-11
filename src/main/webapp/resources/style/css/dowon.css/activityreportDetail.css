@@ -83,6 +83,7 @@ th, td {
 .header {
 	background-color: #F2F2F2;
 	text-align: center;
+	width: 100px;
 }
 
 .btn-group {
@@ -103,3 +104,10 @@ th, td {
     cursor: pointer;
 }
 
+
+.donateGoodFormBorder{
+    border: 4px solid #ABE138;
+    width: 200px;
+    margin-left: 650px;
+    margin-bottom: 100px;
+}

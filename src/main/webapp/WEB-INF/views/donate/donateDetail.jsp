@@ -170,10 +170,10 @@
                     </div>
 
 
-                    <div class="line">
-                        <img style="width:6px; margin-right: 10px;"  src="https://cdn-icons-png.flaticon.com/128/5720/5720434.png">
-                        <span>공유, 응원으로 참여하면 희망의조각이 기부합니다.</span>
-                    </div>
+<!--                     <div class="line"> -->
+<!--                         <img style="width:6px; margin-right: 10px;"  src="https://cdn-icons-png.flaticon.com/128/5720/5720434.png"> -->
+<!--                         <span>공유, 응원으로 참여하면 희망의조각이 기부합니다.</span> -->
+<!--                     </div> -->
                     <div class="line">
                         <img style="width:6px; margin-right: 10px;" src="https://cdn-icons-png.flaticon.com/128/5720/5720434.png">
                         <span>기부금은 100% 단체에 전달됩니다.</span>
@@ -247,14 +247,21 @@
         
     </main>
     
-    <c:if test="${loginUser.userNo eq 1}">
-	   	<div class="btn-group">
-	        <a href="${contextPath }/donate/update/${donate.donateNo}"><button type="button" class="modify-btn">수정</button></a>
-	    	<a href="${contextPath }/donate/delete/${donate.donateNo}"><button type="button" class="delete-btn" >삭제</button></a>
-	    </div>
-    </c:if>
+    <c:choose>
+    	<c:when test="${loginUser.userNo eq 1}">
+		   	<div class="btn-group">
+		        <a href="${contextPath }/donate/update/${donate.donateNo}"><button type="button" class="modify-btn">수정</button></a>
+		    	<a href="${contextPath }/donate/delete/${donate.donateNo}"><button type="button" class="delete-btn" >삭제</button></a>
+		    	<button class="modify-btn" type="button" onclick="window.location.href ='${contextPath}/donate/list'">목록</button>
+		    </div>
+    	</c:when>
+    	<c:otherwise>
+    		<div class="btn-group">
+	    		<button class="modify-btn" type="button" onclick="window.location.href ='${contextPath}/donate/list'">목록</button>
+    		</div>
+    	</c:otherwise>
+    </c:choose>
 
-    
     
 	
 	<script>

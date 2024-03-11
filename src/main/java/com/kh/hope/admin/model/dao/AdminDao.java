@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.hope.activityreport.model.vo.ActivityReport;
 import com.kh.hope.admin.model.vo.BlackList;
 import com.kh.hope.attachment.model.vo.Attachment;
 import com.kh.hope.board.model.vo.Board;
@@ -272,6 +273,34 @@ public class AdminDao {
 
 		public int deleteDonate(int donateNo) {
 			return session.update("adminMapper.deleteDonate",donateNo);
+		}
+
+		// 봉사활동 종료 리스트
+		public List<Program> selectProgramEndList() {
+			return session.selectList("adminMapper.selectProgramEndList");
+		}
+		
+		// 후원모집 종료 리스트
+		public List<Donate> selectDonateEndList() {
+			return session.selectList("adminMapper.selectDonateEndList");
+		}
+		
+		// 활동보고서 봉사 리스트
+		public List<ActivityReport> selectReportList(Map<String, Object> map) {
+			return session.selectList("adminMapper.selectReportList", map);
+		}
+
+		// 활동보고서 후원 리스트
+		public List<ActivityReport> selectDonateReportList(Map<String, Object> map) {
+			return session.selectList("adminMapper.selectDonateReportList");
+		}
+
+		public ActivityReport selectActivityReport(int reportNo) {
+			return session.selectOne("adminMapper.selectActivityReport",reportNo);
+		}
+
+		public int updateActivityReport(ActivityReport activityreport) {
+			return session.update("adminMapper.updateActivityReport", activityreport);
 		}
 	
 	

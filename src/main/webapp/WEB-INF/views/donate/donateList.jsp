@@ -89,12 +89,15 @@
         			<c:forEach items="${list}" var="d">
 			        	<div class="donate_board" onclick="detail(${d.donateNo})">
 			                <div class="donate_board_div" data-tagid="${d.tagId}" data-count="${d.count}" data-end="${d.ceilDayDiff}" data-date="${d.donateCreateDate}" data-enddate="${d.donateEndDate}">
-			                    <c:if test="${d.changeName eq null}">
-				                    <img class="donateList_img" src="https://msf.or.kr/sites/all/themes/msfkorea/images/img-high-value-slide-04.jpg">
-			                    </c:if>
-			                    <c:if test="${d.changeName ne null }">
-				                    <img class="donateList_img" src="${contextPath}/resources/images/donate/${d.changeName}">
-			                    </c:if>
+			                    <c:choose>
+			                    	<c:when test="${d.changeName eq null}">
+					                    <img class="donateList_img" src="https://msf.or.kr/sites/all/themes/msfkorea/images/img-high-value-slide-04.jpg">
+			                    	</c:when>
+			                    	<c:otherwise>
+					                    <img class="donateList_img" src="${contextPath}/resources/images/donate/${d.changeName}">
+			                    	</c:otherwise>
+			                    </c:choose>
+			                    
 			                    <span class="donateList_title">${d.donateTitle }</span>
 			                    <span class="donateList_foundation">${d.donateFoundation }</span>
 			                    <progress

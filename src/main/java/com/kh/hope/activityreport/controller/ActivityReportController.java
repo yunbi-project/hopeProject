@@ -1,6 +1,5 @@
 package com.kh.hope.activityreport.controller;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,8 @@ import com.kh.hope.activityreport.model.service.ActivityReportService;
 import com.kh.hope.activityreport.model.vo.ActivityReport;
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
+import com.kh.hope.donate.model.vo.Donate;
+import com.kh.hope.program.model.vo.Program;
 import com.kh.hope.user.model.vo.User;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -36,7 +37,7 @@ public class ActivityReportController {
 	private ActivityReportService service;
 	
 	// 활동보고서 페이지
-	@GetMapping("/activityreport")
+	@GetMapping("/activityreport/P")
 	public String ReportList(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
 			@RequestParam Map<String, Object> map) {
 		int listCount = service.selectListCount(map);
@@ -53,11 +54,12 @@ public class ActivityReportController {
 		return "activityreport/activityreport";
 	}
 	
-	@GetMapping("/activityreport/{arno}")
+	@GetMapping("/activityreport/P/{arno}")
 	public String selectActivityReport(@PathVariable("arno") int reportNo, Model m, HttpServletRequest req,
 			HttpServletResponse res, HttpSession session) {
 		
 		ActivityReport ar = service.selectActivityReport(reportNo);
+
 
 		if (ar != null) {
 
@@ -107,61 +109,63 @@ public class ActivityReportController {
 		return "activityreport/activityreportDetail";
 	}
 	
-	// 활동보고서 작성
-	@GetMapping("/activityreportinsert")
-	public String showActivityReportForm() {
+	// 활동보고서 작성(봉사활동)
+	@GetMapping("/activityreportinsert/P/{programNo}")
+	public String showActivityReportForm(@PathVariable int programNo, Model model) {
 		// 활동보고서 작성 폼을 보여주는 페이지로 이동
+		
+		
+		Program program = service.selectProgramReport(programNo);
+		
+		model.addAttribute("program", program);
+		
 		return "activityreport/activityreportInsert";
 	}
 	
-	@PostMapping("/activityreportinsert")
+	@PostMapping("/activityreportinsert/P/{programNo}")
 	public String insertActivityReport(
-			@RequestParam("reportTitle") String reportTitle,
-		    @RequestParam("reportContent") String reportContent,
-		    @RequestParam("activityStartDate") Date activityStartDate,
-		    @RequestParam("activityEndDate") Date activityEndDate,
+			@PathVariable int programNo,
+			ActivityReport activityReport,
 			RedirectAttributes ra) {
-		// 사용자로부터 입력받은 파라미터 값을 이용하여 ActivityReport 객체를 생성
-	    ActivityReport activityReport = new ActivityReport();
-	    activityReport.setReportTitle(reportTitle);
-	    activityReport.setReportContent(reportContent);
-	    activityReport.setActivityStartDate(activityStartDate);
-	    activityReport.setActivityEndDate(activityEndDate);
+		
 
 	    // 서비스를 통해 활동 보고서를 DB에 저장
 	    int result = service.insertActivityReport(activityReport);
+	    int proResult = service.updateProgramReport(programNo); 
 	    
-	    if(result > 0) {
+	    if(result > 0 && proResult > 0) {
 	        // 저장 성공 시 메시지를 리다이렉트한 페이지로 전달
-	        ra.addFlashAttribute("successMessage", "활동 보고서가 성공적으로 저장되었습니다.");
+	        ra.addFlashAttribute("alertMsg", "활동 보고서가 성공적으로 저장되었습니다.");
+	        return "redirect:/activityreport/P";
 	    } else {
 	        // 저장 실패 시 메시지를 리다이렉트한 페이지로 전달
-	        ra.addFlashAttribute("errorMessage", "활동 보고서 저장에 실패하였습니다. 다시 시도해주세요.");
+	        ra.addFlashAttribute("alertMsg", "활동 보고서 저장에 실패하였습니다. 다시 시도해주세요.");
+	        return "redirect:/errorPage";
 	    }
-	    
-	    return "redirect:/activityreport"; // 다시 입력 폼으로 리다이렉트
 	}
 	
 	// 활동보고서 수정
-	@GetMapping("/activityreport/update/{reportNo}")
-	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model) {
+	@GetMapping("/activityreport/update/P/{reportNo}")
+	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model, HttpServletRequest request) {
+		
 		ActivityReport ar = service.selectActivityReport(reportNo);
 
 		User loginUser = (User) session.getAttribute("loginUser");
-		model.addAttribute("activityreport", ar);
+		model.addAttribute("ar", ar);
 		
-		System.out.println(ar);
+        
 		
 		if (loginUser.getUserNo() != 1) {
 			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
-			return "redirect:/activityreport";
+			return "redirect:/activityreport/P";
 		}else {
 			return "activityreport/activityreportUpdate";
 		}
 	}
 	
-	@PostMapping("/activityreport/update/{reportNo}")
-	public String activityreportUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra) {
+	@PostMapping("/activityreport/update/P/{reportNo}")
+	public String activityreportUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra, HttpServletRequest request) {
+		
 		
 		
 		int	result = service.updateActivityReport(activityreport);
@@ -169,25 +173,24 @@ public class ActivityReportController {
 		
 		if(result > 0) {
 			
-			ra.addFlashAttribute("게시글 수정하는데 성공하였습니다.");
+			ra.addFlashAttribute("alertMsg","게시글 수정하는데 성공하였습니다.");
 			
-			return "redirect:/activityreport";
+			return "redirect:/activityreport/P";
 		}else {
-			ra.addFlashAttribute("게시글 수정 실패");
+			ra.addFlashAttribute("alertMsg","게시글 수정 실패");
 			
 			return "redirect:/hope/errorPage";
 		}
 	}
 	
 	// 활동보고서 삭제
-	@GetMapping("/activityreport/delete/{reportNo}")
+	@GetMapping("/activityreport/delete/P/{reportNo}")
 	public String activityreportDelete(@PathVariable("reportNo") int reportNo, Model m, RedirectAttributes ra,
 			@ModelAttribute("loginUser") User loginUser, HttpSession session) {
 
 		int result = service.deleteActivityreport(reportNo);
 		
 		if (loginUser.getUserNo() != 1) {
-			System.out.println(result);
 			ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
 			return "redirect:/errorPage";
 		}
@@ -198,10 +201,149 @@ public class ActivityReportController {
 		} else {
 			ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
 		}
-		return "redirect:/activityreport";
+		return "redirect:/activityreport/P";
 
 	}
 	
 	
+	// =============================== 후원 후기 =================================
+	// 활동보고서 페이지
+	@GetMapping("/activityreport/D")
+	public String reportDonateList(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
+			@RequestParam Map<String, Object> map) {
+		
+		int listCount = service.selectListCount(map);
+		int pageLimit = 10;
+		int boardLimit = 5;
+
+		PageInfo pi = Pagenation.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+		List<ActivityReport> list = service.reportDonateList(pi, map);
+		m.addAttribute("list", list);
+		m.addAttribute("pi", pi);
+		m.addAttribute("param", map);
+
+		return "activityreport/activityReportDonateList";
+	}
+	
+	
+	// 활동보고서 작성(후원후기)
+	@GetMapping("/activityreportinsert/D/{donateNo}")
+	public String activityDonateForm(@PathVariable int donateNo, Model model,
+			@ModelAttribute("loginUser") User loginUser, RedirectAttributes ra) {
+		
+		
+		if (loginUser.getUserNo() != 1) {
+			ra.addFlashAttribute("alertMsg", "게시글 등록 권한이 없습니다.");
+			return "redirect:/errorPage";
+		}
+		
+		if(loginUser == null) {
+			ra.addFlashAttribute("alertMsg", "로그인 후 이용해주세요.");
+			return "redirect:/errorPage";
+		}
+		
+		Donate donate = service.selectDonateReport(donateNo);
+		
+		model.addAttribute("donate", donate);
+		
+		return "activityreport/activityReportDonateInsert";
+	}
+	
+	@PostMapping("/activityreportinsert/D/{donateNo}")
+	public String activityInsertDonateForm(
+			@PathVariable int donateNo,
+			ActivityReport activityReport,
+			RedirectAttributes ra) {
+		
+
+	    // 서비스를 통해 활동 보고서를 DB에 저장
+	    int result = service.activityInsertDonateForm(activityReport);
+	    
+	    
+	    int donateResult = service.updateDonateReport(donateNo); 
+	    
+	    if(result > 0 && donateResult > 0) {
+	        // 저장 성공 시 메시지를 리다이렉트한 페이지로 전달
+	        ra.addFlashAttribute("alertMsg", "후원 후기가 성공적으로 저장되었습니다.");
+	        return "redirect:/activityreport/D";
+	    } else {
+	        // 저장 실패 시 메시지를 리다이렉트한 페이지로 전달
+	        ra.addFlashAttribute("alertMsg", "후원 후기 등록에 실패하였습니다. 다시 시도해주세요.");
+	        return "redirect:/errorPage";
+	    }
+	}
+	
+	// 후원후기 상세페이지
+	@GetMapping("/activityreport/D/{arno}")
+	public String selectActivityDonateReport(@PathVariable("arno") int reportNo, Model m, HttpServletRequest req,
+			HttpServletResponse res, HttpSession session) {
+		
+		ActivityReport ar = service.selectActivityDonateReport(reportNo);
+		
+		m.addAttribute("ar", ar);
+
+		return "activityreport/activityReportDonateDetail";
+	}
+	
+	// 후원후기 수정
+	@GetMapping("/activityreport/update/D/{reportNo}")
+	public String activityReportDonateUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model) {
+		
+		ActivityReport ar = service.selectActivityDonateReport(reportNo);
+
+		User loginUser = (User) session.getAttribute("loginUser");
+		model.addAttribute("ar", ar);
+		
+		
+		if (loginUser.getUserNo() != 1) {
+			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
+			return "redirect:/activityreport/D";
+		}else {
+			return "activityreport/activityReportDonateUpdate";
+		}
+	}
+	
+	@PostMapping("/activityreport/update/D/{reportNo}")
+	public String activityReportDonateUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra) {
+		
+		
+		int	result = service.activityReportDonateUpdate(activityreport);
+
+		
+		if(result > 0) {
+			
+			ra.addFlashAttribute("alertMsg","게시글 수정하는데 성공하였습니다.");
+			
+			return "redirect:/activityreport/D";
+		}else {
+			ra.addFlashAttribute("alertMsg","게시글 수정 실패");
+			
+			return "redirect:/hope/errorPage";
+		}
+	}
+	
+	
+	// 후원후기 삭제
+	@GetMapping("/activityreport/delete/D/{reportNo}")
+	public String activityㄲeportDonateDelete(@PathVariable("reportNo") int reportNo, Model m, RedirectAttributes ra,
+			@ModelAttribute("loginUser") User loginUser, HttpSession session) {
+
+		int result = service.deleteDonateActivityreport(reportNo);
+		
+		if (loginUser.getUserNo() != 1) {
+			ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
+			return "redirect:/errorPage";
+		}
+		
+		if (result > 0) {
+			ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+
+		} else {
+			ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+		}
+		return "redirect:/activityreport/D";
+
+	}
 	
 }

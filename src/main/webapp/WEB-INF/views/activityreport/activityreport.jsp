@@ -6,18 +6,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>활동보고서</title>
 <link rel="stylesheet"
-	href="resources/style/css/sangjun.css/SnoticeList.css">
+	href="${contextPath}/resources/style/css/sangjun.css/SnoticeList.css">
+<link rel="stylesheet"
+	href="${contextPath}/resources/style/css/dowon.css/activityReportList.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 	<main>
 		<section>
-			<article class="h_boardTitle">
-				<h1>자원봉사</h1>
-				<p>자원봉사 함께 나아가는 더 나은 세상.</p>
+			<article class="boardTitle">
+				<h1>활동보고서</h1>
+				<p>활동보고서를 통해 자원봉사 함께 나아가는 세상을 만들어요!</p>
 			</article>
 		</section>
 
@@ -27,33 +29,23 @@
 					<div>
 						<div>
 							<div>
-								<div class="Sn-TextLabel">활동보고서</div>
+								<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사활동 보고서</h2>
+        						<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 							</div>
 						</div>
 					</div>
-
-					<div class="Sn-selection">
-						<div>
-							<div class="Sn-component-1">
-								<div class="Sn-chip-1">
-									<c:if test="${not empty loginUser}">
-										<div class="Sn-text-1"
-											onclick="window.location.href='${contextPath}/activityreportinsert'">글쓰기</div>
-									</c:if>
-								</div>
-
-							</div>
-						</div>
+					
+					<div style="text-align: right;">
+						<button type="button" class="donateList-btn" onclick="window.location.href='${contextPath}/activityreport/D'" value="D">후원후기 보기</button>
 					</div>
 
 					<div class="Sn-section">
-						<table class="Sn-table">
+						<table class="Sn-table program">
 							<thead>
 								<th>번호</th>
-								<th>제목</th>
-								<th>작성자</th>
+								<th style="width: 50% !important;">제목</th>
+								<th>활동지역</th>
 								<th>작성날짜</th>
-
 
 							</thead>
 							<tbody>
@@ -67,8 +59,8 @@
 										<c:forEach var="ar" items="${list}">
 											<tr onclick="movePage(${ar.reportNo})">
 												<td>${ar.reportNo}</td>
-												<td>${ar.reportTitle}</td>
-												<td>관리자</td>
+												<td style="width: 50% !important;">${ar.reportTitle}</td>
+												<td>${ar.activityLocation}</td>
 												<td>${ar.createDate}</td>
 
 											</tr>
@@ -110,9 +102,11 @@
 	</main>
 	<script>
 		function movePage(arno){
-			location.href="${contextPath}/activityreport/"+arno
+			location.href="${contextPath}/activityreport/P/"+arno
 		}
 	</script>
+	
+
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>
