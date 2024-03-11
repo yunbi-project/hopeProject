@@ -1,8 +1,14 @@
 package com.kh.hope.admin.controller;
 
+import java.io.File;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.kh.hope.activityreport.model.vo.ActivityReport;
 import com.kh.hope.admin.model.service.AdminService;
 import com.kh.hope.admin.model.vo.BlackList;
 import com.kh.hope.attachment.model.vo.Attachment;
@@ -31,15 +38,14 @@ import com.kh.hope.board.model.vo.Reply;
 import com.kh.hope.board.model.vo.Report;
 import com.kh.hope.chat.model.vo.Chat;
 import com.kh.hope.chat.model.vo.ChatJoin;
-import com.kh.hope.chat.model.vo.ChatMessage;
 import com.kh.hope.common.Template.model.vo.Pagenation;
 import com.kh.hope.common.model.vo.PageInfo;
 import com.kh.hope.config.Utils;
 import com.kh.hope.donate.model.vo.Donate;
-import com.kh.hope.user.model.vo.User;
 import com.kh.hope.payment.model.vo.PaymentInfo;
 import com.kh.hope.product.model.vo.Product;
 import com.kh.hope.program.model.vo.Program;
+import com.kh.hope.user.model.vo.User;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 import jakarta.servlet.ServletContext;
@@ -48,14 +54,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import java.text.NumberFormat;
-import java.util.Locale;
 
 @Slf4j
 @Controller
@@ -291,6 +289,70 @@ public class AdminController {
 
 		return list; 
 	}
+	
+	// 활동보고서
+	@GetMapping("/tables")
+	private String activityList(Model model, @RequestParam Map<String, Object> map) {
+		
+		List<Program> proList = adminService.selectProgramEndList();
+		
+		model.addAttribute("proList", proList);
+		
+		List<Donate> donateList = adminService.selectDonateEndList();
+		
+		model.addAttribute("donateList", donateList);
+		
+		List<ActivityReport> reportPro =  adminService.selectReportList(map);
+		
+		model.addAttribute("reportPro", reportPro);
+		
+		List<ActivityReport> reportDon =  adminService.selectDonateReportList(map);
+		
+		model.addAttribute("reportDon", reportDon);
+		
+		
+		return "admin/tables";
+	}
+	
+	// 활동보고서 수정
+	@GetMapping("/tables/update/P/{reportNo}")
+	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model, HttpServletRequest request) {
+		
+		ActivityReport ar = adminService.selectActivityReport(reportNo);
+
+		User loginUser = (User) session.getAttribute("loginUser");
+		model.addAttribute("ar", ar);
+		
+        
+		
+		if (loginUser.getUserNo() != 1) {
+			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
+			return "redirect:/activityreport/P";
+		}else {
+			return "admin/adminActivityProgramUpdate";
+		}
+	}
+	
+	@PostMapping("/tables/update/P/{reportNo}")
+	public String activityreportUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra, HttpServletRequest request) {
+		
+		
+		
+		int	result = adminService.updateActivityReport(activityreport);
+
+		
+		if(result > 0) {
+			
+			ra.addFlashAttribute("alertMsg","게시글 수정하는데 성공하였습니다.");
+			
+			return "redirect:/tables";
+		}else {
+			ra.addFlashAttribute("alertMsg","게시글 수정 실패");
+			
+			return "redirect:/hope/errorPage";
+		}
+	}
+	
 	
 	/* ============================================== 회원 끝 ==============================================*/
 	

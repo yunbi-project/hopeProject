@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>활동보고서</title>
 <style>
 .note-editor.note-airframe .note-editing-area .note-editable {
 	background-color: transparent !important;
@@ -23,47 +23,58 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main>
-		<section>
-			<article class="activityreportTitle">
-				<h1>자원봉사</h1>
-				<p>자원봉사 함께 나아가는 더 나은 세상.</p>
-			</article>
-		</section>
 
 		<div class="ar-wrapper1">
 
-			<div class="ar-TextLabel">활동보고서</div>
+			<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사활동보고서 수정</h2>
+        	<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 			
-			<form action="${contextPath}/activityreport/update/${activityreport.reportNo}" method="post">
+			<form action="${contextPath}/activityreport/update/P/${ar.reportNo}" method="post">
 		
 			<div class="table-div">
 				<table>
 					<tr>
-						<th class="header">작성일자</th>
-						<td colspan="2" style="width: 30%;"><input type="date" value="${activityreport.createDate }">
+						<th class="header" style="width:100px;">종류</th>
+						<td colspan="2" style="width: 20%;">
+							<div name="reportType" value="P" >봉사활동</div>
 						</td>
-						<th class="header" colspan="2">작성자</th>
-						<td colspan="2">관리자</td>
+						<th class="header" colspan="2">모집기간</th>
+						<td colspan="2" style="width:300px;">${ar.programActivityStartDate} ~ ${ar.programActivityEndDate}</td>
 					</tr>
 
 					<tr>
-						<th class="header">제목</th>
-						<td class="span-two" colspan="6"><input type="text" name="reportTitle" value="${activityreport.reportTitle }"
-							></td>
+						<th class="header" >제목</th>
+						<td class="span-two" colspan="6" style="font-size: 20px;"><input style="width: 700px;" type="text" name="reportTitle"
+							placeholder="제목을 입력하세요" value="${ar.reportTitle }" required></td>
 					</tr>
 
 					<tr>
-						<th class="header">활동기간</th>
-						<td class="span-two" colspan="6">
-						<input type="date" name="activityStartDate" value="${activityreport.activityStartDate }"> ~ <input type="date" name="activityEndDate" value="${activityreport.activityEndDate }">
+						<th class="header">활동시간</th>
+						<td class="span-two" colspan="2">
+							<c:if test="${ar.activityTime eq 1 and ar.activityDays eq 1}">
+                            	오전, 평일
+                            </c:if>
+                            <c:if test="${ar.activityTime eq 1 and ar.activityDays eq 2}">
+                            	오전, 주말
+                            </c:if>
+                            <c:if test="${ar.activityTime eq 2 and ar.activityDays eq 1}">
+                            	오후, 평일
+                            </c:if>
+                            <c:if test="${ar.activityTime eq 2 and ar.activityDays eq 2}">
+                            	오후, 주말
+                            </c:if>
 						</td>
+						<th class="header" style="width:100px;">지역</th>
+						<td class="span-two" style="width:200px;">${ar.activityLocation }</td>
+						<th class="header" style="width:115px;">참여인원/제한수</th>
+						<td class="span-two" colspan="2" style="width:100px;">${ar.requestTotal} / ${ar.programCapacity }</td>
 					</tr>
 
 					<tr>
 						<th class="header" style="height: 500px;">활동내용</th>
 						
-						<td class="span-two" colspan="6"><textarea class="summernote" id="summernote"
-								name="reportContent" >${activityreport.reportContent}</textarea></td>
+						<td class="span-two" colspan="6"><textarea style="width: 700px; height:800px;" class="summernote" id="summernote"
+								name="reportContent" required>${ar.reportContent}</textarea></td>
 					</tr>
 				</table>
 			</div>
@@ -71,7 +82,7 @@
 			<div class="btn-group">
 				<div class="detail-btn">
 					<button class="list-btn"
-						onclick="window.location.href='${contextPath}/activityreport'">목록</button>
+						onclick="window.location.href='${contextPath}/activityreport/P'">목록</button>
 					<button class="list-btn"
 						type="submit">수정완료</button>
 				</div>

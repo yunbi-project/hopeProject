@@ -3,6 +3,7 @@ package com.kh.hope.admin.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.hope.activityreport.model.vo.ActivityReport;
 import com.kh.hope.admin.model.vo.BlackList;
 import com.kh.hope.attachment.model.vo.Attachment;
 import com.kh.hope.board.model.vo.Board;
@@ -166,6 +167,25 @@ public interface AdminService {
 
 	//후원 삭제
 	int deleteDonate(int donateNo);
+
+	// 봉사활동 종료 리스트
+	List<Program> selectProgramEndList();
+
+	// 후원모집 종료 리스트
+	List<Donate> selectDonateEndList();
+
+	// 활동보고서 봉사 리스트
+	List<ActivityReport> selectReportList(Map<String, Object> map);
+
+
+	// 활동보고서 후원 리스트
+	List<ActivityReport> selectDonateReportList(Map<String, Object> map);
+
+
+	ActivityReport selectActivityReport(int reportNo);
+
+
+	int updateActivityReport(ActivityReport activityreport);
 
 
 

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>기부하기 상세보기</title>
+<title>기부하기</title>
 <link rel="stylesheet"
 	href="${contextPath }/resources/style/css/hyun.css/donateBoardForm.css">
 	<script src="${contextPath }/resources/js/yunbi.js/yProgramDonate.js"></script>

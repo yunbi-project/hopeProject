@@ -18,8 +18,32 @@ public class ActivityReport {
 	private Date createDate;
 	public int userNo;
 	
-	private Date activityStartDate;
-	private Date activityEndDate;
+	private Date programActivityStartDate;
+	private Date programActivityEndDate;
 	
-	private String status;
+	private int programNo;
+	private String activityTime;
+	private String activityDays;
+	private String activityLocation;
+	private String programCapacity;
+	private int requestTotal;
+	
+	
+	private int sumDonate;
+	private int donateHope;
+	private int donateNo;
+	private int achRate;
+	private String donateFoundation;
+	private Date donateStartDate;
+	private Date donateEndDate;
+	private int totalCount;
+	private String changeName;
+	private int fileNo;
+	
+	
+	private String status; // 상테
+	private String reportType; // 보고서 종류
+	private int refAno; // 참조번호
+	
+	
 }

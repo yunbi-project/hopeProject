@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.List, java.util.Date,
+    pageEncoding="UTF-8" import="java.util.List, java.util.Date,java.text.DecimalFormat,
      com.kh.hope.board.model.vo.Board, com.kh.hope.donate.model.vo.Donate" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -12,22 +12,29 @@
     // 현재 날짜에서 월을 가져옵니다. (1부터 시작)
     // getMonth() 메서드는 0부터 시작하므로 1을 더합니다.
     int month = currentDate.getMonth() + 1;
+    
+    // shareList 가져오기
+    List<Board> shareList = (List<Board>) request.getAttribute("shareList");
+    // DecimalFormat 객체를 생성하여 통화 표시 형식 지정
+
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 
-<link rel="stylesheet"
-	href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
+
 
 <!DOCTYPE html>
 <html>
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+	<title>희망의 조각</title>
+	
     <link rel="stylesheet" href="./resources/style/css/hyun.css/mainPage.css">
-   
+    <link rel="stylesheet"
+	href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
    
     <!-- 슬라이드바 -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -77,11 +84,11 @@
                         <div style="margin-left: 100px;">
                             <h3 class="h_slider_Title">CAMPAIGN</h3><br>
                             <div style="border: 4px solid rgb(117, 173, 34); width: 80px;"></div><br>
-                            <span>자립준비 청년의 내일을 응원해주세요</span>
+                            <span>국제어린이 아동의 내일을 응원해주세요</span>
                             <h3 style="margin-top: 10px;">희망의 함께서기</h3>
                             <button class="h_slider_btn">자세히 보기<img class="h_slider_img" src="https://cdn-icons-png.flaticon.com/128/6423/6423875.png"></button>
                         </div>
-                        <img class="slick-slide"  src="https://www.beautifulstore.org/wp-content/uploads/2020/08/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C-1-5.png">
+                        <img class="slick-slide"  src="https://m.worldvision.or.kr/hope/img/payment/detail/sponsor_child_top_01.jpg">
                    </li>
                    
                    <li>
@@ -201,70 +208,82 @@
                     
                     <div class="other_board">
                         <ul>
-                        	<c:forEach items="${noticeList}" var="n">
-	                            <li>
-	                                <div class="subject">
-	                                    <strong class="notice_mark">공지</strong>
-	                                    <a href="${contextPath}/board/detail/N/${n.boardNo}">${n.boardTitle}</a>
-	                                    <c:choose>
-	                                    	<c:when test="${n.createDate >= sevenDaysAgo}">
-			                                    <img class="new" src="https://cdn-icons-png.flaticon.com/128/10785/10785605.png">
-	                                    	</c:when>
-	                                    	<c:otherwise>
-	                                    		<img class="new_display" src="">
-	                                    	</c:otherwise>
-	                                    </c:choose>
-	                                    <img class="time" src="https://cdn-icons-png.flaticon.com/128/6659/6659457.png">
-	                                    <span class="notice_date">${n.createDate }</span>
-	                                </div>
-	                            </li>
-	                            <hr class="notice_hr">
-                        	</c:forEach>
+                        	<c:choose>
+                        		<c:when test="${not empty noticeList}">
+                        			<c:forEach items="${noticeList}" var="n">
+			                            <li>
+			                                <div class="subject">
+			                                    <strong class="notice_mark">공지</strong>
+			                                    <a href="${contextPath}/board/detail/N/${n.boardNo}">${n.boardTitle}</a>
+			                                    <c:choose>
+			                                    	<c:when test="${n.createDate >= sevenDaysAgo}">
+					                                    <img class="new" src="https://cdn-icons-png.flaticon.com/128/10785/10785605.png">
+			                                    	</c:when>
+			                                    	<c:otherwise>
+			                                    		<img class="new_display" src="">
+			                                    	</c:otherwise>
+			                                    </c:choose>
+			                                    <img class="time" src="https://cdn-icons-png.flaticon.com/128/6659/6659457.png">
+			                                    <span class="notice_date">${n.createDate }</span>
+			                                </div>
+			                            </li>
+			                            <hr class="notice_hr">
+                        			</c:forEach>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<li>
+                        				<div class="subject" style="font-size: 20px; font-weight: bold;">
+                        					<span>게시글이 존재하지 않습니다.</span>
+                        				</div>
+                        			</li>
+                        		</c:otherwise>
+                        	</c:choose>
+                        	
                         </ul>
+                        <div>
+                        	<% if(shareList != null && !shareList.isEmpty()) { %>
+					        <div class="share_board_banner">
+					            <div class="slide-wrapper">
+					                <% 
+					                    // shareList가 null이 아니고 비어있지 않은 경우에만 반복문 실행
+					                    if (shareList != null && !shareList.isEmpty()) {
+					                        for (Board r : shareList) {
+					                            // changeName 변수 가져오기
+					                            String changeName = r.getChangeName();
+					                            int boardNo = r.getBoardNo();
+					                %>
+					                                <%-- changeName이 null인 경우 --%>
+					                                <% if (changeName == null) { %>
+					                                    <a href="<%= request.getContextPath() %>/board/detail/R/<%= boardNo %>">
+					                                        <div class="slide"> 
+					                                            <img style="width:360px; height:300px;" src="https://www.beautifulstore.org/wp-content/uploads/2023/11/%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A3%E1%84%80%E1%85%B5_1.png">
+					                                        </div>
+					                                    </a>
+					                                <% } else { %>
+					                                    <a href="<%= request.getContextPath() %>/board/detail/R/<%= boardNo %>">
+					                                        <div class="slide">
+					                                            <img style="width:360px; height:300px;" src="<%= request.getContextPath() %>/resources/images/board/R/<%= changeName %>">
+					                                        </div>
+					                                    </a>
+					                                <% } %>
+					                            
+					                <% 
+					                        }
+					                    }
+					                %>
+			
+					            </div>
+					            <button class="button prev"><img src="https://cdn-icons-png.flaticon.com/128/5697/5697757.png"></button>
+					            <button class="button next"><img src="https://cdn-icons-png.flaticon.com/128/5697/5697771.png"></button>
+					        </div>
+					        <% }else { %>
+					        <div class="none_shareList">
+					        	<span>아쉽게도 이번달 HOT 게시글이 없어요!</span>
+					        </div>
+                        	<% } %>
                         
-                        <div class="share_board_banner">
-                            <div class="slide-wrapper">
-							 <%
-							    // shareList 리스트 가져오기
-							    List<Board> shareList = (List<Board>)request.getAttribute("shareList");
-							
-							    // shareList가 null이 아니고 비어있지 않은 경우에만 반복문 실행
-							    if(shareList != null && !shareList.isEmpty()) {
-							        for(Board r : shareList) {
-							            // changeName 변수 가져오기
-							            String changeName = r.getChangeName();
-							            int boardNo = r.getBoardNo();
-							%>
-							            <%-- changeName이 null인 경우 --%>
-							            <% if(changeName == null) { %>
-							            	<a href="<%= request.getContextPath() %>/board/detail/R/<%= boardNo %>">
-								                <div class="slide"> 
-								                    <img style="width:310px; height:300px;" src="https://www.beautifulstore.org/wp-content/uploads/2023/11/%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A3%E1%84%80%E1%85%B5_1.png">
-								                </div>
-							                </a>
-							            <% } else { %>
-							            	<a href="<%= request.getContextPath() %>/board/detail/R/<%= boardNo %>">
-								                <div class="slide">
-								                    <img style="width:310px; height:300px;" src="<%= request.getContextPath() %>/resources/images/board/R/<%= changeName %>">
-								                </div>
-							                </a>
-							            <% } %>
-							<%
-							        }
-							    }else{
-							 %>
-						        <div class="slide_none">
-							        <img style="width:310px; height:300px;" src="<%= request.getContextPath() %>/resources/images/board/default_image.png">
-							    </div>
-							<%
-							    }
-							%>
-								
-                            </div>
-                            <button class="button prev"><img src="https://cdn-icons-png.flaticon.com/128/5697/5697757.png"></button>
-                            <button class="button next"><img src="https://cdn-icons-png.flaticon.com/128/5697/5697771.png"></button>
                         </div>
-
+				
                         <div class="share_board_content">
                             <div class="slide-wrapper">
                             <%
@@ -295,7 +314,7 @@
 							        }
 							    }else{
 							%>
-								<div class="slide slide_content">
+								<div style="display:none;">
 	                              	<span>아쉽게도 이번달 HOT 게시글이 없어요!</span>
 				          		</div>
 				          	<%
@@ -335,7 +354,110 @@
 		src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
 		<script
 			src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
+		
+		<!-- 나눔 소식 슬라이드 바 -->
+    	<script>
+        $(document).ready(function() {
+        	
+            const bannerSlideWrapper = $('.share_board_banner .slide-wrapper');
+            const contentSlideWrapper = $('.share_board_content .slide-wrapper');
+            let currentIndex = 0;
+            const slideCount = $('.slide').length/2;
+            const slideWidth = 360; // 슬라이드의 너비
 
+
+            // 다음 슬라이드로 이동하는 함수
+            function nextSlide() {
+                currentIndex++;
+                if (currentIndex === slideCount) {
+                    currentIndex = 0;
+                }
+                updateSlidePosition();
+            }
+
+            // 이전 슬라이드로 이동하는 함수
+            function prevSlide() {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = slideCount - 1;
+                }
+                updateSlidePosition();
+            }
+
+            // 현재 슬라이드 위치 업데이트 함수
+            function updateSlidePosition() {
+                const newPosition = -currentIndex * slideWidth;
+                bannerSlideWrapper.css('transform', 'translateX(' + newPosition + 'px)');
+                contentSlideWrapper.css('transform', 'translateX(' + newPosition + 'px)');
+            }
+            
+            
+
+            // 다음 버튼 클릭 이벤트 핸들러
+            $('.share_board_banner .button.next').click(nextSlide);
+
+            // 이전 버튼 클릭 이벤트 핸들러
+            $('.share_board_banner .button.prev').click(prevSlide);
+
+            // 자동으로 다음 슬라이드로 넘어가는 함수
+            function autoSlide() {
+                nextSlide();
+            }
+
+            // 일정한 시간 간격으로 자동으로 다음 슬라이드로 이동
+            setInterval(autoSlide, 4000); // 4초마다 슬라이드 변경
+
+
+            // 초기에 버튼을 투명하게 처리
+            $('.button').css('opacity', '0');
+
+            // 마우스가 .share_board_banner에 진입했을 때의 이벤트 처리
+            $('.share_board_banner').mouseenter(function() {
+                // 버튼 태그들을 천천히 나타나도록 변경
+                $('.button').stop().animate({ opacity: 1 }, 'slow');
+            });
+
+            // 마우스가 .share_board_banner에서 빠져나왔을 때의 이벤트 처리
+            $('.share_board_banner').mouseleave(function() {
+                // 버튼 태그들을 천천히 숨기도록 변경
+                $('.button').stop().animate({ opacity: 0 }, 'slow');
+            });
+
+            $('.next img').hover(
+                function() {
+                // 마우스를 올렸을 때의 동작
+                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/318/318476.png'); // 새로운 이미지로 교체
+                },
+                function() {
+                // 마우스를 내렸을 때의 동작
+                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/5697/5697771.png');
+                }
+            );
+
+            $('.prev img').hover(
+                function() {
+                // 마우스를 올렸을 때의 동작
+                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/318/318477.png'); // 새로운 이미지로 교체
+                },
+                function() {
+                // 마우스를 내렸을 때의 동작
+                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/5697/5697757.png');
+                }
+            );
+            
+            // 슬라이드 쇼 영역의 너비를 동적으로 설정
+            function setSlideWrapperWidth() {
+                var totalWidth = slideCount * slideWidth;
+                bannerSlideWrapper.css('width', totalWidth + 'px');
+                contentSlideWrapper.css('width', totalWidth + 'px');
+            }
+
+            // 페이지가 로드될 때 한 번 호출하여 초기 너비 설정
+            setSlideWrapperWidth();
+        });
+
+
+   		</script>
 
         <!-- 함께하는 나눔 프로젝트 -->
         <section>
@@ -391,7 +513,9 @@
 			                                	<span class="end_num"><fmt:formatNumber value="${donate.donateHope}" type="currency" pattern="#,###"/>원</span>
 		                                	</c:when>
 		                                	<c:otherwise>
-		                                		<span class="end_num"><fmt:formatNumber value="${donate.donateHope} - ${donate.sumDonate}" type="currency" pattern="#,###"/>원</span>
+		                                		<c:set var="hope" value="${donate.donateHope}" />
+        										<c:set var="sum" value="${donate.sumDonate}" />
+		                                		<span class="end_num"><fmt:formatNumber value="${hope - sum}" type="currency" pattern="#,###"/>원</span>
 		                                	</c:otherwise>
 		                                </c:choose>
 		                            </div>
@@ -469,7 +593,8 @@
                     <div class="swiper-wrapper">
                    	    <%
                    	    	List<Donate> donateList = (List<Donate>)request.getAttribute("donateList");
-                   	    
+                   			DecimalFormat decimalFormat = new DecimalFormat("#,###원");
+                   	 
 						    // shareList가 null이 아니고 비어있지 않은 경우에만 반복문 실행
 						    if(donateList != null && !donateList.isEmpty()) {
 						        for(Donate d : donateList) {
@@ -482,6 +607,9 @@
 						            int achRate = d.getAchRate();
 						            String changeName= d.getChangeName();
 						            int sumDonate = d.getSumDonate();
+						            // DecimalFormat 객체를 생성하여 통화 표시 형식 지정
+									String formattedSumDonate = decimalFormat.format(sumDonate);
+						            String formattedHope = decimalFormat.format(donateHope);
 						%>
 
 						            
@@ -496,7 +624,7 @@
 		                                <img src="<%= request.getContextPath() %>/resources/images/donate/<%= changeName %>">
 	                            	</a>
                             	<% } %>
-                                <div class="h_donation_container">
+                                <div class="h_donation_container"> 
                                     <div style="margin-top: 5px;height:35px; font-weight:bold;">
                                         <span><%= donateTitle %></span>
                                     </div>
@@ -510,8 +638,8 @@
                                       ></progress>
                                     </div>
                                     <div class="other_donate_money">
-	                                    <span><%= sumDonate %>원</span>
-	                                    <span><%= donateHope %>원 목표</span>
+	                                    <span><%= formattedSumDonate  %></span>
+	                                    <span><%= formattedHope %> 목표</span>
 	                                </div>
 	                                <div class="other_donate_rate">
 	                                    <span><%= achRate %>% 달성</span>
@@ -673,119 +801,20 @@
             }, stepTime);
           }
         
+        
 
-          // 숫자 자동으로 증가하는 JS
-          countUp('.h_text-wrapper-27', 0, ${total.donateTotal}, 10000); // 3초 동안 0부터 11000까지 증가
-          countUp('.h_text-wrapper-28', 0, ${total.activityTotal}, 10000); // 3초 동안 0부터 11000까지 증가
+     	// donateTotal이 0인 경우에만 숫자 자동 증가를 제거합니다.
+        if (${total.donateTotal} !== 0) {
+            countUp('.h_text-wrapper-27', 0, ${total.donateTotal}, 5000); // 3초 동안 0부터 11000까지 증가
+        }
+
+        // activityTotal이 0인 경우에만 숫자 자동 증가를 제거합니다.
+        if (${total.activityTotal} !== 0) {
+            countUp('.h_text-wrapper-28', 0, ${total.activityTotal}, 5000); // 3초 동안 0부터 11000까지 증가
+        }
          
     </script>
     
-    <!-- 나눔 소식 슬라이드 바 -->
-    <script>
-        $(document).ready(function() {
-        	
-        	
-            const bannerSlideWrapper = $('.share_board_banner .slide-wrapper');
-            const contentSlideWrapper = $('.share_board_content .slide-wrapper');
-            let currentIndex = 0;
-            const slideCount = $('.slide').length-3;
-            const slideWidth = 310; // 슬라이드의 너비
-
-
-            // 다음 슬라이드로 이동하는 함수
-            function nextSlide() {
-                currentIndex++;
-                if (currentIndex === slideCount) {
-                    currentIndex = 0;
-                }
-                updateSlidePosition();
-            }
-
-            // 이전 슬라이드로 이동하는 함수
-            function prevSlide() {
-                currentIndex--;
-                if (currentIndex < 0) {
-                    currentIndex = slideCount - 1;
-                }
-                updateSlidePosition();
-            }
-
-            // 현재 슬라이드 위치 업데이트 함수
-            function updateSlidePosition() {
-                const newPosition = -currentIndex * slideWidth;
-                bannerSlideWrapper.css('transform', 'translateX(' + newPosition + 'px)');
-                contentSlideWrapper.css('transform', 'translateX(' + newPosition + 'px)');
-            }
-            
-            
-
-            // 다음 버튼 클릭 이벤트 핸들러
-            $('.share_board_banner .button.next').click(nextSlide);
-
-            // 이전 버튼 클릭 이벤트 핸들러
-            $('.share_board_banner .button.prev').click(prevSlide);
-
-            // 자동으로 다음 슬라이드로 넘어가는 함수
-            function autoSlide() {
-                nextSlide();
-            }
-
-            // 일정한 시간 간격으로 자동으로 다음 슬라이드로 이동
-            setInterval(autoSlide, 4000); // 4초마다 슬라이드 변경
-
-
-            // 초기에 버튼을 투명하게 처리
-            $('.button').css('opacity', '0');
-
-            // 마우스가 .share_board_banner에 진입했을 때의 이벤트 처리
-            $('.share_board_banner').mouseenter(function() {
-                // 버튼 태그들을 천천히 나타나도록 변경
-                $('.button').stop().animate({ opacity: 1 }, 'slow');
-            });
-
-            // 마우스가 .share_board_banner에서 빠져나왔을 때의 이벤트 처리
-            $('.share_board_banner').mouseleave(function() {
-                // 버튼 태그들을 천천히 숨기도록 변경
-                $('.button').stop().animate({ opacity: 0 }, 'slow');
-            });
-
-            $('.next img').hover(
-                function() {
-                // 마우스를 올렸을 때의 동작
-                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/318/318476.png'); // 새로운 이미지로 교체
-                },
-                function() {
-                // 마우스를 내렸을 때의 동작
-                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/5697/5697771.png');
-                }
-            );
-
-            $('.prev img').hover(
-                function() {
-                // 마우스를 올렸을 때의 동작
-                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/318/318477.png'); // 새로운 이미지로 교체
-                },
-                function() {
-                // 마우스를 내렸을 때의 동작
-                $(this).attr('src', 'https://cdn-icons-png.flaticon.com/128/5697/5697757.png');
-                }
-            );
-            
-            // 슬라이드 쇼 영역의 너비를 동적으로 설정
-            function setSlideWrapperWidth() {
-                var totalWidth = slideCount * slideWidth;
-                bannerSlideWrapper.css('width', totalWidth + 'px');
-                contentSlideWrapper.css('width', totalWidth + 'px');
-            }
-
-            // 페이지가 로드될 때 한 번 호출하여 초기 너비 설정
-            setSlideWrapperWidth();
-        });
-
-     	
-
-    </script>
-
     <!-- 숫자 자동 감소 카운타 다운 -->
     <script>
 		function updateCountdown() {
