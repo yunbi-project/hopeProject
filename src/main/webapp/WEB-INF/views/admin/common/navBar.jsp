@@ -120,7 +120,16 @@
                 </div>
             </li>          
 
-   
+   			<!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${contextPath}/admin/tables">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>활동보고서</span></a>
+            </li>
+
+
+
+   			
             
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

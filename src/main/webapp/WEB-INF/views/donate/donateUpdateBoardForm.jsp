@@ -88,7 +88,7 @@
                 </table>
                 <div class="btn-group">
                     <button class="modify-btn" type="submit">수정</button>
-                    <button class="modify-btn" href="${contextPath}/program/list">목록</button>
+                    <button class="modify-btn" type="button" onclick="window.location.href ='${contextPath}/donate/list'">목록</button>
                 </div>
             </form>
         </section>

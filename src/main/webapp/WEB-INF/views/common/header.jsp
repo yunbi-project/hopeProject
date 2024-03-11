@@ -7,6 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="icon" type="image/png" sizes="32x32" href="/resources/style/img/mainPage/favicon-32x32.png">
+	<title>희망의 조각</title>
 
     <!-- css -->
     <link rel="stylesheet" href="/hope/resources/style/css/common.css">
@@ -44,7 +47,7 @@
                             <div id="activity_menu">
                                 <ul id="activity">
                                     <a href="${contextPath}/program/list"><li>봉사활동</li></a>
-                                    <a href="${contextPath}/activityreport"><li>활동보고서</li></a>
+                                    <a href="${contextPath}/activityreport/P"><li>활동보고서</li></a>
                                 </ul>
                             </div>
                         </li>
@@ -64,7 +67,7 @@
                     <c:choose>
                         <c:when test="${empty loginUser}">
                             <li class="h_login flex">
-                                <a href="${contextPath}/login">회원가입</a>
+                                <a href="${contextPath}/signup.me">회원가입</a>
                                 <a style="color:black;" href="${contextPath}/login"><div class="nexon_login">로그인</div></a>
                             </li>
                         </c:when>

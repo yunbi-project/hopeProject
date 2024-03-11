@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.hope.activityreport.model.vo.ActivityReport;
 import com.kh.hope.admin.model.dao.AdminDao;
 import com.kh.hope.admin.model.vo.BlackList;
 import com.kh.hope.attachment.model.vo.Attachment;
@@ -345,6 +346,41 @@ public class AdminServiceImpl implements AdminService{
 			@Override
 			public int deleteDonate(int donateNo) {
 				return adminDao.deleteDonate(donateNo);
+			}
+			
+			// 봉사활동 종료 리스트
+			@Override
+			public List<Program> selectProgramEndList() {
+				return adminDao.selectProgramEndList();
+			}
+			
+			// 후원모집 종료 리스트
+			@Override
+			public List<Donate> selectDonateEndList() {
+				return adminDao.selectDonateEndList();
+			}
+			
+			// 활동보고서 리스트
+			@Override
+			public List<ActivityReport> selectReportList(Map<String, Object> map) {
+				return adminDao.selectReportList(map);
+			}
+
+			
+			// 활동보고서 후원
+			@Override
+			public List<ActivityReport> selectDonateReportList(Map<String, Object> map) {
+				return adminDao.selectDonateReportList(map);
+			}
+
+			@Override
+			public ActivityReport selectActivityReport(int reportNo) {
+				return adminDao.selectActivityReport(reportNo);
+			}
+
+			@Override
+			public int updateActivityReport(ActivityReport activityreport) {
+				return adminDao.updateActivityReport(activityreport);
 			}			
 
 		

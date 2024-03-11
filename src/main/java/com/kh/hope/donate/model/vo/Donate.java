@@ -36,5 +36,4 @@ public class Donate {
 	private String originName; // 사진 변경전 이름
 	private String changeName; // 사진 변경후 이름
 	private int fileNo;  // 사진 파일 번호
-	
 }

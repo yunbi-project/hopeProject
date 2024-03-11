@@ -1453,10 +1453,18 @@ li:first-child .subject{
 }
 
 /* 슬라이드바 간격 맞추기 */
-.other_board .share_board_content:nth-of-type(2) div{
-	margin-right: -50px !important;
-}
+/* .other_board .share_board_content:nth-of-type(2) div{ */
+/* 	margin-right: -50px !important; */
+/* } */
 
-.other_board .share_board_content:nth-of-type(3) div{
-	margin-right: -50px !important;
+/* .other_board .share_board_content:nth-of-type(3) div{ */
+/* 	margin-right: -50px !important; */
+/* } */
+
+/* 나눔소식 게시글이 존재하지 않을경우 */
+.none_shareList{
+	margin-left: 100px;
+	margin-top: 50px;
+	font-size: 20px;
+	font-weight: bold;
 }

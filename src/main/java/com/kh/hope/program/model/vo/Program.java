@@ -30,4 +30,7 @@ public class Program {
 	private String userName;
 	private String phone;
 	private String email;
+	private int count;
+	
+	private int requestTotal; // 봉사활동 참여자수
 }

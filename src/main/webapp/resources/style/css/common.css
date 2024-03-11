@@ -326,7 +326,6 @@ header{
 
 .footer {
 	position: absolute;  
-    bottom: auto;
     width: 1500px; /* 화면 전체 너비만큼 설정 */
     padding: 20px; /* 적절한 여백 설정 */
     box-sizing: border-box; /* padding 값 포함하여 너비 계산 */

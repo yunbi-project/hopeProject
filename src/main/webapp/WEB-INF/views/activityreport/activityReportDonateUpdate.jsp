@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>활동보고서</title>
+<title>활동보고서</title>>
 <style>
 .note-editor.note-airframe .note-editing-area .note-editable {
 	background-color: transparent !important;
@@ -24,65 +25,56 @@
 
 		<div class="ar-wrapper1">
 
-			<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">봉사활동보고서 작성</h2>
+			<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">후원후기 작성</h2>
         	<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 			
-			<form action="${contextPath}/activityreportinsert/P/${programNo}" method="post">
+			<form action="${contextPath}/activityreport/update/D/${reportNo}" method="post">
 			
 			<div class="table-div">
 				<table>
 					<tr>
-						<th class="header" style="width:100px;">종류</th>
-						<td colspan="2" style="width: 20%;">
-							<div name="reportType" value="P" >봉사활동</div>
+						<th class="header" style="width:150px;">종류</th>
+						<td colspan="1" style="width: 20%;">
+							<div name="reportType" value="P" >후원후기</div>
 						</td>
 						<th class="header" colspan="2">모집기간</th>
-						<td colspan="2" style="width:300px;">${program.programActivityStartDate} ~ ${program.programActivityEndDate}</td>
-						<input type="hidden" name="refAno" value="${program.programNo}">
+						<td colspan="1" style="width:300px;">${ar.donateStartDate} ~ ${ar.donateEndDate}</td>
+						<th class="header">참여수</th>
+						<td colspan="1">${ar.totalCount }</td>
+						<input type="hidden" name="refAno" value="${ar.donateNo}">
 					</tr>
 
 					<tr>
 						<th class="header">제목</th>
-						<td class="span-two" colspan="6"><input style="width: 700px;" type="text" name="reportTitle"
+						<td class="span-two" colspan="6"><input style="width: 700px;" type="text" name="reportTitle" value="${ar.reportTitle }"
 							placeholder="제목을 입력하세요" required></td>
 					</tr>
 
 					<tr>
-						<th class="header">활동시간</th>
-						<td class="span-two" colspan="2">
-							<c:if test="${program.activityTime eq 1 and program.activityDays eq 1}">
-                            	오전, 평일
-                            </c:if>
-                            <c:if test="${program.activityTime eq 1 and program.activityDays eq 2}">
-                            	오전, 주말
-                            </c:if>
-                            <c:if test="${program.activityTime eq 2 and program.activityDays eq 1}">
-                            	오후, 평일
-                            </c:if>
-                            <c:if test="${program.activityTime eq 2 and program.activityDays eq 2}">
-                            	오후, 주말
-                            </c:if>
-						</td>
-						<th class="header" style="width:100px;">지역</th>
-						<td class="span-two" style="width:200px;">${program.activityLocation }</td>
-						<th class="header" style="width:150px;">참여인원/제한수</th>
-						<td class="span-two" colspan="2" style="width:100px;">${program.requestTotal} / ${program.programCapacity }</td>
+						<th class="header">총금액</th>
+						<td class="span-two" colspan="2"><fmt:formatNumber value="${ar.sumDonate}" type="currency" pattern="#,###"/>원</td>
+						
+						<th class="header" style="width:100px;">목표금액</th>
+						<td class="span-two" style="width:200px;"><fmt:formatNumber value="${ar.donateHope}" type="currency" pattern="#,###"/>원</td>
+						<th class="header" style="width:115px;">달성률</th>
+						<td class="span-two" colspan="2" style="width:100px;">${ar.achRate}%</td>
 					</tr>
 
 					<tr>
 						<th class="header" style="height: 500px;">활동내용</th>
 						
 						<td class="span-two" colspan="6"><textarea class="summernote" id="summernote"
-								name="reportContent" required></textarea></td>
+								name="reportContent" required>${ar.reportContent}</textarea></td>
 					</tr>
 				</table>
 			</div>
 
 			<div class="btn-group">
-				<div class="form-group">
-					<input type="submit" value="등록">
+				<div class="detail-btn">
 					<button class="list-btn"
-						onclick="window.location.href='${contextPath}/activityreport/P'">목록</button>
+						onclick="window.location.href='${contextPath}/activityreport/D'">목록</button>
+					<button class="list-btn"
+						type="submit">수정완료</button>
 				</div>
 			</div>
 			

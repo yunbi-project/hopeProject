@@ -202,6 +202,21 @@
 			
 	</script>
 	
+	<!-- 천억 이상은 값 못넣도록 설정 -->
+	<script>
+        $(document).ready(function() {
+            $('#onlyNum').on('input', function() {
+                var inputValue = parseInt($(this).val().replace(/,/g, ''));
+                var moneyElement = $('#money');
+
+                if (inputValue >= 1000000000) {
+                    $(this).val(''); // 입력값 초기화
+                    alert('1,000,000,000 이상의 금액은 입력할 수 없습니다.');
+                }
+            });
+        });
+    </script>
+	
 	<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
 	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
