@@ -4,6 +4,8 @@
 	User idfind = (User) session.getAttribute("idfind");
 	String errorMsg = (String) request.getAttribute("errorMsg");
 %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -14,24 +16,21 @@
     <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
         margin: 0;
         padding: 0;
  
     }
 
    .container {
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
     max-width: 500px;
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-bottom: 50px; 
+    margin:0 auto;
+    margin-bottom: 100px;
+    width:800px;
+    height:100%;
 }
 
     button {
@@ -49,13 +48,13 @@
     }
 
     #showFindIdForm {
-        background-color: #007bff; 
+        background-color: #abe138; 
         color: #fff; 
     }
 
     #showFindPasswordForm {
         background-color: #fff; 
-        color: #007bff; 
+        color: #abe138; 
     }
 
     #showFindIdForm:hover,
@@ -74,12 +73,13 @@
         font-weight: bold;
         display: block;
         margin-bottom: 10px;
+        text-align:left;
     }
 
     input[type="text"],
     input[type="password"],
     input[type="number"] {
-        width: 300px;
+        width: 100%;
         padding: 10px;
         margin-bottom: 20px;
         border: 1px solid #ccc;
@@ -87,11 +87,13 @@
         font-size: 16px;
         outline: none;
     }
+    
+    input[type="number"]{margin-bottom:0;}
 
     input[type="text"]:focus,
     input[type="password"]:focus,
     input[type="number"]:focus {
-        border-color: #007bff;
+        border-color: #84a90c;
     }
 
     .error {
@@ -107,10 +109,19 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
         background-color: #abe138;
         color: #fff;
     }
+
+    footer {
+    position: fixed;
+    bottom: 0; 
+    width: 100%; 
+    color: #fff; 
+    padding: 20px; 
+    text-align: center;
+}
+
 
 </style>
 </head>
@@ -119,26 +130,32 @@
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	<main>
-
+	
     <div class="container">
+	<div class="logo" style="text-align:center; margin-bottom:30px;">
+		<a href="${contextPath}"><img class="h_logo_img"
+			src='${contextPath}/resources/style/img/mainPage/HOPE_logo.png'></a>
+	</div>
         <button type="button" id="showFindIdForm">아이디 찾기</button>
         <button type="button" id="showFindPasswordForm">비밀번호 찾기</button>
 
   <form id="findIdForm" action="<%=request.getContextPath() %>/idfind.me" method="post">
-    <label for="name">이름:</label>
+    <label for="name">이름</label>
     <input type="text" id="name" name="userName" style="margin-right: 20px" required><br>
     
     
-    <label for="phone">휴대폰 번호:</label>
-    <div style="display: flex; justify-content: space-between; align-items: center;"> 
-        <input type="number" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required style="width: 250px; margin-left: 50px;">
-        <input type="button" class="donateGoodBtn" id="donateGoodBtn" value="인증요청" style="margin-top: 10px;">
+    <label for="phone" style="margin-top:50px;">휴대폰 번호</label>
+    <div style="display: flex; justify-content: space-between; align-items: center; width:100%;"> 
+        <input type="number" name="phone" id="phone" class="donateGoodInput" placeholder="'-'빼고 숫자만 입력" required style="width: 100%;">
+        <input type="button" class="donateGoodBtn1" id="donateGoodBtn" value="인증요청" style="margin-top: 10px; margin-right:0;">
     </div>
 
-    <input type="text" style="width: 200px; margin-top: 10px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 6자리 입력" required style="margin-left: 20px;">
-    <input type="button" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인" style="margin-top: 10px;">
-
-    <button type="submit" id="findIdBtn" style="margin-top: 10px;">아이디 찾기</button>
+	<div style="display: flex; justify-content: space-between; align-items: center; width:100%;"> 
+    <input type="text" style="width: 100%; margin-top: 10px;" id="certificationNumber" class="donateGoodInput" placeholder="인증번호 6자리 입력" required>
+    <input type="button" id="certificationNumberBtn" class="donateGoodBtn1" value="인증 확인" style="margin-top: 10px; margin-right:0;">
+	</div>
+	
+    <button type="submit" id="findIdBtn" style="margin-top: 10px; margin-bottom:50px;">아이디 찾기</button>
     <div id="findIdError" class="error"></div>
 </form>
 
@@ -196,14 +213,15 @@
 		</script>
         
         <form id="findPasswordForm" action="<%=request.getContextPath() %>/pwdfind.me" method="post">
-            <label for="email">이메일:</label>
+            <label for="email">이메일</label>
             <input type="text" id="userId" name="email" required><br>
-            <label for="phone">휴대폰 번호:</label>
+            <label for="phone" style="margin-top:50px;">휴대폰 번호</label>
             <input type="text" id="phone" name="phone" pattern="[0-9]{3}[0-9]{4}[0-9]{4}" required placeholder="'-'빼고 숫자만 입력"><br>
             <button type="submit" id="findPasswordBtn">비밀번호 찾기</button>
             <div id="findPasswordError" class="error"></div>
         </form>
     </div>
+
 	</main>
     <script>
         $(document).ready(function() {
@@ -213,22 +231,22 @@
             $("#showFindIdForm").click(function() {
                 $("#findIdForm").show(); 
                 $("#findPasswordForm").hide(); 
-                $(this).css("background-color", "#007bff").css("color", "#fff"); 
-                $("#showFindPasswordForm").css("background-color", "#fff").css("color", "#007bff"); 
+                $(this).css("background-color", "#abe138").css("color", "#fff"); 
+                $("#showFindPasswordForm").css("background-color", "#fff").css("color", "#abe138"); 
             });
 
            
             $("#showFindPasswordForm").click(function() {
                 $("#findIdForm").hide(); 
                 $("#findPasswordForm").show();
-                $(this).css("background-color", "#007bff").css("color", "#fff"); 
-                $("#showFindIdForm").css("background-color", "#fff").css("color", "#007bff");
+                $(this).css("background-color", "#abe138").css("color", "#fff"); 
+                $("#showFindIdForm").css("background-color", "#fff").css("color", "#abe138");
             });
         });
     </script>
     
-      
-      
+          
+  
 </body>
 
 </html>

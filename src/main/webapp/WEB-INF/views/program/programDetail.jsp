@@ -53,7 +53,7 @@
 							<button class="heart_logo y_donate_back_btn1 no" onclick="toggleLike()" style="margin-right: 5px;">관심목록담기</button>
 						</c:if>
 						</c:if>
-						<c:if test="${loginUser.userNo != null && loginUser.userNo ne program.userNo }">
+						<c:if test="${loginUser.userNo != null && loginUser.userNo ne program.userNo || loginUser.userNo eq 1 }">
 							<button class="y_donate_back_btn1" onclick="location.href = '<%=request.getContextPath() %>/chat/${chatNo}'">채팅방입장</button>
 						</c:if>
 						<!-- 관리자인 경우 보이는 버튼 -->
