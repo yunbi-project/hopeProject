@@ -13,9 +13,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="././resources/style/css/gunwook.css/login.css">
-<script>
-    var contextPath = '<%=request.getContextPath()%>';
-</script>
+
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
