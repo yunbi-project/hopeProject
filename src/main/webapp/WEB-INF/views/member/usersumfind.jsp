@@ -184,23 +184,46 @@
 		
 		    // 휴대폰 인증번호 대조
 		    $("#certificationNumberBtn").click(function() {
-		        if ($("#certificationNumber").val() == code2) {
-		            alert('인증성공');
-		            // 폼 제출
-		            $("#findIdForm").submit();
-		        } else {
-		            alert('인증실패');
-		            // 인증 실패 시 폼 제출 취소
-		            return false;
+		    	
+		    	var certificationNumber = $("#certificationNumber").val().trim();
+		    	
+		    	// 인증번호가 입력되지 않은 경우
+		        if (certificationNumber === "") {
+		            alert("인증번호를 입력해주세요.");
+		            return;
 		        }
+
+				
+			    if($("#certificationNumber").val() == code2){ // 위에서 저장한값을 교함
+			         alert('인증성공')
+			    	
+			    }else{
+			        alert('인증실패')
+			    }
 		    });
 		
-		    // "아이디 찾기" 버튼 클릭 시 폼 제출
+// 		    // "아이디 찾기" 버튼 클릭 시 폼 제출
+// 		    $("#findIdBtn").click(function() {
+// 		        if ($("#certificationNumber").val() !== code2) {
+// 		            alert('휴대폰 인증이 필요합니다.');
+// 		            // 폼 제출 취소
+// 		            return false;
+// 		        }
+// 		    });
+
+		    // 신청하기 버튼 클릭 시
 		    $("#findIdBtn").click(function() {
-		        if ($("#certificationNumber").val() !== code2) {
-		            alert('휴대폰 인증이 필요합니다.');
-		            // 폼 제출 취소
-		            return false;
+		        // 입력한 인증번호를 가져옵니다.
+		        var certificationNumber = $("#certificationNumber").val();
+
+		        // 입력한 인증번호와 저장된 인증번호를 비교합니다.
+		        if (certificationNumber !== code2) {
+		            // 인증번호가 일치하지 않는 경우
+		            alert("인증번호가 일치하지 않습니다. 다시 확인해주세요.");
+		            return false; // 전송을 중지합니다.
+		        } else {
+		            // 인증번호가 일치하는 경우
+		            return true; // 폼을 제출합니다.
 		        }
 		    });
 		});

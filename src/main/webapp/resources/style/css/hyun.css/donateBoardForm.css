@@ -22,6 +22,10 @@
   cursor: pointer;
 }
 
+td{
+	border-bottom: none;
+}
+
 
 
 /* 수정, 삭제 버튼 */
@@ -288,7 +292,7 @@ section {
 }
 
 
-.y_table td {
+.y_table {
 /* 	border-bottom: 1px solid #c9bdbdab; */
 }
 
@@ -425,7 +429,6 @@ input[type="radio"]:checked + label{
 
 td {
 	padding: 20px 0;
-	border-bottom: 1px solid #c9bdbd3f;
 }
 
 /*donate insert*/

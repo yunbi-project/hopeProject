@@ -36,7 +36,7 @@
 					</div>
 					
 					<div style="text-align: right;">
-						<button type="button" class="donateList-btn" onclick="window.location.href='${contextPath}/activityreport/D'" value="D">후원후기 보기</button>
+						<button type="button" class="donateList-btn" onclick="window.location.href='${contextPath}/activityreport/D'" value="D">후원보고서 보기</button>
 					</div>
 
 					<div class="Sn-section">

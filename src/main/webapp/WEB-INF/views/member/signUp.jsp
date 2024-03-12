@@ -85,7 +85,7 @@
 						<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" required class="inputbox" style="width:500px;">
 					</div>
 
-					<button class="form_btn" style="width:380px; margin-bottom:50px;">회원가입</button>
+					<button class="form_btn" id="form_btn" style="width:380px; margin-bottom:50px;">회원가입</button>
 					
 					<div style="display: flex; justify-content: center;">
 					<div style="margin-right: 20px;">
@@ -221,7 +221,7 @@
 	    });
 
 	    // 회원가입 폼 전송 버튼 클릭 시
-	    $('.form_btn').click(function() {
+	    $('#form_btn').click(function() {
 	        if (!isEmailChecked) { // 중복 체크가 완료되지 않은 경우
 	            alert("중복 확인을 해주세요.");
 	            return false; // 폼 전송을 막음
@@ -287,7 +287,6 @@
 	        	$('#detailAddress').focus();
 	        	return false;
 	        }
-	        
 	        
 	        
 	

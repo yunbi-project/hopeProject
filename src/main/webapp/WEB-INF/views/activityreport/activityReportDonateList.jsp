@@ -30,7 +30,7 @@
 					<div>
 						<div>
 							<div>
-								<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">후원후기</h2>
+								<h2 style="text-align: center; margin-top: 70px; font-size: 25px;">후원보고서</h2>
         						<div class="donateGoodFormBorder" style="margin-left: auto; margin-right: auto;"></div>
 							</div>
 						</div>
@@ -40,16 +40,16 @@
 						<button type="button" class="list-btn" onclick="window.location.href='${contextPath}/activityreport/P'" value="D">봉사활동 보기</button>
 					</div>
 
-					<section class="donateListSection">
+					<section class="donateListSection" style="border-top:2px solid #83a80ba3; margin-bottom:20px;">
 						<c:choose>
 							<c:when test="${empty list}">
-								<div class="Sn-section" style="text-align:center;">
+								<div class="Sn-section" style="text-align:center; ">
 									<thead>
 									</thead>
 									<tbody>
-										<tr> 
-											<td colspan="5">게시글이 없습니다.</td>
- 										</tr>
+										
+											<div style="margin-top:50px;">게시글이 없습니다.</div>
+
 									</tbody>
 									<table class="Sn-table program">
 									</table>
