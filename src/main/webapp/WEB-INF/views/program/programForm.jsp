@@ -56,12 +56,12 @@
                         <tr>
                             <td>봉사 장소</td>
                             <td>
-                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;"></td>
+                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" required></td>
                         </tr>
                         <tr>
                             <td>내용</td>
              				<td>
-             				 	<textarea id="summernote" name="programContent"></textarea></td>
+             				 	<textarea id="summernote" name="programContent" required></textarea></td>
                         </tr>
                     </table>
                     <div class="y_donate_back_btn">

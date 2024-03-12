@@ -245,7 +245,7 @@
 		WHERE BOARD_TYPE_NO = 'C'
 		AND B.STATUS='Y'
 		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
-		
+		 AND (FILE_TYPE='B'OR FILE_TYPE IS NULL)
 		<if test="keyword!=null and keyword != ''">
 			AND
 			<choose>
@@ -267,7 +267,8 @@
 		WHERE BOARD_TYPE_NO = 'C'
 		AND B.STATUS='Y'
 		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
-		
+		 AND (FILE_TYPE='B'OR FILE_TYPE IS NULL)
+		 
 		<if test="keyword!=null and keyword != ''">
 			AND
 			<choose>
@@ -290,8 +291,8 @@
         LEFT JOIN ATTACHMENT A ON (B.BOARD_NO = REF_FNO)
 		WHERE BOARD_TYPE_NO = 'R'
 		AND B.STATUS='Y'
+        AND (FILE_TYPE='B'OR FILE_TYPE IS NULL)
 		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
-		
 		<if test="keyword!=null and keyword != ''">
 			AND
 			<choose>
@@ -305,12 +306,13 @@
 		</if>
 	</select>
 	<select id="reviewList" parameterType="hashMap" resultType="board">
-		SELECT BOARD_NO, BOARD_TITLE,BOARD_CONTENT, COUNT, B.USER_NO,USER_NAME, B.CREATE_DATE,A.FILE_NO,IMG_LEVEL,A.CHANGE_NAME
+		 SELECT BOARD_NO, BOARD_TITLE,BOARD_CONTENT, COUNT, B.USER_NO,USER_NAME, B.CREATE_DATE,A.FILE_NO,IMG_LEVEL,A.CHANGE_NAME
 		FROM USERS U
 		LEFT JOIN BOARD B ON (U.USER_NO=B.USER_NO)
         LEFT JOIN ATTACHMENT A ON (B.BOARD_NO = REF_FNO)
 		WHERE BOARD_TYPE_NO = 'R'
 		AND B.STATUS='Y'
+        AND (FILE_TYPE='B'OR FILE_TYPE IS NULL)
 		AND (IMG_LEVEL=0 OR IMG_LEVEL IS NULL)
 		<if test="keyword!=null and keyword != ''">
 			AND
