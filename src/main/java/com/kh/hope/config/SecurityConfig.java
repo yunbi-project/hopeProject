@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.kh.hope.member.service.CustomOAuth2UserService;
@@ -47,8 +50,22 @@ public class SecurityConfig {
                 		.clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
                         .userInfoEndpoint((userInfoEndpointConfig) -> 
                          userInfoEndpointConfig.userService(customOAuth2UserService)));
-        
+        http
+		        .sessionManagement((sessionManagement) ->
+		            sessionManagement
+		                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+		                .invalidSessionUrl("/")		                
+		                .maximumSessions(1)
+		                .maxSessionsPreventsLogin(false)
+		                .expiredUrl("/mainPage")
+		                .sessionRegistry(sessionRegistry())
+		        );
+
 
         return http.build();
+    }
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 }

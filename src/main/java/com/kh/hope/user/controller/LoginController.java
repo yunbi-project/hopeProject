@@ -21,10 +21,12 @@ import com.kh.hope.user.model.vo.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @SessionAttributes({"loginUser"}) // Model 안에 추가된 값의 key값과 일치하는 값이 같으면 해당값을 세션스코프에 이관
 // 리퀘스트 스코프와 세션 스코프는 명백한 차이가있음.
+@Slf4j
 public class LoginController {
 	
 
@@ -49,7 +51,7 @@ public class LoginController {
 		return "member/login";
 	}
 	
-	@PostMapping("login.me")	// 로그인 요청
+	@PostMapping("/login.me")	// 로그인 요청
 	public ModelAndView login (
 			User user,
 			HttpSession session,
@@ -61,18 +63,25 @@ public class LoginController {
 		User loginUser = userService.loginUser(email);
 		
 		 // 로그인 성공 시 세션의 타임아웃을 30분으로 설정
-        session.setMaxInactiveInterval(30 * 60); // 30분.
+		session.setAttribute("expiryTime", System.currentTimeMillis() + 10 * 1000); // 30분.
 		
 		// 세션로그인 비밀번호 확인 및 로그인 타입이 세션로그인인지 확인하는 절차. passwordEncoder 단방향 암호화
 		if(loginUser != null && passwordEncoder.matches(user.getPassword(), loginUser.getPassword()) && user.getLoginType().equals("1")) {
-			model.addAttribute("loginUser",loginUser); // 리퀘스트 스코프에 세션에 담아줌	
-			mv.setViewName("redirect:/");
+			model.addAttribute("loginUser", loginUser);
+			log.info("loginUser {} ", loginUser);
 			
+			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("expiryTime", System.currentTimeMillis() + 10 * 1000); 
+			log.info("expiryTime {} ", System.currentTimeMillis());
+			mv.setViewName("redirect:/");
 		}else {
 			
 			redirectAttributes.addFlashAttribute("errorMsg", "회원정보를 정확히 입력해주세요"); 
 			mv.setViewName("redirect:" + "/login");
 		}
+		
+		
+		
 		return mv;
 	}
 	
