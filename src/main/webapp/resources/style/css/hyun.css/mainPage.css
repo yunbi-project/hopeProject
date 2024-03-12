@@ -1468,3 +1468,16 @@ li:first-child .subject{
 	font-size: 20px;
 	font-weight: bold;
 }
+
+.ending_imminent-bottom{
+    position: absolute;
+    top: 240px;
+    left: 40px;
+    padding:7px;
+    background-color: #fd4747;
+    width: 65px;
+    text-align: center;
+    color: white;
+    font-size: 11px;
+    border-radius: 5px;
+}

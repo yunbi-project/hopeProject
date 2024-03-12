@@ -12,6 +12,10 @@
 .note-editor.note-airframe .note-editing-area .note-editable {
 	background-color: transparent !important;
 }
+
+.note-editable img {
+	width:600px !important;
+}
 </style>
 
 <link rel="stylesheet"
@@ -20,6 +24,7 @@
 	href="${contextPath}/resources/style/css/dowon.css/activityreportInsert.css">
 
 </head>
+
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<main>
@@ -81,10 +86,10 @@
 
 			<div class="btn-group">
 				<div class="detail-btn">
-					<button class="list-btn"
+					<button class="list-btn" type="button"
 						onclick="window.location.href='${contextPath}/activityreport/P'">목록</button>
 					<button class="list-btn"
-						type="submit">수정완료</button>
+						type="submit" onclick="location.href='/previousPage';">수정완료</button>
 				</div>
 			</div>
 			
@@ -120,6 +125,7 @@
 	}
 	window.onload = alertMessage;
 </script>
+
 <script
 	src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
 <script

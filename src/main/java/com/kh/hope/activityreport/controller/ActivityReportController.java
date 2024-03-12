@@ -111,15 +111,35 @@ public class ActivityReportController {
 	
 	// 활동보고서 작성(봉사활동)
 	@GetMapping("/activityreportinsert/P/{programNo}")
-	public String showActivityReportForm(@PathVariable int programNo, Model model) {
-		// 활동보고서 작성 폼을 보여주는 페이지로 이동
+	public String showActivityReportForm(@PathVariable int programNo, RedirectAttributes ra, Model model,  HttpSession session) {
 		
-		
-		Program program = service.selectProgramReport(programNo);
-		
-		model.addAttribute("program", program);
-		
-		return "activityreport/activityreportInsert";
+	        
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+
+        try {
+			
+			// 활동보고서 작성 폼을 보여주는 페이지로 이동
+			Program program = service.selectProgramReport(programNo);
+			
+			model.addAttribute("program", program);
+			
+			return "activityreport/activityreportInsert";
+			
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 	}
 	
 	@PostMapping("/activityreportinsert/P/{programNo}")
@@ -146,21 +166,34 @@ public class ActivityReportController {
 	
 	// 활동보고서 수정
 	@GetMapping("/activityreport/update/P/{reportNo}")
-	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model, HttpServletRequest request) {
+	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model, RedirectAttributes ra, HttpServletRequest request) {
 		
-		ActivityReport ar = service.selectActivityReport(reportNo);
+		
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 
-		User loginUser = (User) session.getAttribute("loginUser");
-		model.addAttribute("ar", ar);
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	        
+        try {
+	        
+			ActivityReport ar = service.selectActivityReport(reportNo);
+	
+			model.addAttribute("ar", ar);
 		
-        
-		
-		if (loginUser.getUserNo() != 1) {
-			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
-			return "redirect:/activityreport/P";
-		}else {
 			return "activityreport/activityreportUpdate";
-		}
+			
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+    	}	
 	}
 	
 	@PostMapping("/activityreport/update/P/{reportNo}")
@@ -173,9 +206,12 @@ public class ActivityReportController {
 		
 		if(result > 0) {
 			
-			ra.addFlashAttribute("alertMsg","게시글 수정하는데 성공하였습니다.");
-			
-			return "redirect:/activityreport/P";
+	        ra.addFlashAttribute("alertMsg", "게시글 수정하는데 성공하였습니다.");
+	        // 현재 요청의 Referer를 가져와 세션에 저장
+	        String referer = request.getHeader("Referer");
+	        session.setAttribute("previousPage", referer);
+
+	        return "redirect:/activityreport/P";
 		}else {
 			ra.addFlashAttribute("alertMsg","게시글 수정 실패");
 			
@@ -186,22 +222,38 @@ public class ActivityReportController {
 	// 활동보고서 삭제
 	@GetMapping("/activityreport/delete/P/{reportNo}")
 	public String activityreportDelete(@PathVariable("reportNo") int reportNo, Model m, RedirectAttributes ra,
-			@ModelAttribute("loginUser") User loginUser, HttpSession session) {
-
-		int result = service.deleteActivityreport(reportNo);
+			HttpSession session) {
 		
-		if (loginUser.getUserNo() != 1) {
-			ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
-			return "redirect:/errorPage";
-		}
-		
-		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 
-		} else {
-			ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
-		}
-		return "redirect:/activityreport/P";
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	    
+        try {
+
+			int result = service.deleteActivityreport(reportNo);
+			
+			if (result > 0) {
+				ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+	
+			} else {
+				ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			}
+			return "redirect:/admin/tables";
+		
+			
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+    	}
 
 	}
 	
@@ -229,25 +281,33 @@ public class ActivityReportController {
 	
 	// 활동보고서 작성(후원후기)
 	@GetMapping("/activityreportinsert/D/{donateNo}")
-	public String activityDonateForm(@PathVariable int donateNo, Model model,
-			@ModelAttribute("loginUser") User loginUser, RedirectAttributes ra) {
+	public String activityDonateForm(@PathVariable int donateNo, Model model, RedirectAttributes ra, HttpSession session) {
 		
-		
-		if (loginUser.getUserNo() != 1) {
-			ra.addFlashAttribute("alertMsg", "게시글 등록 권한이 없습니다.");
-			return "redirect:/errorPage";
-		}
-		
-		if(loginUser == null) {
-			ra.addFlashAttribute("alertMsg", "로그인 후 이용해주세요.");
-			return "redirect:/errorPage";
-		}
-		
-		Donate donate = service.selectDonateReport(donateNo);
-		
-		model.addAttribute("donate", donate);
-		
-		return "activityreport/activityReportDonateInsert";
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	    
+        try {
+	        
+			Donate donate = service.selectDonateReport(donateNo);
+			
+			model.addAttribute("donate", donate);
+			
+			return "activityreport/activityReportDonateInsert";
+			
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+    	}
 	}
 	
 	@PostMapping("/activityreportinsert/D/{donateNo}")
@@ -288,20 +348,40 @@ public class ActivityReportController {
 	
 	// 후원후기 수정
 	@GetMapping("/activityreport/update/D/{reportNo}")
-	public String activityReportDonateUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model) {
-		
-		ActivityReport ar = service.selectActivityDonateReport(reportNo);
+	public String activityReportDonateUpdate(@PathVariable("reportNo") int reportNo, RedirectAttributes ra, HttpSession session, Model model) {
+	        
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 
-		User loginUser = (User) session.getAttribute("loginUser");
-		model.addAttribute("ar", ar);
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	    
 		
+        try {
 		
-		if (loginUser.getUserNo() != 1) {
-			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
-			return "redirect:/activityreport/D";
-		}else {
-			return "activityreport/activityReportDonateUpdate";
-		}
+			ActivityReport ar = service.selectActivityDonateReport(reportNo);
+	
+			model.addAttribute("ar", ar);
+			
+			
+			if (loginUser.getUserNo() != 1) {
+				session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
+				return "redirect:/activityreport/D";
+			}else {
+				return "activityreport/activityReportDonateUpdate";
+			}
+		
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+    	}
 	}
 	
 	@PostMapping("/activityreport/update/D/{reportNo}")
@@ -327,22 +407,40 @@ public class ActivityReportController {
 	// 후원후기 삭제
 	@GetMapping("/activityreport/delete/D/{reportNo}")
 	public String activityㄲeportDonateDelete(@PathVariable("reportNo") int reportNo, Model m, RedirectAttributes ra,
-			@ModelAttribute("loginUser") User loginUser, HttpSession session) {
+			 HttpSession session) {
 
-		int result = service.deleteDonateActivityreport(reportNo);
-		
-		if (loginUser.getUserNo() != 1) {
-			ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
-			return "redirect:/errorPage";
-		}
-		
-		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 
-		} else {
-			ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
-		}
-		return "redirect:/activityreport/D";
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "게시글 삭제 권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	    
+		try {
+	        
+		
+			int result = service.deleteDonateActivityreport(reportNo);
+		
+			
+			if (result > 0) {
+				ra.addFlashAttribute("alertMsg", "게시글 삭제에 성공하였습니다.");
+	
+			} else {
+				ra.addFlashAttribute("alertMsg", "삭제에 실패하였습니다.");
+			}
+			
+			return "redirect:/admin/tables";
+		
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+    	}
 
 	}
 	

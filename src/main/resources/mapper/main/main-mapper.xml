@@ -78,6 +78,7 @@
 		        D.STATUS = 'Y' 
 		        AND (
 		        ABS(TRUNC(D.DONATE_END_DATE) - TRUNC(SYSDATE)) &lt;= 14
+		        AND A.FILE_TYPE = 'D'
 		        AND D.DONATE_END_DATE >= SYSDATE) 
 		        OR ABS(TRUNC(D.DONATE_END_DATE) - TRUNC(SYSDATE)) = 0 AND D.STATUS = 'Y' 
 		        
@@ -143,10 +144,9 @@
 		    LEFT JOIN 
 		        ATTACHMENT a ON a.REF_FNO = d.DONATE_NO
 		    WHERE 
-		        d.STATUS = 'Y' 
-		        AND (
-		        ABS(TRUNC(d.DONATE_END_DATE) - TRUNC(SYSDATE)) &gt;= 14
-		        AND d.DONATE_END_DATE &gt;= SYSDATE)
+		        d.STATUS = 'Y'
+		        AND d.DONATE_END_DATE &gt;= SYSDATE
+                AND a.FILE_TYPE = 'D'
 		        
 		    GROUP BY 
 		        d.DONATE_HOPE, 

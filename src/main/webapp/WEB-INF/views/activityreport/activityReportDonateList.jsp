@@ -40,42 +40,10 @@
 						<button type="button" class="list-btn" onclick="window.location.href='${contextPath}/activityreport/P'" value="D">봉사활동 보기</button>
 					</div>
 
-
-<!-- 							<thead> -->
-<!-- 								<th>번호</th> -->
-<!-- 								<th>제목</th> -->
-<!-- 								<th>작성자</th> -->
-
-
-<!-- 							</thead> -->
-<!-- 							<tbody> -->
-<%-- 								<c:choose> --%>
-<%-- 									<c:when test="${empty list}"> --%>
-<!-- 										<tr> -->
-<!-- 											<td colspan="5">게시글이 없습니다.</td> -->
-<!-- 										</tr> -->
-<%-- 									</c:when> --%>
-<%-- 									<c:otherwise> --%>
-<%-- 										<c:forEach var="ar" items="${list}"> --%>
-<%-- 											<tr onclick="movePage(${ar.reportNo})"> --%>
-<%-- 												<td>${ar.reportNo}</td> --%>
-<%-- 												<td>${ar.reportTitle}</td> --%>
-<!-- 												<td>관리자</td> -->
-
-<!-- 											</tr> -->
-<%-- 										</c:forEach> --%>
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
-
-
-<!-- 							</tbody> -->
-<!-- 						</table> -->
-<!-- 					</div> -->
-
 					<section class="donateListSection">
 						<c:choose>
 							<c:when test="${empty list}">
-								<div class="Sn-section">
+								<div class="Sn-section" style="text-align:center;">
 									<thead>
 									</thead>
 									<tbody>

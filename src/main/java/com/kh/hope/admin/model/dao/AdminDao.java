@@ -295,13 +295,6 @@ public class AdminDao {
 			return session.selectList("adminMapper.selectDonateReportList");
 		}
 
-		public ActivityReport selectActivityReport(int reportNo) {
-			return session.selectOne("adminMapper.selectActivityReport",reportNo);
-		}
-
-		public int updateActivityReport(ActivityReport activityreport) {
-			return session.update("adminMapper.updateActivityReport", activityreport);
-		}
 	
 	
 	}

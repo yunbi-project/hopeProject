@@ -8,10 +8,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>활동보고서</title>>
+<title>활동보고서</title>
 <style>
 .note-editor.note-airframe .note-editing-area .note-editable {
 	background-color: transparent !important;
+}
+
+.note-editable img {
+	width:600px !important;
 }
 </style>
 
@@ -71,7 +75,7 @@
 
 			<div class="btn-group">
 				<div class="detail-btn">
-					<button class="list-btn"
+					<button class="list-btn" type="button"
 						onclick="window.location.href='${contextPath}/activityreport/D'">목록</button>
 					<button class="list-btn"
 						type="submit">수정완료</button>

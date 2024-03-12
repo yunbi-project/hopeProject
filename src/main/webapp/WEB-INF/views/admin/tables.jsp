@@ -114,7 +114,7 @@
 
                     <!-- DataTales Example -->
                     <div class="flex">
-	                    <div class="card shadow mb-4" style="width:850px;">
+	                    <div class="card shadow mb-4" style="width:900px;">
 	                        <div class="card-header py-3" >
 	                            <h6 class="m-0 font-weight-bold text-primary">봉사활동 마감</h6>
 	                        </div>
@@ -159,7 +159,7 @@
 	                 	</div>
 	                 	
 	                 	<div class="card shadow mb-4">
-	                 		<div class="card-header py-3" style="width:850px;">
+	                 		<div class="card-header py-3" style="width:900px;">
 	                            <h6 class="m-0 font-weight-bold text-primary">후원 마감</h6>
 	                        </div>
 	                 		<div class="card-body">
@@ -210,11 +210,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">활동보고서 수정/삭제</h1>
+                    <h1 class="h3 mb-2 text-gray-800">활동보고서 삭제</h1>
 
                     <!-- DataTales Example -->
                     <div class="flex">
-	                    <div class="card shadow mb-4" style="width:850px;">
+	                    <div class="card shadow mb-4" style="width:900px; max-height: 1000px; overflow-y: auto;">
 	                        <div class="card-header py-3" >
 	                            <h6 class="m-0 font-weight-bold text-primary">봉사활동 보고서 리스트</h6>
 	                        </div>
@@ -241,10 +241,9 @@
 		                            			<c:forEach items="${reportPro}" var="p">
 			                                        <tr style="text-align:center;">
 			                                            <td>${p.reportNo }</td>
-			                                            <td class="proTitle"  onclick="window.location.href='${contextPath}/program/detail/${p.programNo}'">${p.reportTitle }</td>
+			                                            <td class="proTitle">${p.reportTitle }</td>
 			                                            <td>${p.createDate}</td>
-			                                            <td style="width:200px;">
-										        			<button type="button" class="btn btn-primary" id="stopUserBtn" onclick="window.location.href='${contextPath}/tables/update/P/${p.reportNo}'">수정</button>
+			                                            <td style="width:120px;">
 										        			<button type="button" class="donateList-btn" id="stopUserBtn" onclick="window.location.href='${contextPath}/activityreport/delete/P/${p.reportNo}'">삭제</button>
 										        		</td>
 			                                        </tr>
@@ -258,7 +257,7 @@
 	                 	</div>
 	                 	
 	                 	<div class="card shadow mb-4">
-	                 		<div class="card-header py-3" style="width:850px;">
+	                 		<div class="card-header py-3" style="width:900px; max-height: 1000px; overflow-y: auto;">
 	                            <h6 class="m-0 font-weight-bold text-primary">후원모집 보고서 리스트</h6>
 	                        </div>
 	                 		<div class="card-body">
@@ -284,10 +283,9 @@
 				                                    <c:forEach items="${reportDon}" var="d">
 				                                        <tr style="text-align:center;">
 				                                            <td>${d.reportNo}</td>
-				                                            <td class="donateTitle"  onclick="window.location.href='${contextPath}/donate/detail/${d.donateNo}'">${d.reportTitle}</td>
+				                                            <td class="donateTitle">${d.reportTitle}</td>
 				                                            <td>${d.createDate}</td>
-				                                            <td  style="width:200px;">
-											        			<button type="button" class="btn btn-primary" id="stopUserBtn" onclick="window.location.href='${contextPath}/activityreport/update/D/${d.reportNo}'">수정</button>
+				                                            <td style="width:120px;">
 											        			<button type="button" class="donateList-btn" id="stopUserBtn" onclick="window.location.href='${contextPath}/activityreport/delete/D/${d.reportNo}'">삭제</button>
 											        		</td>
 				                                        </tr>

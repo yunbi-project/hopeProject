@@ -182,11 +182,5 @@ public interface AdminService {
 	List<ActivityReport> selectDonateReportList(Map<String, Object> map);
 
 
-	ActivityReport selectActivityReport(int reportNo);
-
-
-	int updateActivityReport(ActivityReport activityreport);
-
-
 
 }

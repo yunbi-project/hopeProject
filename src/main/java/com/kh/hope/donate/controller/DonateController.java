@@ -163,7 +163,7 @@ public class DonateController {
 				}
 			}
 		}else {  // 조회된 board가 null인 경우
-			model.addAttribute("erroMsg", "게시글 조회 실패....");
+			model.addAttribute("alertMsg", "게시글 조회 실패....");
 			return "redirect:/errorPage";
 		}
 		
@@ -179,18 +179,34 @@ public class DonateController {
 	
 	// 게시판 등록 페이지로 이동
 	@GetMapping("/donate/boardInsert")
-	public String donateBoardInsert(Model model, @ModelAttribute("loginUser") User loginUser,RedirectAttributes ra) {
-		
-		if (loginUser.getUserNo() != 1) {
-			ra.addFlashAttribute("alertMsg", "게시글 등록 권한이 없습니다.");
-			return "redirect:/errorPage";
-		}
-		
-		List<DonateTag> tag = service.selectTagList();
-		
-		model.addAttribute("tag", tag);
-		
-		return "donate/donateBoardForm";
+	public String donateBoardInsert(Model model, HttpSession session, RedirectAttributes ra) {
+		// 세션에서 loginUser를 가져옴
+
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+	    
+        try {
+		        
+			    // loginUser가 존재하고 권한도 있는 경우에는 게시글 등록 페이지로 이동
+				List<DonateTag> tag = service.selectTagList();
+				
+				model.addAttribute("tag", tag);
+				
+				return "donate/donateBoardForm";
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 	}
 	
 	// 게시판 등록 + 사진등록
@@ -269,34 +285,41 @@ public class DonateController {
 			@PathVariable int donateNo,
 			HttpServletRequest request,
 			Model model,
-			@ModelAttribute("loginUser") User loginUser,RedirectAttributes ra
+			HttpSession session,
+			RedirectAttributes ra
 			) {
 		
-		if (loginUser.getUserNo() != 1) {
-			ra.addFlashAttribute("alertMsg", "게시글 수정 권한이 없습니다.");
-			return "redirect:/errorPage";
-		}
-		
-	    // 세션에서 특정 플래그가 설정되어 있는지 확인
-	    Boolean hasVisited = (Boolean) request.getSession().getAttribute("hasVisitedDonateProductUpdate");
-	    if (hasVisited != null && hasVisited) {
-	        // 플래그가 이미 설정되어 있으면 직접적인 URL 접근을 막기 위해 다른 페이지로 리다이렉트
-	        return "redirect:/errorPage"; // 적절한 리다이렉트 경로로 수정
+	        
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
 	    }
-	    
-	    // 플래그를 설정하여 다음에 직접적인 URL 접근을 막음
-	    request.getSession().setAttribute("hasVisitedDonateUpdate", true);
-	    
-	    Donate donate = service.donateDetail(donateNo);
-	    List<DonateTag> tag = service.selectTagList();
+
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
+
+        try {
 		
-	    model.addAttribute("tag", tag);
+		        Donate donate = service.donateDetail(donateNo);
+		        List<DonateTag> tag = service.selectTagList();
+		        
+		        model.addAttribute("tag", tag);
+		        
+		        donate.setDonateContent(Utils.newLineClear(donate.getDonateContent()));
+		        
+		        model.addAttribute("donate", donate);
+		        
+		        return "donate/donateUpdateBoardForm";
 	    
-	    donate.setDonateContent(Utils.newLineClear(donate.getDonateContent()));
-	    
-	    model.addAttribute("donate", donate);
-		
-		return "donate/donateUpdateBoardForm";
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+		}
 	}
 	
 	// 게시판 수정
@@ -327,26 +350,63 @@ public class DonateController {
 	
 //	게시글 삭제
 	@GetMapping("/donate/delete/{donateNo}")
-	public String deleteDonateBoard(@PathVariable int donateNo, Model model, Donate donate, RedirectAttributes ra) {
+	public String deleteDonateBoard(@PathVariable int donateNo, Model model, HttpSession session, Donate donate, RedirectAttributes ra) {
 		
-		int result = service.deleteDonateBoard(donateNo);
+	        
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
+
+	    // loginUser가 null이 아니고, 권한이 있는 경우에만 게시글 삭제 처리
+	    if (loginUser.getUserNo() != 1) {
+	        ra.addFlashAttribute("alertMsg", "권한이 없습니다.");
+	        return "redirect:/errorPage";
+	    }
 		
-		if(result > 0) {
-			ra.addFlashAttribute("alertMsg", "게시글이 성공적으로 삭제되었습니다.");
-			return "redirect:/donate/list" ;
-		}else {
-			ra.addFlashAttribute("alertMsg", "게시글을 삭제하는데 실패하였습니다.");
-			return "redirect:/errorPage";
-		}
+        try {
+		
+				int result = service.deleteDonateBoard(donateNo);
+				
+				if(result > 0) {
+					ra.addFlashAttribute("alertMsg", "게시글이 성공적으로 삭제되었습니다.");
+					return "redirect:/donate/list" ;
+				}else {
+					ra.addFlashAttribute("alertMsg", "게시글을 삭제하는데 실패하였습니다.");
+					return "redirect:/errorPage";
+				}
+				
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 	}
 	
 	
 	// 후원 페이지로 이동
 	@GetMapping("/donate/insertPay/{donateNo}")
-	public String donateInsert(@PathVariable int donateNo, Model model) {
+	public String donateInsert(@PathVariable int donateNo, Model model,HttpSession session, RedirectAttributes ra) {
 		
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    if (loginUser == null) {
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
 
-		return "donate/donateForm";
+		
+		try {
+			
+			return "donate/donateForm";
+			
+		}catch (NullPointerException e) {
+	        // 세션 타임아웃 예외 처리
+	        ra.addFlashAttribute("alertMsg", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+	        return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	    }
+
+		
 	}
 	
 

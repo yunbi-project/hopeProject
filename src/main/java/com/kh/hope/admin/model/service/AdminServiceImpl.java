@@ -373,15 +373,6 @@ public class AdminServiceImpl implements AdminService{
 				return adminDao.selectDonateReportList(map);
 			}
 
-			@Override
-			public ActivityReport selectActivityReport(int reportNo) {
-				return adminDao.selectActivityReport(reportNo);
-			}
-
-			@Override
-			public int updateActivityReport(ActivityReport activityreport) {
-				return adminDao.updateActivityReport(activityreport);
-			}			
 
 		
 }

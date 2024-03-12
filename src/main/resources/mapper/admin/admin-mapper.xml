@@ -674,24 +674,5 @@
         ORDER BY REPORT_NO DESC
 	</select>
 	
-		<!-- 활동보고서 상세 -->
-	<select id="selectActivityReport" parameterType="int" resultType="activityreport">
-		SELECT PROGRAM_NO, PROGRAM_ACTIVITY_START_DATE, PROGRAM_ACTIVITY_END_DATE, a.CREATE_DATE AS CREATE_DATE,
-			   ACTIVITY_TIME, ACTIVITY_DAYS, ACTIVITY_LOCATION, PROGRAM_CAPACITY,
-			   (SELECT COUNT(*) FROM REQUEST R WHERE R.PROGRAM_NO = P.PROGRAM_NO) AS REQUEST_TOTAL,
-		       REPORT_NO, REPORT_TITLE, REPORT_CONTENT, REF_ANO
-		FROM PROGRAM p
-		INNER JOIN ACTIVITY_REPORT a ON REF_ANO = PROGRAM_NO
-		WHERE REPORT_NO = #{reportNo} AND a.REPORT_TYPE = 'P' AND p.REPORT_TYPE='Y' AND a.STATUS = 'Y'
-	</select>
-	
-	<!-- 활동보고서 수정 -->
-	<update id="updateActivityReport" parameterType="activityreport">
-		UPDATE ACTIVITY_REPORT
-		SET
-		REPORT_TITLE = #{reportTitle},
-		REPORT_CONTENT = #{reportContent}
-		WHERE REPORT_NO = #{reportNo} AND REPORT_TYPE = 'P'
-	</update>
 
 </mapper>
