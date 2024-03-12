@@ -109,13 +109,13 @@
 					<div  class="list-container">
 					<c:if test="${not empty donatelistp}">
 						<c:forEach var="donatep" items="${donatelistp}">
-							<div class="row" onclick="confirm()">
+							<div class="row">
 								<div class="article">
 									<div class="frame-2">
 										<div class="subtitle">${donatep.categoryName}</div>
 										<div class="subtitle">${donatep.productAmount}</div>
-										<div class="subtitle">신청 유형 : ${donatep.productType == 'B' ?  '개인' : '기업'}</div>
-										<div class="subtitle">기부 방법 : ${donatep.productWay == 'V' ?  '방문' : '택배'}</div>
+										<div class="subtitle">신청 유형 : ${donatep.productType}</div>
+										<div class="subtitle">기부 방법 : ${donatep.productWay}</div>
 										<div class="subtitle">택배 수령 여부 : ${donatep.status == 'Y' ? '확인중' : '확인완료'}</div>
 										<div class="subtitle">
 											<fmt:formatDate value="${donatep.productDate}" type="date" pattern="yyyy.MM.dd" />
