@@ -12,6 +12,10 @@
 .note-editor.note-airframe .note-editing-area .note-editable {
 	background-color: transparent !important;
 }
+
+.note-editable img {
+	width:600px !important;
+}
 </style>
 
 <link rel="stylesheet"

@@ -166,3 +166,9 @@ input:focus {
 	width:370px;
 	padding: 15px;
 }
+
+.div-effect{
+	font-size: 10px;
+	color: red;
+	width: 370px;
+}

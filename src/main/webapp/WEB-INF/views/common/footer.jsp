@@ -30,24 +30,18 @@
                 <span>운영정책</span>
                 </div>
                 <div class='h_footer_frist2'>
-                <span>대표이사 : 이동신</span>
-                <span>경기도 성남시 분당구 판교로 256번길 7</span>
-                <span>전화 : 1588-7701</span>
+                <span>대표이사 : 이현영</span>
+                <span>서울특별시 강남구 테헤란로14길 6</span>
+                <span>전화 : 1234-1234</span>
                 </div>
                 <div class='h_footer_middle'>
-                <span>E-mail : contact@eee.com</span>
-                <span>사업자등록번호 : 220-87-17483호</span>
+                <span>E-mail : contact@eeeeee.com</span>
+                <span>사업자등록번호 : 851-87-00622</span>
                 </div>
                 <div class='h_footer_end'>
                 <span>© piece of Hope</span>
     
                 </div>
-            </div>
-            <div class='h_footer_img'>
-                <img src="https://cdn-icons-png.flaticon.com/128/145/145802.png"></img>
-                <img src="https://cdn-icons-png.flaticon.com/128/3669/3669973.png"></img>
-                <img src="https://cdn-icons-png.flaticon.com/128/3955/3955024.png"></img>
-                <img src="https://cdn-icons-png.flaticon.com/128/3670/3670151.png"></img>
             </div>
         </div>
     </footer>

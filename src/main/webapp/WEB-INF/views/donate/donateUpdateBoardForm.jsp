@@ -175,15 +175,32 @@
 	            $('#previewName').hide();
 	        });
 	        
+		    
+	        // 이미지가 있어야만 넘어갈 수 있도록 설정
+		    // 수정 버튼 요소를 가져옴
+	        const modifyBtn = document.querySelector('.modify-btn');
 
+	        // 수정 버튼 클릭 이벤트 추가
+	        modifyBtn.addEventListener('click', function(event) {
+	            // 이미지 미리보기 요소를 가져옴
+	            const previewImage = document.querySelector('.preview');
+
+	            // 이미지 미리보기 요소가 없거나 src 속성이 비어있으면 기본 동작 막음
+	            if (!previewImage || !previewImage.getAttribute('src')) {
+	                event.preventDefault(); // 기본 동작 막음
+	                alert('이미지를 선택해주세요.');
+	            }
+	        });
+
+	        
 	    });
 		
 		function alertMessage() {
-		var alertMessage = "${alertMessage}";
-		if(alertMessage !== "") {
-		    alert(alertMessage);
-		    // 또는 모달 창을 띄워 메시지를 보여줄 수도 있습니다.
-		}
+			var alertMessage = "${alertMessage}";
+			if(alertMessage !== "") {
+			    alert(alertMessage);
+			    // 또는 모달 창을 띄워 메시지를 보여줄 수도 있습니다.
+			}
 		}
 		window.onload = alertMessage;
 		

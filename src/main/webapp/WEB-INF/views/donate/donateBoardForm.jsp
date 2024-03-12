@@ -31,7 +31,7 @@
                         <td>
                         
                         	<img class="preview" style="border:none; width: 300px; height:auto;"><br>
-	                        <input type="file" name="upfiles" class="form-control inputImage" accept="images/*" id="img">
+	                        <input type="file" name="upfiles" class="form-control inputImage" accept="images/*" id="img" required>
 	                        <span class="delete-image" style="border:none; cursor:pointer;" >&times;</span>
 	                    </td>
                     </tr>
@@ -216,6 +216,7 @@
             });
         });
     </script>
+    
 	
 	<script src="${contextPath}/resources/js/sangjun.js/summernote/summernote-lite.js"></script>
 	<script src="${contextPath}/resources/js/sangjun.js/summernote/lang/summernote-ko-KR.js"></script>

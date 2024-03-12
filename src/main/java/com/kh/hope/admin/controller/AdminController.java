@@ -314,45 +314,6 @@ public class AdminController {
 		return "admin/tables";
 	}
 	
-	// 활동보고서 수정
-	@GetMapping("/tables/update/P/{reportNo}")
-	public String activityreportUpdate(@PathVariable("reportNo") int reportNo, HttpSession session, Model model, HttpServletRequest request) {
-		
-		ActivityReport ar = adminService.selectActivityReport(reportNo);
-
-		User loginUser = (User) session.getAttribute("loginUser");
-		model.addAttribute("ar", ar);
-		
-        
-		
-		if (loginUser.getUserNo() != 1) {
-			session.setAttribute("alertMsg", "사용할 수 없는 권한입니다.");
-			return "redirect:/activityreport/P";
-		}else {
-			return "admin/adminActivityProgramUpdate";
-		}
-	}
-	
-	@PostMapping("/tables/update/P/{reportNo}")
-	public String activityreportUpdate(ActivityReport activityreport, HttpSession session, Model model,RedirectAttributes ra, HttpServletRequest request) {
-		
-		
-		
-		int	result = adminService.updateActivityReport(activityreport);
-
-		
-		if(result > 0) {
-			
-			ra.addFlashAttribute("alertMsg","게시글 수정하는데 성공하였습니다.");
-			
-			return "redirect:/tables";
-		}else {
-			ra.addFlashAttribute("alertMsg","게시글 수정 실패");
-			
-			return "redirect:/hope/errorPage";
-		}
-	}
-	
 	
 	/* ============================================== 회원 끝 ==============================================*/
 	

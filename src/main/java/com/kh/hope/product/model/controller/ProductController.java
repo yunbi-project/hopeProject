@@ -73,7 +73,7 @@ public class ProductController {
     		url = "redirect:/product/donateProductResult";
     		
     	}else {
-    		model.addAttribute("errorMsg", "물품 기부 신청에 실패하였습니다.");
+    		model.addAttribute("alertMsg", "물품 기부 신청에 실패하였습니다.");
     		url = "redirect:/errorPage";
     	}
     	

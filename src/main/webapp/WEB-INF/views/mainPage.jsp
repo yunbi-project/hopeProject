@@ -31,11 +31,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>희망의 조각</title>
-	
     <link rel="stylesheet" href="./resources/style/css/hyun.css/mainPage.css">
     <link rel="stylesheet"
 	href="${contextPath}/resources/style/css/sangjun.css/summernote/summernote-lite.css">
-   
     <!-- 슬라이드바 -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
    
@@ -589,7 +587,7 @@
             		</div>
 	            	<img class="other_donate_bottom" src="${contextPath}/resources/style/img/mainPage/underline.png">
 	            	
-	            	
+          			
                     <div class="swiper-wrapper">
                    	    <%
                    	    	List<Donate> donateList = (List<Donate>)request.getAttribute("donateList");
@@ -618,10 +616,28 @@
                             	<% if(changeName == null) { %>
 	                            	<a href="<%= request.getContextPath() %>/donate/detail/<%= donateNo %>">
 		                                <img src="https://msf.or.kr/sites/all/themes/msfkorea/images/img-high-value-slide-04.jpg">
+										<% if(ceilDayDiff <= 14) { %>
+								            <div class="ending_imminent-bottom">종료임박</div>
+							            <% } %>
+							            <% if(ceilDayDiff == 0) { %>
+								            <div class="ending_imminent-bottom" style="font-weight:bold;">오늘마감</div>
+							            <% } %>
+							            <% if(d.getDonateEndDate().before(new Date()) && ceilDayDiff != 0) { %>
+								            <div class="ending_imminent-bottom">종료</div>
+							            <% } %>
 	                            	</a>
                             	<% } else { %>
 	                            	<a href="<%= request.getContextPath() %>/donate/detail/<%= donateNo %>">
 		                                <img src="<%= request.getContextPath() %>/resources/images/donate/<%= changeName %>">
+			                            <% if(ceilDayDiff <= 14) { %>
+								            <div class="ending_imminent-bottom">종료임박</div>
+							            <% } %>
+							            <% if(ceilDayDiff == 0) { %>
+								            <div class="ending_imminent-bottom" style="font-weight:bold;">오늘마감</div>
+							            <% } %>
+							            <% if(d.getDonateEndDate().before(new Date()) && ceilDayDiff != 0) { %>
+								            <div class="ending_imminent-bottom">종료</div>
+							            <% } %>
 	                            	</a>
                             	<% } %>
                                 <div class="h_donation_container"> 
