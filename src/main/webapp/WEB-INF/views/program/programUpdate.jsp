@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${programActivityStartDate }" value="${program.programEnrollEndDate}" >까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${program.programActivityEndDate}" value="${program.programEnrollEndDate}" >까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
@@ -62,13 +62,6 @@
                         <tr>
                             <td>봉사 장소</td>
                             <td>
-                            <select name="activityLocation">
-                            	<option value="1${activityLocation }">서울&경기</option>
-                            	<option value="2${activityLocation }">강원</option>
-                            	<option value="3${activityLocation }">충청</option>
-                            	<option value="4${activityLocation }">전라</option>
-                            	<option value="5${activityLocation }">경상</option>
-                            </select>
                             <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" value="${program.activityLocation }"></td>
                         </tr>
                         <tr>

@@ -31,7 +31,6 @@
 				<div class="container" id="shadow-area">
 					<div class="flex-container">
 						<div class="left-content"><h1 class="text-wrapper">기부내역</h1></div>
-						<div class="right-content" onclick='location.href="${contextPath}/donate/list"' style="cursor: pointer;">기부하러가기</div>
 					</div>
 
 					<div class="flex-container">
@@ -58,7 +57,7 @@
 					<div  class="list-container">
 					<c:if test="${not empty donatelistm}">
 						<c:forEach var="donatem" items="${donatelistm}">
-							<div class="row" onclick="location.href='${contextPath}/donate/list'" style="cursor: pointer;">
+							<div class="row" onclick="location.href='${contextPath}/donate/detai/${donatem.donateNo}'" style="cursor: pointer;">
 								<div class="article" style="border-left:7px solid #84a90c;">
 									<div class="frame-2">
 										<div class="title-3">${donatem.donateTitle}</div>
@@ -130,7 +129,7 @@
 							<div class="article">
 								<div class="frame-2">
 									<div class="title-3" style="text-align: center;">최근 기부물품이 없습니다.</div>
-									<a href="${contexPath}/donate/list" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">물품기부리스트 바로가기➡</a>
+									<a href="${contextPath}/donate/list" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">물품기부리스트 바로가기➡</a>
 								</div>
 							</div>
 						</div>

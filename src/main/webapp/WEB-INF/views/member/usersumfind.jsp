@@ -96,12 +96,6 @@
         border-color: #84a90c;
     }
 
-    .error {
-        color: red;
-        margin-top: 10px;
-        font-size: 16px;
-    }
-
     .donateGoodBtn1 {
         padding: 10px 20px;
         margin: 10px;
