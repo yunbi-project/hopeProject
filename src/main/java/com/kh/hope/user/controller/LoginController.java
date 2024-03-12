@@ -85,13 +85,13 @@ public class LoginController {
 		return mv;
 	}
 	
-	@GetMapping("singup.me")
+	@GetMapping("/singup.me")
 	public String insertUser() {
 		return "member/signUp";
 	}
 	
 	// 회원가입
-	@PostMapping("singup.me")		
+	@PostMapping("/singup.me")		
 	public String insertUser(
 			User user, 
 			@RequestParam("postcode") String postcode,
@@ -141,7 +141,7 @@ public class LoginController {
 		return "member/usersumfind";
 	}
 	// 아이디 찾기
-	@PostMapping("idfind.me")	
+	@PostMapping("/idfind.me")	
 	public String idfind(
 			User user, 
 			Model model,
@@ -187,7 +187,7 @@ public class LoginController {
       }
   
 //비밀번호 찾기
-	@PostMapping("pwdfind.me") 
+	@PostMapping("/pwdfind.me") 
 	public String pwdfind(
 			User user, 
 			Model model,
@@ -206,7 +206,7 @@ public class LoginController {
 		}
 	}
 	
-	@PostMapping("repassword.me")	// 비밀번호 재설정
+	@PostMapping("/repassword.me")	// 비밀번호 재설정
 	public String repassword(
 	        User user,
 	        HttpSession session,
@@ -241,7 +241,7 @@ public class LoginController {
 	        return "redirect:/main/repassword.jsp"; // 비밀번호 재설정 페이지로 리다이렉트
 	    }
 	}
-	@GetMapping("logout.me")	// 로그아웃
+	@GetMapping("/logout.me")	// 로그아웃
 	public String logoutMember(HttpSession session, SessionStatus status) {
 		
 		session.invalidate();

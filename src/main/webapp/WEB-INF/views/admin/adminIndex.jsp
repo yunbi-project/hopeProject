@@ -80,7 +80,11 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 기부금액 합계</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${totalAmount} 원</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+											    
+											            ${totalAmount} 원
+											        
+											</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -274,24 +278,32 @@
                                     </thead>
 
                                     <tbody>
-                                    <c:forEach items="${selectDonate}" var="paymentInfo">
-                                        <tr>
-                                            <td>${paymentInfo.donateAmount } 원</td>
-                                            <td>${paymentInfo.optionalText }</td>
-                                            <td>${paymentInfo.userNo }</td>
-                                            <td>${paymentInfo.createDate }</td>
-                                        </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                    
-                                      <tfoot>
-                                        <tr>
-                                            <th>후원금액</th>
-                                            <th>후원자 한마디</th>
-                                            <th>회원번호</th>
-                                            <th>기부날짜</th>
-                                        </tr>
-                                    </tfoot>
+										    <c:choose>
+										        <c:when test="${empty selectDonate}">
+										            <tr>
+										                <td colspan="4">후원금액이 없습니다</td>
+										            </tr>
+										        </c:when>
+										        <c:otherwise>
+										            <c:forEach items="${selectDonate}" var="paymentInfo">
+										                <tr>
+										                    <td>${paymentInfo.donateAmount } 원</td>
+										                    <td>${paymentInfo.optionalText }</td>
+										                    <td>${paymentInfo.userNo }</td>
+										                    <td>${paymentInfo.createDate }</td>
+										                </tr>
+										            </c:forEach>
+										        </c:otherwise>
+										    </c:choose>
+										</tbody>
+										<tfoot>
+    <tr>
+        <th>후원금액</th>
+        <th>후원자 한마디</th>
+        <th>회원번호</th>
+        <th>기부날짜</th>
+    </tr>
+</tfoot>
                                     
                                     
                                 </table>

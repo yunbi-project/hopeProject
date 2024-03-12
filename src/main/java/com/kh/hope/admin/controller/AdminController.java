@@ -71,158 +71,144 @@ public class AdminController {
 	private ServletContext application;
 	
 
-	// 대시보드
-	// status y인 값들만 카운트
 	@GetMapping("/adminIndex")
 	public String index(Model model, HttpSession session, HttpServletRequest request) {
-		
+	    try {
+	        User loginUser = (User) session.getAttribute("loginUser");
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+
+	        List<User> totalUsers = adminService.dashboardUser();
+
+	        model.addAttribute("totalUsers", totalUsers);
+
+
+	        List<User> userList = adminService.dashboarduserList();
+
+	        model.addAttribute("userList", userList);
+
+
+	        int totalAmount = adminService.dashboardAmount();
+	        
+        	NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
+	        String formattedTotalAmount = numberFormat.format(totalAmount);
+	    
+	        model.addAttribute("totalAmount", formattedTotalAmount);
+
+
+	        int totalBoard = adminService.dashboardTotalBoardCount();
+
+	        model.addAttribute("totalBoard", totalBoard);
+
+	        int totalChat = adminService.dashboardChatTotalCount();
+
+	        model.addAttribute("totalChat", totalChat);
+
+	        List<PaymentInfo> list = adminService.getDailyIncome();
+
+	        Gson gson = new Gson();
+	        JsonArray jArray = new JsonArray();
+
+	        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+	        Iterator<PaymentInfo> it = list.iterator();
+	        while (it.hasNext()) {
+	            PaymentInfo paymentInfo = it.next();
+	            JsonObject object = new JsonObject();
+	            int sale = paymentInfo.getDonateAmount();
+
+	            Date dt = paymentInfo.getCreateDate();
+	            String date = df.format(dt);
+
+	            object.addProperty("sale", sale);
+	            object.addProperty("date", date);
+	            jArray.add(object);
+	        }
+
+	        String json = gson.toJson(jArray);
+	        model.addAttribute("json", json);
+
+
+	        List<PaymentInfo> selectDonate = adminService.selectDonate();
+
+	        model.addAttribute("selectDonate", selectDonate);
+
+
+	        return "admin/adminIndex";
+	    } catch (Exception e) {
+	        log.error("Error occurred while processing adminIndex request: {}", e.getMessage());
+	        return "redirect:/admin/memberList"; 
+	    }
+	}
+	
+	
+	
+	@GetMapping("/memberList")
+	public String memberList(Model model, HttpSession session, HttpServletRequest request) {
 		
 		User loginUser = (User) session.getAttribute("loginUser");
-		  // 로그인한 사용자가 ROLE_ADMIN이 아니고 요청이 "/admin"으로 시작하는 경우 홈페이지로 리디렉션
-	    if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
-	        if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
-	            return "redirect:/";
-	        }
-	    }
-
-		// ----- 1. 회원가입 수 리스트  -----
-		List<User> totalUsers  = adminService.dashboardUser();
-		
-		model.addAttribute("totalUsers", totalUsers);
-		
-		log.info("totalUsers의 정보 {}" , totalUsers);
-		
-		// ------ 회원 리스트 --------------
-		List<User> userList = adminService.dashboarduserList();
-		
-		model.addAttribute("userList" , userList);
-		
-		log.info("userList {}", userList);
-		
-		// ----- 2. 기부금액 합계  -----
-		int totalAmount = adminService.dashboardAmount();
-		
-		// NumberFormat 인스턴스 생성
-		NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
-
-		// 쉼표를 추가하여 형식화된 문자열로 변환
-		String formattedTotalAmount = numberFormat.format(totalAmount);
-		model.addAttribute("totalAmount" , formattedTotalAmount);
-		log.info("totalAmount 금액 : {}" , formattedTotalAmount);
-		
-		
-		// ----- 3. 게시글 합계 -----
-		int totalBoard = adminService.dashboardTotalBoardCount();
-		
-		model.addAttribute("totalBoard" , totalBoard);
-		log.info("totalBoard 게시글 수 : {} ", totalBoard);
-		
-		// ----- 4. 채팅방 합계 -----
-		int totalChat = adminService.dashboardChatTotalCount();
-		
-		model.addAttribute("totalChat" , totalChat);
-		log.info("totalChat 채팅방 수 : {}" , totalChat);
-		
-		
-		// 기부 그래프
-		List<PaymentInfo> list = adminService.getDailyIncome();
-		
-		// gson 객체 생성
-		Gson gson = new Gson();
-		JsonArray jArray = new JsonArray();
-		
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Iterator<PaymentInfo> it = list.iterator();
-		while(it.hasNext()) {
-			PaymentInfo paymentInfo = it.next();
-			JsonObject object = new JsonObject();
-			// 기부금액
-			int sale = paymentInfo.getDonateAmount();
-			
-			// 기부날짜
-			Date dt = paymentInfo.getCreateDate();
-			String date = df.format(dt);
-			
-			object.addProperty("sale", sale);
-			object.addProperty("date", date);
-			jArray.add(object);
-		}
-		
-		String json = gson.toJson(jArray);
-		model.addAttribute("json" ,json);
-		log.info("json변환 {}" , json);
-		
-		//
-		
-		List<PaymentInfo> selectDonate = adminService.selectDonate();
-		 
-		 model.addAttribute("selectDonate" , selectDonate);
-		 
-		 log.info("selectDonate 정보확인 {}" , selectDonate);
-		
-		
-		return "admin/adminIndex";
-	}
-	
-	@GetMapping("/charts")
-	public String charts() {
-		return "admin/charts";
-	}
-	
-
-	
-	/* ============================================== 회원 시작 ==============================================*/
-	
-	// 회원 리스트 조회
-	@GetMapping("/memberList")
-	public String memberList(Model model) {
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
 		
 		List<User> list = adminService.selectAllUser();
 		
 		model.addAttribute("list", list);
 		
-		log.info("list의 정보 {}" , list);
 		
 		return "admin/memberList";
 	}
 	
 
-	// 사용자 삭제
 	@PostMapping("/deleteUser")
 	@ResponseBody
 	public String deleteUser(@RequestParam("userNo") int userNo,
-						     @RequestParam("reason") String reason) {
+						     @RequestParam("reason") String reason, HttpSession session, HttpServletRequest request) {
 		
+		User loginUser = (User) session.getAttribute("loginUser");
+     
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
 		int user = adminService.deleteUser(userNo, reason);
 		
-		log.info("userNo 값 {}" , userNo);
-		log.info("comment 정보 {}" , reason);
+
 		if(user > 0) {
 			return "success";
 		}
 		return "error";
 	}
-	// 회원정보 확인
+	
 	@GetMapping("/getUserOne")
 	@ResponseBody
 	public User getUserOne(@RequestParam("userNo") int userNo,
 							Model model
 			) {
-		System.out.println(userNo);
 		User userOne = adminService.getUserOne(userNo);
-		log.info("userOne {}" , userOne);
 		
 		
 		return userOne;
 	}
 	
-	// 회원정보 확인 수정
 	@PostMapping("/updateUserInfo")
 	@ResponseBody
-	public String updateUserInfo(User user) {
+	public String updateUserInfo(User user, HttpSession session, HttpServletRequest request) {
 		
-		log.info("update user 정보 {}", user);
+		User loginUser = (User) session.getAttribute("loginUser");
+     
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
+		
 		int result = adminService.updateUserInfo(user);
 
 		if(result > 0) {
@@ -231,7 +217,6 @@ public class AdminController {
 		return "error";
 	}
 	
-	// 검색기능
 	@PostMapping("/searchUserByName")
 	@ResponseBody
 	public List<User> searchUserByName(@RequestParam("userName") String userName) {
@@ -239,29 +224,40 @@ public class AdminController {
 		
 		List<User> userByName = adminService.searchUserByName(userName); 
 		
-		log.info("userByName 정보 확인 : {}" ,userByName);
 		
 		return userByName;
 	}	
-	// 블랙리스트 조회
 	@GetMapping("/blackListView")
-	private String blackListView(Model model) {
+	private String blackListView(Model model, HttpSession session, HttpServletRequest request) {
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+     
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
 		
 		List<BlackList> list = adminService.blackListView();
 		
 		model.addAttribute("list" , list);
 		
-		log.info("list 정보 확인 : {}" , list);
 		
 		
 		return "admin/blackListView";
 	}
-	// 블랙리스트 정지풀기
 	@PostMapping("/releseStop")
 	@ResponseBody
-	public String releseStop(@RequestParam("userNo") int userNo) {
+	public String releseStop(@RequestParam("userNo") int userNo, HttpSession session, HttpServletRequest request) {
 		
-		// User 테이블 정지풀기
+		User loginUser = (User) session.getAttribute("loginUser");
+     
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
+        
 		int result = adminService.releseStop(userNo);
 		int stop = 0;
 		
@@ -276,23 +272,27 @@ public class AdminController {
 		return "error";
 	}
 	
-	// 블랙리스트 회원번호 검색
 	@PostMapping("/searchByUserNo")
 	@ResponseBody
 	public List<BlackList> searchByUserNo(@RequestParam("userNo") int userNo) {
 		
-		log.info("userNo 정보확인 : {}" , userNo);
 		
 		List<BlackList> list = adminService.searchByUserNo(userNo);
 		
-		log.info("list 정보확인 : {}" , list);
 
 		return list; 
 	}
 	
-	// 활동보고서
 	@GetMapping("/tables")
-	private String activityList(Model model, @RequestParam Map<String, Object> map) {
+	private String activityList(Model model, @RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+     
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
 		
 		List<Program> proList = adminService.selectProgramEndList();
 		
@@ -315,41 +315,45 @@ public class AdminController {
 	}
 	
 	
-	/* ============================================== 회원 끝 ==============================================*/
 	
-	// 채팅방 조회
 	@GetMapping("/chat")
-	public String chatList(Model model, Chat c) {
+	public String chatList(Model model, Chat c, HttpSession session, HttpServletRequest request) {
 		
-		// 채팅방 리스트 조회
+		User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+                return "redirect:/";
+            }
+        }
+		
 		List<Chat> list = adminService.selectChatRoomList();
 		model.addAttribute("list" , list);
-		log.info("list 정보 확인 {}" , list);
 		
 		if(list != null) {
-			// 채팅방 조인 조회
 			List<ChatJoin> join = adminService.selectJoinList();
 			model.addAttribute("join" , join);
-			log.info("join 정보 확인 {}" , join);
 		}
 		
 		return "admin/chat";
 	}
 	
-	// 채팅방 생성
 		@PostMapping("/createChatRoom")
 		@ResponseBody
 		public String openChatRoom(
 				Chat c,
 				RedirectAttributes ra,
-				@ModelAttribute("loginUser")User loginUser // 세션 스코프 꺼내옴.
-				) {
+				@ModelAttribute("loginUser")User loginUser , HttpSession session, HttpServletRequest request) {
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			
 			c.setUserNo(loginUser.getUserNo());
-			log.info("chat 인설트정보 {}", c);
 			
 			 try {
-			        int chatNo = adminService.openChatRoom(c); // 채팅방 생성 및 생성된 채팅방 내부로 이동.
+			        int chatNo = adminService.openChatRoom(c); 
 
 			        if (chatNo > 0) {
 			            return "success";
@@ -359,49 +363,26 @@ public class AdminController {
 			    }
 			    return "error";
 			}
-		
 	
-		
-			/*
-			 * // 채팅방 입장
-			 * 
-			 * @GetMapping("/chat/{chatNo}") // 내일 학원가서 채팅방 입장부터 하면됨. public String
-			 * joinChatRoom(
-			 * 
-			 * @PathVariable("chatNo") int chatNo, // url chatno Model model,
-			 * RedirectAttributes ra, ChatJoin join,
-			 * 
-			 * @ModelAttribute("loginUser") User loginUser ) {
-			 * 
-			 * // chatJoin 안에 참여한 채팅방번호(chatNo)와 참여한 회원번호(userNo)를 담아서 INSERT(참여인원수 증가)
-			 * join.setChatNo(chatNo); join.setUserNo(loginUser.getUserNo());
-			 * 
-			 * List<ChatMessage> list = adminService.joinChatRoom(join);
-			 * 
-			 * // 채팅방 참여(insert)후, 해당 채팅방의 채팅메시지 조회(select) log.info("채팅내용 {}" , list);
-			 * 
-			 * if(list != null) { model.addAttribute("list", list);
-			 * model.addAttribute("chatNo", chatNo); // 웹소켓이 활용하기 위해 담아줬다. session으로 이관
-			 * return "chat/chatRoom"; }else { ra.addFlashAttribute("alertMsg" ,
-			 * "채팅방이 존재하지 않습니다."); return "redirect:/chat/chatList"; } }
-			 */
-		
-		// 채팅방 삭제
 		@GetMapping("chat/{chatNo}/deleteChatRoom")
 		@ResponseBody
 		public String deleteChatRoom(
 				@ModelAttribute("loginUser") User loginUser,
 				@PathVariable("chatNo") int chatNo,
 				ChatJoin join,
-				RedirectAttributes ra
-				) {
+				RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 		
 			join.setChatNo(chatNo);
 			join.setUserNo(loginUser.getUserNo());
 			
-			log.info("join 삭제 정보확인  {} ", join );
 			
-			// chat, chatJoin 삭제
 			int result = adminService.deleteChatRoom(join);
 			
 			if(result > 0) {
@@ -411,55 +392,93 @@ public class AdminController {
 			return "error";
 		}
 		
-		// 채팅방 제목 검색
 		@PostMapping("/chat/searchChatRoomByName")
 		@ResponseBody
 		public List<Chat> chatByName(
 					Chat c
 				) {
-			log.info("chat 제목 검색 확인 {} "  , c);
 			
 			List<Chat> list = adminService.chatByName(c);
 			
 			return list;
 		}
 		
-		
-	/* ============================================== 게시판 시작 끝 ==============================================*/
-		
+				
 		
 		@GetMapping("/Q")
-		public String faqManagement(Model m) {
+		public String faqManagement(Model m, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			List<Board> list = boardService.faqList();
 			m.addAttribute("list", list);
 			
 			return "admin/FAQManagement";
 		}
 		@GetMapping("/faqList1")
-		public String faqList1(Model m) {
+		public String faqList1(Model m, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+	        
 			List<Board> list = boardService.faqList1();
 			m.addAttribute("list", list);
 			return "admin/FAQManagement";
 		}
 
 		@GetMapping("/faqList2")
-		public String faqList2(Model m) {
+		public String faqList2(Model m, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+	        
 			List<Board> list = boardService.faqList2();
 			m.addAttribute("list", list);
 			return "admin/FAQManagement";
 		}
 
 		@GetMapping("/faqList3")
-		public String faqList3(Model m) {
+		public String faqList3(Model m, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+	        
 			List<Board> list = boardService.faqList3();
 			m.addAttribute("list", list);
 			return "admin/FAQManagement";
 		}
 		
-		//공지사항 리스트
 		@GetMapping("/N")	
 		public String noticeManagement(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-				@RequestParam Map<String, Object> map) {
+				@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+			
 			int listCount = boardService.selectListCount(map);
 			int pageLimit = 10;
 			int boardLimit = 14;
@@ -473,10 +492,11 @@ public class AdminController {
 			return "admin/noticeManagement";
 			
 		}
-		//공지상세
+
 		@GetMapping("/detail/N/{bno}")
 		public String selectBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
 				HttpServletResponse res, HttpSession session) {
+				
 			
 			Board b = boardService.selectBoard(boardNo);
 
@@ -529,14 +549,22 @@ public class AdminController {
 
 			return "admin/adminNoticeDetail";
 		}
-		//공지,faq 삭제
+		
 		@GetMapping("/delete/{boardNo}")
 		public String deleteBoard(
 				 @PathVariable ("boardNo") int boardNo,
-				 @RequestParam("boardTypeNo") String boardTypeNo, // 추가된 부분
+				 @RequestParam("boardTypeNo") String boardTypeNo, 
 				 Model m,
-				 RedirectAttributes ra
-				 ) {
+				 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+	        
 			 int result = boardService.deleteNotice(boardNo);
 			 
 			 if(result>0) {
@@ -551,14 +579,28 @@ public class AdminController {
 			 
 		 }
 		@GetMapping("/insert/Q")
-		public String FaqInsert() {
+		public String FaqInsert( HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			
 			return "admin/adminFAQInsert";
 		}
 		@PostMapping("/insert/Q")
 		public String insertFaq(Board b, @ModelAttribute("loginUser") User loginUser, Model m,
-				
+				HttpServletRequest request,
 				RedirectAttributes ra) {
+			
+			if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			
 			b.setUserNo(loginUser.getUserNo());
 			int result = 0;
@@ -582,7 +624,16 @@ public class AdminController {
 		@GetMapping("/update/{boardTypeNo}/{boardNo}")
 		public String updateBoard(@PathVariable("boardNo") int boardNo, 
 				@PathVariable ("boardTypeNo") String boardTypeNo,
-				Model m) {
+				Model m, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+			
 			Board b = boardService.selectUpdateBoard(boardNo);
 			
 			if (b != null) {
@@ -594,7 +645,7 @@ public class AdminController {
 				System.out.println(b);			 
 				
 				    
-				 return "admin/adminNoticeModify"; // 공지사항
+				 return "admin/adminNoticeModify"; 
 				   
 			} else {
 				m.addAttribute("errorMsg", "게시물을 찾을 수 없습니다.");
@@ -606,7 +657,16 @@ public class AdminController {
 		public String updateBoardInsert(@PathVariable("boardNo") int boardNo,
 				@PathVariable ("boardTypeNo") String boardTypeNo,
 				Model m, Board b, RedirectAttributes ra,
-				@RequestParam(value = "upfiles", required = false) List<MultipartFile> upfiles, String deleteList) {
+				@RequestParam(value = "upfiles", required = false) List<MultipartFile> upfiles, 
+				String deleteList, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			b.setBoardNo(boardNo);
 
 			int result = boardService.updateBoardInsert(b,boardTypeNo, deleteList, upfiles);
@@ -622,21 +682,27 @@ public class AdminController {
 
 		}
 		
-		/* 공지사항 등록 */
 		@GetMapping("/insert/{boardTypeNo}")
 		public String noticeInsert(
 				Model m,
 				RedirectAttributes ra,
-				@PathVariable("boardTypeNo") String boardTypeNo) {
+				@PathVariable("boardTypeNo") String boardTypeNo, HttpSession session, HttpServletRequest request) {
 			
-			// 게시판 유형에 따라 다른 JSP 파일 선택
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+			
 		    String url;
 		    if (boardTypeNo.equals("N")) {
-		        url = "admin/adminNoticeInsert"; // 공지사항
+		        url = "admin/adminNoticeInsert"; 
 		    } else if (boardTypeNo.equals("C")) {
-		        url = "admin/adminStoryInsert"; //자유게시판
+		        url = "admin/adminStoryInsert"; 
 		    } else {
-		        url = "admin/adminReviewInsert"; // 기타
+		        url = "admin/adminReviewInsert"; 
 		    }
 		    
 		    return url;
@@ -650,8 +716,15 @@ public class AdminController {
 				Model m, 
 				RedirectAttributes ra,
 				@RequestParam(value = "upfiles", required = false) List<MultipartFile> upfiles,
-				@PathVariable("boardTypeNo") String boardTypeNo // 추가된 부분
+				@PathVariable("boardTypeNo") String boardTypeNo,HttpServletRequest request
+				
 		) {
+			  if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+		            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+		                return "redirect:/";
+		            }
+		        }
+			
 			String webPath = "/resources/images/board/"+boardTypeNo+"/";
 			String serverFolderPath = application.getRealPath(webPath);
 			File dir = new File(serverFolderPath);
@@ -693,16 +766,17 @@ public class AdminController {
 			return url;
 
 		}
-
-		
-		
-	/* ============================================== 게시판 끝 ==============================================*/
-		/*==============================신고내역 시작 ================================================*/
 		
 	
 		@GetMapping("/report/Board")
-		public String reportBoardList(Model m) {
+		public String reportBoardList(Model m, HttpSession session, HttpServletRequest request) {
 			
+			User loginUser = (User) session.getAttribute("loginUser");
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			
 			  List<Report> list = adminService.reportBoardList();
 			  
@@ -712,8 +786,17 @@ public class AdminController {
 			return "admin/ReportBoard";
 			
 		}
+		
 		@GetMapping("/report/Reply")
-		public String reportReplyList(Model m) {
+		public String reportReplyList(Model m, HttpSession session, HttpServletRequest request) {
+			
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			
 			
 			  List<Report> list = adminService.reportReplyList();
@@ -725,13 +808,19 @@ public class AdminController {
 			
 		}
 
-		//신고내역 삭제
 		@GetMapping("/delete/report/Board/{reportNo}")
 		public String deleteReport(
 				@PathVariable ("reportNo") int reportNo,
 				 Model m,
-				 RedirectAttributes ra
-				) {
+				 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			int result = adminService.deleteReport(reportNo);
 			 
 			 if(result>0) {
@@ -749,9 +838,15 @@ public class AdminController {
 		public String deleteReplyReport(
 				@PathVariable ("reportNo") int reportNo,
 				 Model m,
-				 RedirectAttributes ra
-				) {
-			int result = adminService.deleteReport(reportNo);
+				 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }			int result = adminService.deleteReport(reportNo);
 			 
 			 if(result>0) {
 				 ra.addFlashAttribute("alertMsg","확인하였습니다.");
@@ -764,14 +859,20 @@ public class AdminController {
 			 
 			 
 		}
-		//해당게시글 삭제
 		
 		@GetMapping("/delete/report/{boardNo}")
 		public String deleteBoardReport(
 				@PathVariable ("boardNo") int boardNo,
 				 Model m,
-				 RedirectAttributes ra
-				) {
+				 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
 			int result = adminService.deleteBoardReport(boardNo);
 			 
 			 if(result>0) {
@@ -789,8 +890,16 @@ public class AdminController {
 		public String deleteReplyDatailReport(
 				@PathVariable ("replyNo") int replyNo,
 				 Model m,
-				 RedirectAttributes ra
-				) {
+				 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+			
+			User loginUser = (User) session.getAttribute("loginUser");
+	     
+	        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+	            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+	                return "redirect:/";
+	            }
+	        }
+	        
 			int result = adminService.deleteReplyDatailReport(replyNo);
 			 
 			 if(result>0) {
@@ -802,10 +911,17 @@ public class AdminController {
 			
 			 return "redirect:/admin/report/Reply";
 		}
-		//신고내역상세
+		
 				@GetMapping("/report/detail/{bno}")
 				public String selectReportBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
 						HttpServletResponse res, HttpSession session) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (req.getRequestURI().startsWith(req.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					
 					Board b = boardService.selectBoard(boardNo);
 
@@ -821,9 +937,17 @@ public class AdminController {
 
 					return "admin/ReportBoardDetail";
 				}
+				
 				@GetMapping("/report/detail/reply/{replyNo}")
 				public String selectReportReply(@PathVariable("replyNo") int replyNo, Model m, HttpServletRequest req,
 						HttpServletResponse res, HttpSession session) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (req.getRequestURI().startsWith(req.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					
 					Reply b = adminService.selectReply(replyNo);
 
@@ -833,11 +957,17 @@ public class AdminController {
 					return "admin/ReportReplyDetail";
 				}
 				
-				/*댓글관리*/
 				
 				@GetMapping("/Reply")
-				public String ReplyList(Model m) {
-
+				public String ReplyList(Model m, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					List<Reply> list = adminService.ReplyList();
 
 					m.addAttribute("list", list);
@@ -846,8 +976,15 @@ public class AdminController {
 
 				}
 				@GetMapping("/Reply/today")
-				public String ReplyTodayList(Model m) {
-
+				public String ReplyTodayList(Model m, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					List<Reply> list = adminService.ReplyTodayList();
 
 					m.addAttribute("list", list);
@@ -856,18 +993,32 @@ public class AdminController {
 
 				}	
 				
-				/*===============================================게시판관리==================================================*/
+				
 				@GetMapping("/boardManagement")
-				public String boardManagement(Model m) {
+				public String boardManagement(Model m, HttpSession session, HttpServletRequest request) {
 					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					List<Product> list = adminService.productList();
 					m.addAttribute("list",list);
 					return "admin/boardManagement";
 				}
-				//나눔후기
 				@GetMapping("/R")
 			    public String searchReviewBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-						@RequestParam Map<String, Object> map) {
+						@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					int listCount = boardService.selectReviewCount(map);
 					int pageLimit = 10;
 					int boardLimit = 14;
@@ -880,10 +1031,17 @@ public class AdminController {
 					m.addAttribute("param", map);
 					return "admin/adminReviewList";
 			    }
-				//자유게시판
 				@GetMapping("/C")
 			    public String searchStoryBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-						@RequestParam Map<String, Object> map) {
+						@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+			        
 					int listCount = boardService.selectStoryCount(map);
 					int pageLimit = 10;
 					int boardLimit = 14;
@@ -897,10 +1055,17 @@ public class AdminController {
 					
 					return "admin/adminStoryList";
 			    }
-				//봉사활동게시판
 				@GetMapping("/P")
 			    public String searchProgramBoard(Model m, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-						@RequestParam Map<String, Object> map) {
+						@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+					
 					int listCount = adminService.selectProgramCount(map);
 					int pageLimit = 10;
 					int boardLimit = 14;
@@ -914,11 +1079,17 @@ public class AdminController {
 					
 					return "admin/adminProgramList";
 			    }
-				// 후원모집 목록
 				@GetMapping("/D")
 				public String donateList(Model model,@RequestParam(value = "currentPage", defaultValue = "1") int currentPage,
-						@RequestParam Map<String,Object> map) {
+						@RequestParam Map<String,Object> map, HttpSession session, HttpServletRequest request) {
 					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+			        
 					int listCount = adminService.selectDonateCount(map);
 					int pageLimit = 10;
 					int boardLimit = 14;
@@ -933,12 +1104,18 @@ public class AdminController {
 					return "admin/adminDonateList";
 				}
 				
-				//댓글 삭제
 				@GetMapping("/delete/reply/{replyNo}")
 				public String deleteReply(
 						@PathVariable ("replyNo") int replyNo,
-						 RedirectAttributes ra
-						){
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					int result= adminService.deleteReply(replyNo);
 					
 					if(result>0) {
@@ -950,12 +1127,20 @@ public class AdminController {
 					
 					 return "redirect:/admin/Reply";
 					}
-				//물품 수령
+				
 				@GetMapping("/confirm/{productNo}")
 				public String confirmProduct(
 						@PathVariable ("productNo") int productNo,
-						 RedirectAttributes ra
-						){
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+			        
 					int result= adminService.confirmProduct(productNo);
 					
 					if(result>0) {
@@ -967,12 +1152,19 @@ public class AdminController {
 					
 					 return "redirect:/admin/boardManagement";
 					}
-				//물품 삭제
+				
 				@GetMapping("/delete/product/{productNo}")
 				public String deleteProduct(
 						@PathVariable ("productNo") int productNo,
-						 RedirectAttributes ra
-						){
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					int result= adminService.deleteProduct(productNo);
 					
 					if(result>0) {
@@ -984,9 +1176,16 @@ public class AdminController {
 					
 					 return "redirect:/admin/boardManagement";
 					}
-				//물품수령내역
+				
 				@GetMapping("/confirm/product")
-				public String productConfirmList(Model m, RedirectAttributes ra) {
+				public String productConfirmList(Model m, RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					
 					List<Product> list = adminService.productConfirmList();
 					if (list.isEmpty()) {
@@ -999,13 +1198,18 @@ public class AdminController {
 					
 					
 				}
-				//물품수령내역
 				@GetMapping("/program/people/{programNo}")
 				public String programPeople(Model m,
 						@PathVariable ("programNo") int programNo,
-						RedirectAttributes ra
+						RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
 					
-						) {
+					User loginUser = (User) session.getAttribute("loginUser");
+			     
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					 
 					Program p = adminService.programPeopleCount(programNo);
 					
@@ -1021,12 +1225,17 @@ public class AdminController {
 					
 					
 				}
-				//프로그램 삭제
 				@GetMapping("/delete/program/{programNo}")
 				public String deleteProgram(
 						@PathVariable ("programNo") int programNo,
-						 RedirectAttributes ra
-						){
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					int result= adminService.deleteProgram(programNo);
 					
 					if(result>0) {
@@ -1038,12 +1247,18 @@ public class AdminController {
 					
 					 return "redirect:/admin/P";
 					}
-				//후원모집 삭제
 				@GetMapping("/delete/donate/{donateNo}")
 				public String deleteDonate(
 						@PathVariable ("donateNo") int donateNo,
-						 RedirectAttributes ra
-						){
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+			        
 					int result= adminService.deleteDonate(donateNo);
 					
 					if(result>0) {
@@ -1055,10 +1270,16 @@ public class AdminController {
 					
 					 return "redirect:/admin/D";
 					}
-				//나눔후기 및 자유게시판상세
 				@GetMapping("/review/detail/{bno}")
 				public String selectReviewBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
 						HttpServletResponse res, HttpSession session) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (req.getRequestURI().startsWith(req.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					
 					Board b = boardService.selectBoard(boardNo);
 
@@ -1074,13 +1295,20 @@ public class AdminController {
 
 					return "admin/adminReviewDetail";
 				}
-				//나눔푸기, 자유게시판 삭제
 				@GetMapping("/delete/review/{boardNo}")
 				public String deleteBoard(
 						@PathVariable ("boardNo") int boardNo,
 						 Model m,
-						 RedirectAttributes ra
-						) {
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+					
+					
 					int result = boardService.deleteNotice(boardNo);
 					 
 					 if(result>0) {
@@ -1094,10 +1322,16 @@ public class AdminController {
 					 return "redirect:/admin/R";
 					 
 				}
-				//나눔후기 및 자유게시판상세
 				@GetMapping("/story/detail/{bno}")
 				public String selectStoryBoard(@PathVariable("bno") int boardNo, Model m, HttpServletRequest req,
 						HttpServletResponse res, HttpSession session) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (req.getRequestURI().startsWith(req.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
 					
 					Board b = boardService.selectBoard(boardNo);
 
@@ -1113,13 +1347,21 @@ public class AdminController {
 
 					return "admin/adminStoryDetail";
 				}
-				//나눔푸기, 자유게시판 삭제
+				
+				
 				@GetMapping("/delete/story/{boardNo}")
 				public String deleteStory(
 						@PathVariable ("boardNo") int boardNo,
 						 Model m,
-						 RedirectAttributes ra
-						) {
+						 RedirectAttributes ra, HttpSession session, HttpServletRequest request) {
+					
+					User loginUser = (User) session.getAttribute("loginUser");
+			        if (loginUser == null || !"ROLE_ADMIN".equals(loginUser.getRole())) {
+			            if (request.getRequestURI().startsWith(request.getContextPath() + "/admin")) {
+			                return "redirect:/";
+			            }
+			        }
+			        
 					int result = boardService.deleteNotice(boardNo);
 					 
 					 if(result>0) {
