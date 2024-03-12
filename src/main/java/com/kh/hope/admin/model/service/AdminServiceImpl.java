@@ -1,5 +1,6 @@
 package com.kh.hope.admin.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -182,40 +183,87 @@ public class AdminServiceImpl implements AdminService{
 	// 회원 리스트 조회
 		@Override
 		public List<User> dashboardUser() {
-			return adminDao.dashboardUser();
+			List<User> userList = adminDao.dashboardUser();
+			if(userList == null) {
+				return new ArrayList<>();
+			}
+			return userList;
 		}
 	// 기부금액 합계 	
 		@Override
 		public int dashboardAmount() {
-			return adminDao.dashboardAmount();
+			
+			int Amount = adminDao.dashboardAmount();
+			
+			if(Amount < 0) {
+				return Amount;
+			}
+			
+			return Amount;
 		}
 
 	// 게시판 수
 		@Override
 		public int dashboardTotalBoardCount() {
-			return adminDao.dashboardTotalBoardCount();
+			
+			int count = adminDao.dashboardTotalBoardCount();
+			
+			if(count < 0) {
+				return count;
+			}
+			
+			return count;
 		}
 	// 채팅방 합계
 		@Override
 		public int dashboardChatTotalCount() {
-			return adminDao.dashboardChatTotalCount();
+			
+			int count  = adminDao.dashboardChatTotalCount();
+			
+			if(count < 0) {
+				return count;
+			}
+			
+			return count;
 		}
 
 	// 기부그래프	
 		@Override
 		public List<PaymentInfo> getDailyIncome() {
-			return adminDao.getDailyIncome();
+			
+			List<PaymentInfo> count = adminDao.getDailyIncome();
+			
+			if(count == null) {
+				return new ArrayList<>();
+			}
+				
+			
+			return count; 
 		}
 	// donate 리스트 뽑기
 		@Override
 		public List<PaymentInfo> selectDonate() {
-			return adminDao.selectDonate();
+			
+			List<PaymentInfo> count = adminDao.selectDonate();
+			
+			if(count == null) {
+				return new ArrayList<>();
+			}
+			
+			return count;
 		}
 		
 	// userList
 		@Override
 		public List<User> dashboarduserList() {
-			return adminDao.dashboarduserList();
+			
+			List<User> count = adminDao.dashboarduserList();
+			
+			if (count == null) {
+				return count;
+			}
+			
+			return count;
 		}		
 
 
