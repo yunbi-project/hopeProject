@@ -146,7 +146,7 @@ public class BoardController {
 			ra.addFlashAttribute("alertMsg", "작성에 성공하였습니다.");
 			url = "redirect:/board/"+boardTypeNo;
 		} else {
-			m.addAttribute("errorMsg", "다시 작성해주세요");
+			m.addAttribute("alertMsg", "다시 작성해주세요");
 			url = "common/errorPage";
 		}
 		return url;
