@@ -5,14 +5,13 @@ import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Mypage {
 	
 	// 기부 (donate) 물품
-	private int productAmount;
+	private String productAmount;
 	private Date productDate;
 	private String categoryName;
 	private String productType;
@@ -38,4 +37,3 @@ public class Mypage {
 	private int result;
 	
 }
-
