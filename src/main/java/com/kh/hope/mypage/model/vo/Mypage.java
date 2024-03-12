@@ -28,7 +28,7 @@ public class Mypage {
 	private String payType;
 	private int donateAmount;
 	private String donateTitle;
-	
+	private int donateNo;
 	// 봉사활동 (program)
 	// 즐겨찾기 (bookmark)
 	private String programName;

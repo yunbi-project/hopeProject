@@ -225,7 +225,7 @@
 }
 
 .comment-list td:nth-child(4) {
-    width: 16%; /* 네 번째 td의 너비를 지정합니다. */
+    width: 20%; /* 네 번째 td의 너비를 지정합니다. */
 }
 
 #replyArea tr td{
