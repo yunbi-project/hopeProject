@@ -22,12 +22,12 @@
                     <table class="y_table">
                         <tr>
                             <td>제목</td>
-                            <td><input name="programName" class="donateInput" type="text" value="${program.programName }" style="width:1100px;"></td>
+                            <td><input name="programName" class="donateInput" type="text" value="${program.programName }" style="width:1100px;" required></td>
                         </tr>
                         <tr>
                             <td>봉사 기간</td>
-                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date" value="${program.programActivityStartDate}"> 
-                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" value="${program.programActivityEndDate}"></td>
+                            <td>시작일 : <input name="programActivityStartDate" class="donateInput" type="date" value="${program.programActivityStartDate}" required> 
+                            - 종료일 : <input name="programActivityEndDate" class="donateInput" type="date" value="${program.programActivityEndDate}" required></td>
                         </tr>
                         <tr>
                             <td>봉사 시간</td>
@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <td>모집 기간</td>
-                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${program.programActivityEndDate}" value="${program.programEnrollEndDate}" >까지</td>
+                            <td><input name="programEnrollEndDate" id="programEnrollEndDate" class="donateInput" type="date" max="${program.programActivityEndDate}" value="${program.programEnrollEndDate}" required >까지</td>
                         </tr>
                         <tr>
                             <td>활동 주간 유형</td>
@@ -57,17 +57,17 @@
                         </tr>
                         <tr>
                             <td>모집 인원</td>
-                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;" value="${program.programCapacity }"></td>
+                            <td><input name="programCapacity" class="donateInput" type="number" min="1" max="5000" placeholder="최소 1, 최대 5000 / 숫자만 입력해주세요" style="width:1100px;" value="${program.programCapacity }" required></td>
                         </tr>
                         <tr>
                             <td>봉사 장소</td>
                             <td>
-                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" value="${program.activityLocation }"></td>
+                            <input name="activityLocation" class="donateInput" type="text" placeholder="상세 장소" style="width:1000px;" value="${program.activityLocation }" required></td>
                         </tr>
                         <tr>
                             <td>내용</td>
              				<td>
-             				 	<textarea id="summernote" name="programContent">${program.programContent }</textarea></td>
+             				 	<textarea id="summernote" name="programContent" required>${program.programContent }</textarea></td>
                         </tr>
                     </table>
                     <div class="y_donate_back_btn">
