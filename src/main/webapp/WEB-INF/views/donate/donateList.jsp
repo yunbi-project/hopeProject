@@ -63,10 +63,10 @@
 		<form class="searchDonateList.bo" method="get" action="${contextPath}/donate/list">
 			<div class="searchBar">
 				<select class="custom-select" name="condition">
-					<option value="foundation"
-						${param.condition eq 'foundation'? 'selected':'' }>협회</option>
 					<option value="title"
 						${param.condition eq 'title'? 'selected':'' }>제목
+					<option value="foundation"
+						${param.condition eq 'foundation'? 'selected':'' }>협회</option>
 				</select>
 				<input type="text"
 					class="archive-search-text input-md width-280px" name="keyword"

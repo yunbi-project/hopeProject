@@ -84,7 +84,7 @@
                             <div style="border: 4px solid rgb(117, 173, 34); width: 80px;"></div><br>
                             <span>국제어린이 아동의 내일을 응원해주세요</span>
                             <h3 style="margin-top: 10px;">희망의 함께서기</h3>
-                            <button class="h_slider_btn">자세히 보기<img class="h_slider_img" src="https://cdn-icons-png.flaticon.com/128/6423/6423875.png"></button>
+                            <button class="h_slider_btn"  onclick="window.location.href ='${contextPath}/donate/list'">자세히 보기<img class="h_slider_img" src="https://cdn-icons-png.flaticon.com/128/6423/6423875.png"></button>
                         </div>
                         <img class="slick-slide"  src="https://m.worldvision.or.kr/hope/img/payment/detail/sponsor_child_top_01.jpg">
                    </li>
