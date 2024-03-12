@@ -57,9 +57,10 @@
 					<div  class="list-container">
 					<c:if test="${not empty donatelistm}">
 						<c:forEach var="donatem" items="${donatelistm}">
-							<div class="row" onclick="location.href='${contextPath}/donate/detai/${donatem.donateNo}'" style="cursor: pointer;">
+							<div class="row" onclick="location.href='${contextPath}/donate/detail/${donatem.donateNo}'" style="cursor: pointer;">
 								<div class="article" style="border-left:7px solid #84a90c;">
 									<div class="frame-2">
+									
 										<div class="title-3">${donatem.donateTitle}</div>
 										<div class="title-3" style="font-weight:bold; font-size:20px;">
 											<fmt:formatNumber value="${donatem.donateAmount}" type="currency" pattern="#,###원기부" /> / ${donatem.payType == 'C' ?  '신용카드' : '자동이체'}
