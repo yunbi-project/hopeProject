@@ -35,10 +35,12 @@
 						<div class="form-group1">
 							<p class="modify-p">이름 <span class="valid">다른 유저와 겹치지 않도록 입력해주세요. (2~20자)</span></p>
 							<input type="text" class="edit" id="name" placeholder="이름을 입력해주세요." name="userName" value="${loginUser.userName}" required>
+							<span id="errorMessage" style="text-align:left; font-size:small; display:none;">정확한 정보를 입력해주세요.</span>
 						</div>
 						<div class="form-group1">
 							<p class="modify-p">전화번호 <span class="valid">'-'를 제외하고 숫자만 입력해주세요.</span></p>
 							<input type="text" class="edit" id="phone" placeholder="-빼고 입력해주세요." name="phone" value="${loginUser.phone}" required>
+							<span id="errorMessage2" style="text-align:left; font-size:small; display:none;">'-'를 제외하고 숫자만 입력해주세요.</span>
 						</div>
 						<div class="form-group1">
 							<p class="modify-p">주소 <span class="valid">우편번호 찾기를 이용해 정확한 주소를 입력해주세요.</span></p>
@@ -68,6 +70,45 @@
 					document.getElementById('detailAddress').focus();
 				}
 			}).open();
+		}
+	</script>
+	<script>
+		document.getElementById("phone").addEventListener("blur", function() {
+			var inputValue = this.value;
+			var errorMessage = document.getElementById("errorMessage2");
+
+			// 입력 값이 유효하지 않은 경우
+			if (!isValid(inputValue) || inputValue.includes('-')) {
+				this.style.borderColor = "red";
+				errorMessage.style.display = "block";
+				errorMessage.style.color = "red";
+			} else {
+				this.style.borderColor = "";
+				errorMessage.style.display = "none";
+			}
+		});
+
+		function isValid(value) {
+			return value.trim() !== "";
+		}
+	</script>
+		<script>
+		document.getElementById("name").addEventListener("blur", function() {
+			var inputValue = this.value;
+			var errorMessage = document.getElementById("errorMessage");
+
+			if (!isValid(inputValue) || inputValue.length > 20 || inputValue.length < 2) {
+				this.style.borderColor = "red";
+				errorMessage.style.display = "block";
+				errorMessage.style.color = "red";
+			} else {
+				this.style.borderColor = "";
+				errorMessage.style.display = "none";
+			}
+		});
+
+		function isValid(value) {
+			return value.trim() !== "";
 		}
 	</script>
 

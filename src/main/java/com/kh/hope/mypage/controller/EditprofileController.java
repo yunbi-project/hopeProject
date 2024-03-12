@@ -52,6 +52,10 @@ public class EditprofileController {
 
 	session.setAttribute("loginUser", loginUser);
 	
-	return "redirect:/editprofile";
+	if(result > 0) {
+		session.setAttribute("alertMsg", "수정이 완료되었습니다. 마이페이지로 이동됩니다.");
+	}
+	
+	return "redirect:/mypage";
 	}
 }

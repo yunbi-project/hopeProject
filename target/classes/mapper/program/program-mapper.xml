@@ -4,66 +4,42 @@
 
 	<select id="selectListCount" resultType="int">
 		SELECT COUNT(*)
-		FROM PROGRAM P
-		LEFT JOIN USERS USING (USER_NO)
+		FROM PROGRAM
 		WHERE
-		P.STATUS='Y'
+		STATUS='Y'
 		<if test="keyword!=null and keyword != ''">
 			AND
 			<choose>
 				<when test="condition.equals('title')">
 					PROGRAM_NAME LIKE '%${keyword}%'
 				</when>
-				<when test="condition.equals('writer')">
-					USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+				<when test="condition.equals('location')">
+					ACTIVITY_LOCATION LIKE  CONCAT(CONCAT('%',#{keyword}),'%')
 				</when>
 			</choose>
-		</if>
-		<if test="active_location != null and active_location!=''">
-			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
-		</if>
-		<if test="active_time !='' and active_time !=null">
-			AND ACTIVITY_TIME = #{active_time}
-		</if>
-		<if test="active_days !='' and active_days !=null">
-			AND ACTIVITY_DAYS = #{active_days}
 		</if>
 	</select>
 
 	<select id="selectProgramList" parameterType="hashmap"
 		resultType="program">
-		SELECT PROGRAM_NO, PROGRAM_NAME, 
-		TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"')
-		PROGRAM_ACTIVITY_START_DATE,
-		TO_CHAR(PROGRAM_ACTIVITY_END_DATE,
-		'YYYY"년" MM"월" DD"일"') PROGRAM_ACTIVITY_END_DATE,
-		ACTIVITY_DAYS,
-		ACTIVITY_TIME, ACTIVITY_LOCATION,
-		PROGRAM_ENROLL_END_DATE
-		
-		 FROM PROGRAM P
-	
-		WHERE STATUS = 'Y'
-		<if test="keyword!=null and keyword != ''">
-			<choose>
-				<when test="condition.equals('title')">
-					AND PROGRAM_NAME LIKE '%${keyword}%'
-				</when>
-				<when test="condition.equals('writer')">
-					AND USER_NAME LIKE CONCAT(CONCAT('%',#{keyword}),'%')
-				</when>
-			</choose>
-		</if>
-		<if test="active_location != null and active_location!=''">
-			AND SUBSTR(ACTIVITY_LOCATION, 1,1) = #{active_location}
-		</if>
-		<if test="active_time !='' and active_time !=null">
-			AND ACTIVITY_TIME = #{active_time}
-		</if>
-		<if test="active_days !='' and active_days !=null">
-			AND ACTIVITY_DAYS = #{active_days}
-		</if>
-		order by 1 desc
+	SELECT PROGRAM_NO, PROGRAM_NAME,
+	TO_CHAR(PROGRAM_ACTIVITY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS PROGRAM_ACTIVITY_START_DATE,
+	TO_CHAR(PROGRAM_ACTIVITY_END_DATE, 'YYYY"년" MM"월" DD"일"') AS
+	PROGRAM_ACTIVITY_END_DATE,
+	ACTIVITY_DAYS, ACTIVITY_TIME, ACTIVITY_LOCATION, PROGRAM_ENROLL_END_DATE
+	FROM PROGRAM P
+	WHERE STATUS = 'Y'
+	<if test="keyword!=null and keyword != ''">
+		<choose>
+			<when test="condition.equals('title')">
+				AND PROGRAM_NAME LIKE '%${keyword}%'
+			</when>
+			<when test="condition.equals('location')">
+				AND ACTIVITY_LOCATION LIKE CONCAT(CONCAT('%',#{keyword}),'%')
+			</when>
+		</choose>
+	</if>
+	ORDER BY 1 DESC
 	</select>
 
 	<insert id="insertProgram" >

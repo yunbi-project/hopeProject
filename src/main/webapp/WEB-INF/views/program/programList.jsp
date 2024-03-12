@@ -29,65 +29,6 @@
 				<c:set var="url"
 				value="&active_type=${param.active_type}&active_location=${param.active_location}&active_time=${param.active_time}&active_days=${param.active_days}" /> 
 		</c:if>
-<!-- 			<form class="y_program_list_area" method="get" -->
-<%-- 				action="${contextPath}/program/list"> --%>
-<!-- 				<p>활동 유형</p> -->
-<!-- 				<div class="y_program_filter"> -->
-<!-- 					<input type="radio" name="active_type" id="active_type_1" value="1" -->
-<%-- 						class="y_checkbox" ${param.active_type eq '1'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_type_1" class="y_checkbox1">정기활동</label> <input -->
-<!-- 						type="radio" name="active_type" id="active_type_2" value="2" -->
-<%-- 						class="y_checkbox" ${param.active_type eq '2'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_type_2" class="y_checkbox1">일시활동</label> -->
-<!-- 				</div> -->
-
-<!-- 				<p>활동 지역</p> -->
-<!-- 				<div class="y_program_filter"> -->
-<!-- 					<input type="radio" name="active_location" id="active_location_1" -->
-<!-- 						value="1" class="y_checkbox" -->
-<%-- 						${param.active_location eq '1'? 'checked':'' }></input> <label --%>
-<!-- 						for="active_location_1" class="y_checkbox1">서울&경기</label> <input -->
-<!-- 						type="radio" name="active_location" id="active_location_2" -->
-<!-- 						value="2" class="y_checkbox" -->
-<%-- 						${param.active_location eq '2'? 'checked':'' }></input> <label --%>
-<!-- 						for="active_location_2" class="y_checkbox1">강원</label> <input -->
-<!-- 						type="radio" name="active_location" id="active_location_3" -->
-<!-- 						value="3" class="y_checkbox" -->
-<%-- 						${param.active_location eq '3'? 'checked':'' }></input> <label --%>
-<!-- 						for="active_location_3" class="y_checkbox1">충청</label> <input -->
-<!-- 						type="radio" name="active_location" id="active_location_4" -->
-<!-- 						value="4" class="y_checkbox" -->
-<%-- 						${param.active_location eq '4'? 'checked':'' }></input> <label --%>
-<!-- 						for="active_location_4" class="y_checkbox1">전라</label> <input -->
-<!-- 						type="radio" name="active_location" id="active_location_5" -->
-<!-- 						value="5" class="y_checkbox" -->
-<%-- 						${param.active_location eq '5'? 'checked':'' }></input> <label --%>
-<!-- 						for="active_location_5" class="y_checkbox1">경상</label> -->
-<!-- 				</div> -->
-
-<!-- 				<p>활동 시간대</p> -->
-<!-- 				<div class="y_program_filter"> -->
-<!-- 					<input type="radio" name="active_time" id="active_time_1" value="1" -->
-<%-- 						class="y_checkbox" ${param.active_time eq '1'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_time_1" class="y_checkbox1">오전</label> <input -->
-<!-- 						type="radio" name="active_time" id="active_time_2" value="2" -->
-<%-- 						class="y_checkbox" ${param.active_time eq '2'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_time_2" class="y_checkbox1">오후</label> -->
-<!-- 				</div> -->
-
-<!-- 				<p>활동 요일</p> -->
-<!-- 				<div class="y_program_filter"> -->
-<!-- 					<input type="radio" name="active_days" id="active_days_1" value="1" -->
-<%-- 						class="y_checkbox" ${param.active_days eq '1'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_days_1" class="y_checkbox1">평일</label> <input -->
-<!-- 						type="radio" name="active_days" id="active_days_2" value="2" -->
-<%-- 						class="y_checkbox" ${param.active_days eq '2'? 'checked':'' }></input> --%>
-<!-- 					<label for="active_days_2" class="y_checkbox1">주말</label> -->
-<!-- 				</div> -->
-<!-- 				<button class="y_program_list_btn" type="submit">조회</button> -->
-<!-- 				<button class="y_program_list_btn" type="button" -->
-<!-- 					onclick="resetFilters()">초기화</button> -->
-<!-- 			</form> -->
 		</div>
 		
 		<h2 style="text-align:center; font-size:25px;">봉사활동</h2>
@@ -101,12 +42,12 @@
 		</div>
 		<table class="y_list_table">
 		<colgroup>
-        <col style="width: 7%;">
-        <col style="width: 30%;">
+        <col style="width: 5%;">
+        <col style="width: 35%;">
         <col style="width: 20%;">
         <col style="width: 5%;">
         <col style="width: 5%;">
-        <col style="width: 15%;">
+        <col style="width: 20%;">
         <col style="width: 5%;">
     </colgroup>
 			<thead>
@@ -195,8 +136,8 @@
 			<div class="archive-search">
 				<div class="Sn-btn">
 					<select class="custom-select" name="condition">
-						<option value="writer"
-							${param.condition eq 'writer'? 'selected':'' }>작성자</option>
+						<option value=location
+							${param.condition eq 'location'? 'selected':'' }>지역</option>
 						<option value="title"
 							${param.condition eq 'title'? 'selected':'' }>제목</option>
 					</select> <input type="text"
