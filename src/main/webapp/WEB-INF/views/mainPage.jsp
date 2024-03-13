@@ -299,14 +299,14 @@
 			                              	<h3><%= boardTitle %></h3>
 			                              	<span><%= userName %></span><br>
 			                              	
-			                              	<textarea class="textarea summernote" readonly="readonly">
-			                              		<%= boardContent %>
-			                              	</textarea>
-			                              	<% if(boardLength >= 200) { %>
-			                              	<span>...</span>
-			                              	<% } else {%>
-			                              	<span></span>
-			                              	<% } %>
+<!-- 			                              	<textarea style="display:none;" class="textarea summernote" readonly="readonly"> -->
+<%-- 			                              		<%= boardContent %> --%>
+<!-- 			                              	</textarea> -->
+<%-- 			                              	<% if(boardLength >= 200) { %> --%>
+<!-- 			                              	<span>...</span> -->
+<%-- 			                              	<% } else {%> --%>
+<!-- 			                              	<span></span> -->
+<%-- 			                              	<% } %> --%>
 						          		</div>
 							<%
 							        }
@@ -513,7 +513,12 @@
 		                                	<c:otherwise>
 		                                		<c:set var="hope" value="${donate.donateHope}" />
         										<c:set var="sum" value="${donate.sumDonate}" />
-		                                		<span class="end_num"><fmt:formatNumber value="${hope - sum}" type="currency" pattern="#,###"/>원</span>
+                                		        <c:if test="${hope - sum ge 0}">
+										            <span class="end_num"><fmt:formatNumber value="${hope - sum}" type="currency" pattern="#,###"/>원</span>
+										        </c:if>
+										        <c:if test="${hope - sum lt 0}">
+										            <span class="end_num">0원</span>
+										        </c:if>
 		                                	</c:otherwise>
 		                                </c:choose>
 		                            </div>
@@ -552,7 +557,14 @@
 		                                    <span><fmt:formatNumber value="${donate.donateHope}" type="currency" pattern="#,###"/>원 목표</span>
 		                                </div>
 		                                <div class="end_donate_rate">
-		                                    <span>${donate.achRate}% 달성</span>
+		                                	<c:choose>
+								                <c:when test="${donate.achRate gt 100}">
+								                    <span>100% 달성</span>
+								                </c:when>
+								                <c:otherwise>
+				                                    <span>${donate.achRate}% 달성</span>
+								                </c:otherwise>
+								            </c:choose>
 		                                    <c:choose>
 		                                    	<c:when test="${donate.donateEndDate lt currentDate and donate.ceilDayDiff ne 0}">
 						                    		<span>모집 종료</span>        

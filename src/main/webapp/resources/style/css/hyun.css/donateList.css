@@ -263,8 +263,8 @@
 }
 
 .progress_value span:nth-of-type(1){
-    margin-right: 155px;
     font-weight: bold;
+    width: 150px;
 }
 
 
