@@ -30,7 +30,7 @@
 			<div class="section">
 				<div class="container" id="shadow-area">
 					<div class="flex-container">
-						<div class="left-content"><h1 class="text-wrapper">기부내역</h1></div>
+						<div class="left-content"><h1 class="text-wrapper">후원내역</h1></div>
 					</div>
 
 					<div class="flex-container">
@@ -130,7 +130,7 @@
 							<div class="article">
 								<div class="frame-2">
 									<div class="title-3" style="text-align: center;">최근 기부물품이 없습니다.</div>
-									<a href="${contextPath}/donate/list" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">물품기부리스트 바로가기➡</a>
+									<a href="${contextPath}/product" style="color: #7fa924; font-size: 15px; margin: 0 auto; margin-top: 20px;">물품기부리스트 바로가기➡</a>
 								</div>
 							</div>
 						</div>
