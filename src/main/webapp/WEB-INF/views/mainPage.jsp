@@ -302,7 +302,7 @@
 			                              	<textarea class="textarea summernote" readonly="readonly">
 			                              		<%= boardContent %>
 			                              	</textarea>
-			                              	<% if(boardLength >= 300) { %>
+			                              	<% if(boardLength >= 200) { %>
 			                              	<span>...</span>
 			                              	<% } else {%>
 			                              	<span></span>

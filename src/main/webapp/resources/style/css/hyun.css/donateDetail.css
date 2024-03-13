@@ -283,7 +283,7 @@ main{
     align-items: center; /* 세로 방향으로 가운데 정렬 */
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 20px;
     padding: 10px;
     background-color: #fd4747;
     width: 53px;

@@ -11,6 +11,7 @@ main{
 	overflow-x: hidden; /* 가로 스크롤 숨김 */
 }
 
+
 /*GLOBALS*/
 *{margin:0; padding:0; list-style:none; font-family: 'NanumSquareNeo-Variable';}
 a{text-decoration:none;}
@@ -1171,9 +1172,12 @@ li:first-child .subject{
 	font-family: 'NanumSquareNeo-Variable' !important;
 }
 
-.note-editable p{
+.note-editable p span{
 	font-family: 'NanumSquareNeo-Variable' !important;
+	background-color: transparent;
 }
+
+
 
 .new_display{
   float: right;
