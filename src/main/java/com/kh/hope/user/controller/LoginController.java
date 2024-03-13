@@ -63,7 +63,7 @@ public class LoginController {
 		User loginUser = userService.loginUser(email);
 		
 		 // 로그인 성공 시 세션의 타임아웃을 30분으로 설정
-		session.setAttribute("expiryTime", System.currentTimeMillis() + 10 * 1000); // 30분.
+		session.setAttribute("expiryTime", System.currentTimeMillis() + 30 * 60 * 1000); // 30분.
 		
 		// 세션로그인 비밀번호 확인 및 로그인 타입이 세션로그인인지 확인하는 절차. passwordEncoder 단방향 암호화
 		if(loginUser != null && passwordEncoder.matches(user.getPassword(), loginUser.getPassword()) && user.getLoginType().equals("1")) {
@@ -71,7 +71,7 @@ public class LoginController {
 			log.info("loginUser {} ", loginUser);
 			
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("expiryTime", System.currentTimeMillis() + 10 * 1000); 
+			session.setAttribute("expiryTime", System.currentTimeMillis() + 30 * 60 * 1000); 
 			log.info("expiryTime {} ", System.currentTimeMillis());
 			mv.setViewName("redirect:/");
 		}else {
