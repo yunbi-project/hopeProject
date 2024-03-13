@@ -80,7 +80,7 @@
                             </c:choose>
                             </div>
                             <div class="Ss-frame">
-                                <div class="Ss-title"  style="line-height: 1.5;" id="storytitle">${fn:substring(b.boardTitle, 0, 13)}${fn:length(b.boardTitle) > 13 ? '...' : ''}</div>
+                                <div class="Ss-title"  style="line-height: 1.5;" id="storytitle">${fn:substring(b.boardTitle, 0, 12)}${fn:length(b.boardTitle) > 12 ? '...' : ''}</div>
                                                                
                             </div>
                             <div class="Ss-storydate">
