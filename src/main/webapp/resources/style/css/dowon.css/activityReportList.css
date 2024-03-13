@@ -181,7 +181,7 @@
 
 .progress_rate span:nth-of-type(1){
 	font-size: 15px;
-	color: #ff3b3b;
+	color: gray;
 }
 
 .progress_rate span:nth-of-type(2){

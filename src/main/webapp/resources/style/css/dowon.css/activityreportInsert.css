@@ -10,7 +10,7 @@
 }
 
 * {
-	font-family: 'NanumSquareNeo-Variable';
+	font-family: 'NanumSquareNeo-Variable !important';
 }
 
 body {
